@@ -1,0 +1,16 @@
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+websockets>=12.0
+openai>=1.30.0
+httpx>=0.27,<1
+edge-tts>=6.1.0
+lameenc>=1.8.1,<2
+pydantic>=2.5.0
+pyyaml>=6.0
+# The maintainer does not publish to PyPI. Pin the maintained source, including V2 gift parsing.
+blivedm @ https://codeload.github.com/xfgryujk/blivedm/zip/3bf17fe862b8c2fc6bc04c81c3f0c5db95de93d6
+aiohttp>=3.9.0
+python-dotenv>=1.0.0
+pywebview>=5.0
+pillow>=10.0.0
+mutagen>=1.47,<2

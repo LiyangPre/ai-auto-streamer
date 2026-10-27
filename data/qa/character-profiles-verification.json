@@ -1,0 +1,15 @@
+{
+  "production_migration": "all existing settings preserved; only Astra installed",
+  "backend": "91 full-suite tests passed, then 30 targeted tests passed including the additional legacy warm-up regression",
+  "frontend": "47 tests passed; final controller scripts passed syntax checks",
+  "browser": [
+    "Created independent Mira test profile",
+    "Saved separate identity, MiMo voice direction and warm-up lines",
+    "Restored Astra voice by switching",
+    "Car scene and music settings retained",
+    "Unsaved draft prevented switch; discard reloaded saved values",
+    "Local mock identity reply used Astra"
+  ],
+  "preview": "data/qa/character-profiles.png",
+  "limitation": "Only Astra artwork pack is installed. New identities currently reuse it."
+}

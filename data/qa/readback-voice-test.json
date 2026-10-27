@@ -1,0 +1,14 @@
+{
+  "prompt": "主播，请问今天累了怎么办？",
+  "answer": " 适当休息就好。",
+  "spoken_text": "今天累了怎么办？适当休息就好。",
+  "voice_provider": "mimo-tts",
+  "first_audio_ms": 4250,
+  "audio_bytes": 37152,
+  "segments": [
+    {
+      "text": "今天累了怎么办？适当休息就好。",
+      "url": "/api/voice-stream/tts_1793015867752_68e726ec.mp3"
+    }
+  ]
+}

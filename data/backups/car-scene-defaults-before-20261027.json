@@ -1,0 +1,44 @@
+{
+  "config.yaml": {
+    "background": "palace",
+    "effect": "sparkles",
+    "weather_amount": 0.45,
+    "dim": 0.1,
+    "companions": true,
+    "bottom_blur": 4.0,
+    "character_x": 0.0,
+    "character_y": 0.0,
+    "character_scale": 1.0,
+    "subtitle_seconds": 2.0,
+    "music_enabled": true,
+    "music_volume": 0.22
+  },
+  "studio-settings.json": {
+    "background": "palace",
+    "effect": "sparkles",
+    "weather_amount": 0.45,
+    "dim": 0.1,
+    "companions": true,
+    "bottom_blur": 4.0,
+    "character_x": 0.0,
+    "character_y": 0.0,
+    "character_scale": 1.0,
+    "subtitle_seconds": 2.0,
+    "music_enabled": true,
+    "music_volume": 0.22
+  },
+  "studio-defaults.json": {
+    "background": "palace",
+    "effect": "sparkles",
+    "weather_amount": 0.45,
+    "dim": 0.1,
+    "companions": true,
+    "bottom_blur": 4.0,
+    "character_x": 0.0,
+    "character_y": 0.0,
+    "character_scale": 1.0,
+    "subtitle_seconds": 2.0,
+    "music_enabled": true,
+    "music_volume": 0.22
+  }
+}

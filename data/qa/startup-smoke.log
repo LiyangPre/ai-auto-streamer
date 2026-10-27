@@ -1,0 +1,26 @@
+Controller: http://127.0.0.1:8010/control
+HTML preview / Bilibili browser source: http://127.0.0.1:8010/?overlay=1&controls=0
+Capture size: 1440 x 1080
+2026-10-26 21:24:33 [INFO] __main__: ============================================================
+2026-10-26 21:24:33 [INFO] __main__: AI Auto Streamer - Phase 1
+2026-10-26 21:24:33 [INFO] __main__: ============================================================
+2026-10-26 21:24:33 [INFO] __main__: Platform: text
+2026-10-26 21:24:33 [INFO] __main__: LLM: mock / glm-4-flash-250414
+2026-10-26 21:24:33 [INFO] __main__: TTS: none / zh-CN-XiaoxiaoNeural
+2026-10-26 21:24:33 [INFO] __main__: Server: http://127.0.0.1:8010
+2026-10-26 21:24:33 [INFO] __main__: ============================================================
+2026-10-26 21:24:33 [INFO] src.pipeline: Starting pipeline...
+2026-10-26 21:24:33 [INFO] src.pipeline: Pipeline started successfully
+2026-10-26 21:24:33 [INFO] src.server: Server started: http://127.0.0.1:8010
+
+==================================================
+文本输入模式 (输入 'quit' 退出)
+切换模拟用户: /name 昵称
+==================================================
+
+测试用户: INFO:     127.0.0.1:53410 - "GET /api/config HTTP/1.1" 200 OK
+Keep this console open. Press Ctrl+C here to stop the studio.
+INFO:     127.0.0.1:53411 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53412 - "GET /control HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53413 - "GET /?overlay=1&controls=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53414 - "GET /api/config HTTP/1.1" 200 OK

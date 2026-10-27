@@ -1,0 +1,51 @@
+{
+  "room_id": 22101382,
+  "input_source": "bilibili",
+  "events": [
+    {
+      "type": "danmaku",
+      "user_name": "G***",
+      "content": "1+1 =？",
+      "msg_type": "danmaku",
+      "timestamp": 1793016163.877126
+    },
+    {
+      "type": "response_start",
+      "emotion": "surprised",
+      "action": {
+        "sprite": "happy",
+        "sprite_motion": "bounce",
+        "mouthOpen": 0.0,
+        "mouthForm": 1.0,
+        "eyeOpen": 1.2,
+        "eyeBallX": 0.0,
+        "eyeBallY": 0.0,
+        "bodyAngleX": 0.0,
+        "bodyAngleY": 0.0,
+        "browY": 0.5,
+        "expression": "happy",
+        "motion": "happy",
+        "emotion": "happy",
+        "name": "laugh",
+        "intensity": 1.0
+      },
+      "timestamp": 1793016165.6126175
+    },
+    {
+      "type": "audio_segment",
+      "text": "1+1 =？2。",
+      "emotion": "surprised",
+      "audio_url": "/api/voice-stream/tts_1793016165649_65375d1a.mp3",
+      "index": 0,
+      "timestamp": 1793016165.6492147
+    },
+    {
+      "type": "response_end",
+      "full_text": " 2。",
+      "emotion": "surprised",
+      "blocked": false,
+      "audio_url": null,
+      "timestamp": 1793016165.679035
+    }
+  ]
+}

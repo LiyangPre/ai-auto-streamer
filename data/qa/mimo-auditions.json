@@ -1,0 +1,22 @@
+[
+  {
+    "voice": "茉莉",
+    "text": "今天有点累？那就坐近一点，慢慢说。我在听。",
+    "style": "成年女性，声线偏低，清冷从容，略带气声。语速稍慢，停顿自然，表达亲近而克制，咬字清晰。",
+    "ok": true,
+    "first_mp3_ms": 3380,
+    "complete_ms": 4376,
+    "audio": "D:\\ai auto streamer\\data\\qa\\mimo-茉莉-sample.mp3",
+    "bytes": 50688
+  },
+  {
+    "voice": "冰糖",
+    "text": "今天有点累？那就坐近一点，慢慢说。我在听。",
+    "style": "成年女性，声线偏低，清冷从容，略带气声。语速稍慢，停顿自然，表达亲近而克制，咬字清晰。",
+    "ok": true,
+    "first_mp3_ms": 3010,
+    "complete_ms": 3778,
+    "audio": "D:\\ai auto streamer\\data\\qa\\mimo-冰糖-sample.mp3",
+    "bytes": 52416
+  }
+]

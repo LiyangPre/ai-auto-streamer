@@ -1,0 +1,101 @@
+2026-10-26 21:53:40 [INFO] __main__: ============================================================
+2026-10-26 21:53:40 [INFO] __main__: AI Auto Streamer - Phase 1
+2026-10-26 21:53:40 [INFO] __main__: ============================================================
+2026-10-26 21:53:40 [INFO] __main__: Platform: text
+2026-10-26 21:53:40 [INFO] __main__: LLM: mock / glm-4-flash-250414
+2026-10-26 21:53:40 [INFO] __main__: TTS: none / zh-CN-XiaoxiaoNeural
+2026-10-26 21:53:40 [INFO] __main__: Server: http://127.0.0.1:8010
+2026-10-26 21:53:40 [INFO] __main__: ============================================================
+2026-10-26 21:53:40 [INFO] src.pipeline: Starting pipeline...
+2026-10-26 21:53:40 [INFO] src.pipeline: Pipeline started successfully
+2026-10-26 21:53:40 [INFO] src.server: Server started: http://127.0.0.1:8010
+
+==================================================
+文本输入模式 (输入 'quit' 退出)
+切换模拟用户: /name 昵称
+==================================================
+
+测试用户: INFO:     127.0.0.1:58864 - "GET /?overlay=1&controls=0&scene=car&muted=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58864 - "GET /static/style.css?v=car-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63726 - "GET /static/scenes/deepseek-bow.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64219 - "GET /static/scenes/claude-bow.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64219 - "GET /static/stage-scene.js?v=car-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63726 - "GET /static/stage-presentation.js?v=caption-sync-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58864 - "GET /static/character-motion.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49935 - "GET /static/character-face.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57221 - "GET /static/car-scene.js?v=car-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65302 - "GET /static/cutout-rig.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65302 - "GET /static/app.js?v=car-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65302 - "GET /static/scenes/moonlit-terrace.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65302 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65302 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49935 - "GET /static/avatar_dragon/rig.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57221 - "GET /static/scenes/car/astra-car-v1.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63726 - "GET /static/scenes/car/astra-car-clean-v1.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49935 - "GET /static/avatar_dragon/rig-body.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57221 - "GET /static/avatar_dragon/rig-parts.png HTTP/1.1" 200 OK
+2026-10-26 21:54:01 [INFO] src.server: WebSocket client connected. Total: 1
+INFO:     127.0.0.1:56648 - "GET /control HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56648 - "GET /static/control.css?v=car-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63459 - "GET /static/avatar_dragon/reference.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61136 - "GET /static/stage-scene.js?v=car-1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:54747 - "GET /static/control.js?v=scene-3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54432 - "GET /static/studio-controls.js?v=car-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57524 - "GET /?preview=1&overlay=1&muted=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63459 - "GET /static/style.css?v=car-1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63459 - "GET /static/car-scene.js?v=car-1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56648 - "GET /static/app.js?v=car-1 HTTP/1.1" 304 Not Modified
+2026-10-26 21:54:52 [INFO] src.server: WebSocket client connected. Total: 2
+INFO:     127.0.0.1:56648 - "GET /api/studio HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63459 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63459 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63459 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63459 - "GET /static/scenes/royal-palace.png HTTP/1.1" 200 OK
+2026-10-26 21:54:52 [INFO] src.server: WebSocket client connected. Total: 3
+INFO:     127.0.0.1:55705 - "GET /static/car-scene.js?v=car-1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:55705 - "GET /api/config HTTP/1.1" 200 OK
+2026-10-26 21:55:10 [INFO] src.server: WebSocket client connected. Total: 4
+INFO:     127.0.0.1:56541 - "GET /static/scenes/car/astra-car-v1.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51062 - "GET /static/scenes/car/astra-car-clean-v1.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51169 - "GET /control HTTP/1.1" 200 OK
+2026-10-26 21:59:12 [INFO] src.server: WebSocket client disconnected. Total: 3
+2026-10-26 21:59:12 [INFO] src.server: WebSocket client disconnected. Total: 2
+2026-10-26 21:59:12 [INFO] src.server: WebSocket client disconnected. Total: 1
+INFO:     127.0.0.1:51169 - "GET /static/control.css?v=car-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52309 - "GET /static/stage-scene.js?v=car-1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:54901 - "GET /static/studio-controls.js?v=car-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51029 - "GET /?preview=1&overlay=1&muted=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51029 - "GET /static/car-scene.js?v=car-1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51169 - "GET /static/style.css?v=car-1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:54901 - "GET /static/app.js?v=car-1 HTTP/1.1" 304 Not Modified
+2026-10-26 21:59:12 [INFO] src.server: WebSocket client connected. Total: 2
+INFO:     127.0.0.1:54901 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51169 - "GET /api/studio HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51169 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51169 - "GET /api/config HTTP/1.1" 200 OK
+2026-10-26 21:59:12 [INFO] src.server: WebSocket client connected. Total: 3
+INFO:     127.0.0.1:51169 - "GET /api/config HTTP/1.1" 200 OK
+2026-10-26 21:59:13 [INFO] src.server: WebSocket client connected. Total: 4
+INFO:     127.0.0.1:54901 - "GET /static/scenes/car/astra-car-clean-v1.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51169 - "GET /static/scenes/car/astra-car-v1.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:57660 - "POST /api/direct-reply HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64144 - "POST /api/studio HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61492 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64144 - "GET /static/scenes/car/astra-car-v1.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:53009 - "GET /static/scenes/car/astra-car-clean-v1.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:49724 - "GET /api/config HTTP/1.1" 200 OK
+2026-10-26 22:03:49 [INFO] src.server: WebSocket client disconnected. Total: 3
+2026-10-26 22:03:49 [INFO] src.server: WebSocket client disconnected. Total: 2
+2026-10-26 22:03:49 [INFO] src.server: WebSocket client disconnected. Total: 1
+2026-10-26 22:03:50 [INFO] src.server: WebSocket client disconnected. Total: 0
+INFO:     127.0.0.1:51260 - "GET /?overlay=1&controls=0&scene=car&muted=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51260 - "GET /static/style.css?v=car-1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51260 - "GET /static/stage-scene.js?v=car-1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58601 - "GET /static/stage-presentation.js?v=caption-sync-1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:54385 - "GET /static/car-scene.js?v=car-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58601 - "GET /static/app.js?v=car-1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58601 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58601 - "GET /static/scenes/car/astra-car-v1.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:54385 - "GET /static/scenes/car/astra-car-clean-v1.png HTTP/1.1" 304 Not Modified
+2026-10-26 22:05:17 [INFO] src.server: WebSocket client connected. Total: 1
+2026-10-26 22:05:28 [INFO] src.server: WebSocket client disconnected. Total: 0

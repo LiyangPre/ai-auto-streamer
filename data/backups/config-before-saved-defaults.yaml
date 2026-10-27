@@ -1,0 +1,208 @@
+server:
+  host: "127.0.0.1"
+  port: 8000
+
+platform:
+  # "bilibili" 或 "text"
+  type: "bilibili"
+  room_id: 22101382
+  room_url: "https://live.bilibili.com/22101382"
+
+llm:
+  # "glm"（免费 Flash） | "mock"（离线） | "ollama"（本地） | "openai"/"deepseek"
+  provider: "glm"
+  # 云端 API 示例：DeepSeek -> "https://api.deepseek.com/v1"，OpenAI -> "https://api.openai.com/v1"
+  base_url: "https://open.bigmodel.cn/api/paas/v4/"
+  # Key 放在项目 .env 的 GLM_API_KEY 中；api_key 保持空白
+  api_key: ""
+  api_key_env: "GLM_API_KEY"
+  model: "glm-4-flash-250414"
+  temperature: 0.7
+  max_tokens: 96
+  stream: true
+  request_timeout: 45.0
+  first_chunk_timeout: 15.0
+  # 直播间无复杂推理场景，关闭思考可显著降低首字延迟。
+  # 只有接云端推理模型时才生效；非推理模型会忽略这两项。
+  # 服务端不认这些参数会返回 400，此时本会话自动停用（见 llm.py）。
+  enable_thinking: false
+  # "" 表示不传。可选 low / medium / high（各家取值不同：
+  #   OpenAI Responses API 用嵌套 reasoning.effort，Chat Completions 用顶层 reasoning_effort
+  #   DeepSeek 用 thinking.enabled=false；Qwen3 用 enable_thinking=false）
+  reasoning_effort: ""
+
+tts:
+  engine: "edge-tts"
+  voice: "zh-CN-XiaoxiaoNeural"
+  rate: "-4%"
+  volume: "+0%"
+  pitch: "-3Hz"
+  timeout: 20.0
+  sentence_stream: true
+  max_sentence_chars: 96
+  min_phrase_chars: 24
+  delivery: "natural"
+  progressive_audio: true
+  expressive: false
+  # 情绪 → 音色/韵律覆盖（voice 省略则沿用上面默认音色）
+  emotion_voice:
+    happy:     { rate: "+10%", pitch: "+8Hz",  volume: "+10%" }
+    sad:       { rate: "-15%", pitch: "-6Hz",  volume: "-10%" }
+    angry:     { rate: "+15%", pitch: "+4Hz",  volume: "+15%" }
+    surprised: { rate: "+12%", pitch: "+10Hz", volume: "+10%" }
+    thinking:  { rate: "-10%", pitch: "+0Hz",  volume: "+0%" }
+    normal:    { rate: "+0%",  pitch: "+0Hz",  volume: "+0%" }
+
+action:
+  mode: "emotion_map"
+  automatic: true
+  intensity: 1.0
+  emotion_map:
+    normal: "idle"
+    happy: "laugh"
+    sad: "think"
+    angry: "think"
+    surprised: "nod"
+    thinking: "think"
+
+danmaku_filter:
+  enabled: true
+  time_window: 0.15
+  ingress_max_size: 100
+  max_queue_size: 10
+  min_length: 2
+  max_length: 50
+  # 窗口内来自不同观众的多条弹幕，聚合成一次「点名多人」的回复，提升互动密度
+  batch_max: 3
+
+reply_interval:
+  cooldown: 0.0
+  enabled: false
+  max_wait: 15.0
+  paid_max_wait: 20.0
+
+safety:
+  enabled: true
+  blocked_keywords: ["自杀", "恐怖主义", "制造炸弹", "儿童色情"]
+
+# 短期记忆：全局滚动窗口 + per-user 记忆
+# 主键是 uid（昵称可改可重复，只做展示与点名用）
+memory:
+  enabled: true
+  # 记忆保留时长（秒），超时淘汰
+  ttl_seconds: 600.0
+  # 全局窗口条数，用于感知直播间氛围、接别人的梗
+  global_max: 12
+  # 单个观众最多保留条数
+  per_user_max: 6
+  # 同一观众两次感谢的最小间隔（秒），防止礼物刷屏
+  gift_thanks_cooldown: 20.0
+  # 礼物连击合并窗口（秒），窗口内累加数量只谢一次
+  gift_combo_window: 4.0
+  # 进场欢迎冷却（秒），同一观众不重复欢迎
+  enter_welcome_cooldown: 300.0
+
+# 意图路由：规则层 <1ms 命中封闭意图，未命中走 default
+# use_template=true 且弹幕够短时直接播模板，0 次 LLM 调用
+router:
+  enabled: true
+  # 超过此长度的弹幕不走模板直出（长句通常需要真回复）
+  template_max_length: 12
+  routes:
+    greeting:
+      use_template: true
+      emotion: "happy"
+      temperature: 0.95
+      max_tokens: 48
+      templates:
+        - "你好你好！欢迎来到直播间～"
+        - "哈喽呀！看到你啦～"
+        - "嘿嘿，你好呀！"
+    farewell:
+      use_template: true
+      emotion: "sad"
+      temperature: 0.95
+      max_tokens: 48
+      templates:
+        - "诶，要走了吗...下次再来呀！"
+        - "拜拜～路上小心哦！"
+        - "记得回来看我呀！"
+    persona:
+      emotion: "happy"
+      temperature: 0.8
+      max_tokens: 96
+      instruction: "这是观众在问你自身的设定，用第一人称、符合人设地简短回答，不要说自己是AI或语言模型。"
+    gift:
+      emotion: "surprised"
+      temperature: 0.95
+      max_tokens: 64
+      instruction: "这是观众送礼，要真诚地道谢，念出对方昵称和礼物名，语气惊喜，可以稍微夸张。"
+    enter:
+      # 大直播间进场事件极频繁，默认关闭避免刷屏
+      enabled: false
+      use_template: true
+      emotion: "happy"
+      temperature: 0.95
+      max_tokens: 32
+      templates:
+        - "欢迎{user}来到直播间～"
+        - "哇，{user}来啦！"
+    praise:
+      emotion: "happy"
+      temperature: 0.95
+      max_tokens: 64
+      instruction: "观众在夸你，要害羞又开心地回应。"
+    question:
+      emotion: "thinking"
+      temperature: 0.7
+      max_tokens: 128
+      instruction: "观众在提问，用自然的口语直接、简短地回应。"
+    default:
+      emotion: "normal"
+      temperature: 0.8
+      max_tokens: 128
+      instruction: "用自然、温暖的日常口语简短回应，不要机械地反问。"
+
+idle:
+  threshold: 30.0
+  enabled: true
+  # 空闲时随机触发的动作名（见 10 动作库）
+  actions: ["idle", "nod", "shy", "think", "laugh"]
+  self_talk: true
+  self_talk_delay: 45
+  self_talk_interval: 90
+  self_talk_prompts:
+    - "刚才想装得高冷一点，结果尾巴先替我打了招呼。"
+    - "我把最软的一朵云留在这里，累了就靠一会儿。"
+    - "尾巴先收好，免得一开心，把旁边的小伙伴扫下台。"
+    - "今天的好运先放在这里，路过的时候，记得顺手带走。"
+    - "别看我站得很端正，心里的小龙已经开始晃尾巴了。"
+    - "我有在认真营业，只是偶尔，会被自己的尾巴分心。"
+    - "如果安静也算一种陪伴，那我现在做得还不错。"
+    - "今天的星星，好像比我的小心思还多。"
+
+live2d:
+  # 渲染器: "auto"（优先 VRM/Live2D） | "vrm" | "live2d" | "sprite"
+  renderer: "sprite"
+  # Live2D 模型路径，示例: "data/models/hiyori/hiyori.model3.json"
+  model_path: ""
+  scale: 0.3
+  # sprite 渲染器的表情贴图目录（相对 frontend/static）
+  sprite_dir: "avatar_dragon"
+
+vrm:
+  # 白银淡紫龙翼角色，固定正面镜头轻量直播版
+  model_path: "data/models/silver-dragon.vrm"
+
+display:
+  width: 1440
+  height: 1080
+  background: "transparent"
+
+character:
+  name: "Lunaria"
+  spoken_name: "露娜"
+  max_reply_chars: 40
+  ask_back: false
+  reply_style: "自然、温暖的成年女性口吻，像朋友聊天。避免‘乖、宝、啦、哒、呜呜、嘿嘿’等哄小孩或卖萌表达，不复述问题，不在每句末尾追加反问。例如：今天辛苦了，先歇一会儿，我陪你聊聊。"
+  personality: "你是虚拟主播 Lunaria，一位银白长发、淡紫龙翼的成年银龙。性格温暖沉稳，偶尔幽默，像朋友一样用简短、自然的中文回应观众。"

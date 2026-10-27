@@ -1,0 +1,23 @@
+{
+  "tests": {
+    "backend": 97,
+    "frontend": 49
+  },
+  "browser": {
+    "png_upload": "passed",
+    "png_dimensions": "1672 x 941",
+    "mp3_upload": "passed",
+    "mp3_playback": {
+      "readyState": 4,
+      "duration": 48.039125,
+      "currentTime_observed": 11.113351,
+      "error": null
+    },
+    "save_and_reload": "selections retained"
+  },
+  "scope": "isolated mock/TTS-disabled preview; production car and default music unchanged",
+  "screenshots": [
+    "data/qa/media-background-controls.png",
+    "data/qa/media-music-controls.png"
+  ]
+}

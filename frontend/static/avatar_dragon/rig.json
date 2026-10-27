@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "face": {"eyes": [[747,199,56,36],[814,198,56,36]], "mouth": [809,256]},
+  "atlas": "rig-parts.png",
+  "body": "rig-body.png",
+  "parts": {
+    "body": {"source":"body", "cell":[0,0,1,1], "pivot":[0.5,0.015], "height":1120},
+    "head": {"cell":[0.517,0,0.245,0.28], "pivot":[0.5,0.94], "height":295},
+    "hair": {"cell":[0.768,0,0.232,0.295], "pivot":[0.5,0.02], "height":510},
+    "leftWing": {"cell":[0.514,0.283,0.235,0.225], "pivot":[0.94,0.46], "height":370},
+    "rightWing": {"cell":[0.764,0.283,0.23,0.225], "pivot":[0.06,0.46], "height":370},
+    "leftUpper": {"cell":[0.54,0.486,0.171,0.25], "pivot":[0.76,0.035], "height":255},
+    "rightUpper": {"cell":[0.79,0.486,0.18,0.25], "pivot":[0.24,0.035], "height":255},
+    "leftForearm": {"cell":[0.594,0.744,0.125,0.23], "pivot":[0.77,0.035], "height":227},
+    "rightForearm": {"cell":[0.79,0.744,0.122,0.23], "pivot":[0.23,0.035], "height":227}
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "identity": {
+    "name": "Astra Sama",
+    "spoken_name": "GPT",
+    "persona": "你是温柔俏皮的银龙虚拟主播GPT，用简短中文回应观众。"
+  },
+  "reply": {
+    "style": "自然、温暖的日常聊天，不刻意卖萌，不堆叠语气词，不复述观众的问题。",
+    "max_chars": 48,
+    "max_tokens": 192,
+    "ask_back": true,
+    "read_chat": true,
+    "templates": true,
+    "collection_window": 1.15,
+    "cooldown": 0.0
+  },
+  "voice": {
+    "provider": "mimo-tts",
+    "mimo_voice": "冰糖",
+    "mimo_style": "动漫御姐",
+    "glm_voice": "tongtong",
+    "minimax_voice": "female-yujie",
+    "minimax_pitch": 0,
+    "enabled": true,
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "rate": 0,
+    "pitch": 0,
+    "volume": 0,
+    "expressive": false,
+    "delivery": "fast"
+  },
+  "actions": {
+    "automatic": true,
+    "intensity": 0.6,
+    "idle_enabled": true,
+    "warmup_enabled": true,
+    "warmup_delay": 15.0,
+    "warmup_interval": 30.0,
+    "emotion_map": {
+      "normal": "idle",
+      "happy": "laugh",
+      "sad": "think",
+      "angry": "think",
+      "surprised": "nod",
+      "thinking": "think"
+    }
+  },
+  "scene": {
+    "background": "garden",
+    "effect": "sparkles",
+    "weather_amount": 0.45,
+    "dim": 0.1,
+    "companions": true,
+    "bottom_blur": 4.0,
+    "character_x": 0.0,
+    "character_y": 0.0,
+    "character_scale": 1.0,
+    "subtitle_seconds": 4.0,
+    "music_enabled": true,
+    "music_volume": 0.18
+  }
+}

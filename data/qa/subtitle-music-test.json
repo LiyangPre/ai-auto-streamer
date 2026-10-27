@@ -1,0 +1,10 @@
+{
+  "frontend_tests": 32,
+  "studio_tests": 19,
+  "subtitle_seconds": 4,
+  "music_volume": 0.18,
+  "duck_volume": 0.045,
+  "music_duration_seconds": 48.039125,
+  "browser_music_playing": true,
+  "browser_subtitle_hidden_after_speech": true
+}

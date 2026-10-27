@@ -1,0 +1,18 @@
+[
+  {
+    "voice": "tongtong",
+    "characters": 21,
+    "ok": true,
+    "first_mp3_ms": 2482,
+    "complete_ms": 3222,
+    "audio": "D:\\ai auto streamer\\data\\qa\\glm-tongtong-sample.mp3",
+    "bytes": 61920
+  },
+  {
+    "voice": "streamer",
+    "characters": 21,
+    "ok": false,
+    "first_mp3_ms": null,
+    "complete_ms": 1664
+  }
+]

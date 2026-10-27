@@ -1,0 +1,27 @@
+# Completely offline visual demo. Runs beside the normal server on port 8001.
+server:
+  host: "127.0.0.1"
+  port: 8001
+platform:
+  type: "text"
+llm:
+  provider: "mock"
+tts:
+  engine: "none"
+reply_interval:
+  enabled: false
+danmaku_filter:
+  time_window: 0.3
+idle:
+  enabled: true
+  threshold: 30
+  self_talk: false
+  actions: ["idle", "wave", "nod", "bow"]
+live2d:
+  renderer: "sprite"
+  sprite_dir: "avatar_dragon"
+vrm:
+  model_path: "data/models/silver-dragon.vrm"
+character:
+  name: "Lunaria"
+  personality: "你是温柔俏皮的银龙虚拟主播 Lunaria，用简短中文回应观众。"

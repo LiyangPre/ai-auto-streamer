@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Auto Streamer</title>
+    <link rel="stylesheet" href="/static/style.css?v=drive-1">
+</head>
+<body>
+    <div id="app">
+        <div id="scene-background" aria-hidden="true"><div class="scene-art"></div><canvas id="weather-canvas"></canvas><div class="scene-shade"></div></div>
+        <div id="live2d-container">
+            <div id="scene-companions" aria-hidden="true" hidden>
+                <div class="scene-companion companion-deepseek"><img src="/static/scenes/deepseek-bow.png" alt="" draggable="false"></div>
+                <div class="scene-companion companion-claude"><img src="/static/scenes/claude-bow.png" alt="" draggable="false"></div>
+            </div>
+            <canvas id="avatar-canvas"></canvas>
+            <canvas id="live2d-canvas" class="hidden"></canvas>
+            <canvas id="vrm-canvas" class="hidden"></canvas>
+            <div id="avatar-fallback" class="hidden">
+                <div class="avatar-circle">
+                    <div class="avatar-face"></div>
+                    <div class="avatar-mouth"></div>
+                    <div class="avatar-eye left"></div>
+                    <div class="avatar-eye right"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="car-scene" hidden><img alt="Astra at the wheel, with DeepSeek and Claude seated below the windshield" draggable="false"><canvas class="car-windows" aria-hidden="true" hidden></canvas><canvas class="car-face" aria-label="Astra animated expressions"></canvas><div class="car-shade" aria-hidden="true"></div><p role="status"></p></div>
+        <div id="scene-bottom-blur" aria-hidden="true" hidden></div>
+        <div id="ui-overlay">
+            <div id="emotion-indicator">
+                <span id="emotion-icon">😊</span>
+                <span id="emotion-text">normal</span>
+            </div>
+
+            <div id="danmaku-feed">
+                <div id="danmaku-list"></div>
+            </div>
+
+            <div id="response-display">
+                <div id="response-text"></div>
+            </div>
+
+            <div id="status-bar">
+                <span id="ws-status" class="status-dot disconnected"></span>
+                <span id="status-text">未连接</span>
+            </div>
+        </div>
+    </div>
+    <button id="fullscreen-btn" type="button" aria-label="Enter fullscreen">⛶ <span>Fullscreen</span></button>
+    <span id="fullscreen-status" role="status"></span>
+
+    <script src="/static/stage-scene.js?v=uploads-1"></script>
+    <script src="/static/stage-presentation.js?v=uploads-1"></script>
+    <script src="/static/character-motion.js"></script>
+    <script src="/static/character-face.js"></script>
+    <script src="/static/car-drive.js?v=drive-1"></script>
+    <script src="/static/car-scene.js?v=drive-1"></script>
+    <script src="/static/cutout-rig.js"></script>
+    <script src="/static/app.js?v=profiles-1"></script>
+</body>
+</html>

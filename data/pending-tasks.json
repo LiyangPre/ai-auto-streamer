@@ -1,0 +1,23 @@
+{
+  "tasks": [
+    {
+      "id": "car-natural-face-cleanup",
+      "status": "deferred_by_user",
+      "saved_on": "2026-10-27",
+      "title": "Remove nonphysical car-scene facial expressions",
+      "request": "Keep only natural, cute expressions; some current expressions make the two eyes different sizes. The user asked to keep this facial-expression task for a future session and implement only car defaults and driving motion now.",
+      "starting_points": [
+        "frontend/static/car-scene.js: expressions asym and open values; drawEye",
+        "frontend/control.html: car expression preview buttons",
+        "tests/test_car.cjs"
+      ],
+      "acceptance": [
+        "No artificial unequal eye scaling or stretching",
+        "Keep a physically coherent fixed seated pose",
+        "Preserve natural blinking and voice-driven mouth sync",
+        "Review all retained expressions visually before enabling them"
+      ],
+      "scheduled": false
+    }
+  ]
+}

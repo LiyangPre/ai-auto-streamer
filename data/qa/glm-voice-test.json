@@ -1,0 +1,20 @@
+{
+  "provider": "glm",
+  "model": "glm-4-flash-250414",
+  "turns": [
+    {
+      "prompt": "我今天有点累，想听你讲个关于银龙的小笑话。",
+      "reply": " 休息一下吧，下次再讲哦。",
+      "audio_urls": [
+        "/api/voice-stream/tts_1792989021780_cbf94f6e.mp3"
+      ]
+    },
+    {
+      "prompt": "接着刚才的小笑话，给那条银龙起个可爱的昵称吧。",
+      "reply": " 叫闪闪吧，亮晶晶~",
+      "audio_urls": [
+        "/api/voice-stream/tts_1792989024873_a98c84aa.mp3"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+2026-10-27 09:33:58 [INFO] __main__: ============================================================
+2026-10-27 09:33:58 [INFO] __main__: AI Auto Streamer - Phase 1
+2026-10-27 09:33:58 [INFO] __main__: ============================================================
+2026-10-27 09:33:58 [INFO] __main__: Platform: text
+2026-10-27 09:33:58 [INFO] __main__: LLM: mock / glm-4-flash-250414
+2026-10-27 09:33:58 [INFO] __main__: TTS: none / zh-CN-XiaoxiaoNeural
+2026-10-27 09:33:58 [INFO] __main__: Server: http://127.0.0.1:8010
+2026-10-27 09:33:58 [INFO] __main__: ============================================================
+2026-10-27 09:33:58 [INFO] src.pipeline: Starting pipeline...
+2026-10-27 09:33:58 [INFO] src.pipeline: Pipeline started successfully
+2026-10-27 09:33:58 [INFO] src.server: Server started: http://127.0.0.1:8010
+
+==================================================
+文本输入模式 (输入 'quit' 退出)
+切换模拟用户: /name 昵称
+==================================================
+
+测试用户: INFO:     127.0.0.1:60514 - "GET /?overlay=1&controls=0&muted=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60514 - "GET /static/style.css?v=drive-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56832 - "GET /static/scenes/deepseek-bow.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:50760 - "GET /static/scenes/claude-bow.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51765 - "GET /static/stage-scene.js?v=drive-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58943 - "GET /static/stage-presentation.js?v=caption-sync-1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51517 - "GET /static/character-motion.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51765 - "GET /static/character-face.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51517 - "GET /static/car-drive.js?v=drive-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58943 - "GET /static/car-scene.js?v=drive-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50760 - "GET /static/cutout-rig.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56832 - "GET /static/app.js?v=car-1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58943 - "GET /static/scenes/moonlit-terrace.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58943 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60514 - "GET /static/avatar_dragon/rig.json HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56832 - "GET /static/scenes/car/astra-car-v1.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:50760 - "GET /static/scenes/car/astra-car-clean-v1.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58943 - "GET /static/scenes/car/countryside-loop-v1.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51517 - "GET /static/scenes/car/window-cutout-v1.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50760 - "GET /static/avatar_dragon/rig-parts.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56832 - "GET /static/avatar_dragon/rig-body.png HTTP/1.1" 304 Not Modified
+2026-10-27 09:34:14 [INFO] src.server: WebSocket client connected. Total: 1
+INFO:     127.0.0.1:62723 - "GET /control HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62723 - "GET /static/control.css?v=car-1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:59868 - "GET /static/avatar_dragon/reference.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:59868 - "GET /static/studio-controls.js?v=drive-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62723 - "GET /static/stage-scene.js?v=drive-1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:49324 - "GET /static/control.js?v=scene-3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:61721 - "GET /?preview=1&overlay=1&muted=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61721 - "GET /static/style.css?v=drive-1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:59868 - "GET /static/car-scene.js?v=drive-1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:61721 - "GET /static/car-drive.js?v=drive-1 HTTP/1.1" 304 Not Modified
+2026-10-27 09:35:52 [INFO] src.server: WebSocket client connected. Total: 2
+INFO:     127.0.0.1:61721 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59868 - "GET /api/studio HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59868 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59868 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61721 - "GET /static/scenes/car/window-cutout-v1.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:59868 - "GET /static/scenes/car/countryside-loop-v1.png HTTP/1.1" 304 Not Modified
+2026-10-27 09:35:53 [INFO] src.server: WebSocket client connected. Total: 3
+INFO:     127.0.0.1:59868 - "GET /api/config HTTP/1.1" 200 OK
+2026-10-27 09:35:54 [INFO] src.server: WebSocket client connected. Total: 4
+INFO:     127.0.0.1:62909 - "POST /api/studio HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62909 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61501 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55568 - "POST /api/studio HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55568 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56487 - "GET /api/config HTTP/1.1" 200 OK
+2026-10-27 09:38:42 [INFO] src.server: WebSocket client disconnected. Total: 3
+2026-10-27 09:38:42 [INFO] src.server: WebSocket client disconnected. Total: 2
+2026-10-27 09:38:43 [INFO] src.server: WebSocket client disconnected. Total: 1
+2026-10-27 09:38:43 [INFO] src.server: WebSocket client disconnected. Total: 0

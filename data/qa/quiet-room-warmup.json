@@ -1,0 +1,25 @@
+{
+  "type": "response",
+  "text": "如果安静也算一种陪伴，那我现在做得还不错。",
+  "emotion": "happy",
+  "source": "warmup",
+  "audio_url": "/audio/tts_1793018840056_377390c4.mp3",
+  "action": {
+    "sprite": "neutral",
+    "sprite_motion": "shy",
+    "mouthOpen": 0.0,
+    "mouthForm": 0.0,
+    "eyeOpen": 1.0,
+    "eyeBallX": 0.0,
+    "eyeBallY": 0.0,
+    "bodyAngleX": 0.0,
+    "bodyAngleY": 0.0,
+    "browY": 0.0,
+    "expression": "happy",
+    "motion": "idle",
+    "emotion": "happy",
+    "name": "shy",
+    "intensity": 1.0
+  },
+  "timestamp": 1793018844.510043
+}

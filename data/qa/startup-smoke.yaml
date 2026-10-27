@@ -1,0 +1,238 @@
+action:
+  automatic: true
+  emotion_map:
+    angry: think
+    happy: shy
+    normal: idle
+    sad: think
+    surprised: laugh
+    thinking: think
+  intensity: 1.0
+  mode: emotion_map
+character:
+  ask_back: false
+  max_reply_chars: 40
+  name: Astra大人
+  personality: 你是虚拟主播 GPT，一位银白长发、淡紫龙翼的成年银龙。性格温暖沉稳，偶尔幽默，像朋友一样用简短、自然的中文回应观众。
+  read_chat: true
+  reply_style: 清冷、从容的成年女性口吻，略带柔和的亲近感，像坐在身边聊天。短句，留白，偶尔轻轻调侃。避免卖萌、哄小孩、播音腔和夸张语气词；直接回答，不复述问题，不机械地追加反问。
+  spoken_name: GPT
+danmaku_filter:
+  batch_max: 3
+  enabled: true
+  ingress_max_size: 100
+  max_length: 50
+  max_queue_size: 10
+  min_length: 2
+  time_window: 0.15
+display:
+  background: transparent
+  height: 1080
+  width: 1440
+idle:
+  actions:
+  - idle
+  - nod
+  - shy
+  - think
+  - laugh
+  enabled: false
+  self_talk: false
+  self_talk_delay: 15.0
+  self_talk_interval: 30.0
+  self_talk_prompts:
+  - 刚才想装得高冷一点，结果尾巴先替我打了招呼。
+  - 我把最软的一朵云留在这里，累了就靠一会儿。
+  - 尾巴先收好，免得一开心，把旁边的小伙伴扫下台。
+  - 今天的好运先放在这里，路过的时候，记得顺手带走。
+  - 别看我站得很端正，心里的小龙已经开始晃尾巴了。
+  - 我有在认真营业，只是偶尔，会被自己的尾巴分心。
+  - 如果安静也算一种陪伴，那我现在做得还不错。
+  - 今天的星星，好像比我的小心思还多。
+  threshold: 30.0
+live2d:
+  model_path: ''
+  renderer: sprite
+  scale: 0.3
+  sprite_dir: avatar_dragon
+llm:
+  api_key: ''
+  api_key_env: GLM_API_KEY
+  base_url: https://open.bigmodel.cn/api/paas/v4/
+  enable_thinking: false
+  first_chunk_timeout: 15.0
+  max_tokens: 96
+  model: glm-4-flash-250414
+  provider: mock
+  reasoning_effort: ''
+  request_timeout: 45.0
+  stream: true
+  temperature: 0.7
+memory:
+  enabled: true
+  enter_welcome_cooldown: 300.0
+  gift_combo_window: 4.0
+  gift_thanks_cooldown: 20.0
+  global_max: 12
+  per_user_max: 6
+  ttl_seconds: 600.0
+platform:
+  room_id: 0
+  room_url: https://live.bilibili.com/22101382
+  type: text
+reply_interval:
+  cooldown: 0.0
+  enabled: false
+  max_wait: 15.0
+  paid_max_wait: 20.0
+router:
+  enabled: true
+  routes:
+    default:
+      emotion: normal
+      enabled: true
+      instruction: 自然、简洁地回应，遵循角色的说话方式。
+      max_tokens: 96
+      temperature: 0.8
+      templates: []
+      use_template: false
+    enter:
+      emotion: happy
+      enabled: false
+      instruction: ''
+      max_tokens: 32
+      temperature: 0.95
+      templates:
+      - 欢迎{user}来到直播间～
+      - 哇，{user}来啦！
+      use_template: true
+    farewell:
+      emotion: sad
+      enabled: true
+      instruction: ''
+      max_tokens: 48
+      temperature: 0.95
+      templates:
+      - 诶，要走了吗...下次再来呀！
+      - 拜拜～路上小心哦！
+      - 记得回来看我呀！
+      use_template: true
+    gift:
+      emotion: surprised
+      enabled: true
+      instruction: 这是观众送礼，要真诚地道谢，念出对方昵称和礼物名，语气惊喜，可以稍微夸张。
+      max_tokens: 96
+      temperature: 0.95
+      templates: []
+      use_template: false
+    greeting:
+      emotion: happy
+      enabled: true
+      instruction: ''
+      max_tokens: 48
+      temperature: 0.95
+      templates:
+      - 你好你好！欢迎来到直播间～
+      - 哈喽呀！看到你啦～
+      - 嘿嘿，你好呀！
+      use_template: true
+    persona:
+      emotion: happy
+      enabled: true
+      instruction: 这是观众在问你自身的设定，用第一人称、符合人设地简短回答，不要说自己是AI或语言模型。
+      max_tokens: 96
+      temperature: 0.8
+      templates: []
+      use_template: false
+    praise:
+      emotion: happy
+      enabled: true
+      instruction: 观众在夸你，要害羞又开心地回应。
+      max_tokens: 96
+      temperature: 0.95
+      templates: []
+      use_template: false
+    question:
+      emotion: thinking
+      enabled: true
+      instruction: 自然、简洁地回应，遵循角色的说话方式。
+      max_tokens: 96
+      temperature: 0.7
+      templates: []
+      use_template: false
+  template_max_length: 12
+safety:
+  blocked_keywords:
+  - 自杀
+  - 恐怖主义
+  - 制造炸弹
+  - 儿童色情
+  enabled: true
+scene:
+  background: palace
+  bottom_blur: 4.0
+  character_scale: 1.0
+  character_x: 0.0
+  character_y: 0.0
+  companions: true
+  dim: 0.1
+  effect: sparkles
+  music_enabled: true
+  music_volume: 0.22
+  subtitle_seconds: 2.0
+  weather_amount: 0.45
+server:
+  host: 127.0.0.1
+  port: 8010
+tts:
+  delivery: natural
+  emotion_voice:
+    angry:
+      pitch: +4Hz
+      rate: +15%
+      volume: +15%
+    happy:
+      pitch: +8Hz
+      rate: +10%
+      volume: +10%
+    normal:
+      pitch: +0Hz
+      rate: +0%
+      volume: +0%
+    sad:
+      pitch: -6Hz
+      rate: -15%
+      volume: -10%
+    surprised:
+      pitch: +10Hz
+      rate: +12%
+      volume: +10%
+    thinking:
+      pitch: +0Hz
+      rate: -10%
+      volume: +0%
+  engine: none
+  expressive: false
+  glm_api_key_env: GLM_API_KEY
+  glm_voice: tongtong
+  max_sentence_chars: 96
+  mimo_api_key_env: MIMO_API_KEY
+  mimo_style: 年轻轻熟女性，动漫风格，高冷御姐，成熟有掌控感；中高音区，音色偏冷，略带气声和胸腔共鸣；语速稍快但节奏稳，停顿自然利落；咬字清晰，尾音轻微下沉，表达亲近而克制，外冷内热。
+  mimo_voice: 冰糖
+  min_phrase_chars: 24
+  minimax_api_key_env: MINIMAX_API_KEY
+  minimax_model: speech-2.8-turbo
+  minimax_pitch: 0
+  minimax_voice: female-yujie
+  pitch: -3Hz
+  progressive_audio: true
+  pronunciations:
+    Astra大人: GPT
+  rate: -4%
+  selected_provider: mimo-tts
+  sentence_stream: true
+  timeout: 20.0
+  voice: zh-CN-XiaoxiaoNeural
+  volume: +0%
+vrm:
+  model_path: data/models/silver-dragon.vrm

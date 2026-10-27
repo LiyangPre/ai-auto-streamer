@@ -1,0 +1,15 @@
+{
+  "tool": "Built-in image_gen",
+  "created": "2026-10-27",
+  "assets": [
+    {
+      "file": "window-cutout-v1.png",
+      "purpose": "Only its alpha is used for the window mask; original foreground artwork remains unchanged",
+      "prompt": "Use case: background-extraction. Edit target: attached 1448 by 1086 car illustration. Produce a production compositing cutout with REAL TRANSPARENT ALPHA only in the car's WINDOW GLASS openings where outdoor scenery is visible. Remove the outdoor sky, castle, mountains, foliage, lake and road seen through the front windshield, side window, and small rear window. Keep every solid foreground pixel: Astra, her original face, all fine silver hair strands, horns, wings, both arms, DeepSeek and Claude and their hair/costumes, dashboard cushions, car door, steering wheel, dashboard, roof, seats, ALL window frames and pillars. Keep both mirrors and their frames/reflections opaque. Do not change, repaint, move, resize, or restyle any character or interior detail. Preserve EXACT original 4:3 canvas dimensions, framing, camera angle and pixel registration. Only replace outdoor views through glass with transparency, precisely following occluding silhouettes; no white fill and no checkerboard drawn in the image. The resulting cutout will be placed over a moving countryside panorama; hand/steering-wheel contact and original faces must remain identical."
+    },
+    {
+      "file": "countryside-loop-v1.png",
+      "prompt": "Use case: illustration-story. Asset type: wide horizontally looping anime countryside panorama for a car-window background. Generate one 3:1 LANDSCAPE image, 2160x720 or similar, edge-to-edge environment only. No car, no interior, no characters, no text or watermark.\nA leisurely drive past a beautiful European-fantasy lakeside countryside in soft daylight: pale blue-lavender sky with soft clouds in the top 45 percent, distant violet mountains, a small elegant ivory castle far away, calm blue lake in the middle distance, continuous green verge, flowering lavender and pale rose shrubs, occasional slender leafy trees spaced along the roadside. The bottom edge is roadside greenery seen from a passenger's seated eye level. Perspective is a SIDEWAYS VIEW out of a moving car, not a road vanishing to the center. Mature elegant anime background painting, delicate clean lines, pastel cel shading, warm cream sunlight, lavender and pale blue greens, crisp but gentle details, matching an ornate lavender-and-cream anime car scene.\nDesigned for a slow continuous lateral scroll: one consistent horizon at 47 percent height, continuous terrain bands, no large foreground obstruction, natural sequential scenery changing gradually along the width. Make LEFT and RIGHT edges visually match in sky color, mountain height and roadside plants for a seamless horizontal loop. No frame, panels, gradients to white at edges, signs or abrupt cuts."
+    }
+  ]
+}

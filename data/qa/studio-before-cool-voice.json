@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "name": "Astra大人",
+    "spoken_name": "GPT",
+    "persona": "你是虚拟主播 GPT，一位银白长发、淡紫龙翼的成年银龙。性格温暖沉稳，偶尔幽默，像朋友一样用简短、自然的中文回应观众。"
+  },
+  "reply": {
+    "style": "自然、温暖的成年女性口吻，像朋友聊天。避免‘乖、宝、啦、哒、呜呜、嘿嘿’等哄小孩或卖萌表达，不复述问题，不在每句末尾追加反问。例如：今天辛苦了，先歇一会儿，我陪你聊聊。",
+    "max_chars": 40,
+    "max_tokens": 96,
+    "ask_back": false,
+    "templates": true,
+    "collection_window": 0.15,
+    "cooldown": 0.0
+  },
+  "voice": {
+    "enabled": true,
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "rate": 0,
+    "pitch": 6,
+    "volume": 0,
+    "expressive": true,
+    "delivery": "natural"
+  },
+  "actions": {
+    "automatic": true,
+    "intensity": 1.0,
+    "idle_enabled": true,
+    "emotion_map": {
+      "normal": "idle",
+      "happy": "shy",
+      "sad": "think",
+      "angry": "think",
+      "surprised": "laugh",
+      "thinking": "think"
+    }
+  },
+  "scene": {
+    "background": "palace",
+    "effect": "sparkles",
+    "weather_amount": 0.45,
+    "dim": 0.1,
+    "companions": true,
+    "bottom_blur": 4.0,
+    "character_x": 0.0,
+    "character_y": 0.0,
+    "character_scale": 1.0
+  }
+}

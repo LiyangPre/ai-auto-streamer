@@ -1,0 +1,32 @@
+{
+  "label": "after",
+  "samples": [
+    {
+      "label": "after",
+      "prompt": "今天下班有点累，请用一句自然的中文安慰我，不要反问。",
+      "first_text_ms": 1484,
+      "cached_audio": false,
+      "first_audio_ms": 3203,
+      "reply": "慢慢来，休息一下吧。"
+    },
+    {
+      "label": "after",
+      "prompt": "我准备去散步，用一句自然的中文祝我玩得开心。",
+      "first_text_ms": 1797,
+      "cached_audio": false,
+      "first_audio_ms": 2891,
+      "reply": "祝你散步愉快！"
+    },
+    {
+      "label": "after",
+      "prompt": "我的绿萝长出新叶子了，用一句话回应这个小惊喜。",
+      "first_text_ms": 1047,
+      "cached_audio": false,
+      "first_audio_ms": 2219,
+      "reply": "哇，绿萝新叶子真可爱！"
+    }
+  ],
+  "median_first_text_ms": 1484,
+  "median_first_audio_ms": 2891,
+  "cached_audio_count": 0
+}
