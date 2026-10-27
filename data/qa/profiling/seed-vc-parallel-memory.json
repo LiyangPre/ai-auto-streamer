@@ -1,0 +1,24 @@
+{
+  "status": "complete",
+  "workers": {
+    "A": {
+      "pid": 29392,
+      "peak_working_set_gib": 3.1300621032714844,
+      "working_set_gib": 0.19017791748046875,
+      "private_commit_gib": 0.16099166870117188,
+      "peak_private_commit_gib": 5.6998291015625
+    },
+    "B": {
+      "pid": 28260,
+      "peak_working_set_gib": 3.1302223205566406,
+      "working_set_gib": 2.610565185546875,
+      "private_commit_gib": 3.1682090759277344,
+      "peak_private_commit_gib": 5.700294494628906
+    }
+  },
+  "peak_combined_working_set_gib": 6.159229278564453,
+  "peak_combined_private_commit_gib": 8.829410552978516,
+  "minimum_system_available_gib": 12.551078796386719,
+  "samples": 36,
+  "sampling_seconds": 17.580199100004393
+}

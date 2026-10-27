@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-27",
+  "scope": "Isolated text-input server; no Bilibili broadcast",
+  "model": "glm-4.7-flashx",
+  "thinking": false,
+  "backend_tests": 109,
+  "frontend_tests": 55,
+  "ui_save_and_restart": "passed",
+  "saved_keys_never_returned": true,
+  "live_text": {
+    "route": "direct",
+    "first_attempt": "HTTP 500",
+    "retry": "success",
+    "retry_seconds": 1.03
+  },
+  "live_mimo": {
+    "route": "windows_proxy",
+    "success": true,
+    "total_seconds": 3.67,
+    "audio_played": false
+  },
+  "non_us_connection": "not tested; user remained on US connection"
+}

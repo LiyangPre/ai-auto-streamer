@@ -11,6 +11,7 @@ from typing import AsyncGenerator, List, Optional, Tuple
 from openai import AsyncOpenAI
 
 from .config import LLMConfig, CharacterConfig
+from .provider_network import http_client, failure
 
 logger = logging.getLogger(__name__)
 
@@ -91,7 +92,8 @@ class LLMProcessor:
         self.character = character_config
         api_key = llm_config.resolve_api_key()
         self.api_key_configured = bool(api_key) or llm_config.provider == "ollama"
-        self.client = AsyncOpenAI(base_url=llm_config.base_url, api_key=api_key or "EMPTY", max_retries=0)
+        self.client = AsyncOpenAI(base_url=llm_config.base_url, api_key=api_key or "EMPTY", max_retries=0,
+                                  http_client=http_client(llm_config.network_mode, llm_config.request_timeout))
         self.system_prompt = self._build_system_prompt()
         self._thinking_params_ok = True
 
@@ -149,8 +151,11 @@ class LLMProcessor:
             "temperature": params.temperature if params.temperature is not None else self.config.temperature,
             "max_tokens": min(params.max_tokens, self.config.max_tokens) if params.max_tokens is not None else self.config.max_tokens,
         }
-        # GLM-4-Flash is non-reasoning. Do not send Qwen-specific fields to it.
-        if self._thinking_params_ok and self.config.provider != "glm":
+        # GLM 4.5+ defaults to reasoning. Always preserve the explicit switch;
+        # never retry without it, which could silently re-enable deep thinking.
+        if self.config.provider == 'glm' and re.match(r'^glm-(?:4\.[5-9]|[5-9])', self.config.model.lower()):
+            kwargs['extra_body'] = {'thinking': {'type': 'enabled' if self.config.enable_thinking else 'disabled'}}
+        elif self._thinking_params_ok and self.config.provider != "glm":
             extra_body = {}
             if not self.config.enable_thinking:
                 extra_body["enable_thinking"] = False
@@ -163,17 +168,11 @@ class LLMProcessor:
     def _ensure_api_key(self):
         if not self.api_key_configured:
             name = self.config.api_key_env or f"{self.config.provider.upper()}_API_KEY"
-            raise LLMError(f"Missing API key: add {name} to the project .env file and restart")
+            raise LLMError(f"Missing API key: open API connections in the controller, or add {name} to .env and restart")
 
     def _safe_failure(self, exc: Exception) -> str:
-        status = getattr(exc, "status_code", None)
-        if status in (401, 403):
-            return f"Model authentication failed (HTTP {status}); check the configured API key"
-        if status == 429:
-            return "Model rate limit or quota reached (HTTP 429)"
-        if isinstance(exc, (asyncio.TimeoutError, TimeoutError)):
-            return "Model request timed out"
-        return f"Model request failed ({type(exc).__name__}" + (f", HTTP {status}" if status else "") + ")"
+        diagnostic = failure(exc)
+        return f"Model request failed [{diagnostic['code']}, route={self.config.network_mode}]: {diagnostic['message']}"
 
     def _is_thinking_param_error(self, exc: Exception) -> bool:
         text = str(exc)
@@ -198,7 +197,7 @@ class LLMProcessor:
                     raise LLMError("LLM returned an empty response")
                 return clean_text, emotion
             except Exception as e:
-                if attempt == 0 and self._thinking_params_ok and self._is_thinking_param_error(e):
+                if self.config.provider != 'glm' and attempt == 0 and self._thinking_params_ok and self._is_thinking_param_error(e):
                     logger.warning("Provider rejected thinking parameters; disabling them for this session")
                     self._thinking_params_ok = False
                     continue
@@ -227,7 +226,7 @@ class LLMProcessor:
                 )
                 break
             except Exception as e:
-                if attempt == 0 and self._thinking_params_ok and self._is_thinking_param_error(e):
+                if self.config.provider != 'glm' and attempt == 0 and self._thinking_params_ok and self._is_thinking_param_error(e):
                     logger.warning("Provider rejected thinking parameters; disabling them for this session")
                     self._thinking_params_ok = False
                     continue

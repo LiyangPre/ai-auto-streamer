@@ -4,7 +4,7 @@ import os
 from typing import Dict, Optional, Literal
 
 import yaml
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict, PrivateAttr
 from dotenv import load_dotenv
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -24,7 +24,7 @@ class PlatformConfig(BaseModel):
 class LLMConfig(BaseModel):
     provider: str = "ollama"
     base_url: str = "http://localhost:11434/v1"
-    api_key: str = ""
+    api_key: str = Field(default="", exclude=True, repr=False)
     api_key_env: str = ""
     model: str = "qwen2.5:7b-instruct"
     temperature: float = 0.7
@@ -32,6 +32,7 @@ class LLMConfig(BaseModel):
     stream: bool = True
     request_timeout: float = 45.0
     first_chunk_timeout: float = 15.0
+    network_mode: Literal['auto', 'direct', 'environment'] = 'environment'
     # 直播弹幕无复杂推理场景，默认关闭思考以降低首字延迟。
     # 非推理模型会忽略这两个参数（通过 extra_body 透传，服务端不识别即无效）。
     enable_thinking: bool = False
@@ -54,11 +55,15 @@ class LLMConfig(BaseModel):
 
 
 class TTSConfig(BaseModel):
+    _api_keys: dict[str, str] = PrivateAttr(default_factory=dict)
     engine: str = "edge-tts"
     selected_provider: str = "edge-tts"
     glm_voice: str = "tongtong"
     glm_api_key_env: str = "GLM_API_KEY"
     mimo_api_key_env: str = "MIMO_API_KEY"
+    mimo_base_url: str = 'https://api.xiaomimimo.com/v1'
+    mimo_network_mode: Literal['auto', 'direct', 'environment'] = 'auto'
+    mimo_model: Literal['mimo-v2.5-tts', 'mimo-v2.5-tts-voicedesign'] = 'mimo-v2.5-tts-voicedesign'
     mimo_voice: str = "茉莉"
     mimo_style: str = Field(default="成年女性，声线偏低，清冷从容，略带气声。语速稍慢，停顿自然，表达亲近而克制，咬字清晰。", max_length=800)
     minimax_voice: str = "female-yujie"
@@ -87,6 +92,13 @@ class TTSConfig(BaseModel):
         "thinking": {"rate": "-10%", "pitch": "+0Hz", "volume": "+0%"},
         "normal": {"rate": "+0%", "pitch": "+0Hz", "volume": "+0%"},
     }
+
+    def resolve_api_key(self, provider=None):
+        provider = provider or self.engine
+        if provider in self._api_keys:
+            return self._api_keys[provider]
+        name = {'glm-tts':self.glm_api_key_env, 'mimo-tts':self.mimo_api_key_env, 'minimax':self.minimax_api_key_env}.get(provider)
+        return os.environ.get(name, '').strip() if name else ''
 
 
 class ActionConfig(BaseModel):
@@ -188,6 +200,7 @@ class SceneConfig(BaseModel):
     character_scale: float = Field(default=1, ge=0.4, le=2, allow_inf_nan=False)
     subtitle_seconds: float = Field(default=4, ge=1, le=20, allow_inf_nan=False)
     music_enabled: bool = True
+    music_source: Literal['file', 'system'] = 'file'
     music_volume: float = Field(default=0.18, ge=0, le=0.4, allow_inf_nan=False)
 
 
@@ -309,7 +322,16 @@ class RouterConfig(BaseModel):
     }
 
 
+class WelcomeConfig(BaseModel):
+    enabled:bool=True
+    window:float=Field(default=5,ge=.1,le=30)
+    min_interval:float=Field(default=15,ge=1,le=120)
+    max_names:int=Field(default=3,ge=1,le=8)
+    repeat_cooldown:float=Field(default=300,ge=10,le=3600)
+
+
 class Config(BaseModel):
+    welcome:WelcomeConfig=Field(default_factory=WelcomeConfig)
     server: ServerConfig = ServerConfig()
     platform: PlatformConfig = PlatformConfig()
     llm: LLMConfig = LLMConfig()

@@ -18,6 +18,7 @@ import httpx
 from .config import TTSConfig, PROJECT_ROOT
 from .glm_tts import glm_audio_chunks
 from .mimo_tts import mimo_audio_chunks
+from .provider_network import http_client, failure, check_response
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +44,7 @@ class TTSEngine:
         self.cache = OrderedDict()
         self._stream_slots = asyncio.Semaphore(2)
         self._http = None
+        self.last_error = None
 
     def _voice_params(self, emotion: Optional[str]) -> dict:
         """Resolve voice/rate/volume/pitch for an emotion (falls back to defaults)"""
@@ -60,7 +62,7 @@ class TTSEngine:
     def _cache_key(self, text, params, config=None, emotion=None):
         cfg = config or self.config
         provider = [cfg.engine, cfg.glm_voice, cfg.minimax_model, cfg.minimax_voice, cfg.minimax_pitch,
-                    cfg.mimo_voice, cfg.mimo_style, cfg.expressive, emotion if cfg.expressive else None]
+                    cfg.mimo_model, cfg.mimo_voice, cfg.mimo_style, cfg.expressive, emotion if cfg.expressive else None]
         return hashlib.sha256(json.dumps([text.strip(), params, provider], sort_keys=True, ensure_ascii=False).encode()).hexdigest()
 
     def _spoken_text(self, text):
@@ -79,23 +81,26 @@ class TTSEngine:
 
     @staticmethod
     def provider_ready(config):
-        env = {"glm-tts": config.glm_api_key_env, "minimax": config.minimax_api_key_env,
-               "mimo-tts": config.mimo_api_key_env}.get(config.engine)
-        return env is None or bool(os.environ.get(env, "").strip())
+        return config.engine not in {'glm-tts','minimax','mimo-tts'} or bool(config.resolve_api_key())
+
+    def _report_failure(self, error, config):
+        self.last_error = failure(error)
+        route = config.mimo_network_mode if config.engine == 'mimo-tts' else 'environment'
+        logger.error('TTS %s failed [%s, route=%s]: %s', config.engine, self.last_error['code'], route, self.last_error['message'])
 
     async def _audio_chunks(self, text, params, config, emotion):
         if config.engine == "mimo-tts":
             if self._http is None:
-                self._http = httpx.AsyncClient(timeout=config.timeout)
+                self._http = http_client(config.mimo_network_mode, config.timeout)
             async for chunk in mimo_audio_chunks(self._http, text, config,
-                                                 os.environ.get(config.mimo_api_key_env, "").strip()):
+                                                 config.resolve_api_key('mimo-tts')):
                 yield chunk
             return
         if config.engine == "glm-tts":
             if self._http is None:
                 self._http = httpx.AsyncClient(timeout=config.timeout)
             async for chunk in glm_audio_chunks(self._http, text, config,
-                                                os.environ.get(config.glm_api_key_env, "").strip()):
+                                                config.resolve_api_key('glm-tts')):
                 yield chunk
             return
         if config.engine != "minimax":
@@ -103,7 +108,7 @@ class TTSEngine:
                 if part["type"] == "audio":
                     yield part["data"]
             return
-        key = os.environ.get(config.minimax_api_key_env, "").strip()
+        key = config.resolve_api_key('minimax')
         if not key:
             raise ValueError("MiniMax voice key is not configured")
         # MiniMax pitch uses semitones; Edge's Hz slider is deliberately separate.
@@ -123,8 +128,7 @@ class TTSEngine:
         async with self._http.stream("POST", "https://api.minimax.cn/v1/t2a_v2",
                                     headers={"Authorization": f"Bearer {key}"}, json=body,
                                     timeout=config.timeout) as response:
-            if response.status_code != 200:
-                raise ValueError(f"MiniMax voice HTTP {response.status_code}")
+            await check_response(response)
             async for line in response.aiter_lines():
                 if not line.startswith("data:"):
                     if line.lstrip().startswith("{"):
@@ -220,10 +224,10 @@ class TTSEngine:
                 job.error = True
                 job.path.unlink(missing_ok=True)
                 raise
-            except Exception:
+            except Exception as error:
                 job.error = True
                 job.path.unlink(missing_ok=True)
-                logger.warning("Progressive voice synthesis failed")
+                self._report_failure(error, config)
                 if on_error:
                     await on_error()
             finally:
@@ -296,9 +300,9 @@ class TTSEngine:
         except asyncio.CancelledError:
             output_file.unlink(missing_ok=True)
             raise
-        except Exception:
+        except Exception as error:
             output_file.unlink(missing_ok=True)
-            logger.error("TTS synthesis failed; check voice provider and credentials")
+            self._report_failure(error, config)
             return None
 
     async def synthesize_stream(
@@ -313,8 +317,8 @@ class TTSEngine:
             async for chunk in self._audio_chunks(self._spoken_text(text), self._voice_params(None), config, None):
                 yield chunk
 
-        except Exception:
-            logger.error("TTS stream failed; check voice provider and credentials")
+        except Exception as error:
+            self._report_failure(error, config)
 
     async def get_voices(self) -> list:
         """Get available voices"""

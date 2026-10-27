@@ -1,0 +1,26 @@
+{
+  "status": "fixed_in_isolated_runtime",
+  "old_version": "2.4.0+cpu",
+  "new_version": "2.4.1+cpu",
+  "baseline_all_pass": false,
+  "upgraded_all_pass": true,
+  "thread_counts": [
+    1,
+    2,
+    4,
+    6
+  ],
+  "mkldnn_modes": [
+    true,
+    false
+  ],
+  "baseline_failure": "default SDPA returned NaNs for2,4,6CPUthreads;manualattention/MATH/mm/bmm/conv1dpassed",
+  "main_streamer_runtime_changed": false,
+  "pip_check": "No broken requirements found",
+  "sources": [
+    "https://github.com/pytorch/pytorch/issues/131958",
+    "https://github.com/pytorch/pytorch/releases/tag/v2.4.1",
+    "https://github.com/ultralytics/ultralytics/issues/15049"
+  ],
+  "scope": "Small fixed randominputs againstNumPyfloat64, no largecheckpointinference;modelworkersmustrepeatactualaudioQA"
+}

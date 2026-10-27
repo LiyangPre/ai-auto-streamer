@@ -1,0 +1,165 @@
+{
+  "voice": "Astra current saved voice, revision 13",
+  "source": "Nine Bilibili recordings downloaded locally; see data/song-sources/download-results.json",
+  "processing": "Offline timbre conversion; preserve source melody and timing",
+  "tracks": [
+    {
+      "title": "起风了",
+      "version": "用券版",
+      "status": "source_ready",
+      "conversion_status": "queued",
+      "source_recording": {
+        "bvid": "BV1D64y1Z7Ko",
+        "source_url": "https://www.bilibili.com/video/BV1D64y1Z7Ko/",
+        "uploader": "香风小海",
+        "duration": 309.204,
+        "original_audio": "D:\\ai auto streamer\\data\\song-sources\\BV1D64y1Z7Ko.m4a",
+        "mp3": "D:\\ai auto streamer\\data\\song-sources\\起风了-买辣椒也用券-BV1D64y1Z7Ko.mp3",
+        "bytes": 7420813
+      }
+    },
+    {
+      "title": "小幸运",
+      "status": "source_ready",
+      "conversion_status": "queued",
+      "source_recording": {
+        "bvid": "BV1y82uB2ET4",
+        "source_url": "https://www.bilibili.com/video/BV1y82uB2ET4/",
+        "uploader": "Music小铁匠",
+        "duration": 263.829,
+        "original_audio": "D:\\ai auto streamer\\data\\song-sources\\BV1y82uB2ET4.m4a",
+        "mp3": "D:\\ai auto streamer\\data\\song-sources\\小幸运-BV1y82uB2ET4.mp3",
+        "bytes": 6333327
+      }
+    },
+    {
+      "title": "告白气球",
+      "status": "source_ready",
+      "conversion_status": "queued",
+      "source_recording": {
+        "bvid": "BV1A3411J7HX",
+        "source_url": "https://www.bilibili.com/video/BV1A3411J7HX/",
+        "uploader": "听懂掌声Music",
+        "duration": 217.621,
+        "original_audio": "D:\\ai auto streamer\\data\\song-sources\\BV1A3411J7HX.m4a",
+        "mp3": "D:\\ai auto streamer\\data\\song-sources\\告白气球-BV1A3411J7HX.mp3",
+        "bytes": 5224525
+      }
+    },
+    {
+      "title": "稻香",
+      "status": "source_ready",
+      "conversion_status": "not_in_current_batch",
+      "source_recording": {
+        "bvid": "BV1BdjG63E53",
+        "source_url": "https://www.bilibili.com/video/BV1BdjG63E53/",
+        "uploader": "时光唱片行",
+        "duration": 229.301,
+        "original_audio": "D:\\ai auto streamer\\data\\song-sources\\BV1BdjG63E53.m4a",
+        "mp3": "D:\\ai auto streamer\\data\\song-sources\\稻香-BV1BdjG63E53.mp3",
+        "bytes": 5365067
+      }
+    },
+    {
+      "title": "七里香",
+      "version": "用户选择的授权版本",
+      "status": "source_ready",
+      "conversion_status": "not_in_current_batch",
+      "source_recording": {
+        "bvid": "BV1qD4y1U7fs",
+        "source_url": "https://www.bilibili.com/video/BV1qD4y1U7fs/",
+        "uploader": "音乐私藏馆",
+        "duration": 297.428,
+        "original_audio": "D:\\ai auto streamer\\data\\song-sources\\BV1qD4y1U7fs.m4a",
+        "mp3": "D:\\ai auto streamer\\data\\song-sources\\七里香-BV1qD4y1U7fs.mp3",
+        "bytes": 7137997
+      }
+    },
+    {
+      "title": "平凡之路",
+      "status": "source_ready",
+      "conversion_status": "not_in_current_batch",
+      "source_recording": {
+        "bvid": "BV18m4y1Z7ZV",
+        "source_url": "https://www.bilibili.com/video/BV18m4y1Z7ZV/",
+        "uploader": "酷我音乐",
+        "duration": 305.684,
+        "original_audio": "D:\\ai auto streamer\\data\\song-sources\\BV18m4y1Z7ZV.m4a",
+        "mp3": "D:\\ai auto streamer\\data\\song-sources\\平凡之路-BV18m4y1Z7ZV.mp3",
+        "bytes": 7337869
+      }
+    },
+    {
+      "title": "夜空中最亮的星",
+      "status": "source_ready",
+      "conversion_status": "not_in_current_batch",
+      "source_recording": {
+        "bvid": "BV1F4411P7Cn",
+        "source_url": "https://www.bilibili.com/video/BV1F4411P7Cn/",
+        "uploader": "孙笑川257-",
+        "duration": 252.52,
+        "original_audio": "D:\\ai auto streamer\\data\\song-sources\\BV1F4411P7Cn.m4a",
+        "mp3": "D:\\ai auto streamer\\data\\song-sources\\夜空中最亮的星-BV1F4411P7Cn.mp3",
+        "bytes": 6061448
+      }
+    },
+    {
+      "title": "大鱼",
+      "status": "source_ready",
+      "conversion_status": "queued",
+      "source_recording": {
+        "bvid": "BV1f59QBGEhx",
+        "source_url": "https://www.bilibili.com/video/BV1f59QBGEhx/",
+        "uploader": "松风君",
+        "duration": 313.749,
+        "original_audio": "D:\\ai auto streamer\\data\\song-sources\\BV1f59QBGEhx.m4a",
+        "mp3": "D:\\ai auto streamer\\data\\song-sources\\大鱼-BV1f59QBGEhx.mp3",
+        "bytes": 7531403
+      }
+    },
+    {
+      "title": "牵丝戏",
+      "status": "source_ready",
+      "conversion_status": "not_in_current_batch",
+      "source_recording": {
+        "bvid": "BV1ZL411i7YQ",
+        "source_url": "https://www.bilibili.com/video/BV1ZL411i7YQ/",
+        "uploader": "JLRS-LeoFM",
+        "duration": 241.108,
+        "original_audio": "D:\\ai auto streamer\\data\\song-sources\\BV1ZL411i7YQ.m4a",
+        "mp3": "D:\\ai auto streamer\\data\\song-sources\\牵丝戏-BV1ZL411i7YQ.mp3",
+        "bytes": 5786701
+      }
+    }
+  ],
+  "conversion_status": "preparing",
+  "voice_reference": {
+    "path": "D:\\ai auto streamer\\data\\voice-references\\astra-current-voice.wav",
+    "approved": true,
+    "candidate_id": "current-profile",
+    "profile_id": "astra",
+    "profile_revision": 13,
+    "style": "大小姐，自然柔和的高音声线，温暖、轻松、亲切，像朋友在安静地聊天。声音有真实的呼吸感和轻微笑意，语速自然，表达细腻，咬字清晰，使用童声，不用播音腔。",
+    "model": "mimo-v2.5-tts-voicedesign",
+    "name": "Astra · current saved voice",
+    "reference_sha256": "dfa57c37f8e304681f6cc3fa9e7d0370a598b00842a8461bbb035cd0fbb16c8a",
+    "source_sha256": "d34144f0098bcaa73c8cef455c77333a271190b744f47b7af562a1ee0b48446e",
+    "source_audition": "D:\\ai auto streamer\\data\\voice-references\\astra-current-voice.mp3",
+    "duration_seconds": 18.936,
+    "sample_rate": 24000,
+    "channels": 1,
+    "sample_width": 2,
+    "generation_ms": 15775,
+    "text": "你好呀，今天过得怎么样？我刚把小客厅收拾好，还给窗边的薄荷浇了水。等会儿克劳德和小鲸也要回来，我们可以一起听歌，聊聊天。你不用着急，慢慢说，我会认真听的。",
+    "voice_description_unmodified": true
+  },
+  "current_batch_bvids": [
+    "BV1D64y1Z7Ko",
+    "BV1y82uB2ET4",
+    "BV1A3411J7HX",
+    "BV1f59QBGEhx"
+  ],
+  "current_batch_total": 4,
+  "diffusion_steps": 50,
+  "max_workers": 12
+}

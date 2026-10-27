@@ -1,7 +1,7 @@
 {
   "version": 1,
   "default_id": "astra",
-  "revision": 1,
+  "revision": 13,
   "profiles": {
     "astra": {
       "identity": {
@@ -13,7 +13,7 @@
         "style": "清冷、从容的成年女性口吻，略带柔和的亲近感，像坐在身边聊天。短句，留白，偶尔轻轻调侃。避免卖萌、哄小孩、播音腔和夸张语气词；直接回答，不复述问题，不机械地追加反问。",
         "max_chars": 40,
         "max_tokens": 96,
-        "ask_back": false,
+        "ask_back": true,
         "read_chat": true,
         "templates": true,
         "collection_window": 0.15,
@@ -22,7 +22,8 @@
       "voice": {
         "provider": "mimo-tts",
         "mimo_voice": "冰糖",
-        "mimo_style": "年轻轻熟女性，动漫风格，高冷御姐，成熟有掌控感；中高音区，音色偏冷，略带气声和胸腔共鸣；语速稍快但节奏稳，停顿自然利落；咬字清晰，尾音轻微下沉，表达亲近而克制，外冷内热。",
+        "mimo_model": "mimo-v2.5-tts-voicedesign",
+        "mimo_style": "大小姐，自然柔和的高音声线，温暖、轻松、亲切，像朋友在安静地聊天。声音有真实的呼吸感和轻微笑意，语速自然，表达细腻，咬字清晰，使用童声，不用播音腔。",
         "glm_voice": "tongtong",
         "minimax_voice": "female-yujie",
         "minimax_pitch": 0,
@@ -60,11 +61,21 @@
           "thinking": "think"
         }
       },
+      "modules": {
+        "singing": {
+          "pose": "laugh",
+          "expression": "happy",
+          "motion_strength": 0.45
+        }
+      },
+      "module_options": {},
       "artwork_id": "astra"
     }
   },
   "scene": {
     "background": "car",
+    "background_asset": null,
+    "music_asset": null,
     "effect": "none",
     "weather_amount": 0.45,
     "dim": 0.1,
@@ -77,6 +88,7 @@
     "character_scale": 1.0,
     "subtitle_seconds": 2.0,
     "music_enabled": true,
-    "music_volume": 0.2
+    "music_source": "system",
+    "music_volume": 0.37
   }
 }

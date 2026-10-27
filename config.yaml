@@ -16,7 +16,7 @@ llm:
   # Key 放在项目 .env 的 GLM_API_KEY 中；api_key 保持空白
   api_key: ""
   api_key_env: "GLM_API_KEY"
-  model: "glm-4-flash-250414"
+  model: "glm-4.7-flashx"
   temperature: 0.7
   max_tokens: 96
   stream: true
@@ -25,6 +25,7 @@ llm:
   # 直播间无复杂推理场景，关闭思考可显著降低首字延迟。
   # 只有接云端推理模型时才生效；非推理模型会忽略这两项。
   # 服务端不认这些参数会返回 400，此时本会话自动停用（见 llm.py）。
+  network_mode: direct
   enable_thinking: false
   # "" 表示不传。可选 low / medium / high（各家取值不同：
   #   OpenAI Responses API 用嵌套 reasoning.effort，Chat Completions 用顶层 reasoning_effort
@@ -55,8 +56,9 @@ tts:
 
   selected_provider: "mimo-tts"
   mimo_voice: "冰糖"
-  mimo_style: "年轻轻熟女性，动漫风格，高冷御姐，成熟有掌控感；中高音区，音色偏冷，略带气声和胸腔共鸣；语速稍快但节奏稳，停顿自然利落；咬字清晰，尾音轻微下沉，表达亲近而克制，外冷内热。"
+  mimo_style: "成年女性，自然柔和的中音声线，温暖、轻松、亲切，像朋友在安静地聊天。声音有真实的呼吸感和轻微笑意，语速自然，表达细腻，咬字清晰，不使用童声，不用播音腔。"
   pronunciations: {"Astra大人": "GPT"}
+  mimo_model: "mimo-v2.5-tts-voicedesign"
 action:
   mode: "emotion_map"
   automatic: true

@@ -15,11 +15,19 @@ from .config import SceneConfig
 from .studio import StrictModel, IdentitySettings, ReplySettings, VoiceSettings, MotionSettings, StudioSettings
 
 
+class ModulePresentation(StrictModel):
+    pose: str = Field(default='auto', pattern=r'^[a-z][a-z0-9_-]{0,31}$')
+    expression: str = Field(default='auto', pattern=r'^[a-z][a-z0-9_-]{0,31}$')
+    motion_strength: float = Field(default=.35, ge=0, le=1, allow_inf_nan=False)
+
+
 class CharacterProfile(StrictModel):
     identity: IdentitySettings
     reply: ReplySettings
     voice: VoiceSettings
     actions: MotionSettings
+    modules: dict[str, ModulePresentation] = Field(default_factory=dict, max_length=32)
+    module_options: dict[str, dict] = Field(default_factory=dict, max_length=32)
     # Explicit asset binding. Additional artwork packs need their own calibrated
     # pose/face assets; a different identity must not silently claim new artwork.
     artwork_id: Literal["astra"] = "astra"
@@ -29,7 +37,7 @@ class CharacterProfile(StrictModel):
         return cls.model_validate(settings.model_dump(exclude={"scene"}))
 
     def settings(self, scene):
-        return StudioSettings(**self.model_dump(exclude={"artwork_id"}), scene=scene.model_copy(deep=True))
+        return StudioSettings(**self.model_dump(exclude={"artwork_id", "modules", "module_options"}), scene=scene.model_copy(deep=True))
 
 
 class CharacterLibrary(StrictModel):
@@ -51,7 +59,7 @@ class CharacterLibrary(StrictModel):
         return {"active_id": active_id, "default_id": self.default_id, "revision": self.revision,
                 "profiles": [{"id": key, "name": p.identity.name, "spoken_name": p.identity.spoken_name,
                               "voice_provider": p.voice.provider, "voice_enabled": p.voice.enabled,
-                              "voice_name": {"mimo-tts": p.voice.mimo_voice, "glm-tts": p.voice.glm_voice,
+                              "voice_name": {"mimo-tts": 'Voice Design' if p.voice.mimo_model=='mimo-v2.5-tts-voicedesign' else p.voice.mimo_voice, "glm-tts": p.voice.glm_voice,
                                              "minimax": p.voice.minimax_voice}.get(p.voice.provider, p.voice.voice),
                               "artwork_id": p.artwork_id} for key, p in self.profiles.items()],
                 "artworks": [{"id": "astra", "name": "Astra · 银龙", "thumbnail": "/static/scenes/car/astra-car-v1.png"}]}

@@ -1,0 +1,31 @@
+{
+  "id": "BV1D64y1Z7Ko",
+  "bvid": "BV1D64y1Z7Ko",
+  "title": "Current voice short preview",
+  "source_url": "https://www.bilibili.com/video/BV1D64y1Z7Ko/",
+  "ready": true,
+  "signature": "bf4394c6977208b45f6375907a306755f8bdfbd9aeb496b627e4fc43c0b2ba5a",
+  "mix_mp3": "D:\\ai auto streamer\\data\\qa\\song-preview-current-voice\\astra-song.mp3",
+  "vocals_mp3": "D:\\ai auto streamer\\data\\qa\\song-preview-current-voice\\converted-vocals.mp3",
+  "mix_sha256": "0307568e26db177575399b80ab11b50c0a53282202fe2ba70f44eafb3aa03656",
+  "guide_sha256": "4b700c099c53850b7810082a99f9c024c0217a290f2d124febf70af30f44c9a7",
+  "duration_seconds": 4.04898,
+  "levels": {
+    "gain": 1.0187320427655653,
+    "source_vocal_rms": 0.13618898989716702,
+    "converted_vocal_rms": 0.13368480049714837,
+    "quiet_gap_gate": true,
+    "pitch_shift": 0,
+    "time_stretch": false
+  },
+  "conversion": {
+    "engine": "Seed-VC",
+    "model": "v1-SVC-44k",
+    "diffusion_steps": 30,
+    "f0_condition": true,
+    "auto_f0_adjust": false,
+    "length_adjust": 1.0,
+    "semitones": 0,
+    "fp16": false
+  }
+}

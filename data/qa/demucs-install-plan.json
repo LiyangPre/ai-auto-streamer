@@ -1,0 +1,189 @@
+{
+  "version": "1",
+  "pip_version": "23.2.1",
+  "install": [
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/68/93/6f338f3f5c53522406dc32cd3b8a59abde20ac80d33604aa9dc8c82450e5/demucs-4.1.0-py3-none-any.whl",
+        "archive_info": {
+          "hash": "sha256=4916a804702033ce934a6cdfa7e38dde03f7a7a6e85f41d0120eefe9e2966758",
+          "hashes": {
+            "sha256": "4916a804702033ce934a6cdfa7e38dde03f7a7a6e85f41d0120eefe9e2966758"
+          }
+        }
+      },
+      "is_direct": false,
+      "requested": true,
+      "metadata": {
+        "metadata_version": "2.4",
+        "name": "demucs",
+        "version": "4.1.0",
+        "summary": "Music source separation in the waveform domain.",
+        "description": "# Demucs Music Source Separation\n\n![tests badge](https://github.com/facebookresearch/demucs/workflows/tests/badge.svg)\n![linter badge](https://github.com/facebookresearch/demucs/workflows/linter/badge.svg)\n\n\n**This is the officially maintained Demucs** now that I (Alexandre Défossez) have left Meta to join [Kyutai](https://twitter.com/kyutai_labs).\nNote that I'm not actively working on Demucs anymore, so expect slow replies and no new feature for now.\n\n\n\nThis is the 4th release of Demucs (v4), featuring Hybrid Transformer based source separation.\n**For the classic Hybrid Demucs (v3):** [Go this commit][demucs_v3].\nIf you are experiencing issues and want the old Demucs back, please file an issue, and then you can get back to Demucs v3 with\n`git checkout v3`. You can also go [Demucs v2][demucs_v2].\n\n\nDemucs is a state-of-the-art music source separation model, currently capable of separating\ndrums, bass, and vocals from the rest of the accompaniment.\nDemucs is based on a U-Net convolutional architecture inspired by [Wave-U-Net][waveunet].\nThe v4 version features [Hybrid Transformer Demucs][htdemucs], a hybrid spectrogram/waveform separation model using Transformers.\nIt is based on [Hybrid Demucs][hybrid_paper] (also provided in this repo), with the innermost layers\nreplaced by a cross-domain Transformer Encoder. This Transformer uses self-attention within each domain,\nand cross-attention across domains.\nThe model achieves a SDR of 9.00 dB on the MUSDB HQ test set. Moreover, when using sparse attention\nkernels to extend its receptive field and per source fine-tuning, we achieve state-of-the-art 9.20 dB of SDR.\n\nSamples are available [on our sample page](https://ai.honu.io/papers/htdemucs/index.html).\nCheckout [our paper][htdemucs] for more information.\nIt has been trained on the [MUSDB HQ][musdb] dataset + an extra training dataset of 800 songs.\nThis model separates drums, bass and vocals and other stems for any song.\n\n\nAs Hybrid Transformer Demucs is brand new, it is not activated by default, you can activate it in the usual\ncommands described hereafter with `-n htdemucs_ft`.\nThe single, non fine-tuned model is provided as `-n htdemucs`, and the retrained baseline\nas `-n hdemucs_mmi`. The Sparse Hybrid Transformer model decribed in our paper is not provided as its\nrequires custom CUDA code that is not ready for release yet.\nWe are also releasing an experimental 6 sources model, that adds a `guitar` and `piano` source.\nQuick testing seems to show okay quality for `guitar`, but a lot of bleeding and artifacts for the `piano` source.\n\n\n<p align=\"center\">\n<img src=\"./demucs.png\" alt=\"Schema representing the structure of Hybrid Transformer Demucs,\n    with a dual U-Net structure, one branch for the temporal domain,\n    and one branch for the spectral domain. There is a cross-domain Transformer between the Encoders and Decoders.\"\nwidth=\"800px\"></p>\n\n\n\n## Important news if you are already using Demucs\n\nSee the [release notes](./docs/release.md) for more details.\n\n- 22/02/2023: added support for the [SDX 2023 Challenge](https://www.aicrowd.com/challenges/sound-demixing-challenge-2023),\n    see the dedicated [doc page](./docs/sdx23.md)\n- 07/12/2022: Demucs v4 now on PyPI. **htdemucs** model now used by default. Also releasing\n    a 6 sources models (adding `guitar` and `piano`, although the latter doesn't work so well at the moment).\n- 16/11/2022: Added the new **Hybrid Transformer Demucs v4** models.\n\tAdding support for the [torchaudio implementation of HDemucs](https://pytorch.org/audio/stable/tutorials/hybrid_demucs_tutorial.html).\n- 30/08/2022: added reproducibility and ablation grids, along with an updated version of the paper.\n- 17/08/2022: Releasing v3.0.5: Set split segment length to reduce memory. Compatible with pyTorch 1.12.\n- 24/02/2022: Releasing v3.0.4: split into two stems (i.e. karaoke mode).\n    Export as float32 or int24.\n- 17/12/2021: Releasing v3.0.3: bug fixes  (thanks @keunwoochoi), memory drastically\n    reduced on GPU (thanks @famzah) and new multi-core evaluation on CPU (`-j` flag).\n- 12/11/2021: Releasing **Demucs v3** with hybrid domain separation. Strong improvements\n\ton all sources. This is the model that won Sony MDX challenge.\n- 11/05/2021: Adding support for MusDB-HQ and arbitrary wav set, for the MDX challenge. For more information\non joining the challenge with Demucs see [the Demucs MDX instructions](docs/mdx.md)\n\n\n## Comparison with other models\n\nWe provide hereafter a summary of the different metrics presented in the paper.\nYou can also compare Hybrid Demucs (v3), [KUIELAB-MDX-Net][kuielab], [Spleeter][spleeter], Open-Unmix, Demucs (v1), and Conv-Tasnet on one of my favorite\nsongs on my [soundcloud playlist][soundcloud].\n\n### Comparison of accuracy\n\n`Overall SDR` is the mean of the SDR for each of the 4 sources, `MOS Quality` is a rating from 1 to 5\nof the naturalness and absence of artifacts given by human listeners (5 = no artifacts), `MOS Contamination`\nis a rating from 1 to 5 with 5 being zero contamination by other sources. We refer the reader to our [paper][hybrid_paper],\nfor more details.\n\n| Model                        | Domain      | Extra data?       | Overall SDR | MOS Quality | MOS Contamination |\n|------------------------------|-------------|-------------------|-------------|-------------|-------------------|\n| [Wave-U-Net][waveunet]       | waveform    | no                | 3.2         | -           | -                 |\n| [Open-Unmix][openunmix]      | spectrogram | no                | 5.3         | -           | -                 |\n| [D3Net][d3net]               | spectrogram | no                | 6.0         | -           | -                 |\n| [Conv-Tasnet][demucs_v2]     | waveform    | no                | 5.7         | -           |                   |\n| [Demucs (v2)][demucs_v2]     | waveform    | no                | 6.3         | 2.37        | 2.36              |\n| [ResUNetDecouple+][decouple] | spectrogram | no                | 6.7         | -           | -                 |\n| [KUIELAB-MDX-Net][kuielab]   | hybrid      | no                | 7.5         | **2.86**    | 2.55              |\n| [Band-Spit RNN][bandsplit]   | spectrogram | no                | **8.2**     | -           | -                 |\n| **Hybrid Demucs (v3)**       | hybrid      | no                | 7.7         | **2.83**    | **3.04**          |\n| [MMDenseLSTM][mmdenselstm]   | spectrogram | 804 songs         | 6.0         | -           | -                 |\n| [D3Net][d3net]               | spectrogram | 1.5k songs        | 6.7         | -           | -                 |\n| [Spleeter][spleeter]         | spectrogram | 25k songs         | 5.9         | -           | -                 |\n| [Band-Spit RNN][bandsplit]   | spectrogram | 1.7k (mixes only) | **9.0**     | -           | -                 |\n| **HT Demucs f.t. (v4)**      | hybrid      | 800 songs         | **9.0**     | -           | -                 |\n\n\n\n## Requirements\n\nYou will need at least Python 3.10. Installing the `demucs` package (e.g. `pip install demucs`)\ncomes with everything needed for separation. To train a new model, install the `train` extra\n(`pip install \"demucs[train]\"`), and to use the diffq quantized models (e.g. `mdx_q`,\n`mdx_extra_q`), install the `quantized` extra (`pip install \"demucs[quantized]\"`).\nFor development, the repo is managed with [uv](https://docs.astral.sh/uv/): `uv sync --extra train`\nsets up everything, and the `Makefile` targets run through `uv run`.\n\n### For Windows users\n\nEverytime you see `python3`, replace it with `python.exe`. You should always run commands from the\nAnaconda console.\n\n### For musicians\n\nIf you just want to use Demucs to separate tracks, you can install it with\n\n```bash\npython3 -m pip install -U demucs\n```\n\nFor bleeding edge versions, you can install directly from this repo using\n```bash\npython3 -m pip install -U git+https://github.com/facebookresearch/demucs#egg=demucs\n```\n\nAdvanced OS support are provided on the following page, **you must read the page for your OS before posting an issues**:\n- **If you are using Windows:** [Windows support](docs/windows.md).\n- **If you are using macOS:** [macOS support](docs/mac.md).\n- **If you are using Linux:** [Linux support](docs/linux.md).\n\n### For machine learning scientists\n\nIf you have anaconda installed, you can run from the root of this repository:\n\n```bash\nconda env update -f environment-cpu.yml  # if you don't have GPUs\nconda env update -f environment-cuda.yml # if you have GPUs\nconda activate demucs\npip install -e .\n```\n\nThis will create a `demucs` environment with all the dependencies installed.\n\nYou will also need to install [soundstretch/soundtouch](https://www.surina.net/soundtouch/soundstretch.html): on macOS you can do `brew install sound-touch`,\nand on Ubuntu `sudo apt-get install soundstretch`. This is used for the\npitch/tempo augmentation.\n\n\n### Running in Docker\n\nThanks to @xserrat, there is now a Docker image definition ready for using Demucs. This can ensure all libraries are correctly installed without interfering with the host OS. See his repo [Docker Facebook Demucs](https://github.com/xserrat/docker-facebook-demucs) for more information.\n\n\n### Running from Colab\n\nI made a Colab to easily separate track with Demucs. Note that\ntransfer speeds with Colab are a bit slow for large media files,\nbut it will allow you to use Demucs without installing anything.\n\n[Demucs on Google Colab](https://colab.research.google.com/drive/1dC9nVxk3V_VPjUADsnFu8EiT-xnU1tGH?usp=sharing)\n\n### Web Demo\n\nIntegrated to [Hugging Face Spaces](https://huggingface.co/spaces) with [Gradio](https://github.com/gradio-app/gradio). See demo: [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/akhaliq/demucs)\n\n### Graphical Interface\n\n@CarlGao4 has released a GUI for Demucs: [CarlGao4/Demucs-Gui](https://github.com/CarlGao4/Demucs-Gui). Downloads for Windows and macOS is available [here](https://github.com/CarlGao4/Demucs-Gui/releases). Use [FossHub mirror](https://fosshub.com/Demucs-GUI.html) to speed up your download.\n\n@Anjok07 is providing a self contained GUI in [UVR (Ultimate Vocal Remover)](https://github.com/facebookresearch/demucs/issues/334) that supports Demucs.\n\n### Other providers\n\nAudiostrip is providing free online separation with Demucs on their website [https://audiostrip.co.uk/](https://audiostrip.co.uk/).\n\n[MVSep](https://mvsep.com/) also provides free online separation, select `Demucs3 model B` for the best quality.\n\n[Neutone](https://neutone.space/) provides a realtime Demucs model in their free VST/AU plugin that can be used in your favorite DAW.\n\n\n## Separating tracks\n\nIn order to try Demucs, you can just run from any folder (as long as you properly installed it)\n\n```bash\ndemucs PATH_TO_AUDIO_FILE_1 [PATH_TO_AUDIO_FILE_2 ...]   # for Demucs\n# If you used `pip install --user` you might need to replace demucs with python3 -m demucs\npython3 -m demucs --mp3 --mp3-bitrate BITRATE PATH_TO_AUDIO_FILE_1  # output files saved as MP3\n        # use --mp3-preset to change encoder preset, 2 for best quality, 7 for fastest\n# If your filename contain spaces don't forget to quote it !!!\ndemucs \"my music/my favorite track.mp3\"\n# You can select different models with `-n` mdx_q is the quantized model, smaller but maybe a bit less accurate.\ndemucs -n mdx_q myfile.mp3\n# If you only want to separate vocals out of an audio, use `--two-stems=vocals` (You can also set to drums or bass)\ndemucs --two-stems=vocals myfile.mp3\n```\n\n\nIf you have a GPU, but you run out of memory, please use `--segment SEGMENT` to reduce length of each split. `SEGMENT` should be changed to a integer describing the length of each segment in seconds.\nA segment length of at least 10 is recommended (the bigger the number is, the more memory is required, but quality may increase). Note that the Hybrid Transformer models only support a maximum segment length of 7.8 seconds.\nCreating an environment variable `PYTORCH_NO_CUDA_MEMORY_CACHING=1` is also helpful. If this still does not help, please add `-d cpu` to the command line. See the section hereafter for more details on the memory requirements for GPU acceleration.\n\nSeparated tracks are stored in the `separated/MODEL_NAME/TRACK_NAME` folder. There you will find four stereo wav files sampled at 44.1 kHz: `drums.wav`, `bass.wav`,\n`other.wav`, `vocals.wav` (or `.mp3` if you used the `--mp3` option).\n\nAll audio formats supported by `torchaudio` can be processed (i.e. wav, mp3, flac, ogg/vorbis on Linux/macOS, etc.). On Windows, `torchaudio` has limited support, so we rely on `ffmpeg`, which should support pretty much anything.\nAudio is resampled on the fly if necessary.\nThe output will be a wav file encoded as int16.\nYou can save as float32 wav files with `--float32`, or 24 bits integer wav with `--int24`.\nYou can pass `--mp3` to save as mp3 instead, and set the bitrate (in kbps) with `--mp3-bitrate` (default is 320).\n\nIt can happen that the output would need clipping, in particular due to some separation artifacts.\nDemucs will automatically rescale each output stem so as to avoid clipping. This can however break\nthe relative volume between stems. If instead you prefer hard clipping, pass `--clip-mode clamp`.\nYou can also try to reduce the volume of the input mixture before feeding it to Demucs.\n\n\nOther pre-trained models can be selected with the `-n` flag.\nThe list of pre-trained models is:\n- `htdemucs`: first version of Hybrid Transformer Demucs. Trained on MusDB + 800 songs. Default model.\n- `htdemucs_ft`: fine-tuned version of `htdemucs`, separation will take 4 times more time\n    but might be a bit better. Same training set as `htdemucs`.\n- `htdemucs_6s`: 6 sources version of `htdemucs`, with `piano` and `guitar` being added as sources.\n    Note that the `piano` source is not working great at the moment.\n- `hdemucs_mmi`: Hybrid Demucs v3, retrained on MusDB + 800 songs.\n- `mdx`: trained only on MusDB HQ, winning model on track A at the [MDX][mdx] challenge.\n- `mdx_extra`: trained with extra training data (**including MusDB test set**), ranked 2nd on the track B\n    of the [MDX][mdx] challenge.\n- `mdx_q`, `mdx_extra_q`: quantized version of the previous models. Smaller download and storage\n    but quality can be slightly worse.\n- `SIG`: where `SIG` is a single model from the [model zoo](docs/training.md#model-zoo).\n\nThe `--two-stems=vocals` option allows separating vocals from the rest of the accompaniment (i.e., karaoke mode).\n`vocals` can be changed to any source in the selected model.\nThis will mix the files after separating the mix fully, so this won't be faster or use less memory.\n\nThe `--shifts=SHIFTS` performs multiple predictions with random shifts (a.k.a the *shift trick*) of the input and average them. This makes prediction `SHIFTS` times\nslower. Don't use it unless you have a GPU.\n\nThe `--overlap` option controls the amount of overlap between prediction windows. Default is 0.25 (i.e. 25%) which is probably fine.\nIt can probably be reduced to 0.1 to improve a bit speed.\n\n\nThe `-j` flag allow to specify a number of parallel jobs (e.g. `demucs -j 2 myfile.mp3`).\nThis will multiply by the same amount the RAM used so be careful!\n\n### Memory requirements for GPU acceleration\n\nIf you want to use GPU acceleration, you will need at least 3GB of RAM on your GPU for `demucs`. However, about 7GB of RAM will be required if you use the default arguments. Add `--segment SEGMENT` to change size of each split. If you only have 3GB memory, set SEGMENT to 8 (though quality may be worse if this argument is too small). Creating an environment variable `PYTORCH_NO_CUDA_MEMORY_CACHING=1` can help users with even smaller RAM such as 2GB (I separated a track that is 4 minutes but only 1.5GB is used), but this would make the separation slower.\n\nIf you do not have enough memory on your GPU, simply add `-d cpu` to the command line to use the CPU. With Demucs, processing time should be roughly equal to 1.5 times the duration of the track.\n\n## Calling from another Python program\n\nThe main function provides an `opt` parameter as a simple API. You can just pass the parsed command line as this parameter: \n```python\n# Assume that your command is `demucs --mp3 --two-stems vocals -n mdx_extra \"track with space.mp3\"`\n# The following codes are same as the command above:\nimport demucs.separate\ndemucs.separate.main([\"--mp3\", \"--two-stems\", \"vocals\", \"-n\", \"mdx_extra\", \"track with space.mp3\"])\n\n# Or like this\nimport demucs.separate\nimport shlex\ndemucs.separate.main(shlex.split('--mp3 --two-stems vocals -n mdx_extra \"track with space.mp3\"'))\n```\n\nTo use more complicated APIs, see [API docs](docs/api.md)\n\n## Training Demucs\n\nIf you want to train (Hybrid) Demucs, please follow the [training doc](docs/training.md).\n\n## MDX Challenge reproduction\n\nIn order to reproduce the results from the Track A and Track B submissions, checkout the [MDX Hybrid Demucs submission repo][mdx_submission].\n\n\n\n## How to cite\n\n```\n@inproceedings{rouard2022hybrid,\n  title={Hybrid Transformers for Music Source Separation},\n  author={Rouard, Simon and Massa, Francisco and D{\\'e}fossez, Alexandre},\n  booktitle={ICASSP 23},\n  year={2023}\n}\n\n@inproceedings{defossez2021hybrid,\n  title={Hybrid Spectrogram and Waveform Source Separation},\n  author={D{\\'e}fossez, Alexandre},\n  booktitle={Proceedings of the ISMIR 2021 Workshop on Music Source Separation},\n  year={2021}\n}\n```\n\n## License\n\nDemucs is released under the MIT license as found in the [LICENSE](LICENSE) file.\n\n[hybrid_paper]: https://arxiv.org/abs/2111.03600\n[waveunet]: https://github.com/f90/Wave-U-Net\n[musdb]: https://sigsep.github.io/datasets/musdb.html\n[openunmix]: https://github.com/sigsep/open-unmix-pytorch\n[mmdenselstm]: https://arxiv.org/abs/1805.02410\n[demucs_v2]: https://github.com/facebookresearch/demucs/tree/v2\n[demucs_v3]: https://github.com/facebookresearch/demucs/tree/v3\n[spleeter]: https://github.com/deezer/spleeter\n[soundcloud]: https://soundcloud.com/honualx/sets/source-separation-in-the-waveform-domain\n[d3net]: https://arxiv.org/abs/2010.01733\n[mdx]: https://www.aicrowd.com/challenges/music-demixing-challenge-ismir-2021\n[kuielab]: https://github.com/kuielab/mdx-net-submission\n[decouple]: https://arxiv.org/abs/2109.05418\n[mdx_submission]: https://github.com/adefossez/mdx21_demucs\n[bandsplit]: https://arxiv.org/abs/2209.15174\n[htdemucs]: https://arxiv.org/abs/2211.08553\n",
+        "description_content_type": "text/markdown",
+        "author_email": "Alexandre Défossez <defossez@fb.com>",
+        "license": "MIT License",
+        "classifier": [
+          "License :: OSI Approved :: MIT License",
+          "Topic :: Multimedia :: Sound/Audio",
+          "Topic :: Scientific/Engineering :: Artificial Intelligence"
+        ],
+        "requires_dist": [
+          "einops",
+          "huggingface-hub",
+          "julius>=0.2.3",
+          "lameenc>=1.2",
+          "numpy<2; sys_platform == 'darwin' and platform_machine == 'x86_64'",
+          "pyyaml",
+          "safetensors",
+          "sphn>=0.1.12",
+          "torch<2.3,>=2.1; sys_platform == 'darwin' and platform_machine == 'x86_64'",
+          "torch>=2.1; sys_platform != 'darwin' or platform_machine != 'x86_64'",
+          "tqdm",
+          "diffq>=0.2.1; extra == 'quantized'",
+          "dora-search>=0.1.12; extra == 'train'",
+          "hydra-colorlog>=1.1; extra == 'train'",
+          "hydra-core>=1.1; extra == 'train'",
+          "musdb>=0.4.0; extra == 'train'",
+          "museval; extra == 'train'",
+          "submitit; extra == 'train'",
+          "torchaudio<2.3,>=2.1; (sys_platform == 'darwin' and platform_machine == 'x86_64') and extra == 'train'",
+          "torchaudio>=2.1; (sys_platform != 'darwin' or platform_machine != 'x86_64') and extra == 'train'",
+          "treetable; extra == 'train'"
+        ],
+        "requires_python": ">=3.10",
+        "project_url": [
+          "Homepage, https://github.com/adefossez/demucs"
+        ],
+        "provides_extra": [
+          "quantized",
+          "train"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/86/43/efdb0bcb07c47826fa55857cec0deb743f74cd83b6ba5ec9e413505a72e6/julius-0.2.8-py3-none-any.whl",
+        "archive_info": {
+          "hash": "sha256=6891235cbc355e629d839f87489bff8ca46e57a0e7cc35abb909c7a2aa538c25",
+          "hashes": {
+            "sha256": "6891235cbc355e629d839f87489bff8ca46e57a0e7cc35abb909c7a2aa538c25"
+          }
+        }
+      },
+      "is_direct": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.4",
+        "name": "julius",
+        "version": "0.2.8",
+        "summary": "Nice DSP sweets: resampling, FFT Convolutions. All with PyTorch, differentiable and with CUDA support.",
+        "description": "# Julius, fast PyTorch based DSP for audio and 1D signals\n\n![linter badge](https://github.com/adefossez/julius/workflows/linter/badge.svg)\n![tests badge](https://github.com/adefossez/julius/workflows/tests/badge.svg)\n![cov badge](https://github.com/adefossez/julius/workflows/cov%3E90%25/badge.svg)\n\nJulius contains different Digital Signal Processing algorithms implemented\nwith PyTorch, so that they are differentiable and available on CUDA.\nNote that all the modules implemented here can be used with TorchScript.\n\nFor now, I have implemented:\n\n- [julius.resample](https://adefossez.github.io/julius/julius/resample.html): fast sinc resampling.\n- [julius.fftconv](https://adefossez.github.io/julius/julius/fftconv.html): FFT based convolutions.\n- [julius.lowpass](https://adefossez.github.io/julius/julius/lowpass.html): FIR low pass filter banks.\n- [julius.filters](https://adefossez.github.io/julius/julius/filters.html): FIR high pass and band pass filters.\n- [julius.bands](https://adefossez.github.io/julius/julius/bands.html): Decomposition of a waveform signal over mel-scale frequency bands.\n\nAlong that, you might found useful utilities in:\n\n- [julius.core](https://adefossez.github.io/julius/julius/core.html): DSP related functions.\n- [julius.utils](https://adefossez.github.io/julius/julius/utils.html): Generic utilities.\n\n<p align=\"center\">\n<img src=\"./logo.png\" alt=\"Representation of the convolutions filters used for the efficient resampling.\"\nwidth=\"500px\"></p>\n\n## News\n\n- 03/06/2026: __`julius` 0.2.8 released:__: Switching to pyproject.toml, now requires python >= 3.9. Bug fix with -O flag (thanks @aiknownc)\n- 19/09/2022: __`julius` 0.2.7 released:__: fixed ONNX compat (thanks @iver56). I know I missed the 0.2.6 one...\n- 28/07/2021: __`julius` 0.2.5 released:__: support for setting a custom output length when resampling.\n- 22/06/2021: __`julius` 0.2.4 released:__: adding highpass and band passfilters.\n  Extra linting and type checking of the code. New `unfold` implemention, up to\n  x6 faster FFT convolutions and more efficient memory usage.\n- 26/01/2021: __`julius` 0.2.2 released:__ fixing normalization of filters in lowpass and resample to avoid very low frequencies to be leaked.\n  Switch from zero padding to replicate padding (uses first/last value instead of 0) to avoid discontinuities with strong artifacts.\n- 20/01/2021: `julius` implementation of resampling is now officially <a href=\"https://github.com/pytorch/audio/pull/1087\">part of Torchaudio.</a>\n\n## Installation\n\n`julius` requires python 3.6. To install:\n```bash\npip3 install -U julius\n```\n\n\n## Usage\n\nSee the [Julius documentation][docs] for the usage of Julius. Hereafter you will find a few examples\nto get you quickly started:\n\n```python3\nimport julius\nimport torch\n\nsignal = torch.randn(6, 4, 1024)\n# Resample from a sample rate of 100 to 70. The old and new sample rate must be integers,\n# and resampling will be fast if they form an irreductible fraction with small numerator\n# and denominator (here 10 and 7). Any shape is supported, last dim is time.\nresampled_signal = julius.resample_frac(signal, 100, 70)\n\n# Low pass filter with a `0.1 * sample_rate` cutoff frequency.\nlow_freqs = julius.lowpass_filter(signal, 0.1)\n\n# Fast convolutions with FFT, useful for large kernels\nconv = julius.FFTConv1d(4, 10, 512)\nconvolved = conv(signal)\n\n# Decomposition over frequency bands in the Waveform domain\nbands = julius.split_bands(signal, n_bands=10, sample_rate=100)\n# Decomposition with n_bands frequency bands evenly spaced in mel space.\n# Input shape can be `[*, T]`, output will be `[n_bands, *, T]`.\nrandom_eq = (torch.rand(10, 1, 1, 1) * bands).sum(0)\n```\n\n## Algorithms\n\n### Resample\n\nThis is an implementation of the [sinc resample algorithm][resample] by Julius O. Smith.\nIt is the same algorithm than the one used in [resampy][resampy] but to run efficiently on GPU it\nis limited to fractional changes of the sample rate. It will be fast if the old and new sample rate\nare small after dividing them by their GCD. For instance going from a sample rate of 2000 to 3000 (2, 3 after removing the GCD)\nwill be extremely fast, while going from 20001 to 30001 will not.\nJulius resampling is faster than resampy even on CPU, and when running on GPU it makes resampling a completely negligible part of your pipeline\n(except of course for weird cases like going from a sample rate of 20001 to 30001).\n\n\n### FFTConv1d\n\nComputing convolutions with very large kernels (>= 128) and a stride of 1 can be much faster\nusing FFT. This implements the same API as `torch.nn.Conv1d` and `torch.nn.functional.conv1d`\nbut with a FFT backend. Dilation and groups are not supported.\nFFTConv will be faster on CPU even for relatively small tensors (a few dozen channels, kernel size\nof 128). On CUDA, due to the higher parallelism, regular convolution can be faster in many cases,\nbut for kernel sizes above 128, for a large number of channels or batch size, FFTConv1d\nwill eventually be faster (basically when you no longer have idle cores that can hide\nthe true complexity of the operation).\n\n### LowPass\n\nClassical Finite Impulse Reponse windowed sinc lowpass filter. It will use FFT convolutions automatically\nif the filter size is large enough. This is the basic block from which you can build\nhigh pass and band pass filters (see `julius.filters`).\n\n### Bands\n\nDecomposition of a signal over frequency bands in the waveform domain. This can be useful for\ninstance to perform parametric EQ (see [Usage](#usage) above).\n\n## Benchmarks\n\nYou can find speed tests (and comparisons to reference implementations) on the\n[benchmark][bench]. The CPU benchmarks are run on a Mac Book Pro 2020, with a 2.4 GHz\n8-core intel CPU i9. The GPUs benchmark are run on Nvidia V100 with 16GB of memory.\nWe also compare the validity of our implementations, as compared to reference ones like `resampy`\nor `torch.nn.Conv1d`.\n\n\n\n## Running tests\n\nClone this repository, then\n```bash\npip3 install .[dev]'\npython3 tests.py\n```\n\nTo run the benchmarks:\n```\npip3 install .[dev]'\npython3 -m bench.gen\n```\n\n\n## License\n\n`julius` is released under the MIT license.\n\n## Thanks\n\nThis package is named in the honor of\n[Julius O. Smith](https://ccrma.stanford.edu/~jos/),\nwhose books and website were a gold mine of information for me to learn about DSP. Go checkout his website if you want\nto learn more about DSP.\n\n\n[resample]: https://ccrma.stanford.edu/~jos/resample/resample.html\n[resampy]: https://resampy.readthedocs.io/\n[docs]:  https://adefossez.github.io/julius/julius/index.html\n[bench]:  ./bench.md\n",
+        "description_content_type": "text/markdown",
+        "author_email": "Alexandre Défossez <alexandre.defossez@gmail.com>",
+        "license": "MIT License",
+        "classifier": [
+          "License :: OSI Approved :: MIT License",
+          "Topic :: Multimedia :: Sound/Audio",
+          "Topic :: Scientific/Engineering"
+        ],
+        "requires_dist": [
+          "torch>=1.13.0",
+          "coverage>=7.0; extra == 'dev'",
+          "flake8>=5.0; extra == 'dev'",
+          "mypy>=1.0; extra == 'dev'",
+          "numpy>=1.21; extra == 'dev'",
+          "onnx>=1.13; extra == 'dev'",
+          "onnxruntime<1.20,>=1.16; (python_version < '3.10') and extra == 'dev'",
+          "onnxruntime>=1.16; (python_version >= '3.10') and extra == 'dev'",
+          "pdoc3>=0.10; extra == 'dev'",
+          "resampy==0.4.3; extra == 'dev'"
+        ],
+        "requires_python": ">=3.9.0",
+        "project_url": [
+          "Homepage, https://github.com/adefossez/julius"
+        ],
+        "provides_extra": [
+          "dev"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/c7/e2/66f746a6e8227fe7f4a31bac4dc57cbe46eba354b534c5c55efb239c72d2/lameenc-1.9.0-cp312-cp312-win_amd64.whl",
+        "archive_info": {
+          "hash": "sha256=9250049277c59656be8f632a1eb636c8806769fbf4a902d510f1228ca1e550f4",
+          "hashes": {
+            "sha256": "9250049277c59656be8f632a1eb636c8806769fbf4a902d510f1228ca1e550f4"
+          }
+        }
+      },
+      "is_direct": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.4",
+        "name": "lameenc",
+        "version": "1.9.0",
+        "dynamic": [
+          "author",
+          "home-page",
+          "license-file"
+        ],
+        "summary": "LAME encoding bindings",
+        "description": "Python 3 bindings for the LAME encoding library.\r\nThis library makes it simple to encode PCM data into MP3 without having\r\nto compile any binaries.\r\n\r\nProvides binaries in PyPi for Python 3.10+ for Windows, macOS and Linux.\r\n",
+        "description_content_type": "text/markdown",
+        "home_page": "https://github.com/chrisstaite/lameenc",
+        "author": "Chris Staite",
+        "author_email": "Chris Staite <chris@yourdreamnet.co.uk>",
+        "classifier": [
+          "Topic :: Multimedia :: Sound/Audio :: Conversion",
+          "Programming Language :: Python :: 3 :: Only",
+          "Operating System :: MacOS :: MacOS X",
+          "Operating System :: Microsoft :: Windows",
+          "Operating System :: POSIX :: Linux"
+        ],
+        "requires_python": ">=3.10",
+        "project_url": [
+          "Repository, https://github.com/chrisstaite/lameenc"
+        ]
+      }
+    },
+    {
+      "download_info": {
+        "url": "https://files.pythonhosted.org/packages/ae/84/a35d3186507756a7615c1943399386552c280321cc6d31111311522e8280/sphn-0.2.1-cp312-cp312-win_amd64.whl",
+        "archive_info": {
+          "hash": "sha256=ced0ed1b8fb05643d04166707bfb27521d9642b191e1fec75a4c7f6d279aa137",
+          "hashes": {
+            "sha256": "ced0ed1b8fb05643d04166707bfb27521d9642b191e1fec75a4c7f6d279aa137"
+          }
+        }
+      },
+      "is_direct": false,
+      "requested": false,
+      "metadata": {
+        "metadata_version": "2.4",
+        "name": "sphn",
+        "version": "0.2.1",
+        "classifier": [
+          "Programming Language :: Rust",
+          "Programming Language :: Python :: Implementation :: CPython",
+          "Programming Language :: Python :: Implementation :: PyPy"
+        ],
+        "requires_python": ">=3.8"
+      }
+    }
+  ],
+  "environment": {
+    "implementation_name": "cpython",
+    "implementation_version": "3.12.0",
+    "os_name": "nt",
+    "platform_machine": "AMD64",
+    "platform_release": "11",
+    "platform_system": "Windows",
+    "platform_version": "10.0.26200",
+    "python_full_version": "3.12.0",
+    "platform_python_implementation": "CPython",
+    "python_version": "3.12",
+    "sys_platform": "win32"
+  }
+}

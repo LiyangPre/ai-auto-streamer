@@ -2,6 +2,7 @@
 class CharacterFace {
     static expressions={neutral:{smile:.22,squint:0,blush:.12,gaze:0},
         happy:{smile:1,squint:.38,blush:.6,gaze:0},
+        singing:{smile:.7,squint:.5,blush:.4,gaze:0},
         shy:{smile:.6,squint:.18,blush:1,gaze:-.3},
         thinking:{smile:.05,squint:.12,blush:.1,gaze:.45},
         surprised:{smile:.12,squint:-.1,blush:.25,gaze:0}};

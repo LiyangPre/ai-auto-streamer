@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-27",
+  "server": "http://127.0.0.1:8011",
+  "scope": "Isolated local test; mock conversation model; no Bilibili broadcast",
+  "observations": {
+    "short_original_take_visible": true,
+    "uploaded_accompaniment_selected": true,
+    "vocal_offset_seconds": 1,
+    "stage_expression_during_playback": "singing",
+    "stage_title_visible": true,
+    "chat_submitted_during_performance": "演唱时先排队，唱完再回答吧",
+    "replies_before_stop": 0,
+    "replies_after_stop": 1,
+    "pipeline_after_stop": "Ready",
+    "chat_reply_after_stop": "你好你好！欢迎来到直播间～",
+    "stage_expression_after_chat_resumed": "happy"
+  },
+  "automated_checks": {
+    "backend_passed": 112,
+    "frontend_passed": 60,
+    "includes": ["common vocal/backing audio clock", "vocal-only mouth analyser", "concurrent autoplay unlock", "silent thumbnails", "cancelled fetch", "balanced car expression", "chat pause/resume", "local API validation"]
+  },
+  "limitations": "No auditory quality or reference pitch score. Browser stage rendering and lifecycle verified; musical alignment still requires audition against a supplied reference."
+}

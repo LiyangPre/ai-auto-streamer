@@ -6,4 +6,16 @@ __pycache__/
 node_modules/
 .venv/
 data/audio/
+data/songs/
+data/songs-*/
+data/stories/
+data/stories-*/
+data/voice-references/
+data/voice-auditions/
+data/songs-converted/
+.venv-svc/
+.venv-download/
+.venv-separation/
+.tools/
+data/song-sources/
 data/*.log

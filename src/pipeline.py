@@ -15,6 +15,8 @@ from .tts import TTSEngine
 from .action import ActionMapper
 from .safety import SafetyGate
 from .speech_text import chat_readback
+from .stage_activity import StageActivity
+from .welcome import AudienceWelcomes
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +41,15 @@ class Pipeline:
 
         self._last_reply_time: float = 0.0
         self._reply_lock = asyncio.Lock()
+        self.stage = StageActivity()
+        self.performance_idle = self.stage.idle
+        self.ingress_handlers=[]
+        self.performance_resolver=lambda owner:None
+        self.welcomes=AudienceWelcomes(self)
+        self.danmaku_queue.interceptor=self._intercept_ingress
         self._last_activity_time = time.time()
+        self._last_viewer_time = self._last_activity_time
+        self._last_performance_end_time = self._last_activity_time
         self._last_idle_time = self._last_activity_time
         self._last_warmup_time = 0.0
         self._warmup_task = None
@@ -51,6 +61,15 @@ class Pipeline:
                         "first_text_ms": None, "first_audio_ms": None, "warmups": 0}
         self._metrics_generation = 0
         self._metrics_started = 0.0
+
+    @property
+    def performance_active(self):
+        return self.stage.owner is not None
+
+    def _intercept_ingress(self,message):
+        self._last_viewer_time=time.time()
+        if self.welcomes.offer(message):return True
+        return any(handler(message) for handler in tuple(self.ingress_handlers))
 
     @property
     def _is_replying(self) -> bool:
@@ -84,6 +103,7 @@ class Pipeline:
             asyncio.create_task(self._cleanup_loop()),
             asyncio.create_task(self._tick_loop()),
             asyncio.create_task(self._broadcast_loop()),
+            asyncio.create_task(self.welcomes.run()),
         ]
         logger.info("Pipeline started successfully")
 
@@ -118,12 +138,15 @@ class Pipeline:
                 if self.config.reply_interval.enabled else 0,
             "idle_seconds": round(max(0, now - self._last_activity_time)),
             "replying": self._is_replying,
+            "singing": self.stage.owner == 'singing',
+            "active_module": self.stage.owner or 'chat',
             **self.metrics,
         }
 
     async def _process_loop(self):
         while self._running:
             try:
+                await self.performance_idle.wait()
                 if self.config.danmaku_filter.enabled:
                     await self._process_with_filter()
                 else:
@@ -163,6 +186,7 @@ class Pipeline:
         await self._handle_window(collected)
 
     async def _handle_window(self, collected: List[DanmakuMessage]):
+        await self.performance_idle.wait()
         if self._warmup_task and not self._warmup_task.done():
             self._warmup_task.cancel()
             await asyncio.gather(self._warmup_task, return_exceptions=True)
@@ -309,12 +333,17 @@ class Pipeline:
     async def _reply_slot(self, priority: int = 0):
         cfg = self.config.reply_interval
         max_wait = cfg.paid_max_wait if priority else cfg.max_wait
-        try:
-            await asyncio.wait_for(self._reply_lock.acquire(), timeout=max_wait)
-        except asyncio.TimeoutError:
-            await self._emit(type="reply_dropped", reason="reply_slot_timeout", priority=priority)
-            yield False
-            return
+        while True:
+            await self.performance_idle.wait()
+            try:
+                await asyncio.wait_for(self._reply_lock.acquire(), timeout=max_wait)
+            except asyncio.TimeoutError:
+                await self._emit(type="reply_dropped", reason="reply_slot_timeout", priority=priority)
+                yield False
+                return
+            if not self.performance_active:
+                break
+            self._reply_lock.release()
 
         previous_responses = self.metrics["responses"]
         try:
@@ -542,6 +571,8 @@ class Pipeline:
         while self._running:
             await asyncio.sleep(1)
             await self._emit(**self.status())
+            if self.performance_active:
+                continue
             due = self.memory.flush_due_gifts(max_wait=self.config.reply_interval.paid_max_wait)
             for user_id, pending in due:
                 self._spawn(self._thank_gift(user_id, pending))
@@ -564,7 +595,7 @@ class Pipeline:
     def _maybe_warmup(self, now=None):
         now = time.time() if now is None else now
         idle = self.config.idle
-        if (not self._running or not idle.self_talk or not self.tts or not self.ws_clients
+        if (self.performance_active or not self._running or not idle.self_talk or not self.tts or not self.ws_clients
                 or self._is_replying or self._background_tasks or not self.danmaku_queue.empty()
                 or (isinstance(self.collector, BilibiliDanmakuCollector) and not self.collector.connected)
                 or now - self._last_activity_time < idle.self_talk_delay

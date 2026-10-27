@@ -1,0 +1,31 @@
+{
+  "job": {
+    "id": "2ff7d20e32b2414492e428ce82f5e804",
+    "state": "ready",
+    "title": "银龙晚风 · 原创短段测试"
+  },
+  "lyrics_characters": 40,
+  "requested_song": "海屿你 · 马也_Crabbit / Cole先生 (2022)",
+  "test_material": "Original lyrics, not the requested song",
+  "pitch_accuracy_vs_original": "Not measured: reference audio and lyrics have not been supplied",
+  "song": {
+    "id": "2ff7d20e32b2414492e428ce82f5e804",
+    "title": "银龙晚风 · 原创短段测试",
+    "duration": 15.888,
+    "bytes": 190656,
+    "created": 1793081758.1759422,
+    "profile_id": "astra",
+    "voice": "冰糖",
+    "first_audio_ms": 18094,
+    "generation_ms": 18141,
+    "url": "/api/singing/audio/2ff7d20e32b2414492e428ce82f5e804"
+  },
+  "local_audio": "D:\\ai auto streamer\\data\\songs\\2ff7d20e32b2414492e428ce82f5e804.mp3",
+  "asr_check": {
+    "transcript": "晚风把星星吹到窗边，小小的萤虫眨眨双眼，把今天的烦恼放在一边，陪你慢慢走过这条街。",
+    "input_characters": 37,
+    "recognized_characters": 37,
+    "aligned_character_coverage": 0.946,
+    "note": "ASR is approximate; this does not verify melody or pitch."
+  }
+}

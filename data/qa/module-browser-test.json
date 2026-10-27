@@ -1,0 +1,14 @@
+{
+  "backend_passed": 116,
+  "frontend_passed": 63,
+  "module_pose_save": {
+    "module": "singing",
+    "pose": "nod",
+    "expression": "happy",
+    "persisted": true
+  },
+  "observed_stage_expression": "happy",
+  "local_song_replay": true,
+  "backup_checksums_valid": true,
+  "production_broadcast_tested": false
+}

@@ -93,11 +93,11 @@ class ControlPanel {
             if (!response.ok) throw new Error('Configuration unavailable');
             this.config = await response.json();
             const cfg = this.config;
-            this.$('engine-provider').textContent = cfg.provider === 'mock' ? 'Offline mock' : cfg.provider === 'ollama' ? 'Local Ollama' : cfg.provider === 'glm' ? 'GLM · Flash' : 'Cloud API';
+            this.$('engine-provider').textContent = cfg.provider === 'mock' ? 'Offline mock' : cfg.provider === 'ollama' ? 'Local Ollama' : cfg.provider === 'glm' ? 'GLM' : 'Cloud API';
             this.$('engine-note').textContent = cfg.provider === 'mock' ? 'Demo replies · no model required' : cfg.model;
             if (cfg.api_key_required && !cfg.api_key_configured) {
-                this.$('engine-note').textContent = `Add ${cfg.api_key_env} to .env, then restart`;
-                this.$('response-text').textContent = `请在项目 .env 中填写 ${cfg.api_key_env}，保存后重启服务。`;
+                this.$('engine-note').textContent = 'Open API connections to add a key';
+                this.$('response-text').textContent = '请打开 API connections · 接口设置，填写文字 API 密钥并保存。';
                 this.$('response-route').textContent = 'API key required';
             }
             this.$('character-name').textContent = cfg.character;
@@ -157,8 +157,12 @@ class ControlPanel {
     }
 
     handleMessage(data) {
+        if(data.modules)window.dispatchEvent(new Event('studio-modules-changed'));
         switch (data.type) {
+            case 'module_notice': this.toast(data.message); break;
+            case 'module_settings_updated': window.studioControls?.handleProfileEvent(data); break;
             case 'settings_updated': this.loadConfig(); window.studioControls?.handleProfileEvent(data); break;
+            case 'api_connections_updated': this.loadConfig(); window.apiControls?.refreshSummary(); break;
             case 'profiles_updated': window.studioControls?.handleProfileEvent(data); break;
             case 'status': this.updateStatus(data); window.studioControls?.handleProfileEvent(data); break;
             case 'danmaku': this.addToFeed(data.user_name, data.content, false, data.timestamp); break;
@@ -220,7 +224,11 @@ class ControlPanel {
         this.$('cooldown-timer').textContent = `${data.cooldown_remaining.toFixed(1)}s`;
         this.$('idle-timer').textContent = `${data.idle_seconds}s`;
         this.$('dropped-count').textContent = data.dropped;
-        this.$('pipeline-state').textContent = this.config.api_key_required && !this.config.api_key_configured ? 'Add API key' : !data.healthy ? 'Degraded' : data.replying ? 'Responding' : data.cooldown_remaining > 0 ? 'Cooling down' : 'Ready';
+        this.$('pipeline-state').textContent = data.singing ? 'Singing' : this.config.api_key_required && !this.config.api_key_configured ? 'Add API key' : !data.healthy ? 'Degraded' : data.replying ? 'Responding' : data.cooldown_remaining > 0 ? 'Cooling down' : 'Ready';
+        if(data.active_module&&data.active_module!=='chat')this.$('pipeline-state').textContent=data.active_module;
+        window.StudioModules?.setStatus('chat',data.active_module&&data.active_module!=='chat'?'Waiting for stage':data.replying?'Replying':'Ready');
+        window.StudioModules?.setStatus('singing',data.singing?'♫ Singing · 演唱中':'Library ready · 歌库待命');
+        if(data.active_module==='story')window.StudioModules?.setStatus('story','☾ Telling a story · 正在讲故事');
         this.$('reply-count').replaceChildren(document.createTextNode(`${data.responses} `));
         const unit = document.createElement('em'); unit.textContent = 'replies'; this.$('reply-count').append(unit);
         this.$('template-count').textContent = data.templates;

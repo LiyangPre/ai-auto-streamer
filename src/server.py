@@ -12,6 +12,9 @@ from urllib.parse import unquote
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Header, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
+from fastapi.exception_handlers import request_validation_exception_handler
 from pydantic import BaseModel, Field
 from starlette.concurrency import run_in_threadpool
 
@@ -23,6 +26,11 @@ from .tts import TTSEngine
 from .characters import CharacterProfile, library_path, load_library, save_library, duplicate_profile
 from .studio import StrictModel
 from .media import MediaStore, media_directory, LIMITS
+from .music_capture import MusicCaptureHub
+from .api_settings import ConnectionStore, connection_path
+from .api_routes import router as connection_router
+from .modules import MODULES, ModuleRegistry
+from .modules.routes import router as module_router
 
 logger = logging.getLogger(__name__)
 
@@ -40,23 +48,46 @@ async def lifespan(app: FastAPI):
     app.state.characters = load_library(config, app.state.character_path)
     app.state.active_character = app.state.characters.default_id
     app.state.characters.profiles[app.state.active_character].settings(app.state.characters.scene).apply(config)
+    app.state.connections=ConnectionStore(connection_path(app.state.studio_path),config)
+    app.state.connections.load()
+    app.state.connections.apply(config)
+    app.state.runtime_config=config
+    app.state.connection_test_lock=asyncio.Lock()
     app.state.settings_lock = asyncio.Lock()
     app.state.media = MediaStore(media_directory(app.state.studio_path))
     app.state.media_lock = asyncio.Lock()
+    app.state.music_capture = MusicCaptureHub()
     app.state.preview_tts = TTSEngine(config.tts.model_copy(deep=True))
     app.state.preview_lock = asyncio.Lock()
     pipeline = Pipeline(config)
-    await pipeline.start()
+    app.state.pipeline=pipeline
+    app.state.modules = ModuleRegistry(MODULES, app.state)
+    pipeline.performance_resolver=lambda owner:app.state.modules.services.get(owner)
+    await app.state.modules.start()
+    app.state.singing = app.state.modules.service('singing')  # Compatibility for existing local integrations.
 
     logger.info(f"Server started: http://{config.server.host}:{config.server.port}")
     try:
         yield
     finally:
-        await pipeline.stop()
+        await app.state.modules.close()
         await app.state.preview_tts.close()
 
 
 app = FastAPI(lifespan=lifespan)
+app.include_router(connection_router)
+app.include_router(module_router)
+for module in MODULES:
+    if module.router:
+        app.include_router(module.router)
+
+
+@app.exception_handler(RequestValidationError)
+async def private_validation_error(request: Request, error: RequestValidationError):
+    if request.url.path.startswith('/api/connections'):
+        # FastAPI's default validation detail can echo an invalid secret input.
+        return JSONResponse(status_code=422,content={'detail':'Invalid API settings. Check the model, Base URL and key format.'})
+    return await request_validation_exception_handler(request,error)
 
 class DanmakuRequest(BaseModel):
     content: str = Field(min_length=1, max_length=500)
@@ -172,6 +203,8 @@ async def media_file(filename: str):
 
 
 def check_revision(revision, profile_id=None):
+    if pipeline.performance_active:
+        raise HTTPException(409, "请先停止演唱，再修改或切换角色。")
     if revision is not None and revision != app.state.characters.revision:
         raise HTTPException(409, "设置已在其他窗口更新，请丢弃旧草稿并重新读取后再保存。")
     if profile_id is not None and profile_id != app.state.active_character:
@@ -183,10 +216,11 @@ def check_voice(settings):
     settings.voice.apply(candidate)
     if not TTSEngine.provider_ready(candidate):
         variable = {"mimo-tts": "MIMO_API_KEY", "glm-tts": "GLM_API_KEY", "minimax": "MINIMAX_API_KEY"}.get(candidate.engine, "API_KEY")
-        raise HTTPException(422, f"请在项目 .env 中填写 {variable} 并重启，或先关闭该角色的语音。")
+        raise HTTPException(422, f"请在 API connections 中保存对应语音密钥，或在 .env 填写 {variable} 并重启。")
 
 
 async def commit_character_settings(library, active_id, changed=False):
+    previous_story_voice = (config.tts.mimo_model, config.tts.mimo_style)
     settings = library.profiles[active_id].settings(library.scene)
     library.revision += 1
     # Persist the authoritative whole library before changing the running session.
@@ -202,6 +236,13 @@ async def commit_character_settings(library, active_id, changed=False):
     app.state.characters = library
     app.state.active_character = active_id
     settings.apply(config)
+    if previous_story_voice != (config.tts.mimo_model, config.tts.mimo_style):
+        story = app.state.modules.services.get('story')
+        if story and story.busy:
+            # A pending batch captured the old voice. Stop paying for obsolete
+            # clips; the new voice has its own cache and can be prepared next.
+            story.task.cancel()
+            await asyncio.gather(story.task, return_exceptions=True)
     pipeline.action_mapper.config = config.action
     if pipeline.llm:
         pipeline.llm.character = config.character
@@ -224,7 +265,8 @@ async def commit_character_settings(library, active_id, changed=False):
         pipeline.tts = TTSEngine(config.tts)
     else:
         pipeline.tts.config = config.tts
-    result = {"status": "ok", "settings": settings.model_dump(), "profile_context": profile_context(), "profile_changed": changed}
+    result = {"status": "ok", "settings": settings.model_dump(), "profile_context": profile_context(), "profile_changed": changed,
+              "modules": app.state.modules.public()}
     await pipeline._emit(type="settings_updated", **result)
     return result
 
@@ -248,7 +290,12 @@ async def update_studio(settings: StudioSettings,
             # current lines instead of inheriting whichever character runs next.
             if settings.actions.warmup_lines is None:
                 settings.actions.warmup_lines = config.idle.self_talk_prompts.copy()
-            library.profiles[app.state.active_character] = CharacterProfile.from_settings(settings)
+            previous = library.profiles[app.state.active_character]
+            replacement = CharacterProfile.from_settings(settings)
+            replacement.modules = {key: value.model_copy(deep=True) for key, value in previous.modules.items()}
+            replacement.module_options = {key: value.copy() for key, value in previous.module_options.items()}
+            replacement.artwork_id = previous.artwork_id
+            library.profiles[app.state.active_character] = replacement
             library.scene = settings.scene.model_copy(deep=True)
             return await commit_character_settings(library, app.state.active_character)
 
@@ -315,21 +362,24 @@ async def preview_voice(data: VoicePreview):
     preview_config.engine = voice.provider  # Audition also works while live speech is muted.
     if not TTSEngine.provider_ready(preview_config):
         if preview_config.engine == "mimo-tts":
-            raise HTTPException(422, "MiMo 尚未配置。在 .env 填写 MIMO_API_KEY 并重启后即可试听。")
+            raise HTTPException(422, "MiMo 尚未配置。请在控制台 API connections 中填写并保存 MiMo 密钥。")
         if preview_config.engine == "glm-tts":
-            raise HTTPException(422, "GLM 尚未配置。在 .env 填写 GLM_API_KEY 并重启后即可试听。")
-        raise HTTPException(422, "MiniMax 尚未配置。在 .env 填写 MINIMAX_API_KEY 并重启后即可试听。")
+            raise HTTPException(422, "GLM 尚未配置。请在控制台 API connections 中填写并保存 GLM 密钥。")
+        raise HTTPException(422, "MiniMax 尚未配置。请在控制台 API connections 中填写并保存 MiniMax 密钥。")
     async with app.state.preview_lock:
         app.state.preview_tts.config = preview_config
         url = await app.state.preview_tts.synthesize(data.text, "normal")
     if not url:
         raise HTTPException(502, "试听生成失败，请重试。")
     voice_id = {"glm-tts": voice.glm_voice, "mimo-tts": voice.mimo_voice, "minimax": voice.minimax_voice}.get(voice.provider, voice.voice)
-    return {"audio_url": url, "voice": voice_id, "provider": voice.provider}
+    return {"audio_url": url, "voice": voice_id, "provider": voice.provider,
+            "model": preview_config.mimo_model if voice.provider=='mimo-tts' else voice.provider}
 
 
 @app.post("/api/direct-reply")
 async def direct_reply(data: DirectorReply):
+    if pipeline.performance_active:
+        raise HTTPException(409, "请先停止演唱，再播出聊天台词。")
     if not data.text.strip() or not pipeline.safety.allows_output(data.text):
         raise HTTPException(422, "该台词未通过内容检查。")
     if len(pipeline._background_tasks) >= 8:
@@ -444,10 +494,17 @@ async def test_event(data: TestEventRequest):
     return {"status": "ok"}
 
 
+@app.websocket('/ws/music')
+async def music_websocket(websocket: WebSocket):
+    await app.state.music_capture.connect(websocket)
+
+
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
-    await websocket.send_json({**pipeline.status(), "settings": StudioSettings.from_config(config).model_dump(), "profile_context": profile_context()})
+    await websocket.send_json({**pipeline.status(), "settings": StudioSettings.from_config(config).model_dump(), "profile_context": profile_context(),
+                               "modules": app.state.modules.public(), "module_snapshots": app.state.modules.snapshot(),
+                               "performance": app.state.singing.playback})
     pipeline.ws_clients.add(websocket)
     logger.info(f"WebSocket client connected. Total: {len(pipeline.ws_clients)}")
 

@@ -3,6 +3,7 @@
 class CarScene {
     static expressions = {
         normal:    {open:1,    smile:.22, blush:.04, tilt:0,     pout:0,   asym:0,   restOpen:0},
+        singing:   {open:.42,  smile:.65, blush:.30, tilt:0,     pout:0,   asym:0,   restOpen:0},
         happy:     {open:.70,  smile:1,   blush:.38, tilt:0,     pout:0,   asym:0,   restOpen:0},
         shy:       {open:.80,  smile:.48, blush:.85, tilt:0,     pout:0,   asym:0,   restOpen:0},
         sad:       {open:.74,  smile:-.6, blush:.08, tilt:-.065, pout:0,   asym:0,   restOpen:0},
@@ -72,13 +73,14 @@ class CarScene {
         this.expression=Object.hasOwn(CarScene.expressions,name)?name:'normal';this.expressionAge=0;
         this.layer.dataset.expression=this.expression;
     }
+    setSinging(active,expression='singing'){this.singing=!!active;this.setExpression(active?expression:'normal');}
     setAction(action={}) {
         const names={shy:'shy',heart:'shy',laugh:'happy',present:'happy',think:'thinking',cry:'sad',angry:'angry',surprise:'surprised'};
         if(names[action.name])this.setExpression(names[action.name]);
     }
     sample(dt) {
         dt=Math.max(0,Math.min(.1,Number.isFinite(dt)?dt:0));this.expressionAge+=dt;
-        const target=CarScene.expressions[this.expressionAge<8?this.expression:'normal'];
+        const target=CarScene.expressions[this.singing||this.expressionAge<8?this.expression:'normal'];
         const blend=1-Math.exp(-dt*8);
         for(const key of Object.keys(this.current))this.current[key]+=(target[key]-this.current[key])*blend;
         const blink=this.blinkClock.sample(dt).blink;

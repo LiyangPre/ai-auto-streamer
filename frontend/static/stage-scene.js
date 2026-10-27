@@ -3,7 +3,7 @@ class StageScene {
     static backgrounds={moonlit:'moonlit-terrace.png',palace:'royal-palace.png',garden:'rose-garden.png'};
     static defaults={background:'moonlit',effect:'clouds',weather_amount:.45,dim:.10,
         companions:true,car_motion:true,car_vibration:true,bottom_blur:4,character_x:0,character_y:0,character_scale:1,
-        subtitle_seconds:4,music_enabled:true,music_volume:.18,background_asset:null,music_asset:null};
+        subtitle_seconds:4,music_enabled:true,music_source:'file',music_volume:.18,background_asset:null,music_asset:null};
     static normalize(value={}) {
         const number=(key,min,max)=>Number.isFinite(value[key])?Math.max(min,Math.min(max,value[key])):StageScene.defaults[key];
         const asset=key=>typeof value[key]==='string'&&/^[a-f0-9]{32}$/.test(value[key])?value[key]:null;
@@ -19,6 +19,7 @@ class StageScene {
             character_scale:number('character_scale',.4,2),
             subtitle_seconds:number('subtitle_seconds',1,20),
             music_enabled:typeof value.music_enabled==='boolean'?value.music_enabled:StageScene.defaults.music_enabled,
+            music_source:value.music_source==='system'?'system':'file',
             music_volume:number('music_volume',0,.4)};
     }
     static placement(value) {

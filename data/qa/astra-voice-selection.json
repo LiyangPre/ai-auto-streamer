@@ -1,0 +1,28 @@
+{
+  "selected_candidate": "B",
+  "variant": "original",
+  "name": "温柔自然",
+  "model": "mimo-v2.5-tts-voicedesign",
+  "profile_revision": 9,
+  "profile_saved": true,
+  "legacy_settings_saved": true,
+  "project_defaults_saved": true,
+  "other_profiles_and_shared_stage_unchanged": true,
+  "reference": {
+    "path": "data/voice-references/astra-voicedesign.wav",
+    "status": "approved_original_B",
+    "approved": true,
+    "candidate_id": "B",
+    "name": "温柔自然",
+    "model": "mimo-v2.5-tts-voicedesign",
+    "style": "成年女性，自然柔和的中音声线，温暖、轻松、亲切，像朋友在安静地聊天。声音有真实的呼吸感和轻微笑意，语速自然，表达细腻，咬字清晰，不使用童声，不用播音腔。",
+    "source_audition": "data/voice-auditions/astra-B.mp3",
+    "source_sha256": "5cfa939b82c57de581a07e03d283c794ff5f45fd7dbd9d2266b847c9925f8464",
+    "reference_sha256": "fe7dedf958b0741b63faaa1746588dc4e556904ff68a2238d24a45b297a85916",
+    "duration_seconds": 7.896,
+    "sample_rate": 24000,
+    "channels": 1
+  },
+  "song_conversion": "paused",
+  "runtime_update": "server_8000_offline_applies_on_next_launch"
+}

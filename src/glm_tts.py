@@ -3,6 +3,7 @@ import base64
 import json
 
 import lameenc
+from .provider_network import check_response
 
 
 async def glm_audio_chunks(client, text, config, key):
@@ -22,8 +23,7 @@ async def glm_audio_chunks(client, text, config, key):
     async with client.stream("POST", "https://open.bigmodel.cn/api/paas/v4/audio/speech",
                              headers={"Authorization": f"Bearer {key}"}, json=body,
                              timeout=config.timeout) as response:
-        if response.status_code != 200:
-            raise ValueError(f"GLM voice HTTP {response.status_code}")
+        await check_response(response)
         async for line in response.aiter_lines():
             if not line.startswith("data:"):
                 if line.lstrip().startswith("{"):

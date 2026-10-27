@@ -1,0 +1,9 @@
+{
+  "library_ready": 10,
+  "welcome_batch_count": 5,
+  "welcome_selected_names": 3,
+  "scope": "Isolated local test; arrival welcome was text-only with live chat TTS off. Actual voice-design greeting measured separately.",
+  "resume_ack_received": true,
+  "natural_completion_ack_received": true,
+  "returned_to_chat": true
+}

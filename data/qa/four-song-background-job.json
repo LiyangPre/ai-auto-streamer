@@ -1,0 +1,56 @@
+{
+  "status": {
+    "state": "preparing",
+    "stage": "separating",
+    "ready": 0,
+    "total": 4,
+    "message": "50 steps; 1 conversion workers; source melody and timing preserved.",
+    "current_title": "起风了-买辣椒也用券",
+    "started": 1793098302.2615054,
+    "updated": 1793098362.6108983,
+    "pid": 8408
+  },
+  "worker": {
+    "state": "preparing",
+    "stage": "separating",
+    "ready": 0,
+    "total": 4,
+    "current_title": "起风了-买辣椒也用券",
+    "message": "50 steps; 1 conversion workers; source melody and timing preserved.",
+    "started": 1793098302.2615054,
+    "updated": 1793098362.6108983,
+    "pid": 8408,
+    "workers": 1,
+    "requested_workers": 1,
+    "worker_ceiling": 12,
+    "diffusion_steps": 50,
+    "worker_pids": [
+      30676,
+      18404
+    ],
+    "separated": 0,
+    "converted": 0
+  },
+  "voice_signature": "a101d653e4aace6c67b7ced25cc0157abe1b1e909864c9852e1ef399bf0c0c1a",
+  "stories_ready": 10,
+  "tracks": [
+    {
+      "bvid": "BV1D64y1Z7Ko",
+      "title": "起风了"
+    },
+    {
+      "bvid": "BV1y82uB2ET4",
+      "title": "小幸运"
+    },
+    {
+      "bvid": "BV1A3411J7HX",
+      "title": "告白气球"
+    },
+    {
+      "bvid": "BV1f59QBGEhx",
+      "title": "大鱼"
+    }
+  ],
+  "completed_songs": 0,
+  "scope": "background preparation running; full songs not complete yet"
+}

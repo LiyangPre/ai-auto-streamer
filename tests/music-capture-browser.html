@@ -1,0 +1,50 @@
+<!doctype html><meta charset="utf-8"><title>Music capture integration test</title>
+<h1>Music bridge · browser integration test</h1>
+<p>Uses a synthetic tone and muted HTML audio. No microphone, display capture or cloud API.</p>
+<button id="run">Run local audio test</button><pre id="result">Ready</pre>
+<script src="/static/music-capture.js"></script><script src="/static/stage-presentation.js"></script>
+<script>
+const report=document.querySelector('#result');
+const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+const until=async predicate=>{for(let i=0;i<160;i++){if(await predicate())return;await wait(100);}throw Error('Timed out');};
+const check=(condition,label)=>{if(!condition)throw Error(label);report.textContent+='\nPASS '+label;};
+document.querySelector('#run').onclick=async()=>{
+    document.querySelector('#run').disabled=true;report.textContent='Running…';
+    let context,source,stage,oscillator;
+    const NativeAudio=window.Audio;
+    window.Audio=function(...args){const audio=new NativeAudio(...args);audio.muted=true;return audio;};
+    try {
+        context=new AudioContext();await context.resume();
+        oscillator=context.createOscillator();oscillator.frequency.value=220;
+        const destination=context.createMediaStreamDestination();oscillator.connect(destination);oscillator.start();
+        const settings={music_source:'system',music_enabled:true,music_volume:.2};
+        stage=new StageMusic();stage.configure(settings);
+        const publish=()=>{source=new MusicBridge({stream:destination.stream});source.start();};
+        publish();await until(()=>stage.audio?.readyState>=2&&!stage.audio.paused);
+        check(stage.audio.srcObject?.getAudioTracks().length===1,'remote audio arrives in the production music player');
+        const analyser=context.createAnalyser(),input=context.createMediaStreamSource(stage.audio.srcObject);
+        input.connect(analyser);const samples=new Float32Array(2048);let rms=0;
+        await until(()=>{analyser.getFloatTimeDomainData(samples);rms=Math.sqrt(samples.reduce((s,x)=>s+x*x,0)/samples.length);return rms>.01;});
+        check(rms>.01,'received audio contains decoded signal');
+        const outputPeer=stage.bridge.peers.get('source');
+        check(outputPeer.getReceivers().every(r=>r.track.kind==='audio'),'only audio is transmitted');
+        await wait(1300);check(Math.abs(stage.audio.volume-.2)<.001,'configured output gain');
+        stage.setSpeaking(true);await wait(280);check(Math.abs(stage.audio.volume-.05)<.001,'voice ducks capture to 25%');
+        stage.setSpeaking(false);await wait(1300);check(Math.abs(stage.audio.volume-.2)<.001,'gain restores after speech');
+        const bridge=stage.bridge;stage.configure(settings);check(stage.bridge===bridge,'profile reapply preserves capture');
+        source.stop();await until(()=>stage.audio.paused&&stage.audio.srcObject===null);
+        check(true,'publisher stop silences output');
+        publish();await until(()=>stage.audio.srcObject&&!stage.audio.paused);
+        check(true,'new publisher reconnects without reloading output');
+        stage.bridge.retry();await until(()=>stage.audio.srcObject&&!stage.audio.paused);
+        check(true,'receiver connection recovers');
+        stage.configure({...settings,music_source:'file'});
+        check(stage.audio.srcObject===null&&stage.audio.loop&&!stage.bridge,'file mode releases live capture');
+        stage.configure(settings);await until(()=>stage.audio.srcObject&&!stage.audio.paused);
+        stage.configure({...settings,music_enabled:false});
+        check(stage.audio.paused&&!stage.bridge,'music off disconnects the receiver');
+        report.textContent+='\nALL PASSED';
+    } catch(error){report.textContent+='\nFAIL '+error.message;}
+    finally {source?.stop();stage?.dispose();oscillator?.stop();await context?.close();window.Audio=NativeAudio;document.querySelector('#run').disabled=false;}
+};
+</script>

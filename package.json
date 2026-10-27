@@ -2,7 +2,7 @@
   "name": "ai-auto-streamer-frontend",
   "private": true,
   "scripts": {
-    "test": "node --test tests/test_client.cjs tests/test_motion.cjs tests/test_rig.cjs tests/test_face.cjs tests/test_scene.cjs tests/test_presentation.cjs tests/test_car.cjs tests/test_car_drive.cjs",
+    "test": "node --test tests/test_client.cjs tests/test_motion.cjs tests/test_rig.cjs tests/test_face.cjs tests/test_scene.cjs tests/test_presentation.cjs tests/test_car.cjs tests/test_car_drive.cjs tests/test_music_capture.cjs tests/test_singing.cjs tests/test_modules.cjs",
     "build:vrm": "esbuild frontend/static/vrm-renderer.js --bundle --format=esm --minify --legal-comments=eof --outfile=frontend/static/vendor/vrm-renderer.bundle.js"
   },
   "dependencies": {

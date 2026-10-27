@@ -1,0 +1,31 @@
+{
+  "job": {
+    "id": "67637d4f46bd4ed29014b01ef86e210f",
+    "state": "ready",
+    "title": "银龙晚风 · 原创长篇测试"
+  },
+  "lyrics_characters": 362,
+  "requested_song": "海屿你 · 马也_Crabbit / Cole先生 (2022)",
+  "test_material": "Original lyrics, not the requested song",
+  "pitch_accuracy_vs_original": "Not measured: reference audio and lyrics have not been supplied",
+  "song": {
+    "id": "67637d4f46bd4ed29014b01ef86e210f",
+    "title": "银龙晚风 · 原创长篇测试",
+    "duration": 75.576,
+    "bytes": 906912,
+    "created": 1793081467.1073825,
+    "profile_id": "astra",
+    "voice": "冰糖",
+    "first_audio_ms": 71219,
+    "generation_ms": 71219,
+    "url": "/api/singing/audio/67637d4f46bd4ed29014b01ef86e210f"
+  },
+  "local_audio": "D:\\ai auto streamer\\data\\songs\\67637d4f46bd4ed29014b01ef86e210f.mp3",
+  "asr_check": {
+    "transcript": "晚风把星星吹到窗边，小小的萤虫眨眨双眼，把今天的烦恼放在一边，陪你慢慢走过这条街。啦啦啦，把月光装进口袋。啦啦啦，好心情跟着你来。让微笑陪着星光轻轻摇摆，明天的故事我们慢慢猜。晚风把星星吹到窗边，小小的萤虫眨眨双眼，把今天的烦恼放在一边，陪你慢慢走过这条街。啦啦啦，把月光装进口袋。啦啦啦，好心情跟着你来。让微笑陪着星光轻轻摇摆，明天的故事我们慢慢猜。",
+    "input_characters": 316,
+    "recognized_characters": 156,
+    "aligned_character_coverage": 0.481,
+    "note": "ASR is approximate and cannot verify pitch accuracy."
+  }
+}

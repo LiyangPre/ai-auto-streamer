@@ -16,13 +16,19 @@ function fixture() {
         play(){this.paused=false;this.onplaying?.();return Promise.resolve();}
         pause(){this.paused=true;}
     }
-    const sandbox={window:{},Audio,document:{body:{appendChild(){}}},performance:{now:()=>time},
+    const bridges=[];
+    class MusicBridge {
+        constructor(options){this.options=options;bridges.push(this);}
+        start(){this.running=true;}
+        stop(){this.running=false;this.options.onStream(null);}
+    }
+    const sandbox={window:{MusicBridge,RTCPeerConnection:true},Audio,document:{body:{appendChild(){}}},performance:{now:()=>time},
         setTimeout:(f,m)=>add(f,m,0),clearTimeout:k=>jobs.delete(k),
         setInterval:(f,m)=>add(f,m,m),clearInterval:k=>jobs.delete(k)};
     vm.createContext(sandbox);vm.runInContext(fs.readFileSync('frontend/static/stage-presentation.js','utf8'),sandbox);
     const classes=new Set(['empty']);
     const element={textContent:'',classList:{add:k=>classes.add(k),remove:k=>classes.delete(k),contains:k=>classes.has(k)}};
-    return {...sandbox.window,element,advance,audios,jobs};
+    return {...sandbox.window,element,advance,audios,jobs,bridges};
 }
 test('subtitles wait for all queued speech, then expire after the configured hold',()=>{
     const f=fixture(),s=new f.StageSubtitles(f.element,4);
@@ -61,6 +67,30 @@ test('music ducks only when speaking and returns smoothly, using a separate loop
 test('controller previews never create music players, even when preview voice is unmuted',()=>{
     const f=fixture(),m=new f.StageMusic({preview:true});m.configure({music_enabled:true,music_volume:.4});
     m.unlock();m.setSpeaking(true);assert.equal(f.audios.length,0);
+});
+
+test('live capture replaces file audio, ducks, stays shared, and stops on mute or disconnect',()=>{
+    const f=fixture(),m=new f.StageMusic(),settings={music_source:'system',music_enabled:true,music_volume:.2};
+    m.configure(settings);assert.equal(f.audios.length,0);assert.equal(f.bridges.length,1);
+    const stream={id:'music-only'};f.bridges[0].options.onStream(stream);f.advance(1200);
+    assert.equal(m.audio.srcObject,stream);assert.equal(m.audio.loop,false);assert.equal(m.audio.volume,.2);
+    m.setSpeaking(true);f.advance(240);assert.equal(m.audio.volume,.05);
+    m.configure(settings);assert.equal(f.bridges.length,1,'character changes preserve shared capture');
+    f.bridges[0].options.onStream(null);assert.equal(m.audio.paused,true);
+    f.bridges[0].options.onStream(stream);f.advance(240);assert.equal(m.audio.paused,false);
+    m.setMuted(true);assert.equal(f.bridges[0].running,false);assert.equal(m.audio.srcObject,null);
+    m.setMuted(false);assert.equal(f.bridges.length,2);
+    m.configure({...settings,music_source:'file'});f.advance(240);
+    assert.equal(f.bridges[1].running,false);assert.equal(m.audio.loop,true);assert.equal(m.audio.paused,false);
+    assert.equal(m.audio.src,'/static/music/conversation-lounge.mp3');
+    m.dispose();assert.equal(f.jobs.size,0);
+});
+
+test('preview and disabled music never subscribe to capture',()=>{
+    const f=fixture(),settings={music_source:'system',music_enabled:true,music_volume:.2};
+    const preview=new f.StageMusic({preview:true});preview.configure(settings);preview.unlock();preview.setMuted(false);
+    const off=new f.StageMusic();off.configure({...settings,music_enabled:false});off.unlock();
+    assert.equal(f.bridges.length,0);assert.equal(f.audios.length,0);
 });
 
 test('uploaded tracks loop and duck, change only when selected, and preserve playback across character changes',()=>{

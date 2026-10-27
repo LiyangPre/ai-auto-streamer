@@ -1,0 +1,7 @@
+{
+  "model": "mimo-v2.5-tts-voicedesign",
+  "text": "欢迎新来的朋友，晚上好呀。我们刚讲到合租屋的小故事，一起听吧。",
+  "generation_ms": 5610,
+  "audio_url": "/audio/tts_1793090357842_befd9b1c.mp3",
+  "error": null
+}

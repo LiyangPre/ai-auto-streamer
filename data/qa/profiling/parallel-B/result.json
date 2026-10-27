@@ -1,0 +1,39 @@
+{
+  "status": "failed",
+  "worker_id": "B",
+  "pid": 28260,
+  "steps": 30,
+  "threads": 4,
+  "source_seconds": 4.0,
+  "source_sha256": "068eb9411d1307e884e48a0dc586136d6a0d9cda3fb3f51eee208f8380146a63",
+  "full_reference_sha256": "dfa57c37f8e304681f6cc3fa9e7d0370a598b00842a8461bbb035cd0fbb16c8a",
+  "reference_seconds": 8,
+  "torch": "2.4.1+cpu",
+  "fp16": false,
+  "f0_condition": true,
+  "auto_f0_adjust": false,
+  "length_adjust": 1.0,
+  "semitone_shift": 0,
+  "model_load_seconds": 7.853393199999118,
+  "conversion_started_monotonic": 89216.7755257,
+  "conversion_ended_monotonic": 89375.5158704,
+  "conversion_seconds": 158.7403447000106,
+  "output": {
+    "path": "D:\\ai auto streamer\\data\\qa\\profiling\\parallel-B\\output\\vc_astra-benchmark-real-source_astra-current-reference-8s_1.0_30_0.7.wav",
+    "finite": true,
+    "samples": 176128,
+    "sample_rate": 44100,
+    "peak": 0.6295263171195984,
+    "rms": 0.13378796552353864,
+    "baseline_shape_equal": true,
+    "baseline_max_absolute_sample_difference": 0.0001690313220024109
+  },
+  "pitch": {
+    "voiced_intersection_frames": 336,
+    "median_absolute_semitones": 0.08603886167651068,
+    "p90_absolute_semitones": 0.38532435035211837,
+    "within_one_semitone_fraction": 0.9940476190476191
+  },
+  "error_type": "ArgumentError",
+  "error": "argument 1: OverflowError: int too long to convert"
+}

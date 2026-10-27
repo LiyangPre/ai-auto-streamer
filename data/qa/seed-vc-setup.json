@@ -1,0 +1,192 @@
+{
+  "engine": "Seed-VC v1 SVC",
+  "stage": "benchmarked_current_voice",
+  "source_commit": "51383efd921027683c89e5348211d93ff12ac2a8",
+  "runner": ".tools/seed-vc/inference.py",
+  "python": ".venv-svc/Scripts/python.exe",
+  "cpu": "Intel Core i7-13700",
+  "physical_cores": 16,
+  "logical_processors": 24,
+  "ram_gib": 31.8,
+  "gpu": "Intel UHD 770; no CUDA",
+  "torch": "2.4.1+cpu",
+  "torchaudio": "2.4.1+cpu",
+  "project_runtime_unchanged": true,
+  "patches": [
+    "Lazy import DAC only when vector quantization is requested; v1 SVC does not use DAC",
+    "Load Whisper in float32 on CPU",
+    "Keep all Hugging Face/transformer caches inside isolated checkout and disable implicit credentials",
+    "Reject known-broken WindowsCPU torch2.4.0; standard fixed2.4.1 inference",
+    "Optional lossless overlapping-chunk checkpoints preserve timeline and RNG across interruption"
+  ],
+  "benchmark": {
+    "status": "complete",
+    "source": ".tools\\seed-vc\\astra-benchmark-real-source.wav",
+    "source_kind": "real separated vocal excerpt from first recording",
+    "source_stem": "data\\songs-converted\\BV1D64y1Z7Ko\\benchmark\\vocals.wav",
+    "source_recording_offset_seconds": 52.0,
+    "voice_role": "approved current saved profile voice",
+    "reference": "data\\voice-references\\astra-current-voice.wav",
+    "reference_sha256": "dfa57c37f8e304681f6cc3fa9e7d0370a598b00842a8461bbb035cd0fbb16c8a",
+    "reference_excerpt_seconds": 8,
+    "torch_sdpa_backend": "default_fixed_torch241",
+    "reference_excerpt_sha256": "f7444f2c924c89ec3438fe319342346e4aaeb6c9e5ee2490ff91854e7511dc29",
+    "source_seconds": 4,
+    "threads": 6,
+    "f0_condition": true,
+    "auto_f0_adjust": false,
+    "length_adjust": 1.0,
+    "semitones": 0,
+    "fp16": false,
+    "runs": [
+      {
+        "diffusion_steps": 10,
+        "wall_seconds": 70.547,
+        "source_seconds": 4,
+        "output_seconds": 3.993832,
+        "sample_rate": 44100,
+        "peak": 0.9146403670310974,
+        "rms": 0.1541586899559416,
+        "valid_audio": true,
+        "rtf_including_reference_features": 17.637,
+        "output": ".tools\\seed-vc\\astra-benchmark\\vc_astra-benchmark-real-source_astra-current-reference-8s_1.0_10_0.7.wav",
+        "pitch_comparison": {
+          "method": "RMVPE source/output aligned10ms frames",
+          "voiced_intersection_frames": 336,
+          "compared_frames": 400,
+          "source_voiced_frames": 343,
+          "output_voiced_frames": 337,
+          "median_signed_semitones": 0.01324500977848004,
+          "median_absolute_semitones": 0.08924602776116876,
+          "p90_absolute_semitones": 0.41601781370353325,
+          "within_one_semitone_fraction": 0.9940476190476191,
+          "limitation": "4second real separated vocal excerpt only; no proof of fullsong quality or timbre match"
+        }
+      },
+      {
+        "diffusion_steps": 30,
+        "wall_seconds": 89.594,
+        "source_seconds": 4,
+        "output_seconds": 3.993832,
+        "sample_rate": 44100,
+        "peak": 0.6295263171195984,
+        "rms": 0.13378798749103332,
+        "valid_audio": true,
+        "rtf_including_reference_features": 22.398,
+        "output": ".tools\\seed-vc\\astra-benchmark\\vc_astra-benchmark-real-source_astra-current-reference-8s_1.0_30_0.7.wav",
+        "pitch_comparison": {
+          "method": "RMVPE source/output aligned10ms frames",
+          "voiced_intersection_frames": 336,
+          "compared_frames": 400,
+          "source_voiced_frames": 343,
+          "output_voiced_frames": 337,
+          "median_signed_semitones": 0.009190405585076057,
+          "median_absolute_semitones": 0.08603676149519238,
+          "p90_absolute_semitones": 0.3853308025564737,
+          "within_one_semitone_fraction": 0.9940476190476191,
+          "limitation": "4second real separated vocal excerpt only; no proof of fullsong quality or timbre match"
+        }
+      }
+    ],
+    "model_load_seconds": 11.985,
+    "source_excerpt_sha256": "068eb9411d1307e884e48a0dc586136d6a0d9cda3fb3f51eee208f8380146a63"
+  },
+  "inference_import_verified": true,
+  "model_assets_complete": true,
+  "model_asset_count": 9,
+  "model_asset_bytes": 2486313240,
+  "model_manifest": ".tools/seed-vc/astra-model-manifest.json",
+  "voice_reference_approved": true,
+  "conversion_run": true,
+  "separation_plan": {
+    "recommended": "Demucs 4.1.0 htdemucs CPU",
+    "status": "Demucs4.1.0 real excerpt validated after isolated Torch2.4.1 fix; fullstemworker owned byroot",
+    "pipeline": [
+      "decode recording to lossless stereo WAV",
+      "separate vocals and accompaniment",
+      "convert vocals using approved reference while preserving F0 and duration",
+      "remix with original accompaniment",
+      "save separate converted-vocal guide for lip sync"
+    ]
+  },
+  "voice_candidate": "current-profile",
+  "approved_reference_sha256": "dfa57c37f8e304681f6cc3fa9e7d0370a598b00842a8461bbb035cd0fbb16c8a",
+  "benchmark_history": [
+    {
+      "status": "failed_nonfinite_audio",
+      "source": "old original acapella mini-song, NOT downloaded recordings",
+      "voice_role": "provisional technical benchmark only; current profile voice may differ",
+      "source_seconds": 4,
+      "threads": 6,
+      "f0_condition": true,
+      "auto_f0_adjust": false,
+      "length_adjust": 1.0,
+      "semitones": 0,
+      "fp16": false,
+      "runs": [
+        {
+          "diffusion_steps": 10,
+          "wall_seconds": 99.094,
+          "source_seconds": 4,
+          "output_seconds": 3.993832,
+          "sample_rate": 44100,
+          "peak": null,
+          "rtf_including_reference_features": 24.773,
+          "output": ".tools\\seed-vc\\astra-benchmark\\vc_astra-benchmark-source_astra-technical-reference-B_1.0_10_0.7.wav",
+          "valid_audio": false
+        }
+      ],
+      "model_load_seconds": 6.859,
+      "error": "Fused CPU attention produced NaN;30step run stopped"
+    }
+  ],
+  "runtime_fix": {
+    "previous_torch": "2.4.0+cpu",
+    "verified_torch": "2.4.1+cpu",
+    "reason": "Known WindowsCPU numeric regression; standalone operations and CAMPPlus thread parity now pass",
+    "official_issue": "https://github.com/pytorch/pytorch/issues/131958",
+    "diagnostic": "data/qa/cpu-math-torch241.json",
+    "campplus_diagnostic": ".tools/seed-vc/astra-debug-cpu-torch241.log",
+    "main_application_environment_modified": false
+  },
+  "checkpoint_compatibility": {
+    "status": "passed",
+    "active_parameters_matched": 267,
+    "missing_active_parameters": 0,
+    "mismatched_active_parameters": 0,
+    "unused_legacy_wavenet_head_keys": 10,
+    "regenerated_buffer": "input_pos8192→16384",
+    "details": ".tools/seed-vc/astra-checkpoint-compatibility.json"
+  },
+  "batch_runner": {
+    "status": "ready_not_launched_by_setup_agent",
+    "path": "scripts/seed_vc_batch.py",
+    "command": "& '.\\.venv-svc\\Scripts\\python.exe' -X utf8 '.\\scripts\\seed_vc_batch.py' --steps 30 --threads 6 --watch",
+    "command_argv": [
+      ".venv-svc/Scripts/python.exe",
+      "-X",
+      "utf8",
+      "scripts/seed_vc_batch.py",
+      "--steps",
+      "30",
+      "--threads",
+      "6",
+      "--watch"
+    ],
+    "wait_alias": "--wait-for-stems",
+    "reference_policy": "approved metadata and currentmanifest hash must match;8second excerpt of samevoice",
+    "chunk_resume": "official overlap/crossfade pieces, overlap tail and CPU RNG state cached atomically by source/reference/settings fingerprint",
+    "resume_tests": {
+      "disk_rng_integrity_tests": 3,
+      "official_loop_interruption_integration_tests": 1,
+      "integration_result": "sample-identical resumed twochunk output; completed cache skips all neural chunks"
+    },
+    "output_contract": [
+      "converted-vocals.wav atomic FLOAT mono44.1k",
+      "conversion.json status:ready and exactreference SHA",
+      "conversion-state.json state/stage/ready/total/current_title/updated/pid/processed_audio_seconds/elapsed_seconds/estimated_seconds_remaining"
+    ],
+    "full_track_conversion_started": false,
+    "publisher_owner": "root agent"
+  }
+}

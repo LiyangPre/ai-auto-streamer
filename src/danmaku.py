@@ -45,8 +45,10 @@ class MessageQueue(asyncio.Queue):
     def __init__(self, maxsize=100):
         super().__init__(maxsize=maxsize)
         self.dropped = 0
+        self.interceptor = None
 
     def offer(self, message: DanmakuMessage) -> bool:
+        if self.interceptor and self.interceptor(message):return True
         if not self.full():
             super().put_nowait(message)
             return True

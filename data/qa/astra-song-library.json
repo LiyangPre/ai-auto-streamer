@@ -1,0 +1,50 @@
+{
+  "original_material": true,
+  "songs": [
+    {
+      "id": "402f344ee19445db92ced6772d545a66",
+      "title": "星星顺风车",
+      "voice": "冰糖",
+      "duration": 19.896,
+      "generation_ms": 20047,
+      "asr": {
+        "transcript": "晚风坐上星星的车，一路哼着轻轻的歌，路过云朵和一条小河，今天的快乐分你一半吧。",
+        "aligned_character_coverage": 0.943,
+        "not_pitch_verification": true
+      }
+    },
+    {
+      "id": "1771603c4f0944b9a45065f63c489793",
+      "title": "云朵口袋",
+      "voice": "冰糖",
+      "duration": 12.864,
+      "generation_ms": 16078,
+      "asr": {
+        "transcript": "把小小云朵装进口袋，带着好心情向你走来。如果今天有一点疲惫，就让这首小歌陪你发呆。",
+        "aligned_character_coverage": 1.0,
+        "not_pitch_verification": true
+      }
+    },
+    {
+      "id": "8f62b9d981bd48aea59d571061ab2334",
+      "title": "晚安小银龙",
+      "voice": "冰糖",
+      "duration": 17.328,
+      "generation_ms": 17907,
+      "asr": {
+        "transcript": "月亮悄悄关上了窗，星星守着你的梦乡。小云龙把烦恼轻轻藏，晚安，愿你醒来都是晴朗。",
+        "aligned_character_coverage": 0.943,
+        "not_pitch_verification": true
+      }
+    }
+  ],
+  "backup": {
+    "id": "4cba684e0acf4ed0af379737abe99b3b",
+    "profile_id": "astra",
+    "count": 5,
+    "bytes": 1710954,
+    "filename": "astra-songs-20261027-143945.zip",
+    "url": "/api/singing/backups/astra/4cba684e0acf4ed0af379737abe99b3b"
+  },
+  "note": "Pre-generated audio, awaiting human musical-quality audition; no exact-cover or pitch claim."
+}

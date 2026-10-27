@@ -6,6 +6,7 @@ class StudioControls {
         this.$('voice-audition-player').hidden = true;
         this.tab = 'identity';
         this.media = new SharedMediaControls(this);
+        this.capture = new MusicCaptureControls(this);
         this.labels = {normal:'平静',happy:'开心',sad:'难过',angry:'生气',surprised:'惊讶',thinking:'思考'};
         document.querySelectorAll('[data-open-direction]').forEach(button => button.addEventListener('click', () => this.open(button.dataset.openDirection)));
         document.querySelectorAll('[data-direction-tab]').forEach(button => button.addEventListener('click', () => this.selectTab(button.dataset.directionTab)));
@@ -77,13 +78,13 @@ class StudioControls {
             data.mimo_voices.forEach(voice => { const option = document.createElement('option'); option.value = voice.id; option.textContent = voice.name; this.$('mimo-voice-select').append(option); });
             this.$('mimo-provider-status').textContent = data.mimo_ready
                 ? '已配置 MiMo 密钥 · 可以试听，保存后用于直播。'
-                : '在项目 .env 填写 MIMO_API_KEY 并重启后即可试听。';
+                : '在控制台 API connections 中保存 MiMo 密钥后即可试听。';
             this.$('glm-provider-status').textContent = data.glm_ready
-                ? '已配置 GLM 密钥 · 与文本模型共用，语音另行计费。'
-                : '在项目 .env 填写 GLM_API_KEY 并重启，与 GLM 文本模型共用。';
+                ? '已配置 GLM 密钥 · 语音另行计费。'
+                : '在控制台 API connections 中保存 GLM 密钥，可复用 GLM 文本密钥。';
             this.$('voice-provider-status').textContent = data.minimax_ready
                 ? 'MiniMax 已配置 · 试听与直播语音按量计费。'
-                : 'MiniMax 未配置 · 在项目 .env 填写 MINIMAX_API_KEY 并重启服务。免费声音可直接试听。';
+                : 'MiniMax 未配置 · 在控制台 API connections 中保存 MiniMax 密钥。';
             this.$('emotion-mapping-fields').replaceChildren();
             for (const [emotion,label] of Object.entries(this.labels)) {
                 const field = document.createElement('label'); field.textContent = label;
@@ -146,6 +147,7 @@ class StudioControls {
         this.$('voice-provider').value = s.voice.provider;
         this.$('glm-voice-select').value = s.voice.glm_voice;
         this.$('mimo-voice-select').value = s.voice.mimo_voice;
+        this.$('mimo-model').value = s.voice.mimo_model||'mimo-v2.5-tts-voicedesign';
         this.$('mimo-voice-style').value = s.voice.mimo_style;
         this.$('minimax-voice-select').value = s.voice.minimax_voice;
         this.$('minimax-pitch').value = s.voice.minimax_pitch;
@@ -166,7 +168,7 @@ class StudioControls {
         return {voice:this.$('voice-select').value, rate:+this.$('voice-rate').value, pitch:+this.$('voice-pitch').value,
             provider:this.$('voice-provider').value, minimax_voice:this.$('minimax-voice-select').value, minimax_pitch:+this.$('minimax-pitch').value,
             glm_voice:this.$('glm-voice-select').value,
-            mimo_voice:this.$('mimo-voice-select').value, mimo_style:this.$('mimo-voice-style').value,
+            mimo_voice:this.$('mimo-voice-select').value, mimo_style:this.$('mimo-voice-style').value, mimo_model:this.$('mimo-model').value,
             volume:+this.$('voice-volume').value, enabled:this.$('voice-enabled').checked,
             expressive:this.$('voice-expressive').checked, delivery:this.$('voice-delivery').value};
     }
@@ -182,6 +184,7 @@ class StudioControls {
     }
     outputs() {
         const provider = this.$('voice-provider').value;
+        this.$('mimo-voice-select').disabled=this.$('mimo-model').value==='mimo-v2.5-tts-voicedesign';
         document.querySelectorAll('[data-voice-provider]').forEach(field => {field.hidden = field.dataset.voiceProvider !== provider;});
         this.$('voice-expressive-field').hidden = ['glm-tts','mimo-tts'].includes(provider);
         this.$('voice-numeric-controls').hidden = provider === 'mimo-tts';
@@ -216,6 +219,7 @@ class StudioControls {
         this.$('scene-subtitle-value').textContent=this.$('scene-subtitle').value+'s';
         this.$('scene-music-volume-value').textContent=Math.round(+this.$('scene-music-volume').value*100)+'%';
         this.$('scene-music-volume').disabled=!this.$('scene-music-enabled').checked;
+        this.capture.update();
     }
     async save() {
         if(this.media.busy)return false;
@@ -282,6 +286,7 @@ class StudioControls {
             companions:this.$('scene-companions').checked,bottom_blur:+this.$('scene-blur').value,
             car_motion:this.$('scene-car-motion').checked,car_vibration:this.$('scene-car-vibration').checked,
             subtitle_seconds:+this.$('scene-subtitle').value,music_enabled:this.$('scene-music-enabled').checked,
+            music_source:this.$('scene-music-source').value,
             music_volume:+this.$('scene-music-volume').value,
             character_x:+this.$('scene-x').value,character_y:+this.$('scene-y').value,character_scale:+this.$('scene-scale').value});
     }
@@ -291,6 +296,7 @@ class StudioControls {
         this.$('scene-companions').checked=s.companions;
         this.$('scene-car-motion').checked=s.car_motion;this.$('scene-car-vibration').checked=s.car_vibration;
         this.$('scene-subtitle').value=s.subtitle_seconds;this.$('scene-music-enabled').checked=s.music_enabled;
+        this.$('scene-music-source').value=s.music_source;
         this.$('scene-music-volume').value=s.music_volume;
         for(const [id,key] of [['weather','weather_amount'],['dim','dim'],['blur','bottom_blur'],['x','character_x'],['y','character_y'],['scale','character_scale']])this.$(`scene-${id}`).value=s[key];
         this.previewScene();

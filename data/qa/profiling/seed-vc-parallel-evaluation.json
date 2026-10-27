@@ -1,0 +1,96 @@
+{
+  "status": "output_quality_passed_memory_telemetry_recovered",
+  "raw_results": "seed-vc-parallel-pair.json",
+  "raw_worker_status": "failed after audio/pitchQC during memory self-probe",
+  "telemetry_issue": "ctypes GetCurrentProcess pseudo-handle overflow without64bit argtypes; scripts now fixed, no benchmark rerun",
+  "recovery": "external typed WinAPI sampler read both known benchmark PIDs and lifetime peak counters before exit",
+  "reference_sha256": "dfa57c37f8e304681f6cc3fa9e7d0370a598b00842a8461bbb035cd0fbb16c8a",
+  "quality_settings_changed": false,
+  "solo6threads": {
+    "conversion_seconds": 70.29890969999542,
+    "source_seconds": 4,
+    "rtf": 17.574727424998855,
+    "sample_identical_to_approved_preview": true,
+    "stages": {
+      "whisper_source": 0.8823800999962259,
+      "whisper_reference": 0.7298717999947257,
+      "mel_source": 0.007410400008666329,
+      "mel_reference": 0.004200600000331178,
+      "campplus_reference": 0.09618120000232011,
+      "rmvpe_reference": 0.3383599999942817,
+      "rmvpe_source": 0.19800559998839162,
+      "length_regulator_source": 0.01554049999685958,
+      "length_regulator_reference": 0.02318119999836199,
+      "cfm_30steps": 54.435308600004646,
+      "bigvgan_vocoder": 11.626918199995998
+    },
+    "stage_percent": {
+      "whisper_source": 1.2551831938245317,
+      "whisper_reference": 1.0382405688928817,
+      "mel_source": 0.010541273030109046,
+      "mel_reference": 0.005975341606658591,
+      "campplus_reference": 0.13681748467050034,
+      "rmvpe_reference": 0.48131614194053957,
+      "rmvpe_source": 0.28166240533941667,
+      "length_regulator_source": 0.02210631724329658,
+      "length_regulator_reference": 0.032975191361130744,
+      "cfm_30steps": 77.43407235234572,
+      "bigvgan_vocoder": 16.53925821839134
+    }
+  },
+  "pair2x4threads": {
+    "conversion_wall_seconds": 158.74072840000736,
+    "total_source_seconds": 8,
+    "effective_rtf": 19.84259105000092,
+    "throughput_vs_current_solo": 0.8857072839284283,
+    "throughput_vs_older_solo_under_different_load": 1.128809233812182,
+    "both_outputs_finite": true,
+    "both_within_one_semitone_fraction": 0.9940476190476191,
+    "max_sample_difference_from6thread_baseline": 0.0001690313220024109
+  },
+  "memory": {
+    "status": "complete",
+    "workers": {
+      "A": {
+        "pid": 29392,
+        "peak_working_set_gib": 3.1300621032714844,
+        "working_set_gib": 0.19017791748046875,
+        "private_commit_gib": 0.16099166870117188,
+        "peak_private_commit_gib": 5.6998291015625
+      },
+      "B": {
+        "pid": 28260,
+        "peak_working_set_gib": 3.1302223205566406,
+        "working_set_gib": 2.610565185546875,
+        "private_commit_gib": 3.1682090759277344,
+        "peak_private_commit_gib": 5.700294494628906
+      }
+    },
+    "peak_combined_working_set_gib": 6.159229278564453,
+    "peak_combined_private_commit_gib": 8.829410552978516,
+    "minimum_system_available_gib": 12.551078796386719,
+    "samples": 36,
+    "sampling_seconds": 17.580199100004393
+  },
+  "summed_lifetime_peak_working_set_upper_bound_gib": 6.260284423828125,
+  "summed_lifetime_peak_private_commit_upper_bound_gib": 11.400123596191406,
+  "recommendation": {
+    "workers": 1,
+    "threads": 6,
+    "main_job_steps": 50,
+    "reason": "Two4thread model copies were slower than contemporaneous one6thread worker; four model copies untested and longsong memory can exceed4s samples",
+    "quality_neutral_reference_cache": "Exact reference feature cache would save roughly1.2seconds pertrack on this sample; diffusion and vocoder dominate94% of CPUtime",
+    "not_tested": [
+      "4simultaneous workers",
+      "50step timing",
+      "denormal flush",
+      "different reference duration",
+      "fullsong RAM"
+    ]
+  },
+  "limitations": [
+    "One4s excerpt perworker; wholetrack timings depend on chunk size, backgroundload and source length",
+    "Typed memory sampler started late but perprocess lifetime peak counters include earlier allocations",
+    "No timbre or fullsong quality claim follows from pitch statistics alone"
+  ]
+}

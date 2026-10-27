@@ -131,7 +131,15 @@ class SpriteRenderer {
 
         if (this.rig) {
             const pose=this.choreography.sample(dt,params?.mouthOpen,this.isSpeaking);
-            this.rig.draw(ctx,W,H,pose,pose.mouth,this.choreography.reducedMotion,this.face.sample(dt),params?.mouthRound||0);
+            const singingPose={...pose};
+            this.singBlend=(this.singBlend||0)+((params.moduleSway?.amount||0)-(this.singBlend||0))*(1-Math.exp(-dt*5));
+            if(params.moduleSway)this.singPhase=params.moduleSway.phase;
+            if(this.singBlend>.001&&!this.choreography.reducedMotion){
+                const weight=this.singBlend*Math.max(0,Math.min(1,this.choreography.intensity));
+                singingPose.headRoll=Math.max(-.065,Math.min(.065,pose.headRoll+Math.sin(this.singPhase||0)*.012*weight));
+                singingPose.headPitch=Math.max(-.02,Math.min(.055,pose.headPitch+Math.sin((this.singPhase||0)*2)*.004*weight));
+            }
+            this.rig.draw(ctx,W,H,singingPose,params?.mouthOpen||pose.mouth,this.choreography.reducedMotion,this.face.sample(dt),params?.mouthRound||0);
             return;
         }
 
@@ -368,6 +376,8 @@ class AIStreamerClient {
     async init() {
         this.setupUI();
         await this.initRenderer();
+        this.modules=new StageModuleHost(this);
+        try{await this.modules.init();}catch(error){console.warn('Stage modules unavailable:',error.message);}
         this.connectWebSocket();
         this.startAnimationLoop();
     }
@@ -397,6 +407,7 @@ class AIStreamerClient {
             if (event.data?.type === 'preview_mute') {
                 this.muted = !!event.data.muted;
                 this.music?.setMuted(this.muted);
+                this.modules?.setMuted(this.muted);
                 if (this.muted) this.stopAudio();
                 else this.unlockAudio();
             }
@@ -409,6 +420,7 @@ class AIStreamerClient {
             this.closed = true; this.stopAudio(); this.stopPingLoop();
             this.scene?.dispose();
             this.carScene?.dispose();
+            this.modules?.dispose();
             this.music?.dispose();this.subtitles?.dispose();
             clearTimeout(this.reconnectTimer); this.ws?.close();
         });
@@ -596,6 +608,7 @@ class AIStreamerClient {
     }
 
     handleMessage(data) {
+        if(this.modules?.handle(data))return;
         switch (data.type) {
             case 'status': if (data.settings) this.applyStudioSettings(data); break;
             case 'settings_updated':
@@ -728,7 +741,10 @@ class AIStreamerClient {
     }
 
     updateEmotion(emotion) {
+        const preset=this.modules?.presentation('chat').expression;
+        if(preset&&preset!=='auto')emotion=preset==='neutral'?'normal':preset;
         this.carScene?.setExpression(emotion);
+        if(preset&&preset!=='auto')this.renderer?.face?.setExpression(preset);
         const icon = this.emotionIcons[emotion] || this.emotionIcons.normal;
         this.elements.emotionIcon.textContent = icon;
         this.elements.emotionText.textContent = emotion;
@@ -736,6 +752,8 @@ class AIStreamerClient {
 
     setTargetAction(action) {
         if (!action) return;
+        const look=this.modules?.presentation('chat');
+        if(look)action={...action,name:look.pose==='auto'?action.name:look.pose,intensity:look.motion_strength};
         this.currentAction = action;
 
         const params = {
@@ -751,6 +769,10 @@ class AIStreamerClient {
 
         this.animator.setTarget(params);
         if (this.renderer) this.renderer.setAction(action);
+        if(look?.expression&&look.expression!=='auto'){
+            this.renderer?.face?.setExpression(look.expression,!!action.loop);
+            this.carScene?.setExpression(look.expression==='neutral'?'normal':look.expression);
+        }
     }
 
     startAnimationLoop() {
@@ -765,15 +787,21 @@ class AIStreamerClient {
 
             const params = { ...this.animator.update() };
 
-            const playing=this.isSpeaking && this.currentAudio && !this.currentAudio.paused && !this.currentAudio.muted && this.currentAudio.volume>0 &&
-                !this.currentAudio.ended && this.audioContext?.state==='running';
-            if(playing && this.analyser) {
-                this.analyser.getFloatTimeDomainData(this.audioWaveform);
-                this.analyser.getByteFrequencyData(this.audioData);
+            const moduleVoice=this.modules?.voice;
+            const songPlaying=moduleVoice?.playing;
+            const playing=songPlaying||(this.isSpeaking && this.currentAudio && !this.currentAudio.paused && !this.currentAudio.muted && this.currentAudio.volume>0 &&
+                !this.currentAudio.ended && this.audioContext?.state==='running');
+            const analyser=songPlaying?moduleVoice.analyser:this.analyser;
+            const waveform=songPlaying?moduleVoice.waveform:this.audioWaveform;
+            const spectrum=songPlaying?moduleVoice.spectrum:this.audioData;
+            if(playing && analyser) {
+                analyser.getFloatTimeDomainData(waveform);
+                analyser.getByteFrequencyData(spectrum);
             }
-            const voice=this.voiceEnvelope.sample(this.audioWaveform,this.audioData,
-                this.audioContext?.sampleRate||48000,dt,!!playing);
+            const voice=this.voiceEnvelope.sample(waveform,spectrum,
+                (songPlaying?moduleVoice.ctx.sampleRate:this.audioContext?.sampleRate)||48000,dt,!!playing);
             params.mouthOpen=voice.open;params.mouthRound=voice.round;
+            this.modules?.frame(params,dt);
 
             if (this.carScene?.active)this.carScene.render(params,dt,document.hidden);
             else if (this.renderer) this.renderer.render(params, dt);
@@ -817,6 +845,7 @@ class AIStreamerClient {
 
     unlockAudio() {
         if (this.muted) return;
+        this.modules?.unlock();
         this.music?.unlock();
         this.awaitingGesture = false;
         if (!this.audioContext) {

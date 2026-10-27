@@ -1,0 +1,150 @@
+{
+  "engine": "Demucs 4.1.0 htdemucs CPU",
+  "official_repository": "https://github.com/adefossez/demucs",
+  "package": "https://pypi.org/project/demucs/4.1.0/",
+  "installed_only_for_demucs": [
+    "demucs==4.1.0",
+    "julius==0.2.8",
+    "lameenc==1.9.0",
+    "sphn==0.2.1"
+  ],
+  "prior_distributions_checked": 49,
+  "intentional_runtime_patch": {
+    "torch": {
+      "before": "2.4.0+cpu",
+      "after": "2.4.1+cpu"
+    },
+    "torchaudio": {
+      "before": "2.4.0+cpu",
+      "after": "2.4.1+cpu"
+    }
+  },
+  "runtime_patch_reason": "Windows CPU Torch2.4.0 multithreaded numerical regression; independent probes and real separation pass on2.4.1.",
+  "upstream_issue": "https://github.com/pytorch/pytorch/issues/131958",
+  "torch": "2.4.1+cpu",
+  "torchaudio": "2.4.1+cpu",
+  "live_environment_unchanged": true,
+  "cpu_threads": 4,
+  "default_attention": "native",
+  "fallback_attention": "math",
+  "quality_status": "validated_finite_plausible_amplitude_and_mixture_reconstruction",
+  "benchmark": {
+    "status": "ready",
+    "created_at": "2026-10-27T10:26:36.419542+00:00",
+    "kind": "benchmark",
+    "settings": {
+      "engine": "Demucs",
+      "version": "4.1.0",
+      "model": "htdemucs",
+      "device": "cpu",
+      "torch_version": "2.4.1+cpu",
+      "sample_rate": 44100,
+      "channels": 2,
+      "subtype": "FLOAT",
+      "segment": 7.8,
+      "overlap": 0.25,
+      "shifts": 1,
+      "jobs": 0,
+      "threads": 4,
+      "accompaniment_method": "sum_of_non_vocal_stems",
+      "independent_rescale": false,
+      "torch_mha_fastpath": true,
+      "torch_sdpa_backend": "native"
+    },
+    "source_sha256": "21eb1a0ae5f4ed791256ae5ba1f62a893f993448819b4edac999884e3cd88bc3",
+    "decoded_source": "D:\\ai auto streamer\\data\\songs-converted\\BV1D64y1Z7Ko\\benchmark\\source.wav",
+    "decoded_sha256": "296223990ff25ea2dd14a19948fd4e9c40a074e7f52b8768d67a6a9fc5bbcee1",
+    "samples": 529200,
+    "duration_seconds": 12.0,
+    "separation_seconds": 21.407532500001253,
+    "realtime_factor": 1.783961041666771,
+    "quality": {
+      "source_rms": 0.18723255488956134,
+      "source_peak": 0.9503971338272095,
+      "reconstruction_error_rms": 0.005338600323063138,
+      "reconstruction_error_ratio": 0.028513205549174383,
+      "stems": {
+        "vocals": {
+          "peak": 0.7168639898300171,
+          "rms": 0.11891743925785657
+        },
+        "accompaniment": {
+          "peak": 0.7055255174636841,
+          "rms": 0.13717240037528458
+        }
+      }
+    },
+    "outputs": {
+      "vocals": {
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1D64y1Z7Ko\\benchmark\\vocals.wav",
+        "sha256": "d6b15006311ec6c162c3735d6f7c1b53515cd534713938e451af7d51367af726",
+        "peak": 0.7168639898300171,
+        "bytes": 4233688
+      },
+      "accompaniment": {
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1D64y1Z7Ko\\benchmark\\accompaniment.wav",
+        "sha256": "6a6d6e76029bdb1bb962a93b83d437b0451fefa157740ad4868ee2bf763230cd",
+        "peak": 0.7055255174636841,
+        "bytes": 4233688
+      }
+    },
+    "source_offset_seconds": 45.0
+  },
+  "validated_stems": {
+    "vocals": {
+      "frames": 529200,
+      "channels": 2,
+      "sample_rate": 44100,
+      "subtype": "FLOAT",
+      "all_finite": true,
+      "peak": 0.7168639898300171,
+      "rms": 0.11891743925785653
+    },
+    "accompaniment": {
+      "frames": 529200,
+      "channels": 2,
+      "sample_rate": 44100,
+      "subtype": "FLOAT",
+      "all_finite": true,
+      "peak": 0.7055255174636841,
+      "rms": 0.13717240037528455
+    }
+  },
+  "other_measured_benchmarks": [
+    {
+      "runtime": "2.4.1+cpu",
+      "attention": "math",
+      "threads": 4,
+      "audio_seconds": 12,
+      "separation_seconds": 13.517616299999645
+    },
+    {
+      "runtime": "2.4.0+cpu",
+      "attention": "math",
+      "threads": 1,
+      "audio_seconds": 4,
+      "separation_seconds": 24.81169950000185
+    }
+  ],
+  "rejected_initial_results": "Torch2.4.0 multithreadedNaN/extremeamplitude stems are renamed .REJECTED.wav and must not be played or converted.",
+  "full_batch_owner": "Root persistent pipeline launcher",
+  "full_batch_state": "data/songs-converted/separation-state.json",
+  "script": "scripts/separate_song_sources.py",
+  "full_batch_arguments": [
+    "--offline",
+    "--threads",
+    "4",
+    "--benchmark-seconds",
+    "0",
+    "--attention",
+    "native"
+  ],
+  "resume_policy": "Reuse onlyready metadata withsame settings/sourceSHA and matching44.1kstereoFLOAT outputsamplecounts andSHA256.",
+  "estimated_full_separation_minutes": [
+    45,
+    72
+  ],
+  "estimate_not_guarantee": true,
+  "fallback_environment": ".venv-separation hasTorch2.5.1+cpu installed but isnotused bytheworkingpipeline.",
+  "song_voice_conversion_performed_by_this_agent": false
+}

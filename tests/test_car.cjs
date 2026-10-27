@@ -44,3 +44,12 @@ test('lip sync uses the voice envelope only and transient expressions relax',()=
     for(let i=0;i<300;i++)scene.sample(1/30);
     assert.ok(Math.abs(scene.current.smile-.22)<.001);
 });
+
+test('singing holds a symmetric expression and releases smoothly without moving body contacts',()=>{
+    const {scene,draws}=fixture();scene.setActive(true);scene.setExpression('smug');
+    for(let i=0;i<60;i++)scene.sample(1/30);
+    scene.setSinging(true);for(let i=0;i<400;i++)scene.sample(1/30);
+    assert.ok(Math.abs(scene.current.asym)<.00001);assert.ok(Math.abs(scene.current.open-.42)<.001);
+    scene.render({mouthOpen:.8},1/30);assert.ok(draws.every(d=>['clean-face','left','right'].includes(d[0].id)));
+    scene.setSinging(false);const first=scene.sample(1/30);assert.ok(first.open>.42&&first.open<1);
+});

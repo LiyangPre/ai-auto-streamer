@@ -1,0 +1,102 @@
+{
+  "status": "complete",
+  "source": "D:\\ai auto streamer\\.tools\\seed-vc\\astra-benchmark-real-source.wav",
+  "source_seconds": 4.0,
+  "reference": "D:\\ai auto streamer\\.tools\\seed-vc\\astra-current-reference-8s.wav",
+  "full_reference_sha256": "dfa57c37f8e304681f6cc3fa9e7d0370a598b00842a8461bbb035cd0fbb16c8a",
+  "reference_seconds": 8.0,
+  "steps": 30,
+  "threads": 6,
+  "torch": "2.4.1+cpu",
+  "fp16": false,
+  "f0_condition": true,
+  "auto_f0_adjust": false,
+  "length_adjust": 1.0,
+  "semitone_shift": 0,
+  "stages": {
+    "whisper_source": 0.8823800999962259,
+    "whisper_reference": 0.7298717999947257,
+    "mel_source": 0.007410400008666329,
+    "mel_reference": 0.004200600000331178,
+    "campplus_reference": 0.09618120000232011,
+    "rmvpe_reference": 0.3383599999942817,
+    "rmvpe_source": 0.19800559998839162,
+    "length_regulator_source": 0.01554049999685958,
+    "length_regulator_reference": 0.02318119999836199,
+    "cfm_30steps": 54.435308600004646,
+    "bigvgan_vocoder": 11.626918199995998
+  },
+  "calls": [
+    {
+      "stage": "whisper_source",
+      "seconds": 0.8823800999962259
+    },
+    {
+      "stage": "whisper_reference",
+      "seconds": 0.7298717999947257
+    },
+    {
+      "stage": "mel_source",
+      "seconds": 0.007410400008666329
+    },
+    {
+      "stage": "mel_reference",
+      "seconds": 0.004200600000331178
+    },
+    {
+      "stage": "campplus_reference",
+      "seconds": 0.09618120000232011
+    },
+    {
+      "stage": "rmvpe_reference",
+      "seconds": 0.3383599999942817
+    },
+    {
+      "stage": "rmvpe_source",
+      "seconds": 0.19800559998839162
+    },
+    {
+      "stage": "length_regulator_source",
+      "seconds": 0.01554049999685958
+    },
+    {
+      "stage": "length_regulator_reference",
+      "seconds": 0.02318119999836199
+    },
+    {
+      "stage": "cfm_30steps",
+      "seconds": 54.435308600004646
+    },
+    {
+      "stage": "bigvgan_vocoder",
+      "seconds": 11.626918199995998
+    }
+  ],
+  "model_load_seconds": 7.18452980001166,
+  "total_conversion_seconds": 70.29890969999542,
+  "output": {
+    "path": "D:\\ai auto streamer\\data\\qa\\profiling\\output\\vc_astra-benchmark-real-source_astra-current-reference-8s_1.0_30_0.7.wav",
+    "sample_rate": 44100,
+    "samples": 176128,
+    "finite": true,
+    "peak": 0.6295263171195984,
+    "rms": 0.13378798749103332,
+    "baseline_shape_equal": true,
+    "baseline_max_absolute_sample_difference": 0.0
+  },
+  "unattributed_seconds": 1.9415515000146115,
+  "rtf": 17.574727424998855,
+  "stage_percent": {
+    "whisper_source": 1.2551831938245317,
+    "whisper_reference": 1.0382405688928817,
+    "mel_source": 0.010541273030109046,
+    "mel_reference": 0.005975341606658591,
+    "campplus_reference": 0.13681748467050034,
+    "rmvpe_reference": 0.48131614194053957,
+    "rmvpe_source": 0.28166240533941667,
+    "length_regulator_source": 0.02210631724329658,
+    "length_regulator_reference": 0.032975191361130744,
+    "cfm_30steps": 77.43407235234572,
+    "bigvgan_vocoder": 16.53925821839134
+  }
+}

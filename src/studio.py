@@ -61,6 +61,7 @@ class ReplySettings(StrictModel):
 class VoiceSettings(StrictModel):
     provider: Literal["edge-tts", "glm-tts", "minimax", "mimo-tts"] = "edge-tts"
     mimo_voice: str = "茉莉"
+    mimo_model: Literal['mimo-v2.5-tts', 'mimo-v2.5-tts-voicedesign'] = 'mimo-v2.5-tts-voicedesign'
     mimo_style: str = Field(default="成年女性，声线偏低，清冷从容，略带气声。语速稍慢，停顿自然，表达亲近而克制，咬字清晰。", max_length=800)
     glm_voice: str = "tongtong"
     minimax_voice: str = "female-yujie"
@@ -100,6 +101,7 @@ class VoiceSettings(StrictModel):
         tts.voice = self.voice
         tts.glm_voice = self.glm_voice
         tts.mimo_voice = self.mimo_voice
+        tts.mimo_model = self.mimo_model
         tts.mimo_style = self.mimo_style
         tts.minimax_voice = self.minimax_voice
         tts.minimax_pitch = self.minimax_pitch
@@ -163,7 +165,7 @@ class StudioSettings(StrictModel):
             voice={"enabled": config.tts.engine != "none", "voice": config.tts.voice,
                    "provider": config.tts.engine if config.tts.engine != "none" else config.tts.selected_provider,
                    "glm_voice": config.tts.glm_voice,
-                   "mimo_voice": config.tts.mimo_voice, "mimo_style": config.tts.mimo_style,
+                   "mimo_voice": config.tts.mimo_voice, "mimo_style": config.tts.mimo_style, "mimo_model": config.tts.mimo_model,
                    "minimax_voice": config.tts.minimax_voice, "minimax_pitch": config.tts.minimax_pitch,
                    "rate": int(config.tts.rate.rstrip("%")), "pitch": int(config.tts.pitch.removesuffix("Hz")),
                    "volume": int(config.tts.volume.rstrip("%")), "expressive": config.tts.expressive,

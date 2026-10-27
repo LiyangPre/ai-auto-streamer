@@ -1,0 +1,20 @@
+{
+  "path": "D:\\ai auto streamer\\data\\voice-references\\astra-current-voice.wav",
+  "approved": true,
+  "candidate_id": "current-profile",
+  "profile_id": "astra",
+  "profile_revision": 13,
+  "style": "大小姐，自然柔和的高音声线，温暖、轻松、亲切，像朋友在安静地聊天。声音有真实的呼吸感和轻微笑意，语速自然，表达细腻，咬字清晰，使用童声，不用播音腔。",
+  "model": "mimo-v2.5-tts-voicedesign",
+  "name": "Astra · current saved voice",
+  "reference_sha256": "dfa57c37f8e304681f6cc3fa9e7d0370a598b00842a8461bbb035cd0fbb16c8a",
+  "source_sha256": "d34144f0098bcaa73c8cef455c77333a271190b744f47b7af562a1ee0b48446e",
+  "source_audition": "D:\\ai auto streamer\\data\\voice-references\\astra-current-voice.mp3",
+  "duration_seconds": 18.936,
+  "sample_rate": 24000,
+  "channels": 1,
+  "sample_width": 2,
+  "generation_ms": 15775,
+  "text": "你好呀，今天过得怎么样？我刚把小客厅收拾好，还给窗边的薄荷浇了水。等会儿克劳德和小鲸也要回来，我们可以一起听歌，聊聊天。你不用着急，慢慢说，我会认真听的。",
+  "voice_description_unmodified": true
+}

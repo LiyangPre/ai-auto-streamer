@@ -45,7 +45,7 @@ class MiMoVoiceTests(unittest.IsolatedAsyncioTestCase):
             return httpx.Response(200, stream=Chunks())
 
         with tempfile.TemporaryDirectory() as directory, patch.dict('os.environ', {'MIMO_API_KEY': 'test-only-mimo'}):
-            engine = TTSEngine(TTSConfig(engine='mimo-tts', mimo_style='清冷从容，略带气声。'), directory)
+            engine = TTSEngine(TTSConfig(engine='mimo-tts', mimo_model='mimo-v2.5-tts', mimo_style='清冷从容，略带气声。'), directory)
             engine._http = httpx.AsyncClient(transport=httpx.MockTransport(handle))
             url = await engine.create_stream('今天累了怎么办？适当休息就好。')
             job = engine.jobs[url.rsplit('/', 1)[-1]]
@@ -112,10 +112,25 @@ class MiMoVoiceTests(unittest.IsolatedAsyncioTestCase):
             return httpx.Response(200, content=audio(PCM) + STOP)
 
         with tempfile.TemporaryDirectory() as directory, patch.dict('os.environ', {'MIMO_API_KEY': 'test-only-mimo'}):
-            engine = TTSEngine(TTSConfig(engine='mimo-tts', mimo_style=''), directory)
+            engine = TTSEngine(TTSConfig(engine='mimo-tts', mimo_model='mimo-v2.5-tts', mimo_style=''), directory)
             engine._http = httpx.AsyncClient(transport=httpx.MockTransport(handle))
             self.assertIsNotNone(await engine.synthesize('你好。'))
             self.assertEqual(calls[0]['messages'], [{'role': 'assistant', 'content': '你好。'}])
+            await engine.close()
+
+    async def test_voice_design_uses_description_without_preset_and_changes_cache_identity(self):
+        calls=[]
+        def handle(request):
+            calls.append(json.loads(request.content));return httpx.Response(200,content=audio(PCM)+STOP)
+        with tempfile.TemporaryDirectory() as directory:
+            cfg=TTSConfig(engine='mimo-tts');cfg._api_keys={'mimo-tts':'unit-test-key'}
+            engine=TTSEngine(cfg,directory);engine._http=httpx.AsyncClient(transport=httpx.MockTransport(handle))
+            self.assertIsNotNone(await engine.synthesize('（轻笑）今天也要好好休息。'))
+            self.assertEqual(calls[0]['model'],'mimo-v2.5-tts-voicedesign')
+            self.assertEqual(calls[0]['audio'],{'format':'pcm16','optimize_text_preview':False})
+            self.assertEqual(calls[0]['messages'][0]['content'],cfg.mimo_style)
+            key=engine._cache_key('test',engine._voice_params(None));cfg.mimo_model='mimo-v2.5-tts'
+            self.assertNotEqual(key,engine._cache_key('test',engine._voice_params(None)))
             await engine.close()
 
 

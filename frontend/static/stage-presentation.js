@@ -31,34 +31,53 @@ class StageMusic {
     }
     configure(settings) {
         const source=StageMusic.source(settings);
-        if(this.source!==source) {
-            this.pause();this.source=source;
-            if(this.audio){this.audio.src=source;this.audio.load?.();}
+        const mode=settings.music_source==='system'?'system':'file';
+        if(this.source!==source||this.mode!==mode) {
+            this.disconnectCapture();this.pause();this.source=source;this.mode=mode;
+            if(this.audio){
+                this.audio.srcObject=null;
+                if(mode==='file')this.audio.src=source;else this.audio.removeAttribute?.('src');
+                this.audio.loop=mode==='file';this.audio.load?.();
+            }
         }
         this.enabled=settings.music_enabled;this.volume=settings.music_volume;
         if(this.preview)return;
-        if(!this.enabled||this.muted){this.pause();return;}
+        if(!this.enabled||this.muted){this.disconnectCapture();this.pause();return;}
         this.start();this.fade();
     }
     start() {
-        if(this.preview||this.muted||!this.enabled)return;
+        if(this.preview||this.muted||!this.enabled||this.performanceExclusive)return;
+        if(this.mode==='system') {
+            if(!this.bridge&&window.MusicBridge&&window.RTCPeerConnection) {
+                this.bridge=new window.MusicBridge({onStream:stream=>{
+                    this.pause();this.remoteStream=stream;
+                    if(this.audio)this.audio.srcObject=stream;
+                    if(stream){this.start();this.fade();}
+                }});
+                this.bridge.start();
+            }
+            if(!this.remoteStream)return;
+        }
         if(!this.audio) {
-            this.audio=new Audio(this.source || '/static/music/conversation-lounge.mp3');
-            this.audio.loop=true;this.audio.preload='auto';this.audio.volume=0;
-            this.audio.dataset.streamerMusic='loop';this.audio.hidden=true;
+            this.audio=this.mode==='system'?new Audio():new Audio(this.source || '/static/music/conversation-lounge.mp3');
+            this.audio.loop=this.mode!=='system';this.audio.preload='auto';this.audio.volume=0;
+            this.audio.hidden=true;
             document.body.appendChild(this.audio);
             this.audio.onplaying=()=>{this.audio.dataset.playback='playing';};
             this.audio.onerror=()=>{this.audio.dataset.playback='error';};
         }
+        this.audio.dataset.streamerMusic=this.mode==='system'?'capture':'loop';
+        if(this.mode==='system')this.audio.srcObject=this.remoteStream;
         if(!this.audio.paused)return;
         this.audio.play().catch(()=>{this.audio.dataset.playback='blocked';});
     }
     unlock(){this.start();this.fade();}
-    setMuted(value){this.muted=value;if(value)this.pause();else this.unlock();}
+    setPerformance(mode){this.performanceExclusive=!!mode&&mode!=='shared';if(this.performanceExclusive)this.pause();else this.unlock();}
+    setMuted(value){this.muted=value;if(value){this.disconnectCapture();this.pause();}else this.unlock();}
     setSpeaking(value){if(this.speaking===value)return;this.speaking=value;this.fade();}
     fade() {
         clearInterval(this.ramp);
-        if(!this.audio||this.preview||this.muted||!this.enabled)return;
+        if(!this.audio||this.preview||this.muted||!this.enabled||this.performanceExclusive)return;
         const target=this.volume*(this.speaking?.25:1),from=this.audio.volume;
         const started=performance.now(),duration=this.speaking?220:1200;
         this.ramp=setInterval(()=>{
@@ -68,7 +87,8 @@ class StageMusic {
         },40);
     }
     pause(){clearInterval(this.ramp);this.ramp=null;if(this.audio){this.audio.pause();this.audio.volume=0;this.audio.dataset.playback='paused';}}
-    dispose(){this.pause();}
+    disconnectCapture(){const bridge=this.bridge;this.bridge=null;bridge?.stop();this.remoteStream=null;if(this.audio)this.audio.srcObject=null;}
+    dispose(){this.disconnectCapture();this.pause();}
 }
 window.StageSubtitles=StageSubtitles;
 window.StageMusic=StageMusic;

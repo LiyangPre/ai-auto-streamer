@@ -1,0 +1,43 @@
+{
+  "method": "librosa.pyin 0.10.2",
+  "settings": {
+    "sample_rate": 16000,
+    "frame_length": 1024,
+    "hop_length": 160,
+    "fmin_hz": 75,
+    "fmax_hz": 800,
+    "voiced_probability_min": 0.8
+  },
+  "baseline": {
+    "path": "D:\\ai auto streamer\\data\\voice-auditions\\astra-B.mp3",
+    "duration_seconds": 7.896,
+    "median_f0_hz": 193.41,
+    "p10_f0_hz": 180.45,
+    "p90_f0_hz": 223.45,
+    "confident_voiced_frames": 165,
+    "all_frames": 790,
+    "coverage": 0.209,
+    "seconds_analyzing": 4.42
+  },
+  "new_candidate": {
+    "path": "D:\\ai auto streamer\\data\\voice-auditions\\astra-B-young.mp3",
+    "duration_seconds": 9.024,
+    "median_f0_hz": 258.17,
+    "p10_f0_hz": 227.49,
+    "p90_f0_hz": 286.45,
+    "confident_voiced_frames": 302,
+    "all_frames": 903,
+    "coverage": 0.334,
+    "seconds_analyzing": 2.11
+  },
+  "notes": [
+    "F0 estimates speaking pitch, not voice age, cuteness, identity similarity, or subjective quality.",
+    "Breathy/unvoiced frames are excluded; pitch trackers can make octave errors.",
+    "Only these short utterances are being compared; no songs, model inference, or profile updates."
+  ],
+  "comparison": {
+    "median_f0_ratio": 1.335,
+    "median_pitch_change_semitones": 5.0,
+    "new_median_higher": true
+  }
+}

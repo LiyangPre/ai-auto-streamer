@@ -4,7 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#f6f5f9">
 <title>Astra Studio · 直播控制台</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%237563a6'/%3E%3Cpath d='M27 10a12 12 0 1 0 3 19A13 13 0 0 1 27 10' fill='white'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="/static/control.css?v=uploads-1">
+<link rel="stylesheet" href="/static/control.css?v=stories-2">
 </head>
 <body>
 <svg class="icon-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -40,8 +40,10 @@
 <div class="profile-actions"><div class="direction-shortcuts"><button type="button" data-open-direction="identity">Identity <span>身份</span></button><button type="button" data-open-direction="reply">Replies <span>回应</span></button><button type="button" data-open-direction="voice">Voice <span>声音</span></button><button type="button" data-open-direction="actions">Actions <span>动作</span></button></div><span id="character-count">1 / 24 profiles</span></div>
 <p id="character-switch-status" role="status">每个角色独立保存表达与声音 · 启动时默认 Astra</p>
 </section>
-<section class="shared-stage-card" aria-label="共用舞台"><div class="eyebrow">SHARED STAGE · 共用舞台</div><h2>A familiar place.</h2><p>场景、DeepSeek &amp; Claude、字幕和音乐，随时复用。</p><button type="button" class="soft-button" data-open-direction="scene">Scene &amp; music <span aria-hidden="true">↗</span></button><small>切换角色，舞台保留</small></section>
+<section class="shared-stage-card" aria-label="共用舞台"><div class="eyebrow">SHARED STAGE · 共用舞台</div><h2>A familiar place.</h2><p>场景、DeepSeek &amp; Claude、字幕和音乐，随时复用。</p><button type="button" class="soft-button" data-open-direction="scene">Scene &amp; music <span aria-hidden="true">↗</span></button><small>切换角色，舞台保留</small><div id="music-capture-live" class="capture-live" hidden><span id="music-capture-global-status" role="status"></span><button type="button" id="music-capture-stop-global" class="soft-button">Stop capture · 停止采集</button></div></section>
 </div>
+<section class="api-launcher" aria-label="API connections"><div><span class="api-mark" aria-hidden="true">⌘</span><div><strong>Connected voices. Quick replies.</strong><p id="api-summary">Text &amp; TTS · 本机 API 设置，全角色共用</p></div></div><button type="button" id="api-open" class="soft-button">API connections · 接口设置 ↗</button></section>
+<section class="module-shelf" aria-labelledby="module-shelf-title"><div class="module-heading"><div><div class="eyebrow">CHARACTER MODULES</div><h2 id="module-shelf-title">A voice. Many little worlds.</h2></div><span id="module-character" role="status">Loading modules…</span></div><div id="module-grid" class="module-grid"></div></section>
 <section class="metrics" aria-label="实时系统指标">
 <div class="metric"><span class="metric-icon lavender"><svg><use href="#i-bolt"/></svg></span><div><span class="metric-label">RESPONSE ENGINE</span><strong id="engine-provider">—</strong><small id="engine-note">Loading configuration</small></div></div>
 <div class="metric"><span class="metric-icon sage"><svg><use href="#i-chat"/></svg></span><div><span class="metric-label">REPLIES THIS SESSION</span><strong id="reply-count">0 <em>replies</em></strong><small><span id="template-count">0</span> via direct templates</small></div></div>
@@ -73,7 +75,7 @@
 <label>Voice service · 语音服务<select id="voice-provider"><option value="edge-tts">Edge · 免费声音</option><option value="glm-tts">GLM-TTS · 自然语音</option><option value="mimo-tts">MiMo · 自定义表达</option><option value="minimax">MiniMax Turbo · 更细腻的声音</option></select></label>
 <label data-voice-provider="edge-tts">Voice · 音色<select id="voice-select"></select></label>
 <div data-voice-provider="glm-tts" hidden><label>Voice · 音色<select id="glm-voice-select"></select></label><p id="glm-provider-status" class="field-hint" role="status"></p><p class="field-hint">¥2 / 万字符，试听也计费。支持语速、音量；语调由声音和文本自然决定。<a href="https://docs.bigmodel.cn/cn/guide/start/pricing" target="_blank" rel="noopener">查看官方价格 ↗</a></p></div>
-<div data-voice-provider="mimo-tts" hidden><label>Voice · 音色<select id="mimo-voice-select"></select></label><p id="mimo-provider-status" class="field-hint" role="status"></p><label>Voice direction · 声音风格<textarea id="mimo-voice-style" rows="3" maxlength="800" placeholder="例如：清冷从容，语速稍慢，略带气声，停顿自然。"></textarea></label><p class="field-hint">把语速、语气、气声和情绪写在这里。这段说明只指导声音，不会被朗读；留空使用自然表达。</p><p class="field-hint">预置音色支持流式播放。官方当前限时免费，后续以平台公告为准。<a href="https://mimo.mi.com/docs/zh-CN/price/pay-as-you-go" target="_blank" rel="noopener">查看官方价格 ↗</a></p></div>
+<div data-voice-provider="mimo-tts" hidden><label>MiMo model · 模型<select id="mimo-model"><option value="mimo-v2.5-tts-voicedesign">Voice Design · 文本设计声音</option><option value="mimo-v2.5-tts">Preset voice · 预置音色</option></select></label><label>Preset voice · 仅预置模型使用<select id="mimo-voice-select"></select></label><p id="mimo-provider-status" class="field-hint" role="status"></p><label>Voice description · 声音描述<textarea id="mimo-voice-style" rows="3" maxlength="800" placeholder="例如：成年女性，清冷从容，略带气声，咬字清楚，语速自然。"></textarea></label><p class="field-hint">Voice Design 根据这段描述设计声音，不使用预置音色。官方流式接口目前需等完整推理结束才返回音频；故事先准备后播放，聊天会有生成等待。预置模型保留作为可选项。<a href="https://mimo.mi.com/docs/zh-CN/quick-start/usage-guide/audio/speech-synthesis-v2.5" target="_blank" rel="noopener">官方说明 ↗</a></p></div>
 <div data-voice-provider="minimax" hidden><label>Voice · 音色<select id="minimax-voice-select"></select></label><p id="voice-provider-status" class="field-hint" role="status"></p><p class="field-hint">¥2 / 万计费字符，1 个汉字按 2 个字符计。<a href="https://platform.minimax.cn/docs/pricing/overview" target="_blank" rel="noopener">查看官方价格 ↗</a></p></div>
 <div class="fields-two" id="voice-numeric-controls"><label>Speed · 语速 <output id="voice-rate-value"></output><input id="voice-rate" type="range" min="-20" max="20" step="1"></label><label data-voice-provider="edge-tts">Pitch · 音高 <output id="voice-pitch-value"></output><input id="voice-pitch" type="range" min="-8" max="8" step="1"></label><label data-voice-provider="minimax" hidden>Pitch · 音高 <output id="minimax-pitch-value"></output><input id="minimax-pitch" type="range" min="-4" max="4" step="1"></label></div>
 <div class="fields-two"><label id="voice-volume-field">Volume · 音量 <output id="voice-volume-value"></output><input id="voice-volume" type="range" min="-10" max="10" step="1"></label><label>Delivery · 说话节奏<select id="voice-delivery"><option value="fast">低延迟 · 较早开口</option><option value="natural">自然停顿 · 完整语句</option></select></label></div>
@@ -102,22 +104,73 @@
 <label for="scene-subtitle">Subtitle hold · 语音结束后保留 <output id="scene-subtitle-value"></output><input id="scene-subtitle" type="range" min="1" max="20" step="1"></label>
 <p class="field-hint">说话时字幕持续显示；语音结束后再计时隐藏。新回复会重新计时。</p>
 <div class="switch-row"><label><input id="scene-music-enabled" type="checkbox">Background music · 开启背景音乐</label></div>
+<label for="scene-music-source">Music source · 音乐来源<select id="scene-music-source"><option value="file">Music file · 内置 / 本地 MP3</option><option value="system">System sound · 采集标签页 / 应用</option></select></label>
+<div id="music-system-controls" class="music-capture-card" hidden><div class="eyebrow">LIVE AUDIO · 实时音乐</div><h4>A little music, from your world.</h4><p>在 Chrome / Edge 中选择正在播放音乐的标签页，勾选「分享音频」。支持独立窗口音频的浏览器也可选择音乐应用。</p><div class="capture-actions"><button type="button" id="music-capture-start" class="soft-button">♫ Choose tab / app · 选择声音</button><button type="button" id="music-capture-stop" class="soft-button" disabled>Stop · 停止</button></div><p id="music-capture-status" class="field-hint" role="status"></p><p class="field-hint">点击 Apply &amp; save 后，声音传入直播输出并自动避让人声。保持此控制台打开；刷新或关闭后需重新选择。预览不播放采集音乐。</p><p class="field-hint">只选择音乐来源，不要选择直播输出或直播伴侣。关闭直播伴侣对原音乐应用的重复收音；应用原声若仍在本机播放，请使用播放器的独立输出设备。整个桌面混音不支持。</p></div>
+<div id="music-file-controls">
 <label for="scene-music-track">Music track · 音乐曲目<select id="scene-music-track"><option value="">Conversation lounge · 内置轻柔钢琴</option><optgroup id="media-music-options" label="Uploaded MP3s · 本地音乐"></optgroup></select></label><div class="media-upload-row"><div><strong>A sound of your own · 本地音乐</strong><p>MP3 · 最多 50 MB。循环播放，说话时自动降低音量。</p></div><button type="button" id="media-music-upload" class="soft-button">↑ Upload MP3</button><input id="media-music-file" type="file" accept=".mp3,audio/mpeg" hidden aria-label="选择本地 MP3 音乐"></div><p id="media-music-status" class="field-hint" role="status">上传的曲目保存在本地，所有角色共用。</p>
+</div>
 <label for="scene-music-volume">Music volume · 音乐音量 <output id="scene-music-volume-value"></output><input id="scene-music-volume" type="range" min="0" max="0.4" step="0.01"></label>
-<p class="field-hint">音乐循环播放，说话时自动降到四分之一音量，结束后缓慢恢复。控制台缩略预览不自动播放音乐。</p>
+<p class="field-hint">文件音乐循环播放；采集来源实时播放。说话时自动降到四分之一音量，结束后缓慢恢复。控制台预览不自动播放音乐。</p>
 <audio id="scene-music-preview" controls preload="none" src="/static/music/conversation-lounge.mp3" aria-label="试听背景音乐" style="width:100%;height:34px"></audio>
 </section>
 </div></div>
 <footer class="direction-footer"><span id="direction-status" role="status">设置保存在本地</span><div><button type="button" id="direction-discard" class="text-button">Discard edits</button><button type="submit" id="direction-save" class="button primary">Apply & save</button></div></footer>
 </form></dialog>
+<dialog id="api-dialog" aria-labelledby="api-title"><form id="api-form" autocomplete="off">
+<header class="api-heading"><div><div class="eyebrow">LOCAL CONNECTIONS · 全角色共用</div><h2 id="api-title">The mind. The voice.</h2><p>文字与语音分别配置。已保存的密钥不会显示；留空保留当前密钥。</p></div><button type="button" id="api-close" class="text-button" aria-label="关闭 API 设置">×</button></header>
+<div class="api-body"><div class="api-columns">
+<section class="api-card"><div class="eyebrow">01 / TEXT RESPONSE</div><h3>Text · 回应模型</h3>
+<label for="api-text-provider">Provider · 服务商</label><select id="api-text-provider"><option value="glm">GLM · 智谱 BigModel</option><option value="openai">OpenAI-compatible · 兼容接口</option><option value="deepseek">DeepSeek</option><option value="qwen">Qwen</option><option value="ollama">Local Ollama</option><option value="mock">Offline mock · 离线测试</option></select>
+<label for="api-text-url">Base URL · 接口地址</label><input id="api-text-url" type="url" maxlength="400" required spellcheck="false">
+<label for="api-text-model">Model · 模型 ID</label><input id="api-text-model" maxlength="100" required spellcheck="false" list="api-models"><datalist id="api-models"><option value="glm-4.7-flashx"><option value="glm-4.7-flash"><option value="glm-4-flash-250414"></datalist>
+<div class="api-fast-note">✧ Deep thinking off · 关闭深度思考</div>
+<label for="api-text-key">Text API key · 文字密钥 <span id="api-text-key-status" class="api-key-badge"></span></label><input id="api-text-key" type="password" maxlength="2048" autocomplete="new-password" spellcheck="false" placeholder="留空保留当前密钥">
+<label for="api-text-route">Network route · 网络方式</label><select id="api-text-route"><option value="direct">Direct · 直接连接</option><option value="auto">Auto · 环境 / Windows 代理</option><option value="environment">Environment · HTTP(S)_PROXY</option></select>
+<button type="button" id="api-test-text" class="soft-button">Test text · 测试文本</button><p id="api-text-result" class="api-result" role="status"></p></section>
+<section class="api-card"><div class="eyebrow">02 / TEXT TO SPEECH</div><h3>Voice · 语音接口</h3>
+<label for="api-tts-provider">Manage key for · 管理服务商密钥</label><select id="api-tts-provider"><option value="mimo-tts">MiMo TTS · 小米</option><option value="glm-tts">GLM TTS · 智谱</option><option value="minimax">MiniMax TTS</option></select>
+<p class="api-hint">音色与当前语音服务商在角色的 Voice 面板选择。这里的接口设置全角色共用。</p>
+<label for="api-tts-key">TTS API key · 语音密钥 <span id="api-tts-key-status" class="api-key-badge"></span></label><input id="api-tts-key" type="password" maxlength="2048" autocomplete="new-password" spellcheck="false" placeholder="留空保留当前密钥">
+<p id="api-glm-key-hint" class="api-hint" hidden>未单独设置 GLM 语音密钥时，会使用已保存的 GLM 文字密钥或 .env 中的 GLM_API_KEY。</p>
+<div id="api-mimo-fields"><label for="api-mimo-url">MiMo Base URL · 账号对应的接口地址</label><input id="api-mimo-url" type="url" maxlength="400" spellcheck="false"><p class="api-hint">从 MiMo 控制台复制与密钥配套的按量付费 /v1 地址。国内/海外账号不互通；不能使用 Token Plan 地址。</p>
+<label for="api-mimo-route">MiMo network route · 网络方式</label><select id="api-mimo-route"><option value="auto">Auto · 环境 / Windows 代理</option><option value="direct">Direct · 直接连接</option><option value="environment">Environment · HTTP(S)_PROXY</option></select></div>
+<p id="api-route-summary" class="api-hint"></p><button type="button" id="api-test-tts" class="soft-button">Test voice · 测试语音</button><p id="api-tts-result" class="api-result" role="status"></p>
+</section></div><p class="api-footnote">测试使用当前草稿，发送一句短文本，不保存、不广播；可能产生少量 API 用量。Direct 不使用 HTTP 代理，但无法绕过 VPN 的全局隧道。</p></div>
+<footer class="api-footer"><span id="api-status" role="status">密钥仅保存在本机私有配置文件，不写入角色档案或 Git。</span><div><button type="button" id="api-reload" class="text-button">Reload · 重新读取</button><button type="submit" id="api-save" class="button primary">Save API settings · 保存</button></div></footer></form></dialog>
 <div id="toast" role="status" aria-live="polite"></div>
+<dialog id="sing-dialog" aria-labelledby="sing-title-heading"><form id="sing-form">
+<header class="api-heading"><div><div class="eyebrow">SINGING STUDIO · 一首歌的时间</div><h2 id="sing-title-heading">A voice with a melody.</h2><p>上传录音或已转换的歌曲，试听后再上舞台。歌曲结束回到聊天，唱歌期间不插播欢迎。</p></div><button type="button" id="sing-close" class="text-button" aria-label="关闭唱歌设置">×</button></header>
+<div class="api-body"><div class="api-columns">
+<section class="api-card"><div class="eyebrow">01 / UPLOAD & PERFORM</div><h3>Your song. Astra’s little stage.</h3><p class="api-hint">上传 MP3 原曲或已转换成 Astra 声音的版本，播放时对口型；不调用 TTS 改写旋律。最多 20 MB / 10 分钟。</p><button type="button" id="sing-track-upload" class="soft-button">Upload song MP3 · 上传整曲</button><input type="file" id="sing-track-file" accept=".mp3,audio/mpeg" hidden><label class="story-check"><input type="checkbox" id="sing-show-generated">显示旧的实验生成曲目</label><details><summary class="api-hint">Experimental TTS singing · 实验生成（不保证原曲旋律）</summary><div class="eyebrow">CREATE A VOCAL</div><h3>Sing it softly.</h3>
+<label for="sing-title">Title · 曲目名称</label><input id="sing-title" value="银龙晚风 · 原创测试" maxlength="80">
+<label for="sing-lyrics">Lyrics · 歌词</label><textarea id="sing-lyrics" rows="9" maxlength="1800" placeholder="粘贴你提供的歌词；歌名本身不会检索歌词或旋律。"></textarea>
+<button type="button" id="sing-demo" class="text-button">填入原创演唱示例</button>
+<label for="sing-style">Delivery · 演唱风格</label><textarea id="sing-style" rows="3" maxlength="600">温柔、轻盈的成年女声，轻快的流行旋律，清唱。保持自然呼吸，完整唱完全部歌词。</textarea>
+<p class="api-hint">使用当前角色的 MiMo 预置音色与已保存密钥。生成后保存在本机，不会自动播放。建议先试 4 行短段。服务可能漏唱或改词；完成响应不代表完整唱完。最多 1800 字 / 300 秒，需人工试听。</p>
+<div class="sing-actions"><button id="sing-generate" type="submit" class="soft-button">Generate vocals · 生成人声</button><button id="sing-cancel" type="button" class="text-button" disabled>取消生成</button></div></details></section>
+<section class="api-card"><div class="eyebrow">02 / REHEARSE & PERFORM</div><h3>Find the right moment.</h3>
+<div class="eyebrow" id="sing-library-owner">CHARACTER SONG LIBRARY</div><label for="sing-songs">Song library · 当前角色歌库</label><select id="sing-songs"><option value="">选择已生成的演唱</option></select><p id="sing-song-info" class="api-hint"></p>
+<audio id="sing-audition" controls preload="metadata" aria-label="试听曲目"></audio><button type="button" id="sing-guide-upload" class="text-button">Optional vocal guide · 上传人声口型轨</button><input type="file" id="sing-guide-file" accept=".mp3,audio/mpeg" hidden><p id="sing-guide-status" class="api-hint">可选人声分轨用于口型，整曲仍正常播放。没有人声分轨时，口型按整曲音量近似，可能随伴奏张嘴。</p>
+<button type="button" id="sing-backup" class="text-button">Backup library · 备份歌库 ZIP</button><p class="api-hint">已生成歌曲可随时重放，不再调用 TTS。备份包含本角色的人声、歌词与音色记录，不包含密钥或伴奏。</p>
+<label for="sing-music">Music during singing · 演唱配乐</label><select id="sing-music"><option value="quiet">清唱 · 暂停背景音乐</option><option value="shared">沿用当前背景音乐 · 氛围模式</option><option value="accompaniment">上传伴奏 · 调整人声入点</option></select>
+<div id="sing-backing-fields" hidden><label for="sing-backing">Instrumental MP3 · 伴奏</label><select id="sing-backing"><option value="">选择已上传的 MP3 伴奏</option></select><button type="button" id="sing-upload" class="soft-button">Upload MP3 · 上传伴奏</button><input id="sing-file" type="file" accept=".mp3,audio/mpeg" hidden><label for="sing-delay">Vocal start offset · 人声入点（秒）</label><input id="sing-delay" type="number" min="-10" max="30" step=".1" value="0"><p class="api-hint">正值：伴奏先开始；负值：人声先开始。两轨共用播放时钟，但不会自动校准音高、速度或每句歌词。伴奏最多 330 秒 / 20 MB。</p></div>
+<div class="fields-two"><div><label for="sing-vocal-volume">人声音量</label><input id="sing-vocal-volume" type="range" min="0" max="1" step=".05" value=".85"></div><div><label for="sing-back-volume">伴奏音量</label><input id="sing-back-volume" type="range" min="0" max=".6" step=".02" value=".2"></div></div>
+<label for="sing-bpm">Visual sway · 摇头节拍</label><input id="sing-bpm" type="number" min="40" max="180" step="1" value="80"><p class="api-hint">只控制站立角色的小幅头部律动，不修改音频节奏。座驾保持手与方向盘的固定接触，使用对称的轻闭眼演唱表情与真实口型。</p>
+<div class="sing-actions"><button type="button" id="sing-play" class="soft-button" disabled>Play on stage · 舞台演唱</button><button type="button" id="sing-stop" class="text-button" disabled>Stop · 停止</button></div></section>
+</div><p class="api-footnote">Voice Design 用于聊天与故事；它不支持唱歌。歌曲可先在离线工具中转换音色，再上传到歌库。播放整曲时无需额外背景音乐；口型人声轨与整曲需从同一位置开始、时长差不超过 2 秒。</p></div>
+<footer class="api-footer"><span id="sing-status" role="status">先试听人声，再播放到舞台。</span><a class="text-button" href="/?overlay=1&controls=0" target="_blank" rel="noopener">Open output ↗</a></footer>
+</form></dialog>
 <dialog id="guide-dialog"><button class="dialog-close" data-close aria-label="关闭">×</button><div class="eyebrow">STUDIO GUIDE</div><h2>Your first little broadcast</h2><ol><li>发送模拟弹幕，检查回复和角色动作。Mock 是离线演示；真实 AI 请在 config.yaml 配置云端 API 或 Ollama。</li><li>2D Lite 是默认低算力模式。3D VRM 可在预览中切换；修改 config.yaml 可设置正式输出。</li><li>点击 Copy OBS source，将地址添加到 OBS 浏览器源，建议 1440 × 1080（4:3）。Scene 面板可设置宫殿、花园、月光背景、小伙伴、底部柔焦或透明输出。</li><li>预览默认静音。点击 Sound off 可开启；浏览器可能需要一次点击才能播放。</li></ol><p>连接只表示本地服务已连通；B站采集状态见 Engine。这里的动作与消息测试会同时发送到所有已打开的输出窗口。</p><a href="/docs" target="_blank" rel="noopener" class="text-button">Local API documentation ↗</a></dialog>
 <dialog id="reference-dialog"><button class="dialog-close" data-close aria-label="关闭">×</button><div class="eyebrow">CHARACTER REFERENCE</div><h2>The silver dragon</h2><img src="/static/avatar_dragon/reference.png" alt="银白长发、淡紫龙翼和白色长裙角色的正面、侧面、背面三视图"></dialog>
 <script src="/static/character-motion.js"></script>
 <dialog id="new-character-dialog" aria-labelledby="new-character-title"><form id="new-character-form"><div class="eyebrow">A NEW PERSONALITY</div><h2 id="new-character-title">Meet someone new.</h2><p>从 <strong id="new-character-source">Astra</strong> 复制身份、声音与动作，创建后可分别调整。</p><label for="new-character-name">Character name · 角色名称</label><input id="new-character-name" maxlength="40" required autocomplete="off" placeholder="给新角色起个名字" autofocus><div class="profile-artwork-note">Artwork · 当前画稿为 Astra。新角色先共用这套画稿；独立外观需要对应的角色素材。</div><p>场景、小伙伴和音乐保持不变。启动默认角色仍为 Astra。</p><p id="new-character-error" class="error" role="status"></p><div class="new-character-footer"><button type="button" id="new-character-cancel" class="text-button">Cancel</button><button type="submit" id="new-character-submit" class="button primary">Create &amp; switch</button></div></form></dialog>
-<script src="/static/stage-scene.js?v=uploads-1"></script><script src="/static/control.js?v=profiles-1"></script>
+<script src="/static/stage-scene.js?v=capture-1"></script><script src="/static/control.js?v=stories-2"></script>
 <script src="/static/character-profiles.js?v=uploads-1"></script>
+<script src="/static/music-capture.js?v=capture-1"></script>
 <script src="/static/shared-media.js?v=uploads-1"></script>
-<script src="/static/studio-controls.js?v=uploads-1"></script>
+<script src="/static/studio-controls.js?v=stories-2"></script>
+<script src="/static/api-controls.js?v=api-1"></script>
+<dialog id="module-presentation-dialog" aria-labelledby="module-presentation-title"><form id="module-presentation-form"><div class="eyebrow">CHARACTER × MODULE</div><h2 id="module-presentation-title">Pose &amp; face</h2><p>每个角色、每个模块独立保存。舞台、玩偶与音乐继续共用。</p><label for="module-pose">Pose · 姿势</label><select id="module-pose"></select><label for="module-expression">Expression · 表情类型</label><select id="module-expression"></select><label for="module-strength">Movement · 动作幅度</label><input id="module-strength" type="range" min="0" max="1" step=".05"><p class="api-hint">站立模型使用已有的安全关节动作。座驾使用固定驾驶姿势，只切换面部表现；不会移动方向盘上的手。新角色外观需另配画稿。</p><p id="module-presentation-status" role="status"></p><div class="module-actions"><button type="button" id="module-presentation-close" class="text-button">Close · 关闭</button><button type="submit" class="soft-button">Save module look · 保存模块表演</button></div></form></dialog>
+<script src="/static/module-host.js?v=stories-voice-3"></script>
 </body></html>
 

@@ -1,0 +1,268 @@
+{
+  "researched_at": "2026-10-27T09:00:12.188536+00:00",
+  "scope": "Read-only repository and public metadata research. No media downloaded and no code installed/executed by this researcher.",
+  "repository": {
+    "url": "https://github.com/Echoziness/bili-dl",
+    "python_requirement": ">=3.11",
+    "install": "pipx install bili-dl",
+    "alternative_install": "python -m pip install bili-dl",
+    "audio_only_example": "bili-dl -a https://www.bilibili.com/video/BV1D64y1Z7Ko/ --audio-dir output",
+    "batch_example": "bili-dl -a --batch-file urls.txt --audio-dir output",
+    "normal_cli_requires_bilibili_session": true,
+    "anonymous_cli_supported": false,
+    "anonymous_note": "CLI _main_impl unconditionally calls _prepare_cookie before downloading. The underlying yt-dlp engine is a separate capability and was not executed by this researcher.",
+    "audio_output": "M4A preferred; audio extraction/remux requires FFmpeg; project MP3 upload may require transcoding.",
+    "session_setup": "bili-dl login --url-only for independent QR login; cookies stay local.",
+    "source_links": [
+      "https://raw.githubusercontent.com/Echoziness/bili-dl/main/README.md",
+      "https://raw.githubusercontent.com/Echoziness/bili-dl/main/docs/usage.md",
+      "https://raw.githubusercontent.com/Echoziness/bili-dl/main/pyproject.toml",
+      "https://raw.githubusercontent.com/Echoziness/bili-dl/main/src/bili_dl/cli.py",
+      "https://raw.githubusercontent.com/Echoziness/bili-dl/main/src/bili_dl/media.py",
+      "https://raw.githubusercontent.com/Echoziness/bili-dl/main/src/bili_dl/ffmpeg.py"
+    ],
+    "dependency_caveat": "README automatic-dependency claim and fetched raw pyproject/media implementation differed; verify installed package version and binaries."
+  },
+  "videos": [
+    {
+      "song_id": "qi_feng_le",
+      "selection": "user_provided",
+      "bvid": "BV1D64y1Z7Ko",
+      "url": "https://www.bilibili.com/video/BV1D64y1Z7Ko/",
+      "metadata_source": "https://api.bilibili.com/x/web-interface/view?bvid=BV1D64y1Z7Ko",
+      "http_status": 200,
+      "api_code": 0,
+      "title": "原版《起风了》买辣椒也用券【纯享收藏级】",
+      "title_normalized_to_omit_lyric_excerpt": false,
+      "uploader": {
+        "name": "香风小海",
+        "mid": 672378328
+      },
+      "duration_seconds": 310,
+      "published_at": "2021-01-03T09:00:13+08:00",
+      "pages": [
+        {
+          "page": 1,
+          "cid": 276282458,
+          "duration_seconds": 310
+        }
+      ],
+      "version_note": "Mai La Jiao Ye Yong Quan / original recording, AMV upload",
+      "authorization_not_verified": true
+    },
+    {
+      "song_id": "xiao_xing_yun",
+      "selection": "user_provided",
+      "bvid": "BV1y82uB2ET4",
+      "url": "https://www.bilibili.com/video/BV1y82uB2ET4/",
+      "metadata_source": "https://api.bilibili.com/x/web-interface/view?bvid=BV1y82uB2ET4",
+      "http_status": 200,
+      "api_code": 0,
+      "title": "【Hi-Res无损】田馥甄《小幸运》 | 音乐可视化 | 动态歌词",
+      "title_normalized_to_omit_lyric_excerpt": true,
+      "uploader": {
+        "name": "Music小铁匠",
+        "mid": 1861661662
+      },
+      "duration_seconds": 264,
+      "published_at": "2025-11-07T17:10:00+08:00",
+      "pages": [
+        {
+          "page": 1,
+          "cid": 33784202059,
+          "duration_seconds": 264
+        }
+      ],
+      "version_note": "Hebe Tien / Hi-Res visualization upload",
+      "authorization_not_verified": true
+    },
+    {
+      "song_id": "gao_bai_qi_qiu",
+      "selection": "user_provided",
+      "bvid": "BV1A3411J7HX",
+      "url": "https://www.bilibili.com/video/BV1A3411J7HX/",
+      "metadata_source": "https://api.bilibili.com/x/web-interface/view?bvid=BV1A3411J7HX",
+      "http_status": 200,
+      "api_code": 0,
+      "title": "【4K60帧】《告白气球》——周杰伦",
+      "title_normalized_to_omit_lyric_excerpt": false,
+      "uploader": {
+        "name": "听懂掌声Music",
+        "mid": 343821789
+      },
+      "duration_seconds": 218,
+      "published_at": "2022-02-04T18:00:12+08:00",
+      "pages": [
+        {
+          "page": 1,
+          "cid": 501049951,
+          "duration_seconds": 218
+        }
+      ],
+      "version_note": "Jay Chou / 4K60 music video upload",
+      "authorization_not_verified": true
+    },
+    {
+      "song_id": "da_yu",
+      "selection": "user_provided",
+      "bvid": "BV1f59QBGEhx",
+      "url": "https://www.bilibili.com/video/BV1f59QBGEhx/",
+      "metadata_source": "https://api.bilibili.com/x/web-interface/view?bvid=BV1f59QBGEhx",
+      "http_status": 200,
+      "api_code": 0,
+      "title": "【4K-120FPS】大鱼 - 周深",
+      "title_normalized_to_omit_lyric_excerpt": false,
+      "uploader": {
+        "name": "松风君",
+        "mid": 278801573
+      },
+      "duration_seconds": 314,
+      "published_at": "2026-04-29T16:46:49+08:00",
+      "pages": [
+        {
+          "page": 1,
+          "cid": 37939514901,
+          "duration_seconds": 314
+        }
+      ],
+      "version_note": "Zhou Shen / 4K120 upload",
+      "authorization_not_verified": true
+    },
+    {
+      "song_id": "dao_xiang",
+      "selection": "searched_candidate",
+      "bvid": "BV1BdjG63E53",
+      "url": "https://www.bilibili.com/video/BV1BdjG63E53/",
+      "metadata_source": "https://api.bilibili.com/x/web-interface/view?bvid=BV1BdjG63E53",
+      "http_status": 200,
+      "api_code": 0,
+      "title": "【4K修复】周杰伦《稻香》MV 日版母盘官方歌词",
+      "title_normalized_to_omit_lyric_excerpt": false,
+      "uploader": {
+        "name": "时光唱片行",
+        "mid": 1158387559
+      },
+      "duration_seconds": 230,
+      "published_at": "2026-06-16T23:01:41+08:00",
+      "pages": [
+        {
+          "page": 1,
+          "cid": 39168116438,
+          "duration_seconds": 230
+        }
+      ],
+      "version_note": "Jay Chou / repaired MV, Japanese-disc source claimed",
+      "authorization_not_verified": true
+    },
+    {
+      "song_id": "qi_li_xiang",
+      "selection": "searched_candidate",
+      "bvid": "BV1qD4y1U7fs",
+      "url": "https://www.bilibili.com/video/BV1qD4y1U7fs/",
+      "metadata_source": "https://api.bilibili.com/x/web-interface/view?bvid=BV1qD4y1U7fs",
+      "http_status": 200,
+      "api_code": 0,
+      "title": "【4K60FPS】周杰伦《七里香》封神之作！华语乐坛最美的一首歌",
+      "title_normalized_to_omit_lyric_excerpt": false,
+      "uploader": {
+        "name": "音乐私藏馆",
+        "mid": 229733301
+      },
+      "duration_seconds": 298,
+      "published_at": "2020-08-12T18:22:04+08:00",
+      "pages": [
+        {
+          "page": 1,
+          "cid": 351660720,
+          "duration_seconds": 298
+        }
+      ],
+      "version_note": "Jay Chou / repaired 4K60 MV",
+      "authorization_not_verified": true
+    },
+    {
+      "song_id": "ping_fan_zhi_lu",
+      "selection": "searched_candidate",
+      "bvid": "BV18m4y1Z7ZV",
+      "url": "https://www.bilibili.com/video/BV18m4y1Z7ZV/",
+      "metadata_source": "https://api.bilibili.com/x/web-interface/view?bvid=BV18m4y1Z7ZV",
+      "http_status": 200,
+      "api_code": 0,
+      "title": "【官方MV】朴树 《平凡之路》（电影《后会无期》主题曲）",
+      "title_normalized_to_omit_lyric_excerpt": false,
+      "uploader": {
+        "name": "酷我音乐",
+        "mid": 1824939061
+      },
+      "duration_seconds": 306,
+      "published_at": "2022-02-10T10:00:11+08:00",
+      "pages": [
+        {
+          "page": 1,
+          "cid": 504704385,
+          "duration_seconds": 306
+        }
+      ],
+      "version_note": "Pu Shu / movie-theme MV uploaded by Kuwo Music",
+      "authorization_not_verified": true
+    },
+    {
+      "song_id": "ye_kong_zhong_zui_liang_de_xing",
+      "selection": "searched_candidate",
+      "bvid": "BV1F4411P7Cn",
+      "url": "https://www.bilibili.com/video/BV1F4411P7Cn/",
+      "metadata_source": "https://api.bilibili.com/x/web-interface/view?bvid=BV1F4411P7Cn",
+      "http_status": 200,
+      "api_code": 0,
+      "title": "夜空中最亮的星―逃跑计划   官方《MV》",
+      "title_normalized_to_omit_lyric_excerpt": false,
+      "uploader": {
+        "name": "孙笑川257-",
+        "mid": 433357925
+      },
+      "duration_seconds": 253,
+      "published_at": "2019-06-12T17:21:49+08:00",
+      "pages": [
+        {
+          "page": 1,
+          "cid": 96810852,
+          "duration_seconds": 253
+        }
+      ],
+      "version_note": "Escape Plan / standard MV reupload",
+      "authorization_not_verified": true
+    },
+    {
+      "song_id": "qian_si_xi",
+      "selection": "searched_candidate",
+      "bvid": "BV1ZL411i7YQ",
+      "url": "https://www.bilibili.com/video/BV1ZL411i7YQ/",
+      "metadata_source": "https://api.bilibili.com/x/web-interface/view?bvid=BV1ZL411i7YQ",
+      "http_status": 200,
+      "api_code": 0,
+      "title": "在百万豪装录音棚大声听 银临& Aki阿杰《牵丝戏》【Hi-res】",
+      "title_normalized_to_omit_lyric_excerpt": false,
+      "uploader": {
+        "name": "JLRS-LeoFM",
+        "mid": 3493093607213343
+      },
+      "duration_seconds": 242,
+      "published_at": "2023-05-25T18:45:16+08:00",
+      "pages": [
+        {
+          "page": 1,
+          "cid": 1141484127,
+          "duration_seconds": 242
+        }
+      ],
+      "version_note": "Yin Lin & Aki Ajie / standard recording listening-room visualization",
+      "authorization_not_verified": true
+    }
+  ],
+  "limitations": [
+    "Search candidates are not confirmed user selections.",
+    "Public upload titles and download flags do not establish broadcast, conversion, or redistribution permission.",
+    "Uploader titles claiming official MV do not establish uploader identity or licensing.",
+    "Metadata read without cookies or user credentials."
+  ]
+}

@@ -1,0 +1,14 @@
+Running…
+PASS remote audio arrives in the production music player
+PASS received audio contains decoded signal
+PASS only audio is transmitted
+PASS configured output gain
+PASS voice ducks capture to 25%
+PASS gain restores after speech
+PASS profile reapply preserves capture
+PASS publisher stop silences output
+PASS new publisher reconnects without reloading output
+PASS receiver connection recovers
+PASS file mode releases live capture
+PASS music off disconnects the receiver
+ALL PASSED
