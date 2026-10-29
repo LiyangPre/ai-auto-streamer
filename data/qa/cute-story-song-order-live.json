@@ -1,0 +1,14 @@
+{
+  "requested_at": 1793167259.0327315,
+  "start_event_at": 1793167259.6059573,
+  "playback_id": "bb75deedaf6e46419ea88c2787911d54",
+  "title": "小幸运",
+  "starts_at": 1793167262.700293,
+  "intro": "准备好了吗？我要开始唱啦。",
+  "blocked_titles": [
+    "告白气球",
+    "海屿你"
+  ],
+  "source": "local danmaku test",
+  "queue_to_song_pass": true
+}

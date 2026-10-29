@@ -1,0 +1,30 @@
+[
+  {
+    "id": "139520cc7e254c009ee3370d177cf714",
+    "title": "泡沫",
+    "duration": 255.922,
+    "lyrics_offset": 0.0,
+    "playback_range": {
+      "start_seconds": 0.0,
+      "end_seconds": null
+    },
+    "blocked": false,
+    "lyric_cues": 35
+  },
+  {
+    "id": "10dec8e228f74084aea80e6902e2225c",
+    "title": "大鱼",
+    "duration": 313.783,
+    "lyrics_offset": 0.0,
+    "blocked": true,
+    "lyric_cues": 48
+  },
+  {
+    "id": "8ca0d73502664d0aadbf6c2cfc3ad8cf",
+    "title": "海屿你",
+    "duration": 281.835,
+    "lyrics_offset": 0.0,
+    "blocked": true,
+    "lyric_cues": 49
+  }
+]

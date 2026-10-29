@@ -28,7 +28,7 @@ class StudioAPITests(unittest.TestCase):
         self.config_patch.start(); self.path_patch.start()
         self.stdin_patch = patch('src.danmaku.sys.stdin.isatty', return_value=False)
         self.stdin_patch.start()
-        self.client = TestClient(app)
+        self.client = TestClient(app, base_url='http://localhost', headers={'X-Studio-API':'1','Origin':'http://localhost'})
         self.client.__enter__()
 
     def tearDown(self):
@@ -156,7 +156,7 @@ class StudioAPITests(unittest.TestCase):
                'character_x':-18,'character_y':4,'character_scale':1.25,
                'subtitle_seconds':7,'music_enabled':False,'music_volume':.12}
         payload['scene']=scene
-        with self.client.websocket_connect('/ws') as socket:
+        with self.client.websocket_connect('ws://localhost/ws') as socket:
             socket.receive_json()
             response=self.client.post('/api/studio',json=payload)
             self.assertEqual(response.status_code,200,response.text)
@@ -265,7 +265,7 @@ class StudioAPITests(unittest.TestCase):
         self.assertEqual(restored.character.name, Config().character.name)
 
     def test_director_line_bypasses_model_and_uses_action_mapping(self):
-        with self.client.websocket_connect('/ws') as websocket:
+        with self.client.websocket_connect('ws://localhost/ws') as websocket:
             websocket.receive_json()
             response = self.client.post('/api/direct-reply', json={'text': '晚上好，欢迎来这里休息一下。', 'emotion': 'happy'})
             self.assertEqual(response.status_code, 200)

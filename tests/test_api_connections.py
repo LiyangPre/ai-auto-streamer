@@ -1,6 +1,8 @@
+import asyncio
 import json
 import os
 import socket
+import ssl
 import tempfile
 import unittest
 from pathlib import Path
@@ -25,7 +27,7 @@ class ConnectionAPITests(unittest.TestCase):
             patch('src.server.settings_path',return_value=self.path),patch('src.danmaku.sys.stdin.isatty',return_value=False),
             patch.dict(os.environ,{'GLM_API_KEY':'env-test-glm','MIMO_API_KEY':''})]
         for p in self.patches:p.start()
-        self.client=TestClient(app,headers={'X-Studio-API':'1','Origin':'http://testserver'});self.client.__enter__()
+        self.client=TestClient(app, base_url='http://localhost', headers={'X-Studio-API':'1','Origin':'http://localhost'});self.client.__enter__()
 
     def tearDown(self):
         self.client.__exit__(None,None,None)
@@ -91,7 +93,7 @@ class ConnectionAPITests(unittest.TestCase):
         data=self.payload()
         for headers in [{'Origin':'https://attacker.example'},{'X-Studio-API':''},
                         {'Host':'attacker.example','Origin':'http://attacker.example'}]:
-            self.assertEqual(self.client.post('/api/connections',json=data,headers=headers).status_code,403)
+            self.assertEqual(self.client.post('/api/connections',json=data,headers=headers).status_code,400 if 'Host' in headers else 403)
         data['mimo']['base_url']='https://attacker.example/v1'
         self.assertEqual(self.client.post('/api/connections',json=data).status_code,422)
         data=self.payload();data['revision']=123
@@ -106,6 +108,81 @@ class ConnectionAPITests(unittest.TestCase):
             self.assertEqual(self.client.post('/api/connections',json=data).status_code,500)
         self.assertIs(server.pipeline.llm,original)
         self.assertEqual(server.app.state.connections.revision,0)
+
+    def test_fallback_policy_persists_and_public_catalog_does_not_guess_sizes(self):
+        data=self.payload()
+        data['text'].update(provider='glm',model='GLM-4.7-Flash',base_url='https://open.bigmodel.cn/api/paas/v4',
+                            fallback_models=['glm-4-flash-250414','glm-4-flashx-250414'],
+                            fallback_attempt_timeout=3,fallback_total_timeout=20,delay_notice_enabled=True)
+        response=self.client.post('/api/connections',json=data)
+        self.assertEqual(response.status_code,200,response.text)
+        value=response.json()
+        self.assertEqual(value['text']['model'],'glm-4.7-flash')
+        self.assertEqual(self.config.llm.fallback_models,data['text']['fallback_models'])
+        fresh=Config();store=ConnectionStore(connection_path(self.path),fresh);store.load();store.apply(fresh)
+        self.assertEqual(fresh.llm.fallback_models,data['text']['fallback_models'])
+        catalog={row['id']:row for row in value['glm_catalog']}
+        self.assertEqual(catalog['glm-4.7-flash']['total_b'],30)
+        self.assertIsNone(catalog['glm-4.7-flashx']['total_b'])
+        self.assertNotIn('env-test-glm',response.text)
+        self.assertIn('text_runtime',value)
+
+    def test_stream_probe_reports_actual_backup_and_attempts(self):
+        data=self.payload();data['target']='text'
+        data['text'].update(provider='glm',model='glm-4.7-flash',base_url='https://open.bigmodel.cn/api/paas/v4',
+                            fallback_models=['glm-4-flash-250414'])
+        async def scripted(engine,*args,model=None,**kwargs):
+            if model=='glm-4.7-flash':
+                raise LLMError('Temporary service error',{'code':'provider_service','http_status':500,'message':'Temporary service error'})
+            yield '连接成功。','normal'
+        with patch('src.api_routes.LLMProcessor._chat_stream_one',scripted):
+            response=self.client.post('/api/connections/test',json=data)
+        value=response.json()
+        self.assertTrue(value['ok'],value)
+        self.assertEqual(value['model'],'glm-4-flash-250414')
+        self.assertEqual([item['ok'] for item in value['attempts']],[False,True])
+        self.assertFalse(connection_path(self.path).exists())
+
+    def test_api_rejects_forced_thinking_primary_and_backup(self):
+        for primary,backups in [('glm-5.3',[]),('glm-4.7-flash',['glm-5.3-flash'])]:
+            data=self.payload();data['text'].update(provider='glm',model=primary,fallback_models=backups)
+            self.assertEqual(self.client.post('/api/connections',json=data).status_code,422)
+
+    def test_text_probe_uses_live_stream_mode_and_reports_first_text_without_echo(self):
+        data=self.payload();data['target']='text'
+        async def chunks(engine,*args):
+            yield '',None
+            yield 'private probe reply','normal'
+        with patch('src.api_routes.MockLLM.chat_stream',chunks),patch('src.api_routes.MockLLM.chat',new=AsyncMock(side_effect=AssertionError('Nonstream called'))):
+            response=self.client.post('/api/connections/test',json=data)
+        result=response.json()
+        self.assertTrue(result['ok'])
+        self.assertTrue(result['stream'])
+        self.assertGreaterEqual(result['first_text_ms'],0)
+        self.assertLessEqual(result['first_text_ms'],result['elapsed_ms'])
+        self.assertNotIn('private probe reply',response.text)
+        self.assertFalse(connection_path(self.path).exists())
+
+    def test_probe_does_not_call_an_incomplete_text_stream_a_success(self):
+        data=self.payload();data['target']='text'
+        async def broken(engine,*args):
+            yield 'partial reply','normal'
+            raise TimeoutError('private timeout detail')
+        with patch('src.api_routes.MockLLM.chat_stream',broken):
+            response=self.client.post('/api/connections/test',json=data)
+        self.assertFalse(response.json()['ok'])
+        self.assertEqual(response.json()['code'],'timeout')
+        self.assertIn('first_text_ms',response.json())
+        self.assertNotIn('private',response.text)
+
+    def test_text_probe_preserves_explicit_nonstream_configuration(self):
+        self.config.llm.stream=False
+        data=self.payload();data['target']='text'
+        with patch('src.api_routes.MockLLM.chat',new=AsyncMock(return_value=('reply','normal'))) as chat:
+            response=self.client.post('/api/connections/test',json=data)
+        self.assertTrue(response.json()['ok'])
+        self.assertFalse(response.json()['stream'])
+        chat.assert_awaited_once()
 
     def test_draft_tests_do_not_save_or_broadcast_and_errors_are_sanitized(self):
         data=self.payload();data.update(target='text',keys={'text':'draft-test-key'})
@@ -130,6 +207,33 @@ class ConnectionAPITests(unittest.TestCase):
 
 
 class NetworkTests(unittest.TestCase):
+    def test_tls_io_wait_during_cancellation_is_a_timeout_not_a_bad_certificate(self):
+        for waiting in (ssl.SSLWantReadError,ssl.SSLWantWriteError):
+            error=TimeoutError('private timeout detail')
+            cancelled=asyncio.CancelledError()
+            cancelled.__context__=waiting(2,'private TLS I/O detail')
+            error.__context__=cancelled
+            diagnostic=failure(error)
+            self.assertEqual(diagnostic['code'],'timeout')
+            self.assertNotIn('certificate',diagnostic['message'])
+            self.assertNotIn('private',str(diagnostic))
+
+    def test_certificate_rejection_and_fatal_handshake_remain_tls_errors(self):
+        for cause in (ssl.SSLCertVerificationError(1,'CERTIFICATE_VERIFY_FAILED private'),
+                      ssl.SSLError(1,'private fatal handshake')):
+            error=httpx.ConnectError('private URL')
+            error.__cause__=cause
+            diagnostic=failure(error)
+            self.assertEqual(diagnostic['code'],'tls')
+            self.assertNotIn('private',str(diagnostic))
+
+    def test_sdk_wrapped_timeout_takes_precedence_over_transient_ssl_wait(self):
+        error=httpx.ConnectError('private URL')
+        timeout=httpx.ConnectTimeout('private timeout')
+        timeout.__context__=ssl.SSLWantReadError(2,'private TLS wait')
+        error.__cause__=timeout
+        self.assertEqual(failure(error)['code'],'timeout')
+
     def test_auto_routes_explicitly_and_never_prints_proxy_credentials(self):
         with patch.dict(os.environ,{},clear=True),patch('src.provider_network.windows_proxy',return_value='http://secret-user:secret-pass@127.0.0.1:7890'):
             self.assertEqual(route('auto')[0],'windows_proxy')

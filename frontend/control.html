@@ -4,7 +4,8 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#f6f5f9">
 <title>Astra Studio · 直播控制台</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%237563a6'/%3E%3Cpath d='M27 10a12 12 0 1 0 3 19A13 13 0 0 1 27 10' fill='white'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="/static/control.css?v=stories-2">
+<link rel="stylesheet" href="/static/control.css?v=glm-fallback-1">
+<link rel="stylesheet" href="/static/interaction-controls.css?v=interaction-1">
 </head>
 <body>
 <svg class="icon-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -33,6 +34,7 @@
 </aside>
 <main id="studio">
 <header class="topbar"><div class="breadcrumb">Workspace <span>/</span> <strong>Overview</strong></div><div id="connection-status" role="status"><span class="status-dot" id="ws-dot"></span><span id="ws-text">Connecting…</span></div></header>
+<div id="operating-notice" class="operating-notice" role="status" hidden></div>
 <div class="page-heading"><div><div class="eyebrow">YOUR VIRTUAL STAGE</div><h1>直播控制室<span class="heading-star">✧</span></h1><p>A little magic. Every interaction.</p></div><a class="button primary" href="/?overlay=1" target="_blank" rel="noopener">Open stream output <svg><use href="#i-arrow"/></svg></a></div>
 <div class="studio-ownership">
 <section class="profile-card" aria-label="角色档案">
@@ -44,6 +46,21 @@
 </div>
 <section class="api-launcher" aria-label="API connections"><div><span class="api-mark" aria-hidden="true">⌘</span><div><strong>Connected voices. Quick replies.</strong><p id="api-summary">Text &amp; TTS · 本机 API 设置，全角色共用</p></div></div><button type="button" id="api-open" class="soft-button">API connections · 接口设置 ↗</button></section>
 <section class="module-shelf" aria-labelledby="module-shelf-title"><div class="module-heading"><div><div class="eyebrow">CHARACTER MODULES</div><h2 id="module-shelf-title">A voice. Many little worlds.</h2></div><span id="module-character" role="status">Loading modules…</span></div><div id="module-grid" class="module-grid"></div></section>
+<section class="interaction-policy" aria-labelledby="interaction-policy-title">
+<div class="interaction-policy-head"><div><div class="eyebrow">LISTEN TO THE ROOM · <span id="interaction-profile">当前角色</span></div><h2 id="interaction-policy-title">Let the conversation lead.</h2><p id="interaction-summary">收集大家想听歌、想听故事的自然表达，再决定下一段节目。</p></div><div class="interaction-pool-counts" aria-label="当前意愿池"><span>唱歌 <strong id="interaction-singing-count">0</strong></span><span>故事 <strong id="interaction-story-count">0</strong></span></div></div>
+<p id="interaction-live-state" role="status">读取互动状态…</p>
+<details><summary>Interaction settings · 互动与转场设置</summary>
+<form id="interaction-form"><fieldset id="interaction-fields" disabled>
+<div class="interaction-policy-toggles"><label><input id="interaction-enabled" type="checkbox" checked>理解自然表达，收集节目意愿</label><label><input id="interaction-narrate_scene_changes" type="checkbox" checked>切换场景前说明去向</label></div>
+<div class="interaction-policy-grid">
+<label for="interaction-threshold">触发所需次数<input id="interaction-threshold" type="number" min="2" max="32" step="1" value="6" required></label>
+<label for="interaction-window_seconds">收集时间窗口（秒）<input id="interaction-window_seconds" type="number" min="15" max="600" step="1" value="120" required></label>
+<label for="interaction-trigger_cooldown">节目触发冷却（秒）<input id="interaction-trigger_cooldown" type="number" min="15" max="3600" step="1" value="300" required></label>
+<label for="interaction-viewer_cooldown">同一观众计票间隔（秒）<input id="interaction-viewer_cooldown" type="number" min="3" max="300" step="1" value="20" required></label>
+<label for="interaction-selection_seconds">询问想听什么歌后，等待（秒）<input id="interaction-selection_seconds" type="number" min="15" max="300" step="1" value="90" required></label>
+</div><p>默认 120 秒内超过 5 次请求才准备节目。唱歌前先问大家想听什么，未学会或暂停的歌曲不会自动播放；“点歌 歌名”等显式命令仍单独处理。演出期间等待舞台空闲。</p>
+<div class="interaction-policy-actions"><p id="interaction-status" role="status">设置保存在当前角色</p><div><button id="interaction-reload" type="button" class="text-button">重新载入</button><button type="submit" class="soft-button">保存互动设置</button></div></div>
+</fieldset></form></details></section>
 <section class="metrics" aria-label="实时系统指标">
 <div class="metric"><span class="metric-icon lavender"><svg><use href="#i-bolt"/></svg></span><div><span class="metric-label">RESPONSE ENGINE</span><strong id="engine-provider">—</strong><small id="engine-note">Loading configuration</small></div></div>
 <div class="metric"><span class="metric-icon sage"><svg><use href="#i-chat"/></svg></span><div><span class="metric-label">REPLIES THIS SESSION</span><strong id="reply-count">0 <em>replies</em></strong><small><span id="template-count">0</span> via direct templates</small></div></div>
@@ -68,7 +85,7 @@
 <nav class="direction-tabs" aria-label="角色设置分类"><button type="button" data-direction-tab="identity">01 <span>Identity<small>身份与设定</small></span></button><button type="button" data-direction-tab="reply">02 <span>Replies<small>说什么、怎么说</small></span></button><button type="button" data-direction-tab="voice">03 <span>Voice<small>选择与试听声音</small></span></button><button type="button" data-direction-tab="actions">04 <span>Actions<small>动作与情绪映射</small></span></button><button type="button" data-direction-tab="scene">05 <span>Scene<small>背景与角色位置</small></span></button><div class="direction-tip"><span>✧</span><p>轻量模型<br>自然表达<br>更快开口</p></div></nav>
 <div class="direction-body">
 <section data-direction-panel="identity"><p class="profile-artwork-note">Artwork · Astra 银龙。当前角色共用 Astra 画稿；身份与声音可独立设置。</p><h3>Someone worth getting to know.</h3><p class="field-hint">这里的设定会影响真正的模型回复。</p><div class="fields-two"><label>Display name · 显示名<input id="identity-name" maxlength="40" required></label><label>Spoken name · 称呼读法<input id="identity-spoken-name" maxlength="40" placeholder="例如：露娜"><small>英文名可填中文读法，画面仍显示原名。</small></label></div><label>Character identity · 角色设定<textarea id="identity-persona" rows="7" maxlength="1600" required placeholder="她是谁？什么性格？和观众是什么关系？"></textarea></label><div class="setting-note">把身份、背景、性格写在这里。说话风格在 Replies 中调整，声音在 Voice 中试听。</div></section>
-<section data-direction-panel="reply" hidden><div class="section-title-row"><h3>Make every reply feel intentional.</h3><button type="button" id="latency-preset" class="soft-button">ϟ Low latency preset</button></div><label>Speaking style · 回应方式<textarea id="reply-style" rows="3" maxlength="800" required></textarea></label><div class="fields-two"><label>Reply length · 回复长度 <output id="reply-length-value"></output><input id="reply-length" type="range" min="16" max="120" step="1"></label><label>Generation budget · 生成长度<select id="reply-tokens"><option value="64">64 tokens · 很简短</option><option value="96">96 tokens · 简短聊天</option><option value="128">128 tokens · 正常聊天</option><option value="192">192 tokens · 多一点内容</option><option value="256">256 tokens · 更详细</option></select></label></div><div class="switch-row"><label><input id="reply-read-chat" type="checkbox">语音先念弹幕核心，再回答</label></div><p class="field-hint">本地提取最近一条已选弹幕的短句；仅加在语音前，回复文字不变，不额外调用模型。</p><div class="switch-row"><label><input id="reply-questions" type="checkbox">允许自然地反问</label><label><input id="reply-templates" type="checkbox">常见问候直接回应</label></div><div class="fields-two"><label>Chat collection · 弹幕收集 <output id="reply-window-value"></output><input id="reply-window" type="range" min="0.05" max="2" step="0.05"></label><label>Reply cooldown · 回复冷却 <output id="reply-cooldown-value"></output><input id="reply-cooldown" type="range" min="0" max="10" step="0.1"></label></div><div class="director-reply"><h4>Give her a line · 手动指定台词</h4><p class="field-hint">用当前声音直接播出，不调用模型。</p><textarea id="director-text" rows="2" maxlength="160" placeholder="例如：晚上好，欢迎来到银龙的直播间。"></textarea><div class="director-tools"><select id="director-emotion" aria-label="台词情绪"><option value="normal">平静</option><option value="happy">开心</option><option value="sad">难过</option><option value="surprised">惊讶</option></select><button type="button" id="director-send" class="soft-button">Speak this line ↗</button></div></div></section>
+<section data-direction-panel="reply" hidden><div class="section-title-row"><h3>Make every reply feel intentional.</h3><button type="button" id="latency-preset" class="soft-button">ϟ Low latency preset</button></div><label>Speaking style · 回应方式<textarea id="reply-style" rows="3" maxlength="800" required></textarea></label><div class="fields-two"><label>Reply length · 回复长度 <output id="reply-length-value"></output><input id="reply-length" type="range" min="16" max="120" step="1"></label><label>Generation budget · 生成长度<select id="reply-tokens"><option value="64">64 tokens · 很简短</option><option value="96">96 tokens · 简短聊天</option><option value="128">128 tokens · 正常聊天</option><option value="192">192 tokens · 多一点内容</option><option value="256">256 tokens · 更详细</option></select></label></div><div class="switch-row"><label><input id="reply-read-chat" type="checkbox">语音先念弹幕核心，再回答</label></div><p class="field-hint">默认关闭。开启后会朗读观众原文，短句与回答一起审核通过后才合成语音；请谨慎启用。</p><div class="switch-row"><label><input id="reply-questions" type="checkbox">允许自然地反问</label><label><input id="reply-templates" type="checkbox">常见问候直接回应</label></div><div class="fields-two"><label>Chat collection · 弹幕收集 <output id="reply-window-value"></output><input id="reply-window" type="range" min="0.05" max="2" step="0.05"></label><label>Reply cooldown · 回复冷却 <output id="reply-cooldown-value"></output><input id="reply-cooldown" type="range" min="0" max="10" step="0.1"></label></div><div class="director-reply"><h4>Give her a line · 手动指定台词</h4><p class="field-hint">用当前声音直接播出，不调用模型。</p><textarea id="director-text" rows="2" maxlength="160" placeholder="例如：晚上好，欢迎来到银龙的直播间。"></textarea><div class="director-tools"><select id="director-emotion" aria-label="台词情绪"><option value="normal">平静</option><option value="happy">开心</option><option value="sad">难过</option><option value="surprised">惊讶</option></select><button type="button" id="director-send" class="soft-button">Speak this line ↗</button></div></div></section>
 <section data-direction-panel="voice" hidden>
 <div class="section-title-row"><h3>Calm. Close. A little mysterious.</h3><button type="button" id="voice-cool-preset" class="soft-button">✧ Cool &amp; composed</button></div>
 <p class="field-hint">清冷、沉稳的成年女声。稍慢一点，保留自然停顿；先试听，再保存。</p>
@@ -86,10 +103,10 @@
 <section data-direction-panel="scene" hidden>
 <div class="section-title-row"><h3>A place to call her own.</h3><a href="/?overlay=1" target="_blank" rel="noopener" class="text-button">Open full scene ↗</a></div>
 <p class="field-hint">选择场景并预览。站立场景可拖动角色；座驾场景保持固定构图。点击 Apply &amp; save 后同步到直播输出。</p>
-<div class="scene-editor-preview"><iframe id="scene-preview-frame" title="场景构图预览" tabindex="-1" allow="autoplay"></iframe><div id="scene-position-pad" role="button" tabindex="0" aria-label="拖动角色位置，也可用方向键微调"><span>✥ Drag to position · 拖动调整位置</span></div><div id="car-scene-controls" hidden><div class="car-expression-buttons" aria-label="Preview car expressions"><button type="button" class="soft-button" data-car-expression="normal">平静</button><button type="button" class="soft-button" data-car-expression="happy">开心</button><button type="button" class="soft-button" data-car-expression="shy">害羞</button><button type="button" class="soft-button" data-car-expression="sad">委屈</button><button type="button" class="soft-button" data-car-expression="angry">微恼</button><button type="button" class="soft-button" data-car-expression="thinking">思考</button><button type="button" class="soft-button" data-car-expression="surprised">惊讶</button><button type="button" class="soft-button" data-car-expression="smug">暗喜</button><button type="button" class="soft-button" data-car-expression="blink">眨眼</button></div></div></div>
+<div class="scene-editor-preview"><iframe id="scene-preview-frame" title="场景构图预览" tabindex="-1" allow="autoplay"></iframe><div id="scene-position-pad" role="button" tabindex="0" aria-label="拖动角色位置，也可用方向键微调"><span>✥ Drag to position · 拖动调整位置</span></div><div id="car-scene-controls" hidden><div class="car-expression-buttons" aria-label="Preview character expressions"><button type="button" class="soft-button" data-car-expression="normal">平静</button><button type="button" class="soft-button" data-car-expression="happy">开心</button><button type="button" class="soft-button" data-car-expression="shy">害羞</button><button type="button" class="soft-button" data-car-expression="sad">委屈</button><button type="button" class="soft-button" data-car-expression="angry">微恼</button><button type="button" class="soft-button" data-car-expression="thinking">思考</button><button type="button" class="soft-button" data-car-expression="surprised">惊讶</button><button type="button" class="soft-button" data-car-expression="smug">暗喜</button><button type="button" class="soft-button" data-car-expression="blink">眨眼</button></div></div></div>
 <p id="car-scene-hint" class="field-hint" hidden>固定坐姿 · 手握方向盘，伙伴坐在仪表台。只改变表情、眨眼与口型。预览按钮不会改变直播表情。</p>
 <div id="car-drive-controls" class="switch-row" hidden><label><input id="scene-car-motion" type="checkbox">Slow scenery loop · 车窗慢速循环</label><label><input id="scene-car-vibration" type="checkbox">Gentle camera vibration · 轻微镜头震动</label></div>
-<div class="fields-two"><label>Backdrop · 背景<select id="scene-background-select"><option value="palace">Royal palace · 华丽宫殿</option><option value="car">Astra's car · 银龙座驾</option><option value="garden">Rose garden · 蔷薇花园</option><option value="moonlit">Moonlit terrace · 月光露台</option><option value="transparent">Transparent · 透明背景</option><optgroup id="media-background-options" label="Uploaded PNGs · 本地背景"></optgroup></select></label><label>Atmosphere · 动态效果<select id="scene-effect"><option value="sparkles">Golden motes · 金色微光</option><option value="clouds">Drifting clouds · 流云</option><option value="rain">Gentle rain · 细雨</option><option value="none">Still · 静态</option></select></label></div>
+<div class="fields-two"><label>Backdrop · 背景<select id="scene-background-select"><option value="palace">Royal palace · 华丽宫殿</option><option value="car">Astra's car · 银龙座驾</option><option value="singing-room">Night music room · 星光歌房</option><option value="garden">Rose garden · 蔷薇花园</option><option value="moonlit">Moonlit terrace · 月光露台</option><option value="transparent">Transparent · 透明背景</option><optgroup id="media-background-options" label="Uploaded PNGs · 本地背景"></optgroup></select></label><label>Atmosphere · 动态效果<select id="scene-effect"><option value="sparkles">Golden motes · 金色微光</option><option value="clouds">Drifting clouds · 流云</option><option value="rain">Gentle rain · 细雨</option><option value="none">Still · 静态</option></select></label></div>
 
 <div class="media-upload-row"><div><strong>Your own backdrop · 本地背景</strong><p>PNG · 最多 20 MB。作为角色身后的全屏背景，保留小伙伴与构图控制。</p></div><button type="button" id="media-background-upload" class="soft-button">↑ Upload PNG</button><input id="media-background-file" type="file" accept=".png,image/png" hidden aria-label="选择本地 PNG 背景"></div><p id="media-background-status" class="field-hint" role="status">上传后先预览，点击 Apply &amp; save 才会改变直播。</p>
 <div class="fields-two"><label for="scene-weather">Atmosphere amount · 效果强度 <output id="scene-weather-value"></output><input id="scene-weather" type="range" min="0" max="1" step="0.05"></label><label for="scene-dim">Background dimming · 背景压暗 <output id="scene-dim-value"></output><input id="scene-dim" type="range" min="0" max="0.65" step="0.05"></label></div>
@@ -123,6 +140,14 @@
 <label for="api-text-provider">Provider · 服务商</label><select id="api-text-provider"><option value="glm">GLM · 智谱 BigModel</option><option value="openai">OpenAI-compatible · 兼容接口</option><option value="deepseek">DeepSeek</option><option value="qwen">Qwen</option><option value="ollama">Local Ollama</option><option value="mock">Offline mock · 离线测试</option></select>
 <label for="api-text-url">Base URL · 接口地址</label><input id="api-text-url" type="url" maxlength="400" required spellcheck="false">
 <label for="api-text-model">Model · 模型 ID</label><input id="api-text-model" maxlength="100" required spellcheck="false" list="api-models"><datalist id="api-models"><option value="glm-4.7-flashx"><option value="glm-4.7-flash"><option value="glm-4-flash-250414"></datalist>
+<div id="api-glm-fallback-fields">
+<label for="api-text-fallbacks">Fallback order · 备用模型（每行一个，按顺序）</label><textarea id="api-text-fallbacks" rows="5" maxlength="800" spellcheck="false" placeholder="glm-4-flash-250414"></textarea>
+<button type="button" id="api-fallback-preset" class="text-button">Use economical order · 使用低成本顺序</button>
+<div class="api-timeout-grid"><div><label for="api-text-attempt-timeout">首字等待 / 每模型（秒）</label><input id="api-text-attempt-timeout" type="number" min="1" max="30" step="1" value="3"></div><div><label for="api-text-total-timeout">模型等待总上限（秒）</label><input id="api-text-total-timeout" type="number" min="1" max="60" step="1" value="20"></div></div>
+<label class="api-check"><input id="api-delay-notice" type="checkbox" checked> 等待时说一句话 · 约 3 秒，一次等待最多一句</label>
+<p id="api-fallback-runtime" class="api-hint" role="status"></p>
+<details class="api-price-details"><summary>GLM prices &amp; size · 价格与参数</summary><p class="api-hint">元 / 百万 tokens（输入 / 输出）；Air 为短输入、短输出价格。未公开的商用模型参数不作推测。FlashX 暂忙，排在最后。</p><div id="api-glm-catalog"></div><p class="api-hint"><a href="https://docs.bigmodel.cn/cn/guide/start/pricing" target="_blank" rel="noopener noreferrer">智谱官方价格 · 2026-10-28 核对</a></p></details>
+</div>
 <div class="api-fast-note">✧ Deep thinking off · 关闭深度思考</div>
 <label for="api-text-key">Text API key · 文字密钥 <span id="api-text-key-status" class="api-key-badge"></span></label><input id="api-text-key" type="password" maxlength="2048" autocomplete="new-password" spellcheck="false" placeholder="留空保留当前密钥">
 <label for="api-text-route">Network route · 网络方式</label><select id="api-text-route"><option value="direct">Direct · 直接连接</option><option value="auto">Auto · 环境 / Windows 代理</option><option value="environment">Environment · HTTP(S)_PROXY</option></select>
@@ -157,6 +182,21 @@
 <div class="fields-two"><div><label for="sing-vocal-volume">人声音量</label><input id="sing-vocal-volume" type="range" min="0" max="1" step=".05" value=".85"></div><div><label for="sing-back-volume">伴奏音量</label><input id="sing-back-volume" type="range" min="0" max=".6" step=".02" value=".2"></div></div>
 <label for="sing-bpm">Visual sway · 摇头节拍</label><input id="sing-bpm" type="number" min="40" max="180" step="1" value="80"><p class="api-hint">只控制站立角色的小幅头部律动，不修改音频节奏。座驾保持手与方向盘的固定接触，使用对称的轻闭眼演唱表情与真实口型。</p>
 <div class="sing-actions"><button type="button" id="sing-play" class="soft-button" disabled>Play on stage · 舞台演唱</button><button type="button" id="sing-stop" class="text-button" disabled>Stop · 停止</button></div></section>
+<section id="sing-request-card" class="api-card sing-request-card" hidden>
+<div class="eyebrow">03 / VIEWER SONG REQUESTS</div><h3>A little song, picked by chat.</h3>
+<div class="sing-request-columns"><div>
+<label class="story-check"><input type="checkbox" id="sing-chat-requests">允许弹幕点歌 · Chat song requests</label>
+<label class="story-check"><input type="checkbox" id="sing-request-autoplay">自动演唱队列 · Play queued songs automatically</label>
+<label for="sing-request-intermission">Chat between songs · 歌曲之间聊天（秒）</label><input id="sing-request-intermission" type="number" min="5" max="300" step="1" value="15">
+<button id="sing-request-save" type="button" class="soft-button" disabled>Save requests · 保存点歌设置</button>
+<p id="sing-request-policy-status" class="api-hint" role="status"></p>
+<p class="api-hint">弹幕输入“点歌 起风了”或“/song 小幸运”。只播放当前角色歌库中已准备好的整曲；点歌不调用生成 API。当前表演完整结束后回到聊天，再依次演唱。</p>
+</div><div>
+<div class="sing-request-heading"><strong>Up next · 点歌队列</strong><span id="sing-request-count" class="api-hint">0 / 10</span></div>
+<div class="module-actions"><button id="sing-request-add" type="button" class="soft-button" disabled>Queue selected · 将所选歌曲加入队列</button><button id="sing-request-clear" type="button" class="text-button" disabled>Clear queue · 清空</button></div>
+<ol id="sing-request-list" class="sing-request-list" aria-label="当前角色点歌队列"></ol>
+<p id="sing-request-result" class="api-hint" role="status" aria-live="polite"></p>
+</div></div></section>
 </div><p class="api-footnote">Voice Design 用于聊天与故事；它不支持唱歌。歌曲可先在离线工具中转换音色，再上传到歌库。播放整曲时无需额外背景音乐；口型人声轨与整曲需从同一位置开始、时长差不超过 2 秒。</p></div>
 <footer class="api-footer"><span id="sing-status" role="status">先试听人声，再播放到舞台。</span><a class="text-button" href="/?overlay=1&controls=0" target="_blank" rel="noopener">Open output ↗</a></footer>
 </form></dialog>
@@ -164,13 +204,30 @@
 <dialog id="reference-dialog"><button class="dialog-close" data-close aria-label="关闭">×</button><div class="eyebrow">CHARACTER REFERENCE</div><h2>The silver dragon</h2><img src="/static/avatar_dragon/reference.png" alt="银白长发、淡紫龙翼和白色长裙角色的正面、侧面、背面三视图"></dialog>
 <script src="/static/character-motion.js"></script>
 <dialog id="new-character-dialog" aria-labelledby="new-character-title"><form id="new-character-form"><div class="eyebrow">A NEW PERSONALITY</div><h2 id="new-character-title">Meet someone new.</h2><p>从 <strong id="new-character-source">Astra</strong> 复制身份、声音与动作，创建后可分别调整。</p><label for="new-character-name">Character name · 角色名称</label><input id="new-character-name" maxlength="40" required autocomplete="off" placeholder="给新角色起个名字" autofocus><div class="profile-artwork-note">Artwork · 当前画稿为 Astra。新角色先共用这套画稿；独立外观需要对应的角色素材。</div><p>场景、小伙伴和音乐保持不变。启动默认角色仍为 Astra。</p><p id="new-character-error" class="error" role="status"></p><div class="new-character-footer"><button type="button" id="new-character-cancel" class="text-button">Cancel</button><button type="submit" id="new-character-submit" class="button primary">Create &amp; switch</button></div></form></dialog>
-<script src="/static/stage-scene.js?v=capture-1"></script><script src="/static/control.js?v=stories-2"></script>
+<script src="/static/stage-scene.js?v=singing-room-1"></script><script src="/static/control.js?v=security-1"></script>
 <script src="/static/character-profiles.js?v=uploads-1"></script>
 <script src="/static/music-capture.js?v=capture-1"></script>
-<script src="/static/shared-media.js?v=uploads-1"></script>
-<script src="/static/studio-controls.js?v=stories-2"></script>
-<script src="/static/api-controls.js?v=api-1"></script>
-<dialog id="module-presentation-dialog" aria-labelledby="module-presentation-title"><form id="module-presentation-form"><div class="eyebrow">CHARACTER × MODULE</div><h2 id="module-presentation-title">Pose &amp; face</h2><p>每个角色、每个模块独立保存。舞台、玩偶与音乐继续共用。</p><label for="module-pose">Pose · 姿势</label><select id="module-pose"></select><label for="module-expression">Expression · 表情类型</label><select id="module-expression"></select><label for="module-strength">Movement · 动作幅度</label><input id="module-strength" type="range" min="0" max="1" step=".05"><p class="api-hint">站立模型使用已有的安全关节动作。座驾使用固定驾驶姿势，只切换面部表现；不会移动方向盘上的手。新角色外观需另配画稿。</p><p id="module-presentation-status" role="status"></p><div class="module-actions"><button type="button" id="module-presentation-close" class="text-button">Close · 关闭</button><button type="submit" class="soft-button">Save module look · 保存模块表演</button></div></form></dialog>
-<script src="/static/module-host.js?v=stories-voice-3"></script>
+<script src="/static/shared-media.js?v=security-1"></script>
+<script src="/static/studio-controls.js?v=singing-room-1"></script>
+<script src="/static/api-controls.js?v=glm-fallback-1"></script>
+<dialog id="module-presentation-dialog" aria-labelledby="module-presentation-title">
+<form id="module-presentation-form">
+<div class="eyebrow">CHARACTER × MODULE</div><h2 id="module-presentation-title">Pose &amp; face</h2>
+<p>每个角色、每个模块独立保存。可只在这个模块临时切换场景；结束后回到聊天的舞台，音乐设置继续共用。</p>
+<label for="module-scene-preset">Scene · 模块场景</label>
+<select id="module-scene-preset" aria-describedby="module-scene-hint"><option value="inherit">Shared stage · 跟随共用舞台</option><option value="singing-room">Night music room · 星光歌房</option><option value="car">Astra's car · 银龙座驾</option><option value="palace">Royal palace · 华丽宫殿</option><option value="garden">Rose garden · 蔷薇花园</option><option value="moonlit">Moonlit terrace · 月光露台</option><option value="transparent">Transparent · 透明背景</option></select>
+<p id="module-scene-hint">歌曲默认使用手持麦克风的星光歌房，DeepSeek 与 Claude 玩偶保留。选“跟随共用舞台”可沿用当前背景；不会修改共用背景或音乐。</p>
+<label for="module-pose">Pose · 姿势</label><select id="module-pose"></select>
+<label for="module-strength">Movement · 动作幅度</label><input id="module-strength" type="range" min="0" max="1" step=".05">
+<label class="module-expression-toggle" for="module-expression-enabled"><input id="module-expression-enabled" type="checkbox" checked> Local expressions · 本地情绪表情</label>
+<label for="module-expression">Expression · 表情类型</label><select id="module-expression" aria-describedby="module-expression-hint"></select>
+<label for="module-expression-strength">Expression strength · 表情幅度 <output id="module-expression-strength-value" for="module-expression-strength">55%</output></label>
+<input id="module-expression-strength" type="range" min="0" max="1" step=".05" value=".55" aria-describedby="module-expression-hint">
+<p id="module-expression-hint">关闭后保留自然眨眼与真实语音口型；表情幅度不会放大嘴巴。由本地动画处理，无额外模型请求。保存后才应用到直播。</p>
+<p class="api-hint">站立模型使用已有的安全关节动作。座驾保留固定驾驶姿势；不会移动方向盘上的手。新角色外观需另配画稿。</p>
+<p id="module-presentation-status" role="status"></p><div class="module-actions"><button type="button" id="module-presentation-close" class="text-button">Close · 关闭</button><button type="submit" class="soft-button">Save module look · 保存模块表演</button></div>
+</form></dialog>
+<script src="/static/module-host.js?v=singing-room-1"></script>
+<script src="/static/interaction-controls.js?v=interaction-1"></script>
 </body></html>
 

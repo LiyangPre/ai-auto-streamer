@@ -54,12 +54,12 @@ class StudioControls {
         this.load();
     }
     async request(url, data) {
-        const headers = {'Content-Type':'application/json'};
+        const headers = {'Content-Type':'application/json','X-Studio-API':'1'};
         if (url === '/api/studio' && data !== undefined && this.profileContext) {
             headers['X-Profile-ID'] = this.profileContext.active_id;
             headers['X-Profile-Revision'] = String(this.profileContext.revision);
         }
-        const response = await fetch(url, data === undefined ? {} : {method:'POST', headers, body:JSON.stringify(data), signal:AbortSignal.timeout(30000)});
+        const response = await fetch(url, data === undefined ? {headers} : {method:'POST', headers, body:JSON.stringify(data), signal:AbortSignal.timeout(30000)});
         const result = await response.json();
         if (!response.ok) throw new Error(typeof result.detail === 'string' ? result.detail : '设置未通过验证，请检查输入内容。');
         return result;
@@ -202,15 +202,20 @@ class StudioControls {
         for(const id of ['x','y'])this.$(`scene-${id}-value`).textContent=(+this.$(`scene-${id}`).value>0?'+':'')+this.$(`scene-${id}`).value+'%';
         const transparent=this.$('scene-background-select').value==='transparent';
         const car=this.$('scene-background-select').value==='car';
-        this.$('car-scene-controls').hidden=!car;
-        this.$('car-scene-hint').hidden=!car;
+        const singingRoom=this.$('scene-background-select').value==='singing-room';
+        const integrated=car||singingRoom;
+        this.$('car-scene-controls').hidden=!integrated;
+        this.$('car-scene-hint').hidden=!integrated;
+        this.$('car-scene-hint').textContent=singingRoom
+            ?'演唱坐姿 · 手持麦克风，另一只手在桌下；保留呼吸、眨眼和温柔表情。预览按钮不改变直播表情。'
+            :'固定坐姿 · 手握方向盘，伙伴坐在仪表台。只改变表情、眨眼与口型。预览按钮不会改变直播表情。';
         this.$('car-drive-controls').hidden=!car;
         this.$('scene-car-vibration').disabled=!this.$('scene-car-motion').checked;
-        this.$('scene-preview-frame').parentElement.classList.toggle('car-preview',car);
-        for(const id of ['scene-scale','scene-x','scene-y','scene-reset'])this.$(id).disabled=car;
-        this.$('scene-position-pad').hidden=car;
-        this.$('scene-effect').disabled=transparent||car;this.$('scene-dim').disabled=transparent;
-        this.$('scene-weather').disabled=transparent||car||this.$('scene-effect').value==='none';
+        this.$('scene-preview-frame').parentElement.classList.toggle('car-preview',integrated);
+        for(const id of ['scene-scale','scene-x','scene-y','scene-reset'])this.$(id).disabled=integrated;
+        this.$('scene-position-pad').hidden=integrated;
+        this.$('scene-effect').disabled=transparent||integrated;this.$('scene-dim').disabled=transparent;
+        this.$('scene-weather').disabled=transparent||integrated||this.$('scene-effect').value==='none';
         for(const id of ['scene-companions','scene-blur','scene-blur-toggle'])this.$(id).disabled=transparent;
         this.$('scene-companions').disabled=transparent||car;
         const blur=+this.$('scene-blur').value;
@@ -311,7 +316,7 @@ class StudioControls {
         }));
         this.$('scene-background-select').addEventListener('change',()=>{
             const background=this.$('scene-background-select').value;
-            if(background!=='transparent')this.$('scene-effect').value=background==='car'||background.startsWith('media:')?'none':background==='palace'?'sparkles':'clouds';
+            if(background!=='transparent')this.$('scene-effect').value=['car','singing-room'].includes(background)||background.startsWith('media:')?'none':background==='palace'?'sparkles':'clouds';
             this.dirty=true;this.outputs();this.previewScene();
         });
         this.$('scene-blur-toggle').addEventListener('click',()=>{
@@ -332,7 +337,7 @@ class StudioControls {
             this.dirty=true;this.outputs();this.previewScene();this.status('Preview only · 保存后同步到直播');
         };
         pad.addEventListener('pointerdown',event=>{
-            if(event.button!==0||this.$('scene-background-select').value==='car')return;
+            if(event.button!==0||['car','singing-room'].includes(this.$('scene-background-select').value))return;
             const box=pad.getBoundingClientRect();drag={id:event.pointerId,x:event.clientX,y:event.clientY,
                 startX:+this.$('scene-x').value,startY:+this.$('scene-y').value,w:box.width,h:box.height};
             pad.setPointerCapture(event.pointerId);pad.classList.add('dragging');
@@ -341,7 +346,7 @@ class StudioControls {
         const end=()=>{drag=null;pad.classList.remove('dragging');};
         pad.addEventListener('pointerup',end);pad.addEventListener('pointercancel',end);pad.addEventListener('lostpointercapture',end);
         pad.addEventListener('keydown',event=>{
-            if(this.$('scene-background-select').value==='car')return;
+            if(['car','singing-room'].includes(this.$('scene-background-select').value))return;
             const deltas={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]};
             const delta=deltas[event.key];if(!delta)return;event.preventDefault();
             const step=event.shiftKey?5:1;move(+this.$('scene-x').value+delta[0]*step,+this.$('scene-y').value+delta[1]*step);

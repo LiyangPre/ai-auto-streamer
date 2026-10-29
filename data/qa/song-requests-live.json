@@ -1,0 +1,34 @@
+{
+  "verified_at": 1793165332.028806,
+  "live_api": 200,
+  "profile_id": "astra",
+  "queue_policy": {
+    "chat_requests": true,
+    "auto_play": true,
+    "max_queue": 10,
+    "user_cooldown": 90,
+    "song_cooldown": 300,
+    "intermission_seconds": 15
+  },
+  "queue_length": 0,
+  "saved_songs": [
+    "大鱼",
+    "告白气球",
+    "小幸运",
+    "起风了",
+    "晚安小银龙",
+    "云朵口袋",
+    "星星顺风车",
+    "银龙晚风 · 原创短段测试",
+    "银龙晚风 · 原创长篇测试"
+  ],
+  "transition_clips_ready": 12,
+  "transition_clips_total": 12,
+  "backend_tests": {
+    "passed": 267,
+    "skipped": 1
+  },
+  "frontend_tests_passed": 97,
+  "controller_screenshot": "data/qa/song-requests-controls.png",
+  "test_playback_started": false
+}

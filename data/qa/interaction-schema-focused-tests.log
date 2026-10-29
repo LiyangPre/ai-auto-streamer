@@ -1,0 +1,14 @@
+Model request failed [response, model=glm-4.7-flash, route=direct]: Model returned an invalid interaction response.
+Model request failed [response, model=glm-4-flash-250414, route=direct]: Model returned an invalid interaction response.
+Model request failed [response, model=glm-4-flashx-250414, route=direct]: Model returned an invalid interaction response.
+Model request failed [response, model=glm-4.7-flash, route=direct]: Model returned an invalid interaction response.
+Model request failed [reasoning_enabled, model=glm-4.7-flash, route=direct]: Model returned reasoning despite thinking being disabled.
+Model request failed [blocked, model=glm-4.7-flash, route=direct]: Provider content review blocked the reply.
+Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [timeout, model=glm-4-flash-250414, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [timeout, model=glm-4-flash-250414, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+----------------------------------------------------------------------
+Ran 14 tests in 1.313s
+
+OK

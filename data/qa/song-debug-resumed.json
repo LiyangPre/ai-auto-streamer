@@ -1,0 +1,47 @@
+{
+  "checked_at_unix": 1793157060.766014,
+  "failure": "Windows WinError5 replacing pipeline progress JSON; coordinator exited and stopped workers",
+  "fix": "unique sibling temps, bounded Windows sharing retries, nonfatal telemetry, lease-aware stale queue detection",
+  "voice_and_quality_unchanged": true,
+  "coordinator_pid": 34444,
+  "heartbeat_age_seconds": 3.089660167694092,
+  "ready": 3,
+  "total_current_batch": 4,
+  "converter_status": "converting",
+  "active": {
+    "id": "BV1f59QBGEhx",
+    "title": "大鱼",
+    "started_at": "2026-10-28T03:09:13.224346+00:00",
+    "duration_seconds": 313.74931972789113,
+    "completed_chunks": 9,
+    "stage": "resumed",
+    "processed_audio_seconds": 195.91836734693877,
+    "compute_started": 148483.468,
+    "processed_frames": 16875,
+    "total_frames": 27024,
+    "resumed_audio_seconds": 195.91836734693877
+  },
+  "follow_on": {
+    "state": "queued",
+    "stage": "waiting_for_current_batch",
+    "waiter_pid": 31108
+  },
+  "local_api_status": {
+    "state": "preparing",
+    "stage": "converting",
+    "ready": 3,
+    "total": 4,
+    "message": "50 steps; 1 conversion workers; source melody and timing preserved.",
+    "current_title": "大鱼",
+    "started": 1793156930.7836514,
+    "updated": 1793157057.676354,
+    "estimated_seconds_remaining": 2305.1455291745037,
+    "pid": 34444
+  },
+  "regression": {
+    "main_passed": 31,
+    "main_environment_skip": 1,
+    "isolated_filelock_passed": 3
+  },
+  "playback_started": false
+}

@@ -45,7 +45,7 @@ class ModuleAPITests(unittest.TestCase):
         self.patches=[patch('src.server.Config.load',return_value=cfg),patch('src.server.settings_path',return_value=self.path),
                       patch('src.danmaku.sys.stdin.isatty',return_value=False)]
         for item in self.patches:item.start()
-        self.client=TestClient(server.app,headers={'X-Studio-API':'1','Origin':'http://testserver'});self.client.__enter__()
+        self.client=TestClient(server.app, base_url='http://localhost', headers={'X-Studio-API':'1','Origin':'http://localhost'});self.client.__enter__()
 
     def tearDown(self):
         self.client.__exit__(None,None,None)

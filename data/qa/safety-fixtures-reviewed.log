@@ -1,0 +1,15 @@
+test_rejected_review_never_reaches_subtitle_audio_or_memory (tests.test_safety.ReviewBarrierTests.test_rejected_review_never_reaches_subtitle_audio_or_memory) ... ok
+test_required_missing_review_is_closed_before_model_or_tts_cost (tests.test_safety.ReviewBarrierTests.test_required_missing_review_is_closed_before_model_or_tts_cost) ... ok
+test_timeout_exception_and_malformed_verdict_block (tests.test_safety.ReviewBarrierTests.test_timeout_exception_and_malformed_verdict_block) ... Content review failed (OSError); output blocked
+Content review failed (ValueError); output blocked
+Content review failed (ValueError); output blocked
+Content review failed (TimeoutError); output blocked
+ok
+test_normal_conversation_and_benign_contexts_remain_allowed (tests.test_safety.SafetyNormalizationTests.test_normal_conversation_and_benign_contexts_remain_allowed) ... ok
+test_readback_is_off_for_new_profiles (tests.test_safety.SafetyNormalizationTests.test_readback_is_off_for_new_profiles) ... ok
+test_separators_invisible_and_fullwidth_forms_do_not_bypass_local_filter (tests.test_safety.SafetyNormalizationTests.test_separators_invisible_and_fullwidth_forms_do_not_bypass_local_filter) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.208s
+
+OK

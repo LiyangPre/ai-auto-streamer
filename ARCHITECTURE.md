@@ -2,6 +2,11 @@
 
 Reviewed against the goal: low local compute, direct replies, and a responsive virtual livestream character.
 
+Shared product requirements: [requirement_basic.md](requirement_basic.md). Song
+requirements and the complete preparation workflow:
+[requirement_song.md](requirement_song.md). Operator startup:
+[START_HERE.md](START_HERE.md).
+
 ## Current design
 
 ```mermaid
@@ -15,10 +20,10 @@ flowchart LR
     D --> E{Intent router}
     E -->|Short greeting or farewell| F[Direct reply template / no LLM]
     E -->|Other messages| G[Cloud API, Ollama, or offline mock]
-    F --> H[Text events immediately]
-    G --> H
-    G --> I[Sentence TTS / Voice Design waits for full segment]
-    F --> I
+    F --> Review[Review complete answer / fail closed]
+    G --> Review
+    Review --> H[Approved text events]
+    Review --> I[TTS / Voice Design waits for full segment]
     I --> J[Ordered audio events]
     H --> K[Bounded event queue / WebSocket fan-out]
     J --> K
@@ -64,7 +69,7 @@ Character choreography is shared by Canvas and VRM in `frontend/static/character
 
 OBS browser source: `http://127.0.0.1:8000/?overlay=1&controls=0`, normally 1440 × 1080 (4:3). It uses the saved Scene configuration; add `&transparent=1` to force a transparent character-only output. The regular `/?overlay=1` page includes a fullscreen button that appears when the pointer moves. Use OBS browser-source audio for broadcasting; keep the controller preview muted to avoid duplicate sound.
 
-The normal configuration uses `llm.provider: glm`, model `glm-4.7-flashx` with explicit `thinking.type: disabled`, `live2d.renderer: sprite`, `sprite_dir: avatar_dragon`, a 0.15-second collection window, a 96-token generation budget, and no reply cooldown. It reads `GLM_API_KEY` from `.env` or the environment. The offline profile uses mock replies and no TTS.
+The normal configuration uses `llm.provider: glm`, primary model `glm-4.7-flash`, and fallback order `glm-4-flash-250414 → glm-4-flashx-250414 → glm-4-air-250414 → glm-4.5-air → glm-4.7-flashx`. Reasoning-capable GLM requests explicitly disable thinking; older plain GLM-4 models do not receive unsupported thinking parameters. First usable text is bounded to three seconds per attempt and twenty seconds overall, with a ninety-second failed-model cooldown. Fallback is allowed before text is yielded, not by splicing a failed partial stream into a different model's answer. Authentication, certificate and content-review failures stop the request. The project uses `live2d.renderer: sprite`, `sprite_dir: avatar_dragon`, a 0.15-second collection window, a 96-token generation budget, and no reply cooldown. It reads `GLM_API_KEY` from the private API store, `.env` or the environment. The offline profile uses mock replies and no TTS.
 
 Controller settings are now stored in `data/character-profiles.json`, a versioned library containing separate character profiles and one shared scene. On first startup, existing `data/studio-settings.json` values are migrated into the Astra profile without changing them. After migration the library is authoritative; the old flat file is a compatibility export. Alternate YAML configurations have isolated, suffixed libraries. An unreadable existing library stops startup with a recovery message instead of silently replacing saved characters. Credentials remain in `.env` or the private local API store and never enter the profile library or public API.
 
@@ -105,7 +110,9 @@ One settings lock serializes library mutations; the reply lock protects prompt/v
 
 `src/modules/` defines an explicit module boundary. `ModuleSpec` registers a trusted local service factory, optional API router, controller script, output adapter, and supported pose/expression choices. The server installs registered routes, starts services in order, and closes them in reverse order; failed startup also unwinds services. Chat owns the conversation pipeline, Songs owns the local recording library and optional experimental generation, and Stories owns tagged story scripts, prepared clips and triggers. `/api/modules` supplies the shelf and stage adapters, so another module does not require a new hard-coded controller card or output event-switch branch.
 
-Each character has a `modules` presentation map. Chat, Songs and Stories save separate poses, expression types and movement strength. Old libraries load their defaults, profile copies remain independent, and ordinary identity/voice saves preserve both `modules` and `module_options`. Story policies are validated by `StoryPolicy` before entering `module_options.story`. Module saves use active-character and revision checks. Scene, companions, BGM, credentials and artwork bindings remain separate. Current artwork still supports only the installed Astra rig and fixed driving illustration.
+Each character has a `modules` presentation map. Chat, Songs and Stories save separate poses, expression types, movement strength and `scene_preset`. `inherit` uses the shared stage; an explicit preset overrides presentation only for that module without rewriting shared scene settings. Songs defaults to `singing-room` when this field is absent, while Chat inherits the shared car by default. Old libraries load their defaults, profile copies remain independent, and ordinary identity/voice saves preserve both `modules` and `module_options`. Story policies are validated by `StoryPolicy` before entering `module_options.story`. Module saves use active-character and revision checks. Scene assets, companions, BGM, credentials and artwork bindings remain separate. Artwork bindings remain Astra-specific; the new microphone presentation is an additional Astra view, not a general new-character renderer.
+
+`AudienceIntentPolicy` validates `module_options.interaction` independently of module presentation. The Modules controller edits semantic interaction, scene narration, vote thresholds/windows and cooldowns for the active character through `/api/interactions`, with profile/revision checks. Its live counters do not overwrite an unsaved form. Temporary requests and selection state remain in memory rather than in the character file.
 
 `StageActivity` gives one performance exclusive stage ownership and exposes an idle event to chat. A module cannot release another module's ownership. `PerformanceSession` in `src/performance.py` provides a shared timestamped start, bounded fallback timer, token-checked completion acknowledgement, Stop and shutdown lifecycle. Both a browser audio-ended acknowledgement and the fallback can release ownership; obsolete acknowledgements cannot stop a newer performance. Every completed finite performance returns to Chat and restores shared music/presentation. Initial WebSocket `module_snapshots` restore the current performance after reconnecting.
 
@@ -120,13 +127,13 @@ This is an installed source-code extension interface. New visual poses outside t
 
 ## Voice design and prepared housemate stories
 
-`src/story_catalog.py` contains ten original fictional slice-of-life stories about the human-like Astra/GPT, Claude, DeepSeek, GLM and MiMo housemates. `src/story.py` sends the complete tagged story as assistant content and **the exact current saved profile voice description**, unchanged, as user content to **`mimo-v2.5-tts-voicedesign`**. It no longer appends an adult role, another speaker, scene or delivery description to the voice-design prompt. Acting cues remain inside the story text. Chat, auditions and stories therefore share the same speaker-design prompt. Voice Design requires a description, excludes preset voices/singing, and currently returns compatibility SSE audio only after the whole inference completes. `optimize_text_preview=False` prevents deliberate script rewriting. See [MiMo's official model and streaming guidance](https://mimo.mi.com/docs/zh-CN/quick-start/usage-guide/audio/speech-synthesis-v2.5).
+`src/story_catalog.py` contains ten original fictional, funny slice-of-life stories featuring only **Astra, Claude and DeepSeek** as human-like housemates. The current titles and operator controls are listed in [START_HERE.md](START_HERE.md). `src/story.py` sends the complete tagged story as assistant content and **the exact current saved profile voice description**, unchanged, as user content to **`mimo-v2.5-tts-voicedesign`**. It no longer appends an adult role, another speaker, scene or delivery description to the voice-design prompt. Acting cues remain inside the story text. Chat, auditions and stories therefore share the same speaker-design prompt. Voice Design requires a description, excludes preset voices/singing, and currently returns compatibility SSE audio only after the whole inference completes. `optimize_text_preview=False` prevents deliberate script rewriting. See [MiMo's official model and streaming guidance](https://mimo.mi.com/docs/zh-CN/quick-start/usage-guide/audio/speech-synthesis-v2.5).
 
 Prepared audio is stored under `data/stories/<profile-id>/`. The voice signature includes prompt version **`profile-voice-v2`**, model and saved description; the clip ID also includes profile and story text. This invalidates the earlier clips that used extra speaker/scene instructions. Unchanged current recordings reuse files, while a changed description requires matching new clips. Generation snapshots settings, runs sequentially, uses partial files plus atomic metadata publication, supports cancellation and keeps per-story sanitized errors. Each request has a 240-second deadline, an 8 MiB MP3 limit and a 300-second duration cap. Playing a prepared story makes no TTS or conversation-model call.
 
 `src/story_routes.py` and `story-controls.js` expose the ten scripts, preparation/cancellation, audition, selected/random playback, Stop and trigger policies. Random selection shuffles the ready stories without repeats during a round and avoids the previous story at a round boundary. Only prepared clips are eligible. Viewer commands such as “讲个故事”, “换个故事” and “停止故事” are intercepted before the ordinary LLM queue. Play/change requests default to a 45-second cooldown; an active story is not restarted by another play request. The optional idle trigger starts disabled, waits 120 seconds without viewer activity, and defaults to a 600-second interval between automatic stories. Viewer-quiet time is tracked separately from AI warm-up activity.
 
-All ten stories were regenerated with the current saved voice and are ready: [story-current-voice.json](data/qa/story-current-voice.json) records **37.344–43.104 seconds** of audio per clip and **14.907–22.672 seconds** of preparation time. `astra-stories.json` is the earlier preparation report. `data/qa/voicedesign-latency.json` records an earlier short welcome generated in **5.61 seconds**. These are observed provider/network timings rather than a latency guarantee or listening-quality score.
+The catalog resolves ready clips by current character, script and saved voice signatures. Earlier preparation reports and durations describe their original text/voice versions; they do not establish readiness or latency for the rewritten trio stories. Use current catalog status and metadata for each clip. Preparing missing stories calls the voice provider; replaying a matching prepared recording is local.
 
 ## Audience welcomes and unfinished-story resume
 
@@ -140,13 +147,13 @@ The collector prepares welcome audio while the story continues. Once it is ready
 
 Uploaded recordings are now the primary Songs workflow. `src/singing_routes.py` imports a validated shared-media MP3 into the current character's song library, limited to **20 MiB / 600 seconds**. The source is labeled `upload` / `recorded-audio`, and playback makes no TTS request. Optional vocal-only guides must be at most 20 MiB and within two seconds of the recording's duration, starting at the same point. The full mix plays once, while the guide reaches a silent analyser path for mouth motion. Without a guide, the full mix's level approximates mouth motion and accompaniment can also open the mouth.
 
-`singing-player.js` preloads source/backing/guide tracks and schedules them on one Web Audio clock. A separate backing track remains outside the mouth analyser; late outputs seek to the elapsed position. Quiet/accompaniment modes pause shared music without releasing the capture session; shared mode keeps the music with vocal ducking. Stop/end restores the Chat presentation and previous music configuration. Visual BPM changes the standing rig's small bounded sway only. The car's painted hand/body contacts remain fixed. Captions are titles, not word-timed karaoke lyrics.
+`singing-player.js` preloads source/backing/guide tracks and schedules them on one Web Audio clock. A separate backing track remains outside the mouth analyser; late outputs seek to the elapsed position. Quiet/accompaniment modes pause shared music without releasing the capture session; shared mode keeps the music with vocal ducking. Stop/end restores the Chat presentation and previous music configuration. Visual BPM changes bounded visual sway only, never audio tempo. The car's painted hand/body contacts remain fixed. Attached LRC cues are selected using actual recording position minus vocal delay and the saved lyric offset; blank cues clear captions during gaps. Pauses, late joins and lyric-setting updates retain the same recording clock. Songs without timed lyrics show their title.
 
 The old generated mini-songs/test takes are retained but hidden by default behind the “show experimental tracks” option. Experimental generation explicitly forces **preset `mimo-v2.5-tts`**, prepends `(唱歌)` and remains limited to 1,800 lyric characters, 240 seconds/request and 300 seconds of audio. Voice Design is never used for singing. The earlier long test's 48.1% ASR character alignment suggested skipped lyrics and did not establish musical pitch/rhythm quality; no accurate-cover claim is made.
 
 Catalogs and exports are character-scoped. `/api/singing/backup` writes an atomic ZIP with recording/metadata files, optional guide files, a SHA-256 manifest and restore instructions; local download checks apply. It excludes API keys, identity settings, shared music and separate accompaniment. The library holds 64 takes per character (256 total), up to 1 GB of audio/guide files, and up to eight ZIP backups per character. The earlier `prepare_astra_song_library.py` remains a historical experimental generator, not the recommended song workflow.
 
-All nine Bilibili source recordings remain under `data/song-sources/`; `download-results.json` records their provenance and local files. The current queue is restricted to the four original user links: **起风了 `BV1D64y1Z7Ko`**, **小幸运 `BV1y82uB2ET4`**, **告白气球 `BV1A3411J7HX`**, and **大鱼 `BV1f59QBGEhx`**. The other five recordings are retained outside the active queue. `data/songs-converted/sources.json` supplies separation inputs, while `jobs.json` supplies the selected IDs, source hashes, current voice/reference and **50 diffusion steps**. The full-song batch is a long-running preparation job and is not complete.
+Bilibili source recordings remain under `data/song-sources/`; `download-results.json` records their provenance and local files. Five full recordings have completed conversion, mix export and library import at **50 diffusion steps**: 起风了 `BV1D64y1Z7Ko`, 小幸运 `BV1y82uB2ET4`, 告白气球 `BV1A3411J7HX`, 大鱼 `BV1f59QBGEhx` and 海屿你 `BV14nrkBPEBE`. Their complete batch metadata is archived under `data/songs-converted/batches/20261028-new3/previous-completed-batch/`. 起风了 and 小幸运 are currently allowed, with saved default LRCs; the other three are temporarily blocked for requests and manual playback while their files remain intact. The current `sources.json`, `jobs.json` and `pipeline-state.json` describe the separately started three-recording batch: I Really Want to Stay at Your House `BV1FN411n7FT`, new 海屿你 `BV14GovBnESm`, and 泡沫 `BV1y8411i7Dd`, using the same approved voice, 50 steps and three workers. These new recordings are still in preparation; the earlier five are not reconverted. Preparation manifests are not a live request queue and do not themselves filter song bans.
 
 The approved target follows Astra's **current saved profile prompt**, also used by chat and stories. `data/voice-references/astra-current-voice.wav` is an 18.936-second mono 24 kHz PCM16 reference. Its JSON sidecar records the exact prompt, approval, model and SHA-256; the SVC input uses the first eight seconds of this same voice. Earlier B/reference files are historical alternatives. The four-second [current-voice song preview](data/qa/current-voice-song-preview.json) is an excerpt validation, not a completed full song.
 
@@ -154,9 +161,19 @@ The approved target follows Astra's **current saved profile prompt**, also used 
 
 `scripts/separate_song_sources.py` decodes the original M4A into lossless 44.1 kHz stereo, then uses Demucs 4.1.0 `htdemucs` to create aligned FLOAT `vocals.wav` and `accompaniment.wav`. It preserves relative levels without independent stem normalization. Shape, finite values, source-relative amplitude, mixture reconstruction, sample counts and hashes are checked before ready metadata is published. Audio-duration references are used for length checks; video runtime is metadata only, and decoded WAV sample count is authoritative. `scripts/seed_vc_batch.py` converts only the vocal stem with [Seed-VC](https://github.com/Plachtaa/seed-vc), source F0 conditioning, unchanged duration, no automatic F0 shift and zero semitone shift. Chunk state includes overlap/RNG data and the source/reference/settings fingerprint. The source melody, including existing errors, is retained.
 
-`scripts/export_converted_songs.py` remixes the converted vocal with the accompaniment and publishes the MP3 plus an aligned vocal-only lip guide in `prepared.json`. The local import API derives the active IDs and requested quality from `jobs.json`, requires the entire selected batch, verifies voice/reference/settings and files, and backs up the character library before import. It checks the current in-memory Astra voice under the settings lock and waits for a safe import window. Import changes neither the active character nor stage playback. `scripts/import_prepared_songs.py` provides the corresponding offline path when the server is unavailable. The low-level `convert_song_voice.py` remains available for single-source planning.
+`scripts/export_converted_songs.py` remixes the converted vocal with the accompaniment and publishes the MP3 plus an aligned vocal-only lip guide in `prepared.json`. The local import API derives the active IDs and requested quality from `jobs.json`, requires the entire selected batch, verifies voice/reference/settings and files, then imports missing takes and backs up the resulting character library. It checks the current in-memory Astra voice under the settings lock and waits for a safe import window. Import changes neither the active character nor stage playback. `scripts/import_prepared_songs.py` provides the corresponding offline path only after verifying the server is stopped. The low-level `convert_song_voice.py` remains available for single-source planning; its semitone option requires conversion inference and is not an instant live transpose feature.
 
-The configured schedule is **one six-thread converter alongside one four-thread separator**. The requested worker ceiling is 12, bounded further by active tracks and available memory. In the real short-clip [parallel evaluation](data/qa/profiling/seed-vc-parallel-evaluation.json), one six-thread converter took 70.30 seconds for four seconds of audio; two four-thread converters took 158.74 seconds for eight seconds combined, about **11.4% lower throughput**. The [stage profile](data/qa/profiling/seed-vc-stage-profile.json) attributed 77.4% to diffusion and 16.5% to the vocoder. Worker count leaves the requested 50-step conversion quality unchanged. These are short-run measurements rather than full-song completion estimates.
+`src/lyrics.py` parses bounded LRCs, locally reviews text through the singing service, and atomically stores cues/offsets in song metadata. `src/lyric_alignment.py` builds offline recognition anchors; `src/lyric_match.py` validates monotonic matching and robust timing fits against supplied reference lyrics. The operator scripts preserve source/reference hashes, skip banned songs and retain existing LRCs unless replacement is explicitly requested. No recognition or remote lookup occurs during playback. 起风了's default timestamps use a near-unity scale to prevent drift; 小幸运 uses a fixed offset. Timing estimates are not a claim of word-by-word manual verification. See [requirement_song.md](requirement_song.md) for measured corrections, command order and preserved reference files.
+
+Explicit `jobs.replace_titles` selects normalized titles from the validated incoming batch for replacement. The import helper first creates and verifies a full pre-replacement backup, publishes the new takes, then quarantines retired metadata/audio/guides outside the active library with a recovery receipt. Ordinary publication errors roll back owned changes; process interruption retains the backup and receipt for recovery. Exact-version reimports preserve existing LRCs, while new recording versions start without stale timing data. The live API waits for finite stage activity to end before replacement and strips private backup/archive paths from its response. The offline CLI uses repeated `--replace-title`. Neither path changes character bans or starts playback.
+
+### Singing-room presentation
+
+`ModulePresentation.scene_preset` and the common **Scene · 模块场景** editor now support `singing-room`, selected by default for Songs. Presentation temporarily resolves a separate night music room with a transparent microphone-holding Astra and reused DeepSeek/Claude dolls; leaving Songs restores Chat's inherited shared car. It does not replace the persisted shared scene or create a separate BGM library.
+
+`singing-scene.js` draws a single transparent, calibrated Astra painting over the separate room. The v2 ivory/lilac gaming outfit preserves the reference identity. The tabletop clips the lower body and non-microphone hand; seated happy doll sprites replace the standing/bowing variants in this view. A bounded 384-triangle mesh keeps the microphone/gripping hand rigid under a shared upper-body parent, anchors the hidden seated base and supports gentle recording-position sway/head/arm motion. Shared texture margins prevent antialiased mesh seams. Local idle breathing uses a separate visible-frame clock with up to ten source pixels of connected upper-body lift; the desktop remains fixed. Pausing freezes musical sway while breathing continues; ending eases the pose to rest. Blinks close along calibrated tilted eye axes, and semantic emotion targets distinguish lids, brow tension, mouth curvature and blush while respecting enabled/intensity settings. Lips use only the actual audio envelope, including intro speech. A standalone silent rehearsal at `/static/previews/singing-motion.html` does not connect to the live output. Hidden/reduced-motion states suppress body motion. Geometry, audio-clock and scene-restoration tests pass, and the revised composition was inspected in the local output. This remains a limited painted rig, with no arbitrary new gestures or phoneme recognition.
+
+The previous benchmark schedule used **one six-thread converter alongside one four-thread separator**. The active 2026-10-28 three-song batch requests **three four-thread converters and one four-thread separator**. The requested worker ceiling is 12, bounded further by active tracks and available memory. In the real short-clip [parallel evaluation](data/qa/profiling/seed-vc-parallel-evaluation.json), one six-thread converter took 70.30 seconds for four seconds of audio; two four-thread converters took 158.74 seconds for eight seconds combined, about **11.4% lower throughput**. The [stage profile](data/qa/profiling/seed-vc-stage-profile.json) attributed 77.4% to diffusion and 16.5% to the vocoder. Worker count leaves the requested 50-step conversion quality unchanged. These are short-run measurements rather than full-song completion estimates.
 
 The installed `.tools/seed-vc` models and `.venv-svc` runtime remain separate from the live application. **Torch/torchaudio 2.4.1 CPU** fixes the reproduced Windows 2.4.0 numerical regression; the main `.venv` was unchanged. Proofs are [CPU math checks](data/qa/cpu-math-torch241.json), [separation QA](data/qa/demucs-setup.json) and [SVC setup](data/qa/seed-vc-setup.json). This Intel UHD 770 machine has no detected NVIDIA GPU. Model preparation remains offline, followed by local file playback in the stream.
 
@@ -179,8 +196,215 @@ The controller must stay open, browser permissions must be reselected after relo
 
 ## Remaining limits
 
-- Real Bilibili collection needs a configured room and network access; the user was not streaming during the 2026-10-26 check. Offline SDK packet replay and local API tests passed, but live authorization/delivery and OBS streaming were not tested. Official Open Live requires developer credentials, App ID, streamer identity code, signed start/heartbeat/end requests, WebSocket authentication, `open_id` identity mapping, and handling of session-end and withdrawn paid messages; this path is not wired into the project yet. The general OpenHome platform is a separate integration and must not be mixed with Open Live. Real cloud/local inference needs an available model endpoint.
-- Edge TTS is an external service. Its latency is separate from the collection window; text is delivered first when voice synthesis is slow or unavailable.
+- Real Bilibili collection needs a configured room and network access. The user confirmed receiving a reply to real room chat and hearing voice with Bilibili's meter moving; this does not establish complete paid-event delivery or official API authorization. Official Open Live requires developer credentials, App ID, streamer identity code, signed start/heartbeat/end requests, WebSocket authentication, `open_id` identity mapping, and handling of session-end and withdrawn paid messages; this path is not wired into the project yet. The general OpenHome platform is a separate integration and must not be mixed with Open Live. Real cloud/local inference needs an available model endpoint.
+- Edge TTS and the other speech providers require external services. Their latency is separate from the collection window; approved stage subtitles follow actual voice playback rather than early synthesis preparation.
 - Reply production is serialized on the server; audible playback is queued independently per browser. Finite performance/welcome sessions now receive token-checked playback acknowledgements, but ordinary chat audio still has no playback-aware admission or guaranteed paid-event delivery during overload. High-volume paid interactions would benefit from a durable event scheduler and playback-aware admission before production use.
 - The supplied image is a turnaround. The derived 2D cutout rig supports front-view joint movement; fingers retain their painted hand shape. Large turns, facial morphs and physical fabric simulation need further artwork or a more detailed rig. The optional existing VRM has a simpler mesh and cannot reproduce every costume detail.
 - Keyword moderation is a basic gate. Keep the current loopback host for a local controller; hosted multi-user operation would require authentication and stronger operational controls.
+
+
+## Local security and broadcast review (2026-10-27)
+
+The server is a loopback studio, not a remotely authenticated control service.
+`TrustedHostMiddleware` limits Host to `localhost`, `127.0.0.1` and `[::1]`.
+Private reads and writes declare `Depends(local_request)`: loopback peer, exact
+same Origin/port, Fetch Metadata and `X-Studio-API: 1`. WebSockets require the
+exact local Origin before accepting. Media uses the same local boundary without
+the custom header needed by fetch, so audio/image elements continue to work.
+There is no CORS allowance for arbitrary sites and no external forwarding of
+credentials. This boundary does not defend against already-authorized local code.
+
+Viewer names, messages and rendered memory are escaped user-role data. System
+messages contain operator-owned character settings and fixed route instructions;
+batch instructions contain a count but no interpolated viewer names.
+
+`SafetyGate` performs local NFKC/case normalization, removes separators/invisible
+characters, and applies configurable keyword/category rules. `safety_policy.py`
+contains conservative rules and explicit common variants. The default provider
+is local, including Bilibili, as requested for latency. No external moderation
+request is made. This is not a semantic classifier and cannot guarantee detection
+of all homophones, implied insults or policy violations. Raw chat readback is
+opt-in and is reviewed with the answer. An optional future reviewer hook fails
+closed on missing required integration, timeout, malformed result or exception.
+
+The full short model response is buffered and reviewed before any response text,
+subtitle payload, synthesis request or reply-memory write. After review, sentence
+TTS is delivered in order. Model deadlines account for generation/network time,
+excluding consumer-side waits. This trades token-by-token first-text latency for
+a concrete broadcast barrier; voice/model streaming and the renderer protocol
+remain compatible.
+
+`PaidInbox` intercepts gift and SC events before the ordinary chat queue. It keeps
+at most 128 pending records, merges gifts per viewer with at most 16 item labels,
+and gives each SC its own question and highest priority. One supervised consumer
+waits for the stage and reply lock; an ongoing performance does not spawn hundreds
+of blocked thank-you tasks. Up to eight ready gift recipients share one model
+request. Overflow and failed replies are visible counters, not delivery guarantees.
+A rejected local test submission receives HTTP429 rather than false success.
+There is no durable payment ledger or official payment-delivery acknowledgement.
+
+Pipeline loops have supervised restart/backoff and visible restart history.
+Redacted UID=0 gets a negative, nickname-derived temporary ID; such IDs never get
+personal memory. Identical/redacted nicknames still cannot be resolved. Optional
+`BILIBILI_SESSDATA` is loaded into a `.bilibili.com`-scoped cookie jar and never
+logged or serialized. Official Open Live start/heartbeat/end and open_id identity
+remain future work requiring an authorized Open Live application.
+
+## Shared local expression implementation
+
+Natural emotion, blinking, audio-driven lips and physical movement constraints
+are baseline capabilities shared by Chat, Songs and Stories; their requirements
+live in [requirement_basic.md](requirement_basic.md). Modules select presentation
+targets rather than implement separate facial pipelines. Remaining artwork
+calibration and unsupported large poses are separate work, not a deferral of the
+implemented expression feature.
+
+`frontend/static/expression-engine.js` adapts the published
+`@soullink-emotion/engine@0.1.0-beta.1` to the existing Canvas character renderers.
+The exact dependency is pinned in `package.json` and the lockfile. This published
+package is MIT; its notice is retained at
+`frontend/static/vendor/licenses/soullink-emotion-engine-LICENSE.txt`. This differs
+from upstream development `0.2.0-beta.1`, which currently declares Apache-2.0.
+The served bundle contains the local engine, without the optional Embedding,
+OpenAI Planner, JEV, PIXI renderer or Vue calibration packages.
+
+Existing approved emotion events and module presentations select a bounded
+expression target. The browser locally blends the engine's FACS timeline into
+the existing character face, with a local fallback if the SDK is unavailable.
+There is no additional language-model, embedding, speech or image-generation
+request. VAD here means Valence/Arousal/Dominance emotion coordinates, not voice
+activity detection. Animation remains separate from the content-review barrier
+and from the GLM/MiMo server pipeline.
+
+`ModulePresentation` adds `expression_enabled` (default `true`) and
+`expression_strength` (finite `0..1`, default `0.55`). These live in each
+character's `modules` dictionary, alongside its existing pose, expression type
+and body `motion_strength`. Old records acquire defaults in memory without
+rewriting their files on load. Module manifests normalize unsaved defaults
+through the same schema; older controllers that omit new fields preserve the
+saved preferences. The module-settings API retains profile/revision guards and
+atomically persists changes before broadcasting the updated presentation.
+
+The module look dialog edits a draft and applies it only on save. Disabling
+emotional expressions selects neutral expression while preserving blinking and
+real-audio mouth movement. Expression strength does not scale the audio jaw or
+blink. The adapter disables the SDK's procedural lip-sync: the existing measured
+audio envelope keeps ownership of mouth opening. Symmetric eye controls and
+restricted facial targets avoid independent eye-size changes; the car's painted
+face, hands and steering-wheel contact remain fixed while a bounded local torso
+mesh adds breathing. This is a calibrated
+existing-artwork prototype, not newly authored Cubism model data. A proper
+Live2D renderer still requires separately prepared `.model3.json`, `.moc3`,
+textures and a validated parameter profile, with their own asset/runtime licenses.
+
+Expression preferences are character/module owned. Scene, background motion,
+dolls, music and subtitle settings remain stage owned and shared across profiles.
+
+### Car breathing and scene readiness
+
+`car-scene.js` overlays a locally deformed portion of the opaque 1448 × 1086
+car painting. The calibrated torso ellipse fades to zero at its boundary;
+seatbelt attachment, seat, wrists, wheel, face and dashboard dolls retain their
+painted positions. A 4.8-second visible-frame breathing cycle lifts the strongest
+part by at most 5.5 source pixels, with small cloth expansion. Triangle orientation
+and contact-point tests bound this deformation. It does not translate the whole
+car or independently move the face overlays. Hidden, inactive, disabled and
+reduced-motion states suppress breathing; mouth opening still requires real
+audio. This remains a limited fixed driving pose, not a complete body rig.
+
+`frontend/static/scene-transition.js` separates asset preparation from committing
+the visible scene. `SceneAssets` caches bounded local image/decode promises and
+evicts failures. `SceneTransition` covers an in-progress change, awaits required
+artwork and renderer readiness, commits only the latest request, then removes the
+cover after the new scene has painted. Preparation may run while a renderer is
+inactive. Car window-motion failure can retain the still background; missing
+required character artwork fails the change. A failed or timed-out change keeps
+the previous scene and shows a retry/dismiss notice. Transparent output preserves
+its transparent-background contract. Cancellation, repeated requests, disposal
+and stale completions are handled without changing audio playback.
+
+The visual readiness controller never restarts or pauses a finite song/story
+clock, so lyrics and lips remain tied to the recording. Scene narration is an
+independent, purpose-constrained interaction governed by backend admission; it
+does not claim that a failed visual load succeeded. A silent, disconnected
+fixture at `/static/previews/scene-transition.html` exercises loading, racing
+selections and retry. The muted live car preview is
+`/?preview=1&overlay=1&muted=1&scene=car`.
+
+## Viewer song requests and module transitions
+
+`SingingStudio` owns a bounded `SongRequestQueue`. Its synchronous ingress hook
+matches explicit commands against completed titles in the active character's
+library. The single supervised consumer waits for stage ownership, chat audio,
+paid interactions and the configured chat intermission. A request reserves one
+slot during playback admission; failed starts return it to the queue. Controller
+and preview WebSockets do not count as audible output clients.
+
+`ModuleTransitions` prepares short, fixed intros and endings with the selected
+character's TTS voice. Persistent MP3 caches include the effective and saved
+voice settings in their hash. Preparation happens outside settings locks;
+profile and voice identity are checked again before admission. Intro audio has
+its own player while the recording preloads, and the recording's clock starts
+after the intro with at least the existing three-second preload lead. Natural
+completion attaches one prepared outro to the stop event; the ordinary chat
+audio queue handles its captions and mouth movement. Manual stops, stale
+completion callbacks and playback errors do not announce a finished song.
+
+### Model-assisted audience intent
+
+`src/audience_interaction.py` coordinates conversation and suggestions;
+`src/audience_intents.py` owns the bounded, synchronous intent pool. Explicit
+song/story commands retain their existing ingress and bypass the vote threshold,
+but still obey library, bans, cooldown, queue and stage checks. Ordinary selected
+chat can express a request without command syntax, such as wanting music or a
+story about the three roommates. The same conversational model returns a strict
+envelope with spoken `reply`, bounded `emotion`, and hidden `intents`. An intent
+references an index in the current viewer-message batch and includes the intent,
+confidence, positive/current-request flags and optional song title. Extra fields,
+duplicate/out-of-range indices and invalid envelopes are rejected. Only the
+reviewed reply reaches subtitles and TTS; the JSON and control suggestions are
+never spoken. Viewer messages remain untrusted user-role data.
+
+The model suggests; backend code owns every action. It checks the current
+profile/revision, message identity, confidence, eligible catalog, bans, prepared
+story state, cooldowns and stage ownership before admission. Separate singing
+and story counts default to **6 positive requests within 120 seconds**, with a
+**20-second per-viewer interval**, **300-second trigger cooldown** and minimum
+confidence **0.8**. Deduplication and bounded histories limit repeats; expired
+votes are removed. Nicknames, memory, negative requests, quotations and old
+discussions are not valid vote sources. The pool is ephemeral across restarts,
+and switching characters cancels the former character's active selection.
+Semantic classification can still be wrong; disabling it preserves explicit
+commands and avoids claiming perfect understanding.
+
+A singing threshold starts a conversation asking “想听什么歌”, with a default
+**90-second selection window**, rather than immediately choosing a recording.
+During that window a plain title can be interpreted as a song choice. The server
+matches only prepared songs owned by the active character and applies the normal
+request policy. Unknown titles receive an “我还没学会” response; blocked titles
+receive a temporary-unavailability response, without removing the ban or creating
+a download/conversion task. Expired selection returns naturally to chat. Story
+requests use already prepared clips. Requests do not interrupt a running song.
+
+Short feedback has separate purposes: ask for a title, confirm a queued song,
+explain an unknown or blocked title, introduce a ready story, explain an unready
+story, end selection, or narrate a scene change. The text model may vary the
+wording within that purpose; strict parsing, small purpose guards, content review
+and controlled fallback lines constrain it. Failed model calls cannot directly
+switch a module. These interactions may incur text/TTS preparation latency;
+local expression execution and visual readiness add no new model call and do not
+change a fixed recording's timeline. Cached module intros/outros remain separate
+from generated conversational feedback.
+
+Focused local regression commands (from the workspace root):
+
+```powershell
+.\.venv\Scripts\python.exe -X utf8 -m unittest tests.test_audience_intents tests.test_interaction_routes -v
+node --test tests/test_car.cjs tests/test_car_drive.cjs tests/test_scene_transition.cjs tests/test_interaction_controls.cjs
+```
+
+Start the normal server with `scripts/start_studio.py`, or use
+`main.py --config config.local-test.yaml` for Mock/no-TTS testing on port 8001.
+The preview paths above then use that server's port. Fixtures and unit tests
+exercise mechanics; they do not establish perfect interpretation of live chat
+or guarantee cloud-provider latency.

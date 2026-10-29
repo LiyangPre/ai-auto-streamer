@@ -16,15 +16,23 @@ llm:
   # Key 放在项目 .env 的 GLM_API_KEY 中；api_key 保持空白
   api_key: ""
   api_key_env: "GLM_API_KEY"
-  model: "glm-4.7-flashx"
+  model: "glm-4.7-flash"
+  # 按成本优先；目前繁忙的 4.7-FlashX 放在最后。每条回复共用时间上限。
+  fallback_models: ["glm-4-flash-250414", "glm-4-flashx-250414", "glm-4-air-250414", "glm-4.5-air", "glm-4.7-flashx"]
+  fallback_attempt_timeout: 3.0
+  fallback_total_timeout: 20.0
+  fallback_cooldown: 90.0
+  delay_notice_enabled: true
+  delay_notice_after: 3.0
+  delay_notice_cooldown: 45.0
   temperature: 0.7
   max_tokens: 96
   stream: true
   request_timeout: 45.0
   first_chunk_timeout: 15.0
   # 直播间无复杂推理场景，关闭思考可显著降低首字延迟。
-  # 只有接云端推理模型时才生效；非推理模型会忽略这两项。
-  # 服务端不认这些参数会返回 400，此时本会话自动停用（见 llm.py）。
+  # GLM 4.5/4.7 每个备用模型都明确禁用 thinking，不会重试为开启。
+  # 旧 GLM-4 是普通对话模型；强制思考模型不进入此备用链。
   network_mode: direct
   enable_thinking: false
   # "" 表示不传。可选 low / medium / high（各家取值不同：
@@ -89,6 +97,10 @@ reply_interval:
 
 safety:
   enabled: true
+  provider: local
+  # All review stays on this PC. No extra remote API latency or text transfer.
+  require_remote_for_bilibili: false
+  blocked_categories: [abuse, sexual, advertising, danger, sensitive_topics]
   blocked_keywords: ["自杀", "恐怖主义", "制造炸弹", "儿童色情"]
 
 # 短期记忆：全局滚动窗口 + per-user 记忆

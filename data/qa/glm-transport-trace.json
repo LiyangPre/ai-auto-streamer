@@ -1,0 +1,322 @@
+{
+  "started_utc": "2026-10-28T07:04:37.435617+00:00",
+  "model": "glm-4.7-flashx",
+  "thinking": false,
+  "broadcast": false,
+  "tts": false,
+  "results": [
+    {
+      "case": 1,
+      "stream": false,
+      "ok": true,
+      "headers_ms": 22906,
+      "tokens": {
+        "input": 384,
+        "output": 8
+      },
+      "characters": 17,
+      "text": "[thinking] GLM-01",
+      "chunks": 0,
+      "finish_reasons": [
+        "stop"
+      ],
+      "expected_id_received": true,
+      "transport_events": [
+        {
+          "event": "connection.connect_tcp.started",
+          "at_ms": 500
+        },
+        {
+          "event": "connection.connect_tcp.complete",
+          "at_ms": 515
+        },
+        {
+          "event": "connection.start_tls.started",
+          "at_ms": 515
+        },
+        {
+          "event": "connection.start_tls.complete",
+          "at_ms": 531
+        },
+        {
+          "event": "http11.send_request_headers.started",
+          "at_ms": 531
+        },
+        {
+          "event": "http11.send_request_headers.complete",
+          "at_ms": 531
+        },
+        {
+          "event": "http11.send_request_body.started",
+          "at_ms": 531
+        },
+        {
+          "event": "http11.send_request_body.complete",
+          "at_ms": 531
+        },
+        {
+          "event": "http11.receive_response_headers.started",
+          "at_ms": 531
+        },
+        {
+          "event": "http11.receive_response_headers.complete",
+          "at_ms": 22906
+        },
+        {
+          "event": "http11.receive_response_body.started",
+          "at_ms": 22906
+        },
+        {
+          "event": "http11.receive_response_body.complete",
+          "at_ms": 22906
+        },
+        {
+          "event": "http11.response_closed.started",
+          "at_ms": 22906
+        },
+        {
+          "event": "http11.response_closed.complete",
+          "at_ms": 22906
+        }
+      ],
+      "elapsed_ms": 22906,
+      "mode": "direct",
+      "route": "direct"
+    },
+    {
+      "case": 1,
+      "stream": false,
+      "ok": true,
+      "headers_ms": 27235,
+      "tokens": {
+        "input": 384,
+        "output": 8
+      },
+      "characters": 15,
+      "text": "[normal] GLM-01",
+      "chunks": 0,
+      "finish_reasons": [
+        "stop"
+      ],
+      "expected_id_received": true,
+      "transport_events": [
+        {
+          "event": "connection.connect_tcp.started",
+          "at_ms": 32
+        },
+        {
+          "event": "connection.connect_tcp.complete",
+          "at_ms": 32
+        },
+        {
+          "event": "http11.send_request_headers.started",
+          "at_ms": 32
+        },
+        {
+          "event": "http11.send_request_headers.complete",
+          "at_ms": 32
+        },
+        {
+          "event": "http11.send_request_body.started",
+          "at_ms": 32
+        },
+        {
+          "event": "http11.send_request_body.complete",
+          "at_ms": 32
+        },
+        {
+          "event": "http11.receive_response_headers.started",
+          "at_ms": 32
+        },
+        {
+          "event": "http11.receive_response_headers.complete",
+          "at_ms": 32
+        },
+        {
+          "event": "proxy.start_tls.started",
+          "at_ms": 32
+        },
+        {
+          "event": "proxy.start_tls.complete",
+          "at_ms": 454
+        },
+        {
+          "event": "http11.send_request_headers.started",
+          "at_ms": 454
+        },
+        {
+          "event": "http11.send_request_headers.complete",
+          "at_ms": 454
+        },
+        {
+          "event": "http11.send_request_body.started",
+          "at_ms": 454
+        },
+        {
+          "event": "http11.send_request_body.complete",
+          "at_ms": 454
+        },
+        {
+          "event": "http11.receive_response_headers.started",
+          "at_ms": 454
+        },
+        {
+          "event": "http11.receive_response_headers.complete",
+          "at_ms": 27235
+        },
+        {
+          "event": "http11.receive_response_body.started",
+          "at_ms": 27235
+        },
+        {
+          "event": "http11.receive_response_body.complete",
+          "at_ms": 27235
+        },
+        {
+          "event": "http11.response_closed.started",
+          "at_ms": 27235
+        },
+        {
+          "event": "http11.response_closed.complete",
+          "at_ms": 27235
+        }
+      ],
+      "elapsed_ms": 27235,
+      "mode": "auto",
+      "route": "windows_proxy"
+    },
+    {
+      "case": 2,
+      "stream": true,
+      "ok": true,
+      "headers_ms": 7187,
+      "first_text_ms": 7187,
+      "characters": 43,
+      "text": "[thinking] 抱抱你，小可怜。工作辛苦啦，今晚就允许自己当个不用动脑的废柴吧。",
+      "chunks": 29,
+      "finish_reasons": [
+        "stop"
+      ],
+      "transport_events": [
+        {
+          "event": "http11.send_request_headers.started",
+          "at_ms": 0
+        },
+        {
+          "event": "http11.send_request_headers.complete",
+          "at_ms": 0
+        },
+        {
+          "event": "http11.send_request_body.started",
+          "at_ms": 0
+        },
+        {
+          "event": "http11.send_request_body.complete",
+          "at_ms": 0
+        },
+        {
+          "event": "http11.receive_response_headers.started",
+          "at_ms": 0
+        },
+        {
+          "event": "http11.receive_response_headers.complete",
+          "at_ms": 7187
+        },
+        {
+          "event": "http11.receive_response_body.started",
+          "at_ms": 7187
+        },
+        {
+          "event": "http11.receive_response_body.started",
+          "at_ms": 7859
+        },
+        {
+          "event": "http11.receive_response_body.complete",
+          "at_ms": 7859
+        },
+        {
+          "event": "http11.response_closed.started",
+          "at_ms": 7859
+        },
+        {
+          "event": "http11.response_closed.complete",
+          "at_ms": 7859
+        },
+        {
+          "event": "http11.receive_response_body.failed",
+          "at_ms": 7859
+        }
+      ],
+      "elapsed_ms": 7859,
+      "mode": "direct",
+      "route": "direct"
+    },
+    {
+      "case": 2,
+      "stream": true,
+      "ok": false,
+      "code": "timeout",
+      "message": "Provider request timed out; compare Direct and Auto network routes.",
+      "http_status": null,
+      "causes": [
+        {
+          "type": "TimeoutError"
+        },
+        {
+          "type": "CancelledError"
+        },
+        {
+          "type": "SSLWantReadError",
+          "ssl_reason": null
+        }
+      ],
+      "transport_events": [
+        {
+          "event": "http11.send_request_headers.started",
+          "at_ms": 0
+        },
+        {
+          "event": "http11.send_request_headers.complete",
+          "at_ms": 0
+        },
+        {
+          "event": "http11.send_request_body.started",
+          "at_ms": 0
+        },
+        {
+          "event": "http11.send_request_body.complete",
+          "at_ms": 0
+        },
+        {
+          "event": "http11.receive_response_headers.started",
+          "at_ms": 0
+        },
+        {
+          "event": "http11.receive_response_headers.failed",
+          "at_ms": 30000
+        },
+        {
+          "event": "http11.response_closed.started",
+          "at_ms": 30000
+        },
+        {
+          "event": "http11.response_closed.complete",
+          "at_ms": 30000
+        }
+      ],
+      "elapsed_ms": 30000,
+      "mode": "auto",
+      "route": "windows_proxy"
+    }
+  ],
+  "summary": {
+    "direct": {
+      "passed": 2,
+      "total": 2
+    },
+    "auto": {
+      "passed": 1,
+      "total": 2
+    }
+  }
+}

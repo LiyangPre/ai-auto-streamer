@@ -1,0 +1,16 @@
+test_all_request_controls_reject_cross_origin_and_missing_header (tests.test_song_request_integration.SongRequestAPITests.test_all_request_controls_reject_cross_origin_and_missing_header) ... ok
+test_local_queue_cannot_order_missing_or_other_characters_audio (tests.test_song_request_integration.SongRequestAPITests.test_local_queue_cannot_order_missing_or_other_characters_audio) ... ok
+test_operator_can_build_remove_and_clear_playlist_without_user_cooldown (tests.test_song_request_integration.SongRequestAPITests.test_operator_can_build_remove_and_clear_playlist_without_user_cooldown) ... ok
+test_policy_validation_rejects_unbounded_and_nonfinite_values_atomically (tests.test_song_request_integration.SongRequestAPITests.test_policy_validation_rejects_unbounded_and_nonfinite_values_atomically) ... ok
+test_request_policy_is_revision_checked_persisted_and_character_owned (tests.test_song_request_integration.SongRequestAPITests.test_request_policy_is_revision_checked_persisted_and_character_owned) ... ok
+test_requests_during_song_do_not_interrupt_and_completion_returns_to_chat (tests.test_song_request_integration.SongRequestAPITests.test_requests_during_song_do_not_interrupt_and_completion_returns_to_chat) ... ok
+test_viewer_request_reaches_queue_without_generation_or_stage_change (tests.test_song_request_integration.SongRequestAPITests.test_viewer_request_reaches_queue_without_generation_or_stage_change) ... ok
+test_auto_play_waits_for_output_story_reply_and_actual_voice_completion (tests.test_song_request_integration.SongRequestPlaybackTests.test_auto_play_waits_for_output_story_reply_and_actual_voice_completion) ... Executing <Task finished name='Task-87' coro=<SongRequestPlaybackTests.test_auto_play_waits_for_output_story_reply_and_actual_voice_completion() done, defined at D:\ai auto streamer\tests\test_song_request_integration.py:234> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.141 seconds
+ok
+test_character_change_does_not_play_another_characters_queue (tests.test_song_request_integration.SongRequestPlaybackTests.test_character_change_does_not_play_another_characters_queue) ... ok
+test_natural_completion_returns_chat_then_observes_intermission (tests.test_song_request_integration.SongRequestPlaybackTests.test_natural_completion_returns_chat_then_observes_intermission) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 1.554s
+
+OK

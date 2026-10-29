@@ -5,9 +5,10 @@ from pathlib import Path
 from typing import Literal
 from urllib.parse import urlsplit
 
-from pydantic import BaseModel, ConfigDict, Field, SecretStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, SecretStr, field_validator, model_validator
 
 from .provider_network import route
+from .glm_models import DEFAULT_GLM_MODEL, DEFAULT_GLM_FALLBACKS, GLM_CHAT_MODELS, PRICING_URL, validate_model_ids, validate_glm_no_thinking
 
 Provider = Literal['glm', 'openai', 'deepseek', 'qwen', 'ollama', 'mock']
 NetworkMode = Literal['direct', 'auto', 'environment']
@@ -31,11 +32,27 @@ class Strict(BaseModel):
 class TextConnection(Strict):
     provider: Provider = 'glm'
     base_url: str = Field(default='https://open.bigmodel.cn/api/paas/v4', max_length=400)
-    model: str = Field(default='glm-4.7-flashx', min_length=1, max_length=100, pattern=r'^[\w./:-]+$')
+    model: str = Field(default=DEFAULT_GLM_MODEL, min_length=1, max_length=100, pattern=r'^[\w./:-]+$')
     network_mode: NetworkMode = 'direct'
     # This studio deliberately keeps fast replies; no hidden provider-default reasoning.
     enable_thinking: Literal[False] = False
+    fallback_models: list[str] = Field(default_factory=list, max_length=7)
+    fallback_attempt_timeout: float = Field(default=3.0, ge=0.05, le=30, allow_inf_nan=False)
+    fallback_total_timeout: float = Field(default=20.0, ge=0.05, le=60, allow_inf_nan=False)
+    fallback_cooldown: float = Field(default=90.0, ge=1, le=3600, allow_inf_nan=False)
+    delay_notice_enabled: bool = True
+    delay_notice_after: float = Field(default=3.0, ge=0.05, le=30, allow_inf_nan=False)
+    delay_notice_cooldown: float = Field(default=45.0, ge=1, le=3600, allow_inf_nan=False)
     _url = field_validator('base_url')(validate_base_url)
+    _models = field_validator('fallback_models')(validate_model_ids)
+
+    @model_validator(mode='after')
+    def no_forced_reasoning(self):
+        if self.provider == 'glm':
+            for model in [self.model, *self.fallback_models]:
+                validate_glm_no_thinking(model)
+            self.model = self.model.lower()
+        return self
 
 
 class MimoConnection(Strict):
@@ -84,8 +101,7 @@ class ConnectionStore:
         self.path = Path(path)
         self.revision = 0
         self.keys = {}
-        self.text = TextConnection(provider=config.llm.provider, base_url=config.llm.base_url,
-            model=config.llm.model, network_mode=config.llm.network_mode)
+        self.text = TextConnection(**{name:getattr(config.llm,name) for name in TextConnection.model_fields})
         self.mimo = MimoConnection(base_url=config.tts.mimo_base_url, network_mode=config.tts.mimo_network_mode)
 
     def load(self):
@@ -148,6 +164,8 @@ class ConnectionStore:
 
     def public(self, config):
         return {'revision':self.revision,'text':self.text.model_dump(),'mimo':self.mimo.model_dump(),
+                'glm_catalog':GLM_CHAT_MODELS,'glm_pricing_url':PRICING_URL,'glm_prices_checked':'2026-10-28',
+                'glm_default_order':[DEFAULT_GLM_MODEL,*DEFAULT_GLM_FALLBACKS],
                 'configured':{'text':config.llm.api_key_configured,
                     **{p:bool(config.tts.resolve_api_key(p)) for p in ('mimo-tts','glm-tts','minimax')}},
                 'active_tts':config.tts.engine,

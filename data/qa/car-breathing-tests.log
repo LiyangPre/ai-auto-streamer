@@ -1,0 +1,19 @@
+✔ car expression transitions and blink preserve face continuity without moving the body (27.0928ms)
+✔ active output keeps a 1440x1080 facial canvas and draws only local face patches (24.5447ms)
+✔ lip sync uses the voice envelope only and transient expressions relax (33.9566ms)
+✔ singing holds a symmetric expression and releases smoothly without moving body contacts (34.3916ms)
+✔ car breath moves chest cloth visibly but pins face, wheel, wrists, dolls and seatbelt anchors (13.3348ms)
+✔ bounded breathing mesh keeps a continuous torso without flipped or excessively stretched triangles (44.3428ms)
+✔ idle car breath continues without speech and freezes while hidden, reduced or disabled (90.6264ms)
+✔ loop covers every window across the wrap without gaps or an unbounded tile count (19.0644ms)
+✔ driving paints at 20 fps or less, pauses when hidden and leaves original artwork when switched off (11.7055ms)
+✔ reduced motion uses a still exterior and camera vibration can be disabled independently (23.9635ms)
+✔ camera shake stays subpixel and applies one transform to the entire shot (36.2239ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 869.5211

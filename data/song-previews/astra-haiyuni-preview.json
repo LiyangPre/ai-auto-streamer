@@ -1,0 +1,27 @@
+{
+  "song": "海屿你",
+  "kind": "partial-conversion-preview",
+  "duration_seconds": 12.0,
+  "source_start_seconds": 9.5,
+  "source_end_seconds": 21.5,
+  "available_converted_seconds": 21.768707482993197,
+  "completed_chunks_used": 1,
+  "diffusion_steps": 50,
+  "reference_sha256": "dfa57c37f8e304681f6cc3fa9e7d0370a598b00842a8461bbb035cd0fbb16c8a",
+  "chunk_fingerprint": "7e304478d2c250f61c94f34c3bc7a6db5567548daa8c11b0c9dd94357098a7c9",
+  "voice": "current saved approved Astra voice",
+  "backing_track": "source accompaniment, aligned without retiming",
+  "levels": {
+    "gain": 1.0271609276030689,
+    "source_vocal_rms": 0.15774429609864832,
+    "converted_vocal_rms": 0.153573108029676,
+    "quiet_gap_gate": true,
+    "pitch_shift": 0,
+    "time_stretch": false
+  },
+  "path": "D:\\ai auto streamer\\data\\song-previews\\astra-haiyuni-preview.mp3",
+  "audio_url": "/audio/astra-haiyuni-preview-7e304478.mp3",
+  "sha256": "5c02992790b72fba5df816ddcf08005bcda0dc17dfc888df217620fe8c9439cc",
+  "library_imported": false,
+  "conversion_interrupted": false
+}

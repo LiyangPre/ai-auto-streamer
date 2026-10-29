@@ -1,0 +1,78 @@
+Model request failed [response, model=glm-4.7-flash, route=direct]: Model returned an invalid interaction response.
+Model request failed [response, model=glm-4-flash-250414, route=direct]: Model returned an invalid interaction response.
+Model request failed [response, model=glm-4-flashx-250414, route=direct]: Model returned an invalid interaction response.
+Model request failed [response, model=glm-4.7-flash, route=direct]: Model returned an invalid interaction response.
+Model request failed [reasoning_enabled, model=glm-4.7-flash, route=direct]: Model returned reasoning despite thinking being disabled.
+Model request failed [blocked, model=glm-4.7-flash, route=direct]: Provider content review blocked the reply.
+Model request failed [account_limit, model=glm-4.7-flash, route=direct]: Provider account balance, plan or spending limit prevents this request.
+Model request failed [quota, model=glm-4.7-flash, route=direct]: Provider quota or rate limit reached (HTTP 429).
+Model request failed [account_limit, model=glm-4.7-flash, route=direct]: Provider account balance, plan or spending limit prevents this request.
+Model request failed [quota, model=glm-4.7-flash, route=direct]: Provider quota or rate limit reached (HTTP 429).
+Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4-flash-250414, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4-flashx-250414, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4-air-250414, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4.5-air, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [tls, model=glm-4.7-flash, route=direct]: TLS certificate verification failed; check the trusted certificates and system clock.
+Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [response, model=glm-4.7-flash, route=direct]: Provider returned incomplete or invalid data; retry the connection test.
+Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4-flash-250414, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [blocked, model=glm-4.7-flash, route=direct]: Provider content review blocked the reply.
+Model request failed [blocked, model=glm-4.7-flash, route=direct]: Provider content review blocked the reply.
+Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [quota, model=glm-4.7-flash, route=direct]: Provider quota or rate limit reached (HTTP 429).
+Model request failed [provider_http, model=glm-4.7-flash, route=direct]: Provider returned HTTP 404; check model access and endpoint.
+Model request failed [authentication, model=glm-4.7-flash, route=direct]: Provider access rejected (HTTP 401); check the key, account region and endpoint.
+Model request failed [provider_http, model=glm-4.7-flash, route=direct]: Provider returned HTTP 402; check model access and endpoint.
+Model request failed [authentication, model=glm-4.7-flash, route=direct]: Provider access rejected (HTTP 403); check the key, account region and endpoint.
+Model request failed [blocked, model=glm-4.7-flash, route=direct]: Provider content review blocked the reply.
+Model request failed [reasoning_enabled, model=glm-4.7-flash, route=direct]: Model returned reasoning despite thinking being disabled.
+Model stream cleanup skipped (TimeoutError)
+Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [quota, model=glm-4.7-flash, route=direct]: Provider quota or rate limit reached (HTTP 429).
+Model request failed [provider_http, model=glm-4.7-flash, route=direct]: Provider returned HTTP 404; check model access and endpoint.
+Model request failed [provider_http, model=glm-4.7-flash, route=direct]: Provider returned HTTP 400; check model access and endpoint.
+Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Interactive reply rejected (ValidationError)
+Interactive reply rejected (ValueError)
+Interactive reply rejected (ValueError)
+======================================================================
+FAIL: test_total_budget_bounds_all_attempts_for_both_request_modes (tests.test_glm_fallback.GLMFallbackTests.test_total_budget_bounds_all_attempts_for_both_request_modes) (streaming=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\ai auto streamer\tests\test_glm_fallback.py", line 215, in test_total_budget_bounds_all_attempts_for_both_request_modes
+    self.assertEqual([c['model'] for c in client.calls], [PRIMARY, SECOND])
+AssertionError: Lists differ: ['glm-4.7-flash'] != ['glm-4.7-flash', 'glm-4-flash-250414']
+
+Second list contains 1 additional elements.
+First extra element 1:
+'glm-4-flash-250414'
+
+- ['glm-4.7-flash']
++ ['glm-4.7-flash', 'glm-4-flash-250414']
+
+======================================================================
+FAIL: test_total_budget_bounds_all_attempts_for_both_request_modes (tests.test_glm_fallback.GLMFallbackTests.test_total_budget_bounds_all_attempts_for_both_request_modes) (streaming=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\ai auto streamer\tests\test_glm_fallback.py", line 215, in test_total_budget_bounds_all_attempts_for_both_request_modes
+    self.assertEqual([c['model'] for c in client.calls], [PRIMARY, SECOND])
+AssertionError: Lists differ: ['glm-4.7-flash'] != ['glm-4.7-flash', 'glm-4-flash-250414']
+
+Second list contains 1 additional elements.
+First extra element 1:
+'glm-4-flash-250414'
+
+- ['glm-4.7-flash']
++ ['glm-4.7-flash', 'glm-4-flash-250414']
+
+----------------------------------------------------------------------
+Ran 58 tests in 11.424s
+
+FAILED (failures=2)

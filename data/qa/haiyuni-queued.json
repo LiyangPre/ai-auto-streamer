@@ -1,0 +1,14 @@
+{
+  "song": "海屿你",
+  "bvid": "BV14nrkBPEBE",
+  "pending_state": "queued",
+  "pending_stage": "waiting_for_current_batch",
+  "waiter_pid": 14868,
+  "current_batch_total": 4,
+  "current_ready": 2,
+  "current_title": "告白气球",
+  "steps": 50,
+  "same_voice": true,
+  "automatically_after_current_batch": true,
+  "playback_started": false
+}

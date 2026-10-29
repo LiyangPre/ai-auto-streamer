@@ -1,0 +1,16 @@
+test_bom_metadata_offsets_repeats_bilingual_and_blank_clears (tests.test_lyrics.LRCParserTests.test_bom_metadata_offsets_repeats_bilingual_and_blank_clears) ... ok
+test_bracketed_lyric_text_and_html_are_kept_literal (tests.test_lyrics.LRCParserTests.test_bracketed_lyric_text_and_html_are_kept_literal) ... ok
+test_decimal_precision_hours_and_negative_offset_are_separate (tests.test_lyrics.LRCParserTests.test_decimal_precision_hours_and_negative_offset_are_separate) ... ok
+test_invalid_timestamps_and_offsets_do_not_silently_publish (tests.test_lyrics.LRCParserTests.test_invalid_timestamps_and_offsets_do_not_silently_publish) ... ok
+test_payload_character_line_and_expansion_limits (tests.test_lyrics.LRCParserTests.test_payload_character_line_and_expansion_limits) ... ok
+test_all_lyric_writes_require_local_header_and_origin (tests.test_lyrics.LyricAPITests.test_all_lyric_writes_require_local_header_and_origin) ... ok
+test_invalid_and_oversized_uploads_do_not_replace_existing_lyrics (tests.test_lyrics.LyricAPITests.test_invalid_and_oversized_uploads_do_not_replace_existing_lyrics) ... ok
+test_local_upload_offset_and_removal_update_live_metadata_without_restarting_audio (tests.test_lyrics.LyricAPITests.test_local_upload_offset_and_removal_update_live_metadata_without_restarting_audio) ... ok
+test_attach_offset_and_remove_preserve_audio_and_existing_untimed_lyrics (tests.test_lyrics.LyricStorageTests.test_attach_offset_and_remove_preserve_audio_and_existing_untimed_lyrics) ... ok
+test_character_ownership_moderation_and_bad_offset_preserve_metadata (tests.test_lyrics.LyricStorageTests.test_character_ownership_moderation_and_bad_offset_preserve_metadata) ... ok
+test_storage_replace_failure_leaves_the_old_song_metadata_intact (tests.test_lyrics.LyricStorageTests.test_storage_replace_failure_leaves_the_old_song_metadata_intact) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.240s
+
+OK

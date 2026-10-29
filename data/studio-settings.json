@@ -57,7 +57,7 @@
     }
   },
   "scene": {
-    "background": "car",
+    "background": "singing-room",
     "background_asset": null,
     "music_asset": null,
     "effect": "none",
@@ -72,7 +72,7 @@
     "character_scale": 1.0,
     "subtitle_seconds": 2.0,
     "music_enabled": true,
-    "music_source": "system",
-    "music_volume": 0.37
+    "music_source": "file",
+    "music_volume": 0.16
   }
 }

@@ -12,6 +12,7 @@ import urllib.error
 import urllib.request
 
 from export_converted_songs import export_track, publish
+from atomic_json import write_json_atomic
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / 'data/songs-converted'
@@ -47,6 +48,25 @@ def exclusive_job():
                 msvcrt.locking(stream.fileno(), msvcrt.LK_UNLCK, 1)
             else:
                 fcntl.flock(stream, fcntl.LOCK_UN)
+
+
+def coordinator_is_stale(state, grace_seconds=30):
+    """A stale heartbeat alone cannot prove that expensive work has stopped."""
+    updated = state.get('updated')
+    if type(updated) in (int, float) and time.time() - updated <= grace_seconds:
+        return False
+    try:
+        with exclusive_job():
+            return True
+    except OSError:
+        # A live owner (or an unavailable lease file) must not be mistaken for
+        # permission to launch another expensive conversion.
+        return False
+
+
+def publish_telemetry(path, value):
+    """A locked progress file must never tear down conversion workers."""
+    return write_json_atomic(path, value, best_effort=True)
 
 
 def assert_voice(jobs, reference):
@@ -101,6 +121,13 @@ def import_library(jobs, reference):
             detail = read_http_error(error)
             if isinstance(detail, dict) and detail.get('code') == 'voice_changed':
                 raise ValueError('Current voice changed before library import.') from None
+            if (error.code == 409 and isinstance(detail, dict)
+                    and detail.get('code') in {'stage_busy', 'preparation_busy'}):
+                # Finite audio can outlast the generic retry budget. Waiting
+                # here incurs no synthesis/conversion and keeps checking voice
+                # and the explicit stop flag at the top of every attempt.
+                time.sleep(5)
+                continue
             if error.code == 409 and time.monotonic() < deadline:
                 time.sleep(5)
                 continue
@@ -108,8 +135,11 @@ def import_library(jobs, reference):
         except urllib.error.URLError as error:
             if not isinstance(error.reason, ConnectionRefusedError):
                 raise RuntimeError('Cannot reach local library import API.') from None
-            result = subprocess.run([sys.executable, '-X', 'utf8', str(ROOT / 'scripts/import_prepared_songs.py'),
-                                     '--manifest', str(OUTPUT / 'prepared.json')], cwd=ROOT, capture_output=True, text=True, encoding='utf-8')
+            command = [sys.executable, '-X', 'utf8', str(ROOT / 'scripts/import_prepared_songs.py'),
+                       '--manifest', str(OUTPUT / 'prepared.json')]
+            for title in jobs.get('replace_titles', []):
+                command.extend(['--replace-title', title])
+            result = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, encoding='utf-8')
             if result.returncode:
                 raise RuntimeError('Offline library import failed: ' + result.stderr[-600:])
             return read(OUTPUT / 'import-result.json')
@@ -138,7 +168,7 @@ def record_request_status(status, exports):
             track['prepared_audio'] = {key: exports[bvid][key] for key in ('mix_mp3', 'vocals_mp3', 'duration_seconds')}
         elif status in ('preparing', 'error', 'stopped'):
             track['conversion_status'] = 'queued' if status == 'preparing' else status
-    publish(path, data)
+    publish_telemetry(path, data)
 
 
 def worker_limit(requested, tracks):
@@ -178,7 +208,12 @@ def main():
     args = parser.parse_args()
     OUTPUT.mkdir(parents=True, exist_ok=True)
     if args.status:
-        print(json.dumps(read(STATE), ensure_ascii=False, indent=2))
+        state = read(STATE)
+        if state.get('state') == 'preparing' and coordinator_is_stale(state):
+            state.update(state='interrupted', stage='needs_resume',
+                         message='Coordinator stopped; completed audio and checkpoints are preserved.')
+            state.pop('estimated_seconds_remaining', None)
+        print(json.dumps(state, ensure_ascii=False, indent=2))
         return
     stop = OUTPUT / 'pipeline.stop'
     if args.stop:
@@ -197,7 +232,7 @@ def main():
                  'started': time.time(), 'updated': time.time(), 'pid': os.getpid(),
                  'workers': worker_count, 'requested_workers': args.workers,
                  'worker_ceiling': min(12, jobs.get('max_workers', 12)), 'diffusion_steps': args.steps}
-        publish(STATE, state)
+        publish_telemetry(STATE, state)
         children = []
         try:
             python = str(ROOT / '.venv-svc/Scripts/python.exe')
@@ -233,7 +268,9 @@ def main():
                         if result:
                             exports[track['id']] = result
                 prepared.update(tracks=list(exports.values()), ready=len(exports), total=len(jobs['tracks']))
-                publish(OUTPUT / 'prepared.json', prepared)
+                # Intermediate manifests are progress snapshots. A complete
+                # manifest is committed strictly below before library import.
+                publish_telemetry(OUTPUT / 'prepared.json', prepared)
                 record_request_status('preparing', exports)
                 separation = read(OUTPUT / 'separation-state.json')
                 conversions = [read(path) for path in conversion_states]
@@ -250,7 +287,7 @@ def main():
                 if all(isinstance(value, (int, float)) for value in estimates):
                     state['estimated_seconds_remaining'] = max(0, *estimates)
                 state['message'] = f'{args.steps} steps; {worker_count} conversion workers; source melody and timing preserved.'
-                publish(STATE, state)
+                publish_telemetry(STATE, state)
                 if len(exports) == len(jobs['tracks']):
                     break
                 for process, _ in children:
@@ -260,18 +297,19 @@ def main():
                     raise RuntimeError('Conversion ended before all mixes were ready.')
                 time.sleep(5)
             state.update(stage='importing', current_title='', message='Mixes ready; saving song library and backup.', updated=time.time())
-            publish(STATE, state)
+            publish(OUTPUT / 'prepared.json', prepared)
+            publish_telemetry(STATE, state)
             assert_voice(jobs, reference)
             result = import_library(jobs, reference)
             publish(OUTPUT / 'import-result.json', result)
             state.update(state='complete', stage='complete', ready=len(exports), updated=time.time(),
                          message='Songs, vocal mouth guides and library backup are ready. Playback was not started.')
-            publish(STATE, state)
+            publish_telemetry(STATE, state)
             record_request_status('complete', exports)
         except BaseException as error:
             state.update(state='stopped' if isinstance(error, (InterruptedError, KeyboardInterrupt)) else 'error',
                          message=str(error) or 'Preparation stopped.', updated=time.time())
-            publish(STATE, state)
+            publish_telemetry(STATE, state)
             record_request_status(state['state'], locals().get('exports', {}))
             raise
         finally:

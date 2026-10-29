@@ -89,7 +89,7 @@ class ControlPanel {
 
     async loadConfig() {
         try {
-            const response = await fetch('/api/config');
+            const response = await fetch('/api/config', {headers:{'X-Studio-API':'1'}});
             if (!response.ok) throw new Error('Configuration unavailable');
             this.config = await response.json();
             const cfg = this.config;
@@ -183,6 +183,7 @@ class ControlPanel {
                 this.$('response-route').textContent = 'Reply failed'; this.toast(data.message || '回复失败，请检查模型连接'); break;
             case 'moderation': this.moderate(); break;
             case 'tts_error': this.toast('语音服务暂不可用，回复已显示为文字'); break;
+            case 'paid_reply_failed': this.toast('付费互动回复失败，请查看控制台状态并人工补答'); break;
             case 'reply_dropped': this.toast('当前回复繁忙，这条互动已超时'); break;
             case 'idle_action': this.showAction(data.action); break;
         }
@@ -220,6 +221,20 @@ class ControlPanel {
         this.$('response-emotion').textContent = labels[emotion] || emotion;
     }
     updateStatus(data) {
+        const notices = [];
+        if(data.moderation?.remote_required && !data.moderation.ready)
+            notices.push('直播内容审核尚未配置：已暂停自动播出。请完成内容安全 API 配置。');
+        else if(data.moderation?.last_error)
+            notices.push('内容审核暂不可用，当前回复已拦截；不会调用语音服务。');
+        if(data.moderation?.blocked_count > 0)
+            notices.push(`本地内容审核已拦截 ${data.moderation.blocked_count} 次。可在 config.yaml 调整规则；原样朗读弹幕默认关闭。`);
+        if(data.paid_overflow > 0 || data.paid_failed > 0 || data.paid_blocked > 0)
+            notices.push(`付费互动需要人工检查：队列溢出 ${data.paid_overflow || 0}，回复失败 ${data.paid_failed || 0}，内容拦截 ${data.paid_blocked || 0}。待处理 ${data.paid_pending || 0}。`);
+        const failures = Object.entries(data.loop_failures || {}).filter(([,count])=>count > 0);
+        if(failures.length)notices.push('后台异常记录（循环会自动重启）：' + failures.map(([name,count])=>`${name} × ${count}`).join('、'));
+        const notice = this.$('operating-notice');
+        if(notice){notice.hidden = !notices.length;notice.textContent = notices.join('\n');}
+
         this.$('queue-count').textContent = data.queue_count;
         this.$('cooldown-timer').textContent = `${data.cooldown_remaining.toFixed(1)}s`;
         this.$('idle-timer').textContent = `${data.idle_seconds}s`;
@@ -239,7 +254,7 @@ class ControlPanel {
     updateCharCount() { this.$('char-count').textContent = `${this.$('danmaku-input').value.length} / ${this.$('danmaku-input').maxLength}`; }
 
     async post(url, data) {
-        const response = await fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data), signal: AbortSignal.timeout(10000)});
+        const response = await fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json', 'X-Studio-API':'1'}, body: JSON.stringify(data), signal: AbortSignal.timeout(10000)});
         if (!response.ok) {
             let detail; try { detail = (await response.json()).detail; } catch {}
             throw new Error(typeof detail === 'string' ? detail : `请求失败 (${response.status})`);

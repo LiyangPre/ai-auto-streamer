@@ -88,12 +88,14 @@ def failure(error):
         code,message='provider_http',f'Provider returned HTTP {status}; check model access and endpoint.'
     elif any(isinstance(e,socket.gaierror) for e in chain):
         code,message='dns','DNS lookup failed; check the selected network route and DNS.'
-    elif any(isinstance(e,ssl.SSLError) or 'CERTIFICATE_VERIFY_FAILED' in str(e) for e in chain):
-        code,message='tls','TLS certificate or handshake failed; check the proxy certificate and system clock.'
-    elif any(isinstance(e,httpx.ProxyError) for e in chain):
-        code,message='proxy','Proxy connection failed; check the proxy app or select Direct.'
+    elif any(isinstance(e,ssl.SSLCertVerificationError) or 'CERTIFICATE_VERIFY_FAILED' in str(e) for e in chain):
+        code,message='tls','TLS certificate verification failed; check the trusted certificates and system clock.'
     elif any(isinstance(e,(httpx.TimeoutException,asyncio.TimeoutError,TimeoutError)) or type(e).__name__=='APITimeoutError' for e in chain):
         code,message='timeout','Provider request timed out; compare Direct and Auto network routes.'
+    elif any(isinstance(e,ssl.SSLError) and not isinstance(e,(ssl.SSLWantReadError,ssl.SSLWantWriteError)) for e in chain):
+        code,message='tls','TLS handshake or secure connection failed; check the selected network route and proxy.'
+    elif any(isinstance(e,httpx.ProxyError) for e in chain):
+        code,message='proxy','Proxy connection failed; check the proxy app or select Direct.'
     elif any(isinstance(e,(httpx.ConnectError,ConnectionError)) or type(e).__name__=='APIConnectionError' for e in chain):
         code,message='connection','Connection to provider failed before an HTTP response; check DNS, proxy and network route.'
     else:

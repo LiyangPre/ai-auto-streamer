@@ -1,0 +1,49 @@
+test_foreign_origin_same_site_and_cross_site_fetch_are_rejected (tests.test_local_security.LocalBoundaryTests.test_foreign_origin_same_site_and_cross_site_fetch_are_rejected) ... ok
+test_loopback_host_variants_and_ipv6_work (tests.test_local_security.LocalBoundaryTests.test_loopback_host_variants_and_ipv6_work) ... ok
+test_media_elements_need_no_custom_header_but_cross_origin_is_denied (tests.test_local_security.LocalBoundaryTests.test_media_elements_need_no_custom_header_but_cross_origin_is_denied) ... ok
+test_non_loopback_peer_is_rejected_even_with_controller_headers (tests.test_local_security.LocalBoundaryTests.test_non_loopback_peer_is_rejected_even_with_controller_headers) ... ok
+test_private_gets_require_controller_header (tests.test_local_security.LocalBoundaryTests.test_private_gets_require_controller_header) ... ok
+test_same_origin_websocket_gets_snapshot (tests.test_local_security.LocalBoundaryTests.test_same_origin_websocket_gets_snapshot) ... ok
+test_untrusted_host_is_rejected_before_local_controller (tests.test_local_security.LocalBoundaryTests.test_untrusted_host_is_rejected_before_local_controller) ... ok
+test_websocket_rebinding_host_cannot_read_snapshot (tests.test_local_security.LocalBoundaryTests.test_websocket_rebinding_host_cannot_read_snapshot) ... ok
+test_websocket_rejects_missing_foreign_and_wrong_port_origins (tests.test_local_security.LocalBoundaryTests.test_websocket_rejects_missing_foreign_and_wrong_port_origins) ... ok
+test_write_guards_run_before_model_or_paid_voice_work (tests.test_local_security.LocalBoundaryTests.test_write_guards_run_before_model_or_paid_voice_work) ... ok
+test_character_switch_preserves_shared_keys_and_provider_keys_stay_separate (tests.test_api_connections.ConnectionAPITests.test_character_switch_preserves_shared_keys_and_provider_keys_stay_separate) ... ok
+test_cross_origin_requests_validation_and_conflicts_do_not_leak_or_modify_keys (tests.test_api_connections.ConnectionAPITests.test_cross_origin_requests_validation_and_conflicts_do_not_leak_or_modify_keys) ... ok
+test_draft_tests_do_not_save_or_broadcast_and_errors_are_sanitized (tests.test_api_connections.ConnectionAPITests.test_draft_tests_do_not_save_or_broadcast_and_errors_are_sanitized) ... ok
+test_failed_disk_save_preserves_running_settings (tests.test_api_connections.ConnectionAPITests.test_failed_disk_save_preserves_running_settings) ... ok
+test_keys_save_privately_apply_immediately_and_never_echo (tests.test_api_connections.ConnectionAPITests.test_keys_save_privately_apply_immediately_and_never_echo) ... ok
+test_flashx_disables_thinking_for_stream_and_nonstream_and_does_not_drop_it (tests.test_api_connections.FlashXTests.test_flashx_disables_thinking_for_stream_and_nonstream_and_does_not_drop_it) ... Model request failed [response, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+Model request failed [response, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+Executing <Task finished name='Task-173' coro=<FlashXTests.test_flashx_disables_thinking_for_stream_and_nonstream_and_does_not_drop_it() done, defined at D:\ai auto streamer\tests\test_api_connections.py:157> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.828 seconds
+ok
+test_provider_rejections_are_distinguished_without_echoing_body (tests.test_api_connections.FlashXTests.test_provider_rejections_are_distinguished_without_echoing_body) ... ok
+test_auto_routes_explicitly_and_never_prints_proxy_credentials (tests.test_api_connections.NetworkTests.test_auto_routes_explicitly_and_never_prints_proxy_credentials) ... ok
+test_module_looks_are_per_character_survive_normal_save_and_do_not_change_stage (tests.test_modules.ModuleAPITests.test_module_looks_are_per_character_survive_normal_save_and_do_not_change_stage) ... ok
+test_song_library_and_backup_are_scoped_and_restore_without_credentials (tests.test_modules.ModuleAPITests.test_song_library_and_backup_are_scoped_and_restore_without_credentials) ... ok
+test_registration_lifecycle_and_failed_start_cleanup (tests.test_modules.ModuleLifecycleTests.test_registration_lifecycle_and_failed_start_cleanup) ... ok
+test_stage_ownership_cannot_be_released_by_another_module (tests.test_modules.ModuleLifecycleTests.test_stage_ownership_cannot_be_released_by_another_module) ... ok
+test_viewer_trigger_stop_and_profile_policy_are_local_and_reuse_prepared_audio (tests.test_story.StoryAPITests.test_viewer_trigger_stop_and_profile_policy_are_local_and_reuse_prepared_audio) ... ok
+test_prepares_ten_whole_tagged_stories_once_and_randomizes_without_repeating (tests.test_story.StoryServiceTests.test_prepares_ten_whole_tagged_stories_once_and_randomizes_without_repeating) ... Executing <Task finished name='Task-230' coro=<StoryStudio._prepare() done, defined at D:\ai auto streamer\src\story.py:138> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 5.390 seconds
+Executing <Task finished name='Task-231' coro=<StoryStudio._prepare() done, defined at D:\ai auto streamer\src\story.py:138> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.219 seconds
+ok
+test_singing_arrivals_are_suppressed_and_never_deferred_to_story (tests.test_story.StoryServiceTests.test_singing_arrivals_are_suppressed_and_never_deferred_to_story) ... ok
+test_story_uses_exact_full_profile_voice_and_rejects_old_voice_cache (tests.test_story.StoryServiceTests.test_story_uses_exact_full_profile_voice_and_rejects_old_voice_cache) ... ok
+test_welcome_is_prepared_before_pause_then_resumes_unfinished_story_and_finishes_to_chat (tests.test_story.StoryServiceTests.test_welcome_is_prepared_before_pause_then_resumes_unfinished_story_and_finishes_to_chat) ... ok
+test_stage_controls_are_local_validated_and_resume_chat_on_stop (tests.test_singing.SingingAPITests.test_stage_controls_are_local_validated_and_resume_chat_on_stop) ... ok
+test_uploaded_recording_and_optional_guide_need_no_tts_and_finish_to_chat (tests.test_singing.SingingAPITests.test_uploaded_recording_and_optional_guide_need_no_tts_and_finish_to_chat) ... ok
+test_failure_or_cancel_never_publishes_partial_song_or_provider_secrets (tests.test_singing.SingingTests.test_failure_or_cancel_never_publishes_partial_song_or_provider_secrets) ... Executing <Task finished name='Task-280' coro=<SingingStudio._generate() done, defined at D:\ai auto streamer\src\singing.py:192> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.844 seconds
+Executing <Task pending name='Task-281' coro=<SingingStudio._generate() running at D:\ai auto streamer\src\singing.py:213> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.844 seconds
+ok
+test_one_tagged_request_complete_file_and_shared_clock_playback_state (tests.test_singing.SingingTests.test_one_tagged_request_complete_file_and_shared_clock_playback_state) ... Executing <Task finished name='Task-287' coro=<SingingStudio._generate() done, defined at D:\ai auto streamer\src\singing.py:192> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.625 seconds
+ok
+test_complete_batch_imports_once_with_guides_backup_and_no_profile_switch_or_playback (tests.test_song_preparation_api.SongPreparationAPITests.test_complete_batch_imports_once_with_guides_backup_and_no_profile_switch_or_playback) ... ok
+test_final_current_voice_guard_blocks_provider_style_model_and_reference_changes (tests.test_song_preparation_api.SongPreparationAPITests.test_final_current_voice_guard_blocks_provider_style_model_and_reference_changes) ... ok
+test_four_track_batch_imports_and_rejects_partial_stale_or_lower_quality_files (tests.test_song_preparation_api.SongPreparationAPITests.test_four_track_batch_imports_and_rejects_partial_stale_or_lower_quality_files) ... ok
+test_prepared_import_is_local_fixed_path_and_refuses_partial_batch (tests.test_song_preparation_api.SongPreparationAPITests.test_prepared_import_is_local_fixed_path_and_refuses_partial_batch) ... ok
+test_status_is_bounded_scalar_only_and_hides_private_paths (tests.test_song_preparation_api.SongPreparationAPITests.test_status_is_bounded_scalar_only_and_hides_private_paths) ... ok
+
+----------------------------------------------------------------------
+Ran 36 tests in 15.914s
+
+OK

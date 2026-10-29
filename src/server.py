@@ -9,7 +9,7 @@ import re
 import tempfile
 from urllib.parse import unquote
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Header, Request
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Header, Request, Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.responses import JSONResponse
@@ -17,6 +17,8 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.exception_handlers import request_validation_exception_handler
 from pydantic import BaseModel, Field
 from starlette.concurrency import run_in_threadpool
+from starlette.middleware.trustedhost import TrustedHostMiddleware
+from .local_security import local_request, local_resource, local_socket
 
 from .config import Config, PROJECT_ROOT
 from .pipeline import Pipeline
@@ -29,8 +31,11 @@ from .media import MediaStore, media_directory, LIMITS
 from .music_capture import MusicCaptureHub
 from .api_settings import ConnectionStore, connection_path
 from .api_routes import router as connection_router
+from .module_transitions import ModuleTransitions
 from .modules import MODULES, ModuleRegistry
 from .modules.routes import router as module_router
+from .audience_interaction import AudienceInteraction
+from .interaction_routes import router as interaction_router
 
 logger = logging.getLogger(__name__)
 
@@ -60,26 +65,48 @@ async def lifespan(app: FastAPI):
     app.state.preview_tts = TTSEngine(config.tts.model_copy(deep=True))
     app.state.preview_lock = asyncio.Lock()
     pipeline = Pipeline(config)
+    pipeline.transitions = ModuleTransitions(pipeline, app.state)
     app.state.pipeline=pipeline
     app.state.modules = ModuleRegistry(MODULES, app.state)
     pipeline.performance_resolver=lambda owner:app.state.modules.services.get(owner)
     await app.state.modules.start()
     app.state.singing = app.state.modules.service('singing')  # Compatibility for existing local integrations.
+    app.state.interactions = AudienceInteraction(app.state)
+    pipeline.interactions = app.state.interactions
+    await app.state.interactions.start()
 
     logger.info(f"Server started: http://{config.server.host}:{config.server.port}")
     try:
         yield
     finally:
+        await app.state.interactions.close()
         await app.state.modules.close()
         await app.state.preview_tts.close()
 
 
 app = FastAPI(lifespan=lifespan)
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=['127.0.0.1', 'localhost', '[::1]'], www_redirect=False)
 app.include_router(connection_router)
 app.include_router(module_router)
+app.include_router(interaction_router)
 for module in MODULES:
     if module.router:
         app.include_router(module.router)
+
+
+@app.middleware('http')
+async def private_media_boundary(request: Request, call_next):
+    if (request.url.path.startswith(('/audio/', '/media/', '/api/voice-stream/'))
+            or re.match(r'^/api/(stories|singing)/audio/', request.url.path)):
+        try:
+            local_resource(request)
+        except HTTPException as error:
+            return JSONResponse({'detail': error.detail}, status_code=error.status_code)
+    response = await call_next(request)
+    if request.url.path.startswith(('/api/', '/audio/', '/media/')):
+        response.headers['Cache-Control'] = 'no-store'
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    return response
 
 
 @app.exception_handler(RequestValidationError)
@@ -87,17 +114,21 @@ async def private_validation_error(request: Request, error: RequestValidationErr
     if request.url.path.startswith('/api/connections'):
         # FastAPI's default validation detail can echo an invalid secret input.
         return JSONResponse(status_code=422,content={'detail':'Invalid API settings. Check the model, Base URL and key format.'})
-    return await request_validation_exception_handler(request,error)
+    # Input values may contain NaN (not valid JSON output), private text or
+    # credentials. Report field locations without echoing the submitted value.
+    details = [{key: item[key] for key in ('loc', 'msg', 'type') if key in item}
+               for item in error.errors()]
+    return JSONResponse(status_code=422, content={'detail': details})
 
 class DanmakuRequest(BaseModel):
     content: str = Field(min_length=1, max_length=500)
     user_name: str = Field(default="Web用户", min_length=1, max_length=40)
     user_id: int | None = Field(default=None, ge=1)
-    msg_type: Literal["danmaku", "gift", "enter"] = "danmaku"
+    msg_type: Literal["danmaku", "gift", "super_chat", "enter"] = "danmaku"
     gift_name: str | None = Field(default=None, max_length=60)
     gift_num: int = Field(default=0, ge=0, le=100000)
     price: float = Field(default=0, ge=0, allow_inf_nan=False)
-    priority: int = Field(default=0, ge=0, le=3)
+    priority: int = Field(default=0, ge=0, le=4)
 
 
 class TestEventRequest(BaseModel):
@@ -131,12 +162,12 @@ async def health():
     return {"status": "ok" if healthy else "degraded", "pipeline_running": healthy}
 
 
-@app.get("/api/status")
+@app.get("/api/status", dependencies=[Depends(local_request)])
 async def get_status():
     return pipeline.status()
 
 
-@app.get("/api/studio")
+@app.get("/api/studio", dependencies=[Depends(local_request)])
 async def get_studio():
     return {"settings": StudioSettings.from_config(config).model_dump(), "voices": VOICE_CATALOG,
             "minimax_voices": MINIMAX_VOICES,
@@ -152,13 +183,13 @@ def profile_context():
     return app.state.characters.context(app.state.active_character)
 
 
-@app.get('/api/media')
+@app.get('/api/media', dependencies=[Depends(local_request)])
 async def list_media():
     assets = await run_in_threadpool(app.state.media.catalog)
     return {'assets': [item.public() for item in assets], 'limits': LIMITS}
 
 
-@app.post('/api/media/{kind}')
+@app.post('/api/media/{kind}', dependencies=[Depends(local_request)])
 async def upload_media(kind: Literal['background', 'music'], request: Request,
                        filename: str = Header(alias='X-Filename', max_length=1500)):
     limit = LIMITS[kind]
@@ -221,6 +252,7 @@ def check_voice(settings):
 
 async def commit_character_settings(library, active_id, changed=False):
     previous_story_voice = (config.tts.mimo_model, config.tts.mimo_style)
+    previous_scene = app.state.characters.scene.model_dump()
     settings = library.profiles[active_id].settings(library.scene)
     library.revision += 1
     # Persist the authoritative whole library before changing the running session.
@@ -267,11 +299,19 @@ async def commit_character_settings(library, active_id, changed=False):
         pipeline.tts.config = config.tts
     result = {"status": "ok", "settings": settings.model_dump(), "profile_context": profile_context(), "profile_changed": changed,
               "modules": app.state.modules.public()}
-    await pipeline._emit(type="settings_updated", **result)
+    scene = library.scene.model_dump()
+    scene_changed = any(scene.get(k) != previous_scene.get(k) for k in ('background', 'background_asset'))
+    labels = {'car': '车内聊天布景', 'singing-room': '唱歌房间', 'palace': '宫殿', 'garden': '花园', 'sky': '天空布景'}
+    interaction = getattr(app.state, 'interactions', None)
+    deferred = (scene_changed and interaction and interaction.scene_changed(labels.get(scene.get('background'), '新布景'), result))
+    if not deferred:
+        await pipeline._emit(type="settings_updated", **result)
+    if interaction:
+        await interaction.publish(force=True)
     return result
 
 
-@app.post("/api/studio")
+@app.post("/api/studio", dependencies=[Depends(local_request)])
 async def update_studio(settings: StudioSettings,
                         profile_id: str | None = Header(default=None, alias="X-Profile-ID"),
                         revision: int | None = Header(default=None, alias="X-Profile-Revision")):
@@ -311,12 +351,12 @@ class ActivateCharacter(StrictModel):
     revision: int = Field(ge=0)
 
 
-@app.get("/api/characters")
+@app.get("/api/characters", dependencies=[Depends(local_request)])
 async def get_characters():
     return profile_context()
 
 
-@app.post("/api/characters")
+@app.post("/api/characters", dependencies=[Depends(local_request)])
 async def create_character(data: CreateCharacter):
     async with app.state.settings_lock:
         check_revision(data.revision)
@@ -338,7 +378,7 @@ async def create_character(data: CreateCharacter):
         return {"id": profile_id, "profile_context": profile_context()}
 
 
-@app.post("/api/characters/activate")
+@app.post("/api/characters/activate", dependencies=[Depends(local_request)])
 async def activate_character(data: ActivateCharacter):
     async with app.state.settings_lock:
         check_revision(data.revision)
@@ -354,7 +394,7 @@ async def activate_character(data: ActivateCharacter):
             return await commit_character_settings(library, data.profile_id, data.profile_id != app.state.active_character)
 
 
-@app.post("/api/voice-preview")
+@app.post("/api/voice-preview", dependencies=[Depends(local_request)])
 async def preview_voice(data: VoicePreview):
     voice = data.voice
     preview_config = config.tts.model_copy(deep=True)
@@ -376,7 +416,7 @@ async def preview_voice(data: VoicePreview):
             "model": preview_config.mimo_model if voice.provider=='mimo-tts' else voice.provider}
 
 
-@app.post("/api/direct-reply")
+@app.post("/api/direct-reply", dependencies=[Depends(local_request)])
 async def direct_reply(data: DirectorReply):
     if pipeline.performance_active:
         raise HTTPException(409, "请先停止演唱，再播出聊天台词。")
@@ -388,7 +428,7 @@ async def direct_reply(data: DirectorReply):
     return {"status": "queued"}
 
 
-@app.get("/api/voice-stream/{filename}")
+@app.get("/api/voice-stream/{filename}", dependencies=[Depends(local_resource)])
 async def voice_stream(filename: str):
     if not re.fullmatch(r"tts_[0-9]+_[a-f0-9]{8}\.mp3", filename):
         raise HTTPException(404)
@@ -402,7 +442,7 @@ async def voice_stream(filename: str):
     raise HTTPException(404)
 
 
-@app.get("/api/config")
+@app.get("/api/config", dependencies=[Depends(local_request)])
 async def get_config():
     """Expose runtime config the frontend needs to pick a renderer."""
     live2d = config.live2d
@@ -460,7 +500,7 @@ async def get_config():
     }
 
 
-@app.post("/api/danmaku")
+@app.post("/api/danmaku", dependencies=[Depends(local_request)])
 async def send_danmaku(data: DanmakuRequest):
     content = data.content.strip()
     limits = config.danmaku_filter
@@ -470,6 +510,10 @@ async def send_danmaku(data: DanmakuRequest):
         raise HTTPException(422, "该内容未通过输入检查")
     fields = data.model_dump(exclude={"user_id", "content", "user_name"})
     user_name = data.user_name.strip() or "Web用户"
+    if not pipeline.safety.allows_input(user_name):
+        raise HTTPException(422, '该昵称未通过输入检查')
+    if fields['msg_type'] == 'super_chat':
+        fields['priority'] = 4
     msg = DanmakuMessage(content=content, user_name=user_name,
                          user_id=data.user_id or stable_user_id(user_name), timestamp=time.time(), **fields)
     if not pipeline.danmaku_queue.offer(msg):
@@ -477,12 +521,12 @@ async def send_danmaku(data: DanmakuRequest):
     return {"status": "ok"}
 
 
-@app.get("/api/memory")
+@app.get("/api/memory", dependencies=[Depends(local_request)])
 async def get_memory():
     return pipeline.memory.snapshot()
 
 
-@app.post("/api/test-event")
+@app.post("/api/test-event", dependencies=[Depends(local_request)])
 async def test_event(data: TestEventRequest):
     event_type = data.type
     if event_type == "idle_test":
@@ -496,16 +540,24 @@ async def test_event(data: TestEventRequest):
 
 @app.websocket('/ws/music')
 async def music_websocket(websocket: WebSocket):
+    if not await local_socket(websocket):
+        return
     await app.state.music_capture.connect(websocket)
 
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
+    if not await local_socket(websocket):
+        return
     await websocket.accept()
     await websocket.send_json({**pipeline.status(), "settings": StudioSettings.from_config(config).model_dump(), "profile_context": profile_context(),
                                "modules": app.state.modules.public(), "module_snapshots": app.state.modules.snapshot(),
-                               "performance": app.state.singing.playback})
+                               "performance": app.state.singing.playback,
+                               "audience_interaction": app.state.interactions.public(),
+                               "song_requests": app.state.singing.requests.public()})
     pipeline.ws_clients.add(websocket)
+    if websocket.query_params.get('role') == 'output':
+        pipeline.output_clients.add(websocket)
     logger.info(f"WebSocket client connected. Total: {len(pipeline.ws_clients)}")
 
     try:
@@ -519,6 +571,7 @@ async def websocket_endpoint(websocket: WebSocket):
         logger.warning(f"WebSocket error: {e}")
     finally:
         pipeline.ws_clients.discard(websocket)
+        pipeline.output_clients.discard(websocket)
         logger.info(f"WebSocket client disconnected. Total: {len(pipeline.ws_clients)}")
 
 

@@ -88,7 +88,7 @@ class StoryAPITests(unittest.TestCase):
         self.tmp=tempfile.TemporaryDirectory();cfg=Config();cfg.llm.provider='mock';cfg.tts.engine='none';cfg.idle.enabled=False
         self.patches=[patch('src.server.Config.load',return_value=cfg),patch('src.server.settings_path',return_value=Path(self.tmp.name)/'studio-settings.json'),patch('src.danmaku.sys.stdin.isatty',return_value=False)]
         for item in self.patches:item.start()
-        self.client=TestClient(server.app,headers={'X-Studio-API':'1','Origin':'http://testserver'});self.client.__enter__()
+        self.client=TestClient(server.app, base_url='http://localhost', headers={'X-Studio-API':'1','Origin':'http://localhost'});self.client.__enter__()
         self.studio=server.app.state.modules.service('story');self.cfg=cfg
         root=self.studio.root/'astra';root.mkdir(parents=True);entry=STORIES[0];token=self.studio.token('astra',cfg.tts,entry)
         (root/(token+'.json')).write_text(json.dumps({'id':token,'story_id':entry['id'],'profile_id':'astra','title':entry['title'],'duration':40,'voice_signature':self.studio.voice_signature(cfg.tts),'url':f'/api/stories/audio/astra/{token}'}))

@@ -1,0 +1,67 @@
+test_english_leading_spaces_and_chinese_word_spaces_are_preserved_appropriately (tests.test_lyric_alignment.LyricAlignmentTests.test_english_leading_spaces_and_chinese_word_spaces_are_preserved_appropriately) ... ok
+test_final_clear_is_bounded_by_a_fractional_recording_duration (tests.test_lyric_alignment.LyricAlignmentTests.test_final_clear_is_bounded_by_a_fractional_recording_duration) ... ok
+test_indivisible_token_is_not_given_fabricated_character_timestamps (tests.test_lyric_alignment.LyricAlignmentTests.test_indivisible_token_is_not_given_fabricated_character_timestamps) ... ok
+test_invalid_times_and_malformed_data_are_rejected (tests.test_lyric_alignment.LyricAlignmentTests.test_invalid_times_and_malformed_data_are_rejected) ... ok
+test_line_onsets_are_quantized_once_not_twice (tests.test_lyric_alignment.LyricAlignmentTests.test_line_onsets_are_quantized_once_not_twice) ... ok
+test_long_30_second_segment_is_split_using_actual_word_times (tests.test_lyric_alignment.LyricAlignmentTests.test_long_30_second_segment_is_split_using_actual_word_times) ... ok
+test_low_confidence_and_no_speech_flags_are_not_hidden (tests.test_lyric_alignment.LyricAlignmentTests.test_low_confidence_and_no_speech_flags_are_not_hidden) ... ok
+test_no_clear_can_erase_a_next_line_at_the_same_timestamp (tests.test_lyric_alignment.LyricAlignmentTests.test_no_clear_can_erase_a_next_line_at_the_same_timestamp) ... ok
+test_original_recording_times_and_real_gaps_survive_lrc_roundtrip (tests.test_lyric_alignment.LyricAlignmentTests.test_original_recording_times_and_real_gaps_survive_lrc_roundtrip) ... ok
+test_partial_unknown_confidence_requires_review (tests.test_lyric_alignment.LyricAlignmentTests.test_partial_unknown_confidence_requires_review) ... ok
+test_repeated_chorus_at_different_times_is_preserved (tests.test_lyric_alignment.LyricAlignmentTests.test_repeated_chorus_at_different_times_is_preserved) ... ok
+test_same_tick_onsets_merge_without_inventing_a_later_time (tests.test_lyric_alignment.LyricAlignmentTests.test_same_tick_onsets_merge_without_inventing_a_later_time) ... ok
+test_segment_without_word_times_is_coarse_and_flagged (tests.test_lyric_alignment.LyricAlignmentTests.test_segment_without_word_times_is_coarse_and_flagged) ... ok
+test_serializer_carries_fractional_seconds_and_blocks_lrc_injection (tests.test_lyric_alignment.LyricAlignmentTests.test_serializer_carries_fractional_seconds_and_blocks_lrc_injection) ... ok
+test_short_lines_use_real_word_boundaries_and_punctuation (tests.test_lyric_alignment.LyricAlignmentTests.test_short_lines_use_real_word_boundaries_and_punctuation) ... ok
+test_submillisecond_onsets_do_not_become_nonchronological_after_rounding (tests.test_lyric_alignment.LyricAlignmentTests.test_submillisecond_onsets_do_not_become_nonchronological_after_rounding) ... ok
+test_five_existing_takes_reload_their_own_lyrics_by_default_without_audio_changes (tests.test_lyric_defaults.LyricDefaultAPITests.test_five_existing_takes_reload_their_own_lyrics_by_default_without_audio_changes) ... ok
+test_lyric_attachment_does_not_unban_a_song_or_modify_character_policy (tests.test_lyric_defaults.LyricDefaultAPITests.test_lyric_attachment_does_not_unban_a_song_or_modify_character_policy) ... ok
+test_saved_defaults_keep_instrumental_clear_points_and_user_timing_adjustment (tests.test_lyric_defaults.LyricDefaultAPITests.test_saved_defaults_keep_instrumental_clear_points_and_user_timing_adjustment) ... ok
+test_song_backup_contains_default_lyrics_and_original_take_provenance (tests.test_lyric_defaults.LyricDefaultAPITests.test_song_backup_contains_default_lyrics_and_original_take_provenance) ... ok
+test_idempotent_prepared_reimport_keeps_edited_default_lyrics_and_same_song_id (tests.test_lyric_defaults.PreparedReimportLyricDefaultTests.test_idempotent_prepared_reimport_keeps_edited_default_lyrics_and_same_song_id) ... ok
+test_bom_metadata_offsets_repeats_bilingual_and_blank_clears (tests.test_lyrics.LRCParserTests.test_bom_metadata_offsets_repeats_bilingual_and_blank_clears) ... ok
+test_bracketed_lyric_text_and_html_are_kept_literal (tests.test_lyrics.LRCParserTests.test_bracketed_lyric_text_and_html_are_kept_literal) ... ok
+test_decimal_precision_hours_and_negative_offset_are_separate (tests.test_lyrics.LRCParserTests.test_decimal_precision_hours_and_negative_offset_are_separate) ... ok
+test_invalid_timestamps_and_offsets_do_not_silently_publish (tests.test_lyrics.LRCParserTests.test_invalid_timestamps_and_offsets_do_not_silently_publish) ... ok
+test_native_lrc_offset_is_normalized_to_the_positive_later_ui_convention (tests.test_lyrics.LRCParserTests.test_native_lrc_offset_is_normalized_to_the_positive_later_ui_convention) ... ok
+test_payload_character_line_and_expansion_limits (tests.test_lyrics.LRCParserTests.test_payload_character_line_and_expansion_limits) ... ok
+test_all_lyric_writes_require_local_header_and_origin (tests.test_lyrics.LyricAPITests.test_all_lyric_writes_require_local_header_and_origin) ... ok
+test_invalid_and_oversized_uploads_do_not_replace_existing_lyrics (tests.test_lyrics.LyricAPITests.test_invalid_and_oversized_uploads_do_not_replace_existing_lyrics) ... ok
+test_local_upload_offset_and_removal_update_live_metadata_without_restarting_audio (tests.test_lyrics.LyricAPITests.test_local_upload_offset_and_removal_update_live_metadata_without_restarting_audio) ... ok
+test_attach_offset_and_remove_preserve_audio_and_existing_untimed_lyrics (tests.test_lyrics.LyricStorageTests.test_attach_offset_and_remove_preserve_audio_and_existing_untimed_lyrics) ... ok
+test_character_ownership_moderation_and_bad_offset_preserve_metadata (tests.test_lyrics.LyricStorageTests.test_character_ownership_moderation_and_bad_offset_preserve_metadata) ... ok
+test_storage_replace_failure_leaves_the_old_song_metadata_intact (tests.test_lyrics.LyricStorageTests.test_storage_replace_failure_leaves_the_old_song_metadata_intact) ... ok
+test_blivedm_danmaku_and_gift_fields (tests.test_core.CollectorTests.test_blivedm_danmaku_and_gift_fields) ... ok
+test_health_follows_websocket_authentication (tests.test_core.CollectorTests.test_health_follows_websocket_authentication) ... ok
+test_paid_events_and_raw_enter (tests.test_core.CollectorTests.test_paid_events_and_raw_enter) ... ok
+test_stable_user_id_is_not_python_hash (tests.test_core.CollectorTests.test_stable_user_id_is_not_python_hash) ... ok
+test_non_stream_timeout_is_structured_failure (tests.test_core.LLMParserTests.test_non_stream_timeout_is_structured_failure) ... Executing <Task pending name='Task-110' coro=<LLMParserTests.test_non_stream_timeout_is_structured_failure() running at D:\ai auto streamer\tests\test_core.py:230> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> cb=[_run_until_complete_cb() at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:180] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.688 seconds
+Model request failed [timeout, model=qwen2.5:7b-instruct, route=environment]: Provider request timed out; compare Direct and Auto network routes.
+ok
+test_slow_consumer_time_is_excluded_from_model_stream_deadline (tests.test_core.LLMParserTests.test_slow_consumer_time_is_excluded_from_model_stream_deadline) ... Executing <Task pending name='Task-115' coro=<LLMParserTests.test_slow_consumer_time_is_excluded_from_model_stream_deadline() running at D:\ai auto streamer\tests\test_core.py:245> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> cb=[_run_until_complete_cb() at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:180] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.609 seconds
+ok
+test_stream_without_tag_yields_immediately (tests.test_core.LLMParserTests.test_stream_without_tag_yields_immediately) ... Executing <Task finished name='Task-120' coro=<LLMParserTests.test_stream_without_tag_yields_immediately() done, defined at D:\ai auto streamer\tests\test_core.py:208> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.641 seconds
+ok
+test_tag_across_chunks_and_leading_space (tests.test_core.LLMParserTests.test_tag_across_chunks_and_leading_space) ... Executing <Task finished name='Task-125' coro=<LLMParserTests.test_tag_across_chunks_and_leading_space() done, defined at D:\ai auto streamer\tests\test_core.py:212> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.719 seconds
+ok
+test_unknown_bracket_is_normal_text (tests.test_core.LLMParserTests.test_unknown_bracket_is_normal_text) ... Executing <Task finished name='Task-130' coro=<LLMParserTests.test_unknown_bracket_is_normal_text() done, defined at D:\ai auto streamer\tests\test_core.py:216> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.625 seconds
+ok
+test_cooldown_dictionaries_expire (tests.test_core.MemoryTests.test_cooldown_dictionaries_expire) ... ok
+test_gift_combo_cooldown_and_max_wait (tests.test_core.MemoryTests.test_gift_combo_cooldown_and_max_wait) ... ok
+test_out_of_order_ttl_and_idle_identity (tests.test_core.MemoryTests.test_out_of_order_ttl_and_idle_identity) ... ok
+test_blocked_stream_cancels_pending_audio (tests.test_core.PipelineTests.test_blocked_stream_cancels_pending_audio) ... ok
+test_cancelling_stream_does_not_drain_tts (tests.test_core.PipelineTests.test_cancelling_stream_does_not_drain_tts) ... ok
+test_high_value_gift_uses_paid_inbox_and_returns_thanks (tests.test_core.PipelineTests.test_high_value_gift_uses_paid_inbox_and_returns_thanks) ... ok
+test_output_safety_does_not_speak_or_remember (tests.test_core.PipelineTests.test_output_safety_does_not_speak_or_remember) ... ok
+test_reply_slot_timeout_never_overlaps (tests.test_core.PipelineTests.test_reply_slot_timeout_never_overlaps) ... ok
+test_stream_emits_ordered_sentence_audio (tests.test_core.PipelineTests.test_stream_emits_ordered_sentence_audio) ... ok
+test_boundaries_and_compound_sentence (tests.test_core.RouterTests.test_boundaries_and_compound_sentence) ... ok
+test_disabled_route_has_one_meaning (tests.test_core.RouterTests.test_disabled_route_has_one_meaning) ... ok
+test_prompt_injection_and_blocked_content (tests.test_core.SafetyTests.test_prompt_injection_and_blocked_content) ... ok
+test_synthesis_has_deadline (tests.test_core.TTSTests.test_synthesis_has_deadline) ... TTS edge-tts failed [timeout, route=environment]: Provider request timed out; compare Direct and Auto network routes.
+ok
+
+----------------------------------------------------------------------
+Ran 55 tests in 5.183s
+
+OK

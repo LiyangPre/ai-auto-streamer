@@ -1,7 +1,7 @@
 {
   "version": 1,
   "default_id": "astra",
-  "revision": 13,
+  "revision": 25,
   "profiles": {
     "astra": {
       "identity": {
@@ -65,15 +65,48 @@
         "singing": {
           "pose": "laugh",
           "expression": "happy",
-          "motion_strength": 0.45
+          "motion_strength": 0.45,
+          "expression_enabled": true,
+          "expression_strength": 0.55,
+          "scene_preset": "singing-room"
+        },
+        "chat": {
+          "pose": "auto",
+          "expression": "auto",
+          "motion_strength": 1.0,
+          "expression_enabled": true,
+          "expression_strength": 0.55,
+          "scene_preset": "inherit"
+        },
+        "story": {
+          "pose": "think",
+          "expression": "auto",
+          "motion_strength": 0.25,
+          "expression_enabled": true,
+          "expression_strength": 0.55,
+          "scene_preset": "inherit"
         }
       },
-      "module_options": {},
+      "module_options": {
+        "singing": {
+          "chat_requests": true,
+          "auto_play": true,
+          "max_queue": 10,
+          "user_cooldown": 90.0,
+          "song_cooldown": 300.0,
+          "intermission_seconds": 30.0,
+          "blocked_titles": [
+            "告白气球",
+            "大鱼",
+            "海屿你"
+          ]
+        }
+      },
       "artwork_id": "astra"
     }
   },
   "scene": {
-    "background": "car",
+    "background": "singing-room",
     "background_asset": null,
     "music_asset": null,
     "effect": "none",
@@ -88,7 +121,7 @@
     "character_scale": 1.0,
     "subtitle_seconds": 2.0,
     "music_enabled": true,
-    "music_source": "system",
-    "music_volume": 0.37
+    "music_source": "file",
+    "music_volume": 0.16
   }
 }

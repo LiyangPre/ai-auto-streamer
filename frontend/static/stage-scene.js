@@ -7,7 +7,7 @@ class StageScene {
     static normalize(value={}) {
         const number=(key,min,max)=>Number.isFinite(value[key])?Math.max(min,Math.min(max,value[key])):StageScene.defaults[key];
         const asset=key=>typeof value[key]==='string'&&/^[a-f0-9]{32}$/.test(value[key])?value[key]:null;
-        return {background:['moonlit','palace','garden','car','transparent','custom'].includes(value.background)?value.background:'moonlit',
+        return {background:['moonlit','palace','garden','car','singing-room','transparent','custom'].includes(value.background)?value.background:'moonlit',
             background_asset:asset('background_asset'),music_asset:asset('music_asset'),
             effect:['rain','clouds','sparkles','none'].includes(value.effect)?value.effect:'clouds',
             weather_amount:number('weather_amount',0,1),dim:number('dim',0,.65),
@@ -52,18 +52,20 @@ class StageScene {
         const s=this.settings;
         this.transparent=this.forceTransparent||s.background==='transparent';
         this.car=s.background==='car'&&!this.forceTransparent;
-        this.layer.hidden=this.transparent||this.car;
-        this.character.style.visibility=this.car?'hidden':'';
+        this.singingRoom=s.background==='singing-room'&&!this.forceTransparent;
+        this.integrated=this.car||this.singingRoom;
+        this.layer.hidden=this.transparent||this.integrated;
+        this.character.style.visibility=this.integrated?'hidden':'';
         const artwork=s.background==='custom'&&s.background_asset?`/media/${s.background_asset}.png`
             :StageScene.backgrounds[s.background]?`/static/scenes/${StageScene.backgrounds[s.background]}`:null;
         this.layer.style.setProperty('--scene-art',artwork?`url("${artwork}")`:'none');
         this.layer.style.setProperty('--scene-dim',String(s.dim));
-        if(this.companions)this.companions.hidden=this.transparent||this.car||!s.companions;
+        if(this.companions)this.companions.hidden=this.transparent||this.integrated||!s.companions;
         if(this.bottomBlur) {
             this.bottomBlur.hidden=this.transparent||s.bottom_blur===0;
             this.bottomBlur.style.setProperty('--bottom-blur',`${s.bottom_blur}px`);
         }
-        this.character.style.transform=this.car?'none':StageScene.placement(s);
+        this.character.style.transform=this.integrated?'none':StageScene.placement(s);
         this.elapsed=1;this.clear();
         if(this.width)this.draw();
     }
@@ -77,14 +79,14 @@ class StageScene {
     }
     clear(){this.ctx.clearRect(0,0,this.width||0,this.height||0);}
     render(dt,hidden=false) {
-        if(this.car||this.transparent||this.reducedMotion||hidden||this.settings.effect==='none'||this.settings.weather_amount===0)return;
+        if(this.integrated||this.transparent||this.reducedMotion||hidden||this.settings.effect==='none'||this.settings.weather_amount===0)return;
         const step=Math.max(0,Math.min(Number.isFinite(dt)?dt:0,.1));
         this.time+=step;this.elapsed+=step;
         if(this.elapsed<1/20)return;this.elapsed%=1/20;this.draw();
     }
     draw() {
         this.clear();
-        if(!this.width||this.car||this.transparent||this.reducedMotion)return;
+        if(!this.width||this.integrated||this.transparent||this.reducedMotion)return;
         const {effect,weather_amount:amount}=this.settings;if(effect==='none'||amount===0)return;
         const ctx=this.ctx,w=this.width,h=this.height,t=this.time;
         ctx.save();

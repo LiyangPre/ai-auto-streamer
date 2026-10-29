@@ -1,0 +1,29 @@
+{
+  "provider": "local",
+  "network_calls": 0,
+  "results": [
+    {
+      "chars": 48,
+      "samples": 2000,
+      "p50_ms": 0.0251,
+      "p95_ms": 0.0347,
+      "max_ms": 0.2517
+    },
+    {
+      "chars": 120,
+      "samples": 2000,
+      "p50_ms": 0.0561,
+      "p95_ms": 0.109,
+      "max_ms": 0.5563
+    },
+    {
+      "chars": 500,
+      "samples": 2000,
+      "p50_ms": 0.2376,
+      "p95_ms": 0.4632,
+      "max_ms": 1.0569
+    }
+  ],
+  "authored_stories_checked": 10,
+  "authored_stories_blocked": []
+}

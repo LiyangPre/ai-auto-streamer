@@ -1,0 +1,23 @@
+test_accepted_song_clears_selection_without_false_expiry (tests.test_audience_interaction.AudienceInteractionTests.test_accepted_song_clears_selection_without_false_expiry) ... Timeout (0:00:30)!
+Thread 0x000053a8 (most recent call first):
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\socket.py", line 295 in accept
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\socket.py", line 646 in socketpair
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\proactor_events.py", line 785 in _make_self_pipe
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\proactor_events.py", line 640 in __init__
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\windows_events.py", line 315 in __init__
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\events.py", line 716 in new_event_loop
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\events.py", line 819 in new_event_loop
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 137 in _lazy_init
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 83 in get_loop
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\unittest\async_case.py", line 85 in _callSetUp
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\unittest\case.py", line 630 in run
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\unittest\async_case.py", line 131 in run
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\unittest\case.py", line 690 in __call__
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\unittest\runner.py", line 240 in run
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\unittest\main.py", line 281 in runTests
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\unittest\main.py", line 105 in __init__
+  File "<string>", line 1 in <module>

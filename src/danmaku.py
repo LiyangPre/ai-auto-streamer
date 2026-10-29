@@ -6,6 +6,8 @@ import logging
 import sys
 import threading
 import time
+import os
+from http.cookies import SimpleCookie
 from dataclasses import dataclass
 from typing import Optional
 
@@ -14,6 +16,7 @@ import aiohttp
 from .config import PlatformConfig
 
 logger = logging.getLogger(__name__)
+REJECTED = object()
 
 try:
     import blivedm
@@ -32,11 +35,19 @@ class DanmakuMessage:
     gift_num: int = 0
     price: float = 0.0
     priority: int = 0
+    anonymous: bool = False
+
+    def __post_init__(self):
+        if not self.user_id:
+            self.anonymous = True
+            # Session fallback only; never mistake every redacted uid for one
+            # viewer. Negative IDs cannot collide with real Bilibili accounts.
+            self.user_id = -stable_user_id(self.user_name)
 
 
 def stable_user_id(user_name: str) -> int:
     digest = hashlib.sha256(user_name.encode("utf-8")).digest()
-    return int.from_bytes(digest[:8], "big") % 999999 + 1
+    return int.from_bytes(digest[:6], "big") + 1
 
 
 class MessageQueue(asyncio.Queue):
@@ -48,7 +59,13 @@ class MessageQueue(asyncio.Queue):
         self.interceptor = None
 
     def offer(self, message: DanmakuMessage) -> bool:
-        if self.interceptor and self.interceptor(message):return True
+        if self.interceptor:
+            intercepted = self.interceptor(message)
+            if intercepted is REJECTED:
+                self.dropped += 1
+                return False
+            if intercepted:
+                return True
         if not self.full():
             super().put_nowait(message)
             return True
@@ -96,6 +113,13 @@ class BilibiliDanmakuCollector:
         while self._running:
             try:
                 self._session = aiohttp.ClientSession()
+                sessdata = os.environ.get(self.config.sessdata_env, '').strip()
+                if sessdata:
+                    cookie = SimpleCookie()
+                    cookie['SESSDATA'] = sessdata
+                    cookie['SESSDATA']['domain'] = '.bilibili.com'
+                    cookie['SESSDATA']['path'] = '/'
+                    self._session.cookie_jar.update_cookies(cookie)
                 collector = self
 
                 class MonitoredClient(blivedm.BLiveClient):
@@ -120,11 +144,14 @@ class BilibiliDanmakuCollector:
             except asyncio.CancelledError:
                 raise
             except Exception as e:
-                logger.error(f"Danmaku collector error: {e}")
+                logger.error('Danmaku collector error (%s)', type(e).__name__)
             finally:
                 self.connected = False
                 if self._client:
-                    await self._client.stop_and_close()
+                    try:
+                        await self._client.stop_and_close()
+                    except Exception:
+                        logger.warning('Bilibili client cleanup failed; reconnecting')
                 if self._session and not self._session.closed:
                     await self._session.close()
                 self._client = None
@@ -164,7 +191,7 @@ class BilibiliDanmakuCollector:
                     user_id=message.uid,
                     timestamp=time.time(),
                 ))
-                logger.info(f"[{message.uname}]: {message.msg}")
+                logger.info('Received Bilibili chat (uid=%s)', message.uid)
 
             def _on_gift(self, client, message):
                 price = (message.total_coin or 0) / 1000 if message.coin_type == "gold" else 0.0
@@ -179,22 +206,20 @@ class BilibiliDanmakuCollector:
                     price=price,
                     priority=1 if price > 0 else 0,
                 ))
-                logger.info(f"[{message.uname}] 赠送 {message.gift_name} x{message.num}")
+                logger.info('Received Bilibili gift (uid=%s, quantity=%s)', message.uid, message.num)
 
             def _on_super_chat(self, client, message):
-                content = f"送出 {message.price} 元醒目留言"
-                if message.message:
-                    content += f"：{message.message}"
+                content = message.message or ''
                 queue.put_nowait(DanmakuMessage(
                     content=content,
                     user_name=message.uname,
                     user_id=message.uid,
                     timestamp=time.time(),
-                    msg_type="gift",
+                    msg_type="super_chat",
                     gift_name="醒目留言",
                     gift_num=1,
                     price=float(message.price or 0),
-                    priority=2,
+                    priority=4,
                 ))
 
             def _on_buy_guard(self, client, message):

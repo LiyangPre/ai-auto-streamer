@@ -1,0 +1,30 @@
+✔ singing mesh is bounded to 384 triangles and retains shared vertex topology (11.5376ms)
+✔ torso, resting hand and elbow anchors remain fixed over all recording phases (13.146ms)
+✔ microphone and gripping hand form one rigid group around the forearm elbow (0.7048ms)
+✔ eyes and mouth share the head joint transform without independent image scaling (0.3541ms)
+✔ maximal joint bends preserve triangle orientation and bounded local deformation (9.695ms)
+✔ choreography is deterministic on audio position and respects motion controls (2.4393ms)
+✔ paired eyelids and real playing state are the only mouth gate (0.2972ms)
+✔ artwork is loaded once and all pixel reads happen during preparation (36.3428ms)
+✔ output sizing remains sharp and never uses transformed scene dimensions (13.3687ms)
+✔ pause freezes existing joints, closes lips, and hidden rendering makes no progress (13.6377ms)
+✔ reduced motion keeps seated geometry static but preserves actual singing lips (13.7262ms)
+✔ intro voice can open the jaw without starting the recording choreography (20.6401ms)
+✔ fallback blinking closes both eyes smoothly and unknown actions cannot alter joints (9.836ms)
+✔ idle breathing continues while song is paused without changing its phase or joints (66.4149ms)
+✔ breathing deforms clothing below two pixels and preserves all physical contacts (22.0024ms)
+✔ breathing can be disabled in scene options while blinking and actual jaw remain active (16.8618ms)
+✔ disposal removes owned resize listener and prevents late load activation (9.0432ms)
+✔ Songs selects its music room and returns to the saved car without modifying shared settings (22.9962ms)
+✔ an explicit inherit uses the shared car throughout the song (5.2882ms)
+✔ forced transparent output suppresses both integrated scenes during singing and afterward (8.5735ms)
+✔ unchanged module scene is stable across animation frames and keeps audio sources and music intact (21.0689ms)
+✔ the adapter forwards the actual audio position through pause and resume without wall-clock choreography (8.4874ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 530.3508

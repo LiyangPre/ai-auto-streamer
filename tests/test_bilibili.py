@@ -100,7 +100,7 @@ class BilibiliPipelineTests(unittest.TestCase):
                         patch('src.server.settings_path',return_value=Path(self.directory.name)/'settings.json'),
                         patch('src.danmaku.sys.stdin.isatty',return_value=False)]:
             patcher.start();self.addCleanup(patcher.stop)
-        self.client=TestClient(app);self.client.__enter__()
+        self.client=TestClient(app, base_url='http://localhost', headers={'X-Studio-API':'1','Origin':'http://localhost'});self.client.__enter__()
         self.addCleanup(self.client.__exit__,None,None,None)
 
     def receive_reply(self,ws,name):
@@ -119,7 +119,7 @@ class BilibiliPipelineTests(unittest.TestCase):
         self.fail('No reply after local test event')
 
     def test_sdk_chat_packet_reaches_websocket_and_reply(self):
-        with self.client.websocket_connect('/ws') as ws:
+        with self.client.websocket_connect('ws://localhost/ws') as ws:
             ws.receive_json()
             def replay():
                 collector=BilibiliDanmakuCollector(server.config.platform,server.pipeline.danmaku_queue)
@@ -130,12 +130,12 @@ class BilibiliPipelineTests(unittest.TestCase):
     def test_local_http_gift_superchat_guard_and_enter_reach_reply(self):
         cases=[
             {'msg_type':'gift','gift_name':'测试花束','gift_num':2,'price':2,'priority':1},
-            {'msg_type':'gift','gift_name':'醒目留言','gift_num':1,'price':30,'priority':2},
+            {'msg_type':'super_chat','gift_name':'醒目留言','gift_num':1,'price':30,'priority':4},
             {'msg_type':'gift','gift_name':'舰长','gift_num':1,'price':198,'priority':3},
             {'msg_type':'enter'},
         ]
         for index,fields in enumerate(cases):
-            with self.subTest(fields=fields),self.client.websocket_connect('/ws') as ws:
+            with self.subTest(fields=fields),self.client.websocket_connect('ws://localhost/ws') as ws:
                 ws.receive_json();name=f'本地事件测试{index}'
                 response=self.client.post('/api/danmaku',json={
                     'content':'本地模拟互动事件','user_name':name,'user_id':200+index,**fields})

@@ -1,0 +1,31 @@
+{
+  "pipeline": {
+    "state": "preparing",
+    "stage": "converting",
+    "ready": 0,
+    "total": 4,
+    "current_title": "起风了",
+    "message": "50 steps; 1 conversion workers; source melody and timing preserved.",
+    "started": 1793099741.625698,
+    "updated": 1793099807.1152825,
+    "pid": 28204,
+    "workers": 1,
+    "requested_workers": 1,
+    "worker_ceiling": 12,
+    "diffusion_steps": 50,
+    "worker_pids": [
+      16588,
+      29736
+    ],
+    "separated": 3,
+    "converted": 0
+  },
+  "conversion_pid": 9708,
+  "conversion_created_at": "2026-10-27T11:15:43.428599+00:00",
+  "conversion_stage": "extracting_features",
+  "completed_sections": 0,
+  "separation_pid": 8676,
+  "separation_status": "running",
+  "separated_tracks": 3,
+  "scope": "resumed four-song50-step batch after interruption; no full songs complete yet"
+}

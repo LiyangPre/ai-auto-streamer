@@ -1,0 +1,37 @@
+{
+  "song_test_seconds": 78.5,
+  "song_returned_to_chat": true,
+  "banned_chat_requests_rejected": true,
+  "story_id": "laundry",
+  "story_title": "泡泡很多，威严很少",
+  "playback_id": "fd01eff085bd4cb99ce7968a7d9bf9fc",
+  "starts_at": 1793167346.2279878,
+  "duration": 60.528,
+  "expression_cues": [
+    {
+      "at": 0.0,
+      "emotion": "neutral"
+    },
+    {
+      "at": 0.0,
+      "emotion": "shy"
+    },
+    {
+      "at": 20.269,
+      "emotion": "thinking"
+    },
+    {
+      "at": 39.704,
+      "emotion": "happy"
+    }
+  ],
+  "presentation": {
+    "pose": "think",
+    "expression": "auto",
+    "motion_strength": 0.25,
+    "expression_enabled": true,
+    "expression_strength": 0.55
+  },
+  "intro": "先坐舒服一点，给你讲个我们的小故事。",
+  "outro": "好啦，我们的小故事就讲到这里，你想说点什么？"
+}

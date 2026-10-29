@@ -11,6 +11,11 @@ import imageio_ffmpeg
 from mutagen.mp3 import MP3
 import numpy as np
 
+try:
+    from .atomic_json import write_json_atomic
+except ImportError:  # Direct script execution.
+    from atomic_json import write_json_atomic
+
 ROOT = Path(__file__).resolve().parents[1]
 RATE = 44100
 
@@ -20,10 +25,8 @@ def digest(path):
         return hashlib.file_digest(stream, 'sha256').hexdigest()
 
 
-def publish(path, data):
-    temporary = path.with_suffix(path.suffix + '.tmp')
-    temporary.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-    temporary.replace(path)
+def publish(path, data, *, best_effort=False):
+    return write_json_atomic(path, data, best_effort=best_effort)
 
 
 def run_ffmpeg(arguments):

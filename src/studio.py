@@ -50,7 +50,7 @@ class ReplySettings(StrictModel):
     max_chars: int = Field(ge=16, le=120)
     max_tokens: int = Field(ge=48, le=256)
     ask_back: bool
-    read_chat: bool = True
+    read_chat: bool = False
     templates: bool
     # Match YAML timing bounds so importing a valid low-latency configuration
     # cannot fail just because its value is outside the controller's preset.

@@ -19,6 +19,9 @@ class ModulePresentation(StrictModel):
     pose: str = Field(default='auto', pattern=r'^[a-z][a-z0-9_-]{0,31}$')
     expression: str = Field(default='auto', pattern=r'^[a-z][a-z0-9_-]{0,31}$')
     motion_strength: float = Field(default=.35, ge=0, le=1, allow_inf_nan=False)
+    expression_enabled: bool = Field(default=True, strict=True)
+    expression_strength: float = Field(default=.55, ge=0, le=1, allow_inf_nan=False, strict=True)
+    scene_preset: Literal['inherit', 'moonlit', 'palace', 'garden', 'car', 'singing-room', 'transparent'] = 'inherit'
 
 
 class CharacterProfile(StrictModel):
@@ -31,6 +34,15 @@ class CharacterProfile(StrictModel):
     # Explicit asset binding. Additional artwork packs need their own calibrated
     # pose/face assets; a different identity must not silently claim new artwork.
     artwork_id: Literal["astra"] = "astra"
+
+    @model_validator(mode='after')
+    def legacy_module_scene_defaults(self):
+        # Existing singing looks predate the dedicated microphone scene. Resolve
+        # that new default in memory; an explicit shared-stage choice is retained.
+        singing = self.modules.get('singing')
+        if singing is not None and 'scene_preset' not in singing.model_fields_set:
+            singing.scene_preset = 'singing-room'
+        return self
 
     @classmethod
     def from_settings(cls, settings):

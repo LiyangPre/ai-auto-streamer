@@ -1,0 +1,118 @@
+{
+  "batch_id": "20261028-new3",
+  "checked": 1793181510.879613,
+  "requested_workers": 3,
+  "actual_workers": 3,
+  "steps": 50,
+  "state": "preparing",
+  "stage": "separating",
+  "ready": 0,
+  "total": 3,
+  "coordinator_pid": 23856,
+  "worker_pids": [
+    9520,
+    18464,
+    14600,
+    18788
+  ],
+  "separated_current_batch": 0,
+  "separation_active": {
+    "bvid": "BV1FN411n7FT",
+    "title": "I Really Want to Stay at Your House",
+    "index": 1,
+    "total": 3,
+    "stage": "separating",
+    "started_at": "2026-10-28T09:56:36.759475+00:00",
+    "samples": 10839897,
+    "duration_seconds": 245.8026530612245,
+    "progress": {
+      "state": "end",
+      "segment_offset": 6191640,
+      "audio_length": 10839897,
+      "model_idx_in_bag": 0,
+      "models": 1
+    }
+  },
+  "workers": [
+    {
+      "worker_id": "w1",
+      "pid": 8628,
+      "status": "waiting_for_stems",
+      "state": "waiting_for_stems",
+      "stage": "waiting_for_stems",
+      "current_title": "海屿你",
+      "processed_audio_seconds": 0.0,
+      "estimated_seconds_remaining": null,
+      "updated_at": "2026-10-28T09:58:21.507624+00:00",
+      "active": null
+    },
+    {
+      "worker_id": "w2",
+      "pid": 6116,
+      "status": "waiting_for_stems",
+      "state": "waiting_for_stems",
+      "stage": "waiting_for_stems",
+      "current_title": "泡沫",
+      "processed_audio_seconds": 0.0,
+      "estimated_seconds_remaining": null,
+      "updated_at": "2026-10-28T09:58:21.548160+00:00",
+      "active": null
+    },
+    {
+      "worker_id": "w3",
+      "pid": 25412,
+      "status": "waiting_for_stems",
+      "state": "waiting_for_stems",
+      "stage": "waiting_for_stems",
+      "current_title": "I Really Want to Stay at Your House",
+      "processed_audio_seconds": 0.0,
+      "estimated_seconds_remaining": null,
+      "updated_at": "2026-10-28T09:58:21.506622+00:00",
+      "active": null
+    }
+  ],
+  "blocked_titles": [
+    "告白气球",
+    "海屿你",
+    "大鱼"
+  ],
+  "previous_imported_songs_preserved": [
+    {
+      "id": "10dec8e228f74084aea80e6902e2225c",
+      "title": "大鱼",
+      "bvid": "BV1f59QBGEhx",
+      "lyric_cues": 0
+    },
+    {
+      "id": "2937303304384eaeb97334368c3f8642",
+      "title": "海屿你",
+      "bvid": "BV14nrkBPEBE",
+      "lyric_cues": 0
+    },
+    {
+      "id": "876d536a30644003a66929a59b7af9d2",
+      "title": "告白气球",
+      "bvid": "BV1A3411J7HX",
+      "lyric_cues": 0
+    },
+    {
+      "id": "9ad59f1d922a4176a417d5984d1f3dac",
+      "title": "小幸运",
+      "bvid": "BV1y82uB2ET4",
+      "lyric_cues": 45
+    },
+    {
+      "id": "cdb8633cfca14ce3af22d15f33bc5ad6",
+      "title": "起风了",
+      "bvid": "BV1D64y1Z7Ko",
+      "lyric_cues": 46
+    }
+  ],
+  "playback_started": false,
+  "logs": {
+    "coordinator": "D:\\ai auto streamer\\data\\songs-converted\\batches\\20261028-new3\\coordinator.log",
+    "errors": "D:\\ai auto streamer\\data\\songs-converted\\batches\\20261028-new3\\coordinator.err.log",
+    "separation": "D:\\ai auto streamer\\data\\songs-converted\\separation.log",
+    "conversion_pattern": "D:\\ai auto streamer\\data\\songs-converted\\conversion-wN.log"
+  }
+}

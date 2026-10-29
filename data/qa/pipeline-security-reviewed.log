@@ -1,0 +1,46 @@
+test_blivedm_danmaku_and_gift_fields (tests.test_core.CollectorTests.test_blivedm_danmaku_and_gift_fields) ... ok
+test_health_follows_websocket_authentication (tests.test_core.CollectorTests.test_health_follows_websocket_authentication) ... ok
+test_paid_events_and_raw_enter (tests.test_core.CollectorTests.test_paid_events_and_raw_enter) ... ok
+test_stable_user_id_is_not_python_hash (tests.test_core.CollectorTests.test_stable_user_id_is_not_python_hash) ... ok
+test_non_stream_timeout_is_structured_failure (tests.test_core.LLMParserTests.test_non_stream_timeout_is_structured_failure) ... Executing <Task pending name='Task-22' coro=<LLMParserTests.test_non_stream_timeout_is_structured_failure() running at D:\ai auto streamer\tests\test_core.py:230> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> cb=[_run_until_complete_cb() at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:180] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 1.078 seconds
+Model request failed [timeout, route=environment]: Provider request timed out; compare Direct and Auto network routes.
+ok
+test_slow_consumer_time_is_excluded_from_model_stream_deadline (tests.test_core.LLMParserTests.test_slow_consumer_time_is_excluded_from_model_stream_deadline) ... Executing <Task pending name='Task-27' coro=<LLMParserTests.test_slow_consumer_time_is_excluded_from_model_stream_deadline() running at D:\ai auto streamer\tests\test_core.py:245> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> cb=[_run_until_complete_cb() at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:180] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.859 seconds
+ok
+test_stream_without_tag_yields_immediately (tests.test_core.LLMParserTests.test_stream_without_tag_yields_immediately) ... Executing <Task finished name='Task-32' coro=<LLMParserTests.test_stream_without_tag_yields_immediately() done, defined at D:\ai auto streamer\tests\test_core.py:208> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.734 seconds
+ok
+test_tag_across_chunks_and_leading_space (tests.test_core.LLMParserTests.test_tag_across_chunks_and_leading_space) ... Executing <Task finished name='Task-37' coro=<LLMParserTests.test_tag_across_chunks_and_leading_space() done, defined at D:\ai auto streamer\tests\test_core.py:212> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.734 seconds
+ok
+test_unknown_bracket_is_normal_text (tests.test_core.LLMParserTests.test_unknown_bracket_is_normal_text) ... Executing <Task finished name='Task-42' coro=<LLMParserTests.test_unknown_bracket_is_normal_text() done, defined at D:\ai auto streamer\tests\test_core.py:216> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.688 seconds
+ok
+test_cooldown_dictionaries_expire (tests.test_core.MemoryTests.test_cooldown_dictionaries_expire) ... ok
+test_gift_combo_cooldown_and_max_wait (tests.test_core.MemoryTests.test_gift_combo_cooldown_and_max_wait) ... ok
+test_out_of_order_ttl_and_idle_identity (tests.test_core.MemoryTests.test_out_of_order_ttl_and_idle_identity) ... ok
+test_blocked_stream_cancels_pending_audio (tests.test_core.PipelineTests.test_blocked_stream_cancels_pending_audio) ... ok
+test_cancelling_stream_does_not_drain_tts (tests.test_core.PipelineTests.test_cancelling_stream_does_not_drain_tts) ... ok
+test_high_value_gift_uses_paid_inbox_and_returns_thanks (tests.test_core.PipelineTests.test_high_value_gift_uses_paid_inbox_and_returns_thanks) ... ok
+test_output_safety_does_not_speak_or_remember (tests.test_core.PipelineTests.test_output_safety_does_not_speak_or_remember) ... ok
+test_reply_slot_timeout_never_overlaps (tests.test_core.PipelineTests.test_reply_slot_timeout_never_overlaps) ... ok
+test_stream_emits_ordered_sentence_audio (tests.test_core.PipelineTests.test_stream_emits_ordered_sentence_audio) ... ok
+test_boundaries_and_compound_sentence (tests.test_core.RouterTests.test_boundaries_and_compound_sentence) ... ok
+test_disabled_route_has_one_meaning (tests.test_core.RouterTests.test_disabled_route_has_one_meaning) ... ok
+test_prompt_injection_and_blocked_content (tests.test_core.SafetyTests.test_prompt_injection_and_blocked_content) ... ok
+test_synthesis_has_deadline (tests.test_core.TTSTests.test_synthesis_has_deadline) ... TTS edge-tts failed [timeout, route=environment]: Provider request timed out; compare Direct and Auto network routes.
+ok
+test_cancelled_pre_review_stream_closes_the_model_generator (tests.test_pipeline_security.BroadcastBarrierTests.test_cancelled_pre_review_stream_closes_the_model_generator) ... ok
+test_complete_response_is_reviewed_before_any_subtitle_or_tts (tests.test_pipeline_security.BroadcastBarrierTests.test_complete_response_is_reviewed_before_any_subtitle_or_tts) ... ok
+test_early_valid_sentence_and_split_blocked_word_never_escape (tests.test_pipeline_security.BroadcastBarrierTests.test_early_valid_sentence_and_split_blocked_word_never_escape) ... ok
+test_batch_instruction_does_not_interpolate_viewer_names (tests.test_pipeline_security.PromptIsolationTests.test_batch_instruction_does_not_interpolate_viewer_names) ... ok
+test_viewer_name_message_and_memory_never_enter_system_role (tests.test_pipeline_security.PromptIsolationTests.test_viewer_name_message_and_memory_never_enter_system_role) ... Executing <Task finished name='Task-107' coro=<PromptIsolationTests.test_viewer_name_message_and_memory_never_enter_system_role() done, defined at D:\ai auto streamer\tests\test_pipeline_security.py:94> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.906 seconds
+ok
+test_cleanup_recovers_from_one_exception (tests.test_pipeline_security.SupervisorTests.test_cleanup_recovers_from_one_exception) ... Loop cleanup failed (ValueError); restarting
+ok
+test_heartbeat_recovers_from_one_exception (tests.test_pipeline_security.SupervisorTests.test_heartbeat_recovers_from_one_exception) ... Loop heartbeat failed (ValueError); restarting
+ok
+test_welcome_loop_recovers_from_one_exception (tests.test_pipeline_security.SupervisorTests.test_welcome_loop_recovers_from_one_exception) ... Loop welcome failed (ValueError); restarting
+ok
+
+----------------------------------------------------------------------
+Ran 30 tests in 6.021s
+
+OK

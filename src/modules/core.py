@@ -2,6 +2,7 @@
 from dataclasses import dataclass, field
 import re
 from typing import Callable, Any
+from ..characters import ModulePresentation
 
 
 @dataclass(frozen=True)
@@ -70,7 +71,8 @@ class ModuleRegistry:
         if saved:
             return saved.model_dump()
         service = self.services.get(module_id)
-        return service.default_presentation(profile) if hasattr(service, 'default_presentation') else self.specs[module_id].defaults.copy()
+        defaults = service.default_presentation(profile) if hasattr(service, 'default_presentation') else self.specs[module_id].defaults
+        return ModulePresentation.model_validate(defaults).model_dump()
 
     def public(self):
         return {'active_profile': self.state.active_character, 'revision': self.state.characters.revision,

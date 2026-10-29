@@ -159,6 +159,7 @@ body.overlay-mode #emotion-indicator { display: none; }
 
 #ui-overlay {
     position: absolute;
+    z-index:8;
     top: 0;
     left: 0;
     width: 100%;
@@ -427,3 +428,39 @@ body.overlay-mode #response-text{background:#201b32cf;color:#f5effc;border:1px s
 @media(prefers-reduced-motion:reduce){#fullscreen-btn{transition:none}}
 
 #car-scene .car-windows[hidden]{display:none}#car-scene{transform-origin:50% 50%;will-change:transform}
+#singing-scene{position:absolute;inset:0;overflow:hidden;background:#171a38;pointer-events:none}
+#singing-scene[hidden]{display:none}
+#singing-scene .singing-room-art,#singing-scene .singing-character,.singing-room-shade{position:absolute;inset:0;width:100%;height:100%}
+#singing-scene .singing-room-art{object-fit:fill}
+#singing-scene .singing-still{position:absolute;left:29.0055%;top:7.3665%;width:38.674%;height:68.754%;object-fit:fill;clip-path:inset(0 0 12.95% 0)}
+#singing-scene.rig-ready .singing-still{display:none}
+#singing-scene .singing-character{z-index:1}
+#singing-scene .singing-dolls{position:absolute;inset:0;z-index:2}
+#singing-scene .singing-dolls[hidden]{display:none}
+#singing-scene .singing-doll{position:absolute;bottom:6.2%;width:16.12%;height:21.5%;overflow:hidden;filter:drop-shadow(0 5px 3px #10122e66)}
+#singing-scene .singing-doll::before{content:"";position:absolute;left:20%;right:12%;bottom:22%;height:4%;border-radius:50%;background:#25233655;filter:blur(3px)}
+#singing-scene .singing-doll img{position:absolute;top:0;height:100%;width:auto;max-width:none}
+#singing-scene .singing-doll.deepseek{left:21%}
+#singing-scene .singing-doll.claude{right:18%}
+#singing-scene .singing-doll.deepseek img{left:0}
+#singing-scene .singing-doll.claude img{right:0}
+#singing-scene .singing-room-shade{z-index:3;background:#101124;opacity:var(--singing-dim,0)}
+#singing-scene>[role=status]{position:absolute;z-index:4;bottom:3%;left:3%;max-width:70%;color:#fff;background:#24223cdb;border-radius:8px;padding:7px 12px;font:13px system-ui}
+#singing-scene>[role=status]:empty{display:none}
+/* Asset-readiness intermission; subtitles/audio continue on their own clock. */
+#scene-transition{position:absolute;inset:0;z-index:7;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 35%,#493962,#18172e 72%);color:#f5efff;opacity:1;transition:opacity .22s ease;overflow:hidden}
+#scene-transition[hidden]{display:none}
+#scene-transition .scene-transition-card{text-align:center;padding:2rem;max-width:70%;font:clamp(14px,2.6vw,32px) system-ui}
+#scene-transition .scene-transition-star{font-size:2.8em;color:#d3b6ff;animation:scene-breathe 1.8s ease-in-out infinite;text-shadow:0 0 32px #bb8eff99}
+#scene-transition strong{display:block;font-weight:600;letter-spacing:.04em}
+#scene-transition p{font-size:.55em;opacity:.8;line-height:1.6;margin:1em 0 0}
+#scene-transition[data-state=ready]{opacity:0;pointer-events:none}
+#scene-transition[data-state=error]{inset:auto 1.5% 3% auto;display:block;max-width:42%;border:1px solid #8c7ca3;border-radius:14px;background:#272239ed;box-shadow:0 4px 24px #0005}
+#scene-transition[data-state=error] .scene-transition-card{max-width:none;padding:14px;font-size:15px}
+#scene-transition[data-state=error] .scene-transition-star{display:none}
+#scene-transition[data-state=error] p{font-size:12px}
+.scene-transition-actions{display:flex;justify-content:center;gap:8px;margin-top:12px}
+.scene-transition-actions button{font:12px system-ui;border:1px solid #9d8eb2;border-radius:7px;padding:6px 10px;background:#574267;color:#fff;cursor:pointer}
+.scene-transition-actions button[hidden]{display:none}
+@keyframes scene-breathe{50%{transform:scale(1.09);opacity:.65}}
+@media(prefers-reduced-motion:reduce){#scene-transition{transition:none}#scene-transition .scene-transition-star{animation:none}}

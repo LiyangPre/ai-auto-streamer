@@ -1,0 +1,40 @@
+.....Model request failed [response, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+Model request failed [response, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+Executing <Task finished name='Task-62' coro=<FlashXTests.test_flashx_disables_thinking_for_stream_and_nonstream_and_does_not_drop_it() done, defined at D:\ai auto streamer\tests\test_api_connections.py:157> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.656 seconds
+.....Song progress file could not be published (PermissionError); computation continues
+.........................Executing <Task pending name='Task-236' coro=<LLMParserTests.test_non_stream_timeout_is_structured_failure() running at D:\ai auto streamer\tests\test_core.py:230> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> cb=[_run_until_complete_cb() at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:180] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.625 seconds
+Model request failed [timeout, route=environment]: Provider request timed out; compare Direct and Auto network routes.
+.Executing <Task pending name='Task-241' coro=<LLMParserTests.test_slow_consumer_time_is_excluded_from_model_stream_deadline() running at D:\ai auto streamer\tests\test_core.py:245> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> cb=[_run_until_complete_cb() at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:180] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.687 seconds
+.Executing <Task finished name='Task-246' coro=<LLMParserTests.test_stream_without_tag_yields_immediately() done, defined at D:\ai auto streamer\tests\test_core.py:208> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.656 seconds
+.Executing <Task finished name='Task-251' coro=<LLMParserTests.test_tag_across_chunks_and_leading_space() done, defined at D:\ai auto streamer\tests\test_core.py:212> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.703 seconds
+.Executing <Task finished name='Task-256' coro=<LLMParserTests.test_unknown_bracket_is_normal_text() done, defined at D:\ai auto streamer\tests\test_core.py:216> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.704 seconds
+.............TTS edge-tts failed [timeout, route=environment]: Provider request timed out; compare Direct and Auto network routes.
+...........Executing <Task finished name='Task-359' coro=<GLMRequestTests.test_flash_request_omits_provider_specific_thinking_fields() done, defined at D:\ai auto streamer\tests\test_glm.py:35> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.610 seconds
+.Executing <Task finished name='Task-364' coro=<GLMRequestTests.test_missing_key_stops_before_network_request() done, defined at D:\ai auto streamer\tests\test_glm.py:45> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.625 seconds
+.Executing <Task finished name='Task-369' coro=<GLMRequestTests.test_provider_error_does_not_echo_credentials() done, defined at D:\ai auto streamer\tests\test_glm.py:56> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.609 seconds
+..............................................Module transition unavailable (RuntimeError); performance continues
+.Module transition unavailable (HeaderNotFoundError); performance continues
+Module transition unavailable (ValueError); performance continues
+Module transition unavailable (ValueError); performance continues
+......Module transition unavailable (TimeoutError); performance continues
+...............................Executing <Task finished name='Task-972' coro=<PromptIsolationTests.test_viewer_name_message_and_memory_never_enter_system_role() done, defined at D:\ai auto streamer\tests\test_pipeline_security.py:94> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.641 seconds
+.Loop cleanup failed (ValueError); restarting
+.Loop heartbeat failed (ValueError); restarting
+.Loop welcome failed (ValueError); restarting
+..................WebSocket send error: 
+.....Content review failed (OSError); output blocked
+Content review failed (ValueError); output blocked
+Content review failed (ValueError); output blocked
+Content review failed (TimeoutError); output blocked
+.......Executing <Task finished name='Task-1095' coro=<SingingStudio._generate() done, defined at D:\ai auto streamer\src\singing.py:357> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.421 seconds
+Executing <Task pending name='Task-1096' coro=<SingingStudio._generate() running at D:\ai auto streamer\src\singing.py:378> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.547 seconds
+.Executing <Task finished name='Task-1102' coro=<SingingStudio._generate() done, defined at D:\ai auto streamer\src\singing.py:357> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.891 seconds
+....................................................Song request could not be handled (ValidationError)
+................Reply skipped after LLM failure: LLM returned an empty reply
+.......Executing <Task finished name='Task-1420' coro=<StoryStudio._prepare() done, defined at D:\ai auto streamer\src\story.py:153> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 7.250 seconds
+..................TTS edge-tts failed [response, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+...................s.....
+----------------------------------------------------------------------
+Ran 301 tests in 36.731s
+
+OK (skipped=1)

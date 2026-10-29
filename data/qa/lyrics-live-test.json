@@ -1,0 +1,30 @@
+{
+  "song_id": "9ad59f1d922a4176a417d5984d1f3dac",
+  "song": "小幸运",
+  "placeholder_only": true,
+  "uploaded_through_controller": true,
+  "playback_id": "d7bbb39f08254e99abe148265fc8671a",
+  "starts_at": 1793168830.0227742,
+  "offset_seconds": 1.5,
+  "clock_unchanged": true,
+  "lyric_cues": [
+    {
+      "at": 0.0,
+      "text": "【同步测试】第 1 行"
+    },
+    {
+      "at": 4.0,
+      "text": "【同步测试】第 2 行"
+    },
+    {
+      "at": 8.0,
+      "text": "【同步测试】第 3 行"
+    },
+    {
+      "at": 30.0,
+      "text": ""
+    }
+  ],
+  "test_lyrics_removed": true,
+  "finished_at": 1793168852.2331376
+}

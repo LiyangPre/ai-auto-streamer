@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, PropertyMock
 
 from fastapi.testclient import TestClient
 import lameenc
@@ -33,7 +33,7 @@ class SongPreparationAPITests(unittest.TestCase):
                         patch('src.danmaku.sys.stdin.isatty', return_value=False)]
         for item in self.patches:
             item.start()
-        self.client = TestClient(server.app, headers={'Origin': 'http://testserver', 'X-Studio-API': '1'})
+        self.client = TestClient(server.app, base_url='http://localhost', headers={'Origin': 'http://localhost', 'X-Studio-API': '1'})
         self.client.__enter__()
         self.studio = server.app.state.singing
 
@@ -171,6 +171,29 @@ class SongPreparationAPITests(unittest.TestCase):
         self.assertEqual(self.client.get('/api/singing/preparation', headers={'Origin': 'https://elsewhere.example'}).status_code, 403)
         (self.preparation / 'pipeline-state.json').write_text('x' * 16385, encoding='utf-8')
         self.assertEqual(self.client.get('/api/singing/preparation').json()['state'], 'unknown')
+
+    def test_configured_replacement_is_forwarded_only_at_an_idle_stage(self):
+        self.prepare_complete_fixture(1)
+        path = self.preparation / 'jobs.json'
+        jobs = json.loads(path.read_text(encoding='utf-8'))
+        jobs['replace_titles'] = ['Track 0']
+        path.write_text(json.dumps(jobs), encoding='utf-8')
+        state = server.app.state
+        with patch.object(type(state.pipeline), 'performance_active', new_callable=PropertyMock, return_value=True), \
+                patch('scripts.import_prepared_songs.import_prepared') as importer:
+            response = self.client.post('/api/singing/import-prepared', json={})
+        self.assertEqual(response.status_code, 409, response.text)
+        importer.assert_not_called()
+        result = {'profile_id': 'astra', 'imported': [], 'skipped': [], 'backup': None,
+                  'playback_started': False,
+                  'pre_replacement_backup': {'id': 'a' * 32, 'path': 'D:/private/backup.zip'},
+                  'replacement_archive': 'D:/private/songs-replaced/astra/' + 'b' * 32}
+        with patch('scripts.import_prepared_songs.import_prepared', return_value=result) as importer:
+            response = self.client.post('/api/singing/import-prepared', json={})
+        self.assertEqual(response.status_code, 200, response.text)
+        self.assertEqual(importer.call_args.kwargs['replace_titles'], ['Track 0'])
+        self.assertIsNone(self.studio.playback)
+        self.assertNotIn('private', response.text)
 
 
 if __name__ == '__main__':

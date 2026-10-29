@@ -80,7 +80,7 @@ class ShortTermMemory:
         )
         self._global.append(event)
         # 主播自己的回复不进 per-user，避免占满某个观众的额度
-        if kind != "reply":
+        if kind != "reply" and user_id > 0:
             self._by_user[user_id].append(event)
 
     def remember_reply(self, text: str, timestamp: Optional[float] = None) -> None:
@@ -137,7 +137,7 @@ class ShortTermMemory:
 
         parts: List[str] = []
 
-        mine = self._by_user.get(user_id) if user_id is not None else None
+        mine = self._by_user.get(user_id) if user_id is not None and user_id > 0 else None
         if mine:
             # 事件通常按到达顺序入队，但补录/重放会打乱，渲染前统一按时间排序
             ordered = sorted(mine, key=lambda e: e.timestamp)

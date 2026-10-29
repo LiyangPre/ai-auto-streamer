@@ -17,10 +17,10 @@ class MusicCaptureTests(unittest.TestCase):
         async def endpoint(socket: WebSocket):
             await self.hub.connect(socket)
 
-        self.client = TestClient(app)
+        self.client = TestClient(app, base_url='http://localhost', headers={'X-Studio-API':'1','Origin':'http://localhost'})
 
-    def connect(self, role, origin='http://testserver'):
-        return self.client.websocket_connect('/ws/music?role=' + role, headers={'origin': origin})
+    def connect(self, role, origin='http://localhost'):
+        return self.client.websocket_connect('ws://localhost/ws/music?role=' + role, headers={'origin': origin})
 
     def test_audio_signaling_and_source_replacement(self):
         with self.connect('output') as output:
@@ -49,7 +49,7 @@ class MusicCaptureTests(unittest.TestCase):
             self.assertEqual(source.receive_json(), {'type': 'receiver-left', 'id': peer})
 
     def test_cross_origin_unknown_role_and_video_are_rejected(self):
-        for role, origin in [('source', 'https://unrelated.example'), ('invalid', 'http://testserver'), ('output', '')]:
+        for role, origin in [('source', 'https://unrelated.example'), ('invalid', 'http://localhost'), ('output', '')]:
             with self.assertRaises(WebSocketDisconnect):
                 with self.connect(role, origin):
                     pass

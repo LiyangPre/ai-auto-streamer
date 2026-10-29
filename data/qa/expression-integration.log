@@ -1,0 +1,34 @@
+✔ existing GLM emotion tags drive local expressions without another request or playback (176.6192ms)
+✔ module stop and welcome resume restore the module look, then chat, without stale held emotions (131.2591ms)
+✔ mute, pauses and silence close the mouth even in surprised or singing expressions (22.5549ms)
+✔ an expression change during a reaction blends from its current pose (91.0351ms)
+✔ switching profiles discards held emotion and speech while retaining reusable scene settings (93.5348ms)
+✖ queued speech selects its own emotion on playback and ignores late callbacks from an old cue (20.5084ms)
+✔ all painted-car expressions use paired eye openness and a closed silent mouth (18.7138ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 6
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 700.1737
+
+✖ failing tests:
+
+test at tests\test_expression_integration.cjs:141:1
+✖ queued speech selects its own emotion on playback and ignores late callbacks from an old cue (20.5084ms)
+  AssertionError [ERR_ASSERTION]: old media callbacks cannot replace the next cue emotion
+  
+  'happy' !== 'sad'
+  
+      at TestContext.<anonymous> (D:\ai auto streamer\tests\test_expression_integration.cjs:168:12)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'happy',
+    expected: 'sad',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,14 @@
+{
+  "engine": "soullink",
+  "version": "0.1.0-beta.1",
+  "metric": "local controller update CPU time, excluding rasterization, browser frame scheduling, model and TTS latency",
+  "samples": 3500,
+  "load_and_construct_ms": 7.72,
+  "p50_ms": 0.215,
+  "p95_ms": 0.6916,
+  "p99_ms": 1.1665,
+  "max_ms": 4.3889,
+  "network_calls": 0,
+  "paired_eyes": true,
+  "silent_mouth_closed": true
+}

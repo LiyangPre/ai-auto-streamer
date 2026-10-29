@@ -20,6 +20,11 @@ import subprocess
 import sys
 import time
 
+try:
+    from .atomic_json import write_json_atomic
+except ImportError:  # Direct script execution.
+    from atomic_json import write_json_atomic
+
 ROOT = Path(__file__).resolve().parents[1]
 RATE = 44100
 
@@ -36,11 +41,8 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def publish(path: Path, value: dict) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    partial = path.with_name(path.name + '.partial')
-    partial.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-    os.replace(partial, path)
+def publish(path, value, *, best_effort=False):
+    return write_json_atomic(path, value, best_effort=best_effort)
 
 
 def log(event: str, **fields) -> None:
@@ -209,7 +211,7 @@ def main() -> None:
 
     def save_state():
         state['updated_at'] = stamp()
-        publish(state_path, state)
+        publish(state_path, state, best_effort=True)
 
     def valid_outputs(directory: Path, metadata: dict, expected_source: str) -> bool:
         if metadata.get('status') != 'ready' or not metadata.get('quality'):

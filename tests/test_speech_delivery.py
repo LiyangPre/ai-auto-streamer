@@ -47,6 +47,7 @@ class ChatReadbackTests(unittest.IsolatedAsyncioTestCase):
     def pipeline(self):
         config = Config()
         config.router.enabled = False
+        config.character.read_chat = True  # Explicit opt-in; production default is off.
         config.reply_interval.enabled = False
         config.tts.progressive_audio = False
         pipeline = Pipeline(config)

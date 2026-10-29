@@ -2,39 +2,32 @@
 import asyncio
 import time
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException, Request, Depends
 
 from .api_settings import ConnectionUpdate, ConnectionTest
 from .llm import LLMProcessor, MockLLM, CallParams, LLMError
 from .provider_network import failure, route
 from .tts import TTSEngine
+from .local_security import local_request
 
 router=APIRouter(prefix='/api/connections')
 
 
-def local_request(request):
-    if not request.client or request.client.host not in {'127.0.0.1','::1','testclient'}:
-        raise HTTPException(403,'API settings can only be edited on this computer.')
-    allowed_hosts={'127.0.0.1','localhost','::1'}
-    if request.client.host=='testclient':
-        allowed_hosts.add('testserver')
-    if request.url.hostname not in allowed_hosts:
-        raise HTTPException(403,'Open API settings using localhost or 127.0.0.1.')
-    expected=str(request.base_url).rstrip('/')
-    if (request.headers.get('origin') not in (None,expected)
-            or request.headers.get('sec-fetch-site') not in (None,'same-origin','none')
-            or request.headers.get('x-studio-api') != '1'):
-        raise HTTPException(403,'Open API settings from the local controller.')
+def connection_view(state):
+    value=state.connections.public(state.runtime_config)
+    if isinstance(state.pipeline.llm,LLMProcessor):
+        value['text_runtime']=state.pipeline.llm.fallback_status()
+    return value
 
 
-@router.get('')
+@router.get('', dependencies=[Depends(local_request)])
 async def read_connections(request: Request):
     local_request(request)
     state=request.app.state
-    return state.connections.public(state.runtime_config)
+    return connection_view(state)
 
 
-@router.post('')
+@router.post('', dependencies=[Depends(local_request)])
 async def save_connections(data: ConnectionUpdate, request: Request):
     local_request(request)
     state=request.app.state;pipeline=state.pipeline;config=state.runtime_config
@@ -67,10 +60,10 @@ async def save_connections(data: ConnectionUpdate, request: Request):
                 await old_llm.close()
             # No keys or credential status enter the stream event channel.
             await pipeline._emit(type='api_connections_updated')
-            return candidate.public(config)
+            return connection_view(state)
 
 
-@router.post('/test')
+@router.post('/test', dependencies=[Depends(local_request)])
 async def test_connection(data: ConnectionTest, request: Request):
     local_request(request)
     state=request.app.state
@@ -89,8 +82,22 @@ async def test_connection(data: ConnectionTest, request: Request):
                 if config.llm.provider not in {'mock','ollama'} and not config.llm.api_key_configured:
                     return {**result,'code':'missing_key','message':'Enter a text API key, or configure it in .env.'}
                 engine=MockLLM(config.character) if config.llm.provider=='mock' else LLMProcessor(config.llm,config.character)
-                await asyncio.wait_for(engine.chat('只回复：连接成功。',CallParams(max_tokens=32)),25)
-                result.update(ok=True,message='Text reply received · 文本连接成功',model=config.llm.model,thinking=False)
+                result['stream']=config.llm.stream
+                async def text_reply():
+                    if not config.llm.stream:
+                        text,_=await engine.chat('只回复：连接成功。',CallParams(max_tokens=32))
+                        if not text.strip():raise ValueError('Empty text')
+                        result['first_text_ms']=round((time.monotonic()-started)*1000)
+                        return
+                    received=False
+                    async for text,_ in engine.chat_stream('只回复：连接成功。',CallParams(max_tokens=32)):
+                        if text.strip() and not received:
+                            result['first_text_ms']=round((time.monotonic()-started)*1000)
+                            received=True
+                    if not received:raise ValueError('Empty text')
+                await asyncio.wait_for(text_reply(),25)
+                result.update(ok=True,message='Text reply received · 文本连接成功',
+                              model=getattr(engine,'last_model',None) or config.llm.model,thinking=False)
             else:
                 config.tts.engine=data.target
                 if data.target=='mimo-tts':result['model']=config.tts.mimo_model
@@ -110,10 +117,12 @@ async def test_connection(data: ConnectionTest, request: Request):
                 result.update(ok=True,message='Voice audio received · 语音连接成功（未播放）',audio_bytes=size)
         except LLMError as error:
             # LLMError contains only our own sanitized diagnostic.
-            result.update(code='text_error',message=str(error))
+            result.update(error.diagnostic or {'code':'text_error'})
+            result['message']=str(error)
         except Exception as error:
             result.update(failure(error))
         finally:
+            if isinstance(engine,LLMProcessor):result['attempts']=engine.fallback_status()['attempts']
             if engine and hasattr(engine,'close'):await engine.close()
         result['elapsed_ms']=round((time.monotonic()-started)*1000)
         return result

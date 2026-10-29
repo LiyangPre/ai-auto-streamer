@@ -7,6 +7,7 @@ class StageSubtitles {
     begin(){this.cancel();this.streaming=true;this.element.classList.remove('empty');}
     waitForSpeech(){this.cancel();this.streaming=true;if(!this.audioBusy)this.element.classList.add('empty');}
     show(text){this.cancel();this.element.textContent=text;this.element.classList.remove('thinking');this.element.classList.remove('empty');}
+    clear(){this.cancel();this.element.textContent='';this.element.classList.remove('thinking');this.element.classList.add('empty');}
     finish(){this.streaming=false;this.schedule();}
     setAudioBusy(value){this.audioBusy=value;this.cancel();if(!value)this.schedule();}
     setDuration(seconds){this.seconds=seconds;this.cancel();this.schedule();}

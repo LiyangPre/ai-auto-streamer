@@ -1,0 +1,99 @@
+Collecting faster-whisper==1.2.1
+  Obtaining dependency information for faster-whisper==1.2.1 from https://files.pythonhosted.org/packages/05/99/49ee85903dee060d9f08297b4a342e5e0bcfca2f027a07b4ee0a38ab13f9/faster_whisper-1.2.1-py3-none-any.whl.metadata
+  Using cached faster_whisper-1.2.1-py3-none-any.whl.metadata (16 kB)
+Collecting opencc-python-reimplemented==0.1.7
+  Obtaining dependency information for opencc-python-reimplemented==0.1.7 from https://files.pythonhosted.org/packages/30/6b/055b7806f320cc8f2cdf23c5f70221c0dc1683fca9ffaf76dfc2ad4b91b6/opencc_python_reimplemented-0.1.7-py2.py3-none-any.whl.metadata
+  Using cached opencc_python_reimplemented-0.1.7-py2.py3-none-any.whl.metadata (4.6 kB)
+Collecting huggingface-hub==0.36.0
+  Obtaining dependency information for huggingface-hub==0.36.0 from https://files.pythonhosted.org/packages/cb/bd/1a875e0d592d447cbc02805fd3fe0f497714d6a2583f59d14fa9ebad96eb/huggingface_hub-0.36.0-py3-none-any.whl.metadata
+  Downloading huggingface_hub-0.36.0-py3-none-any.whl.metadata (14 kB)
+Collecting ctranslate2<5,>=4.0 (from faster-whisper==1.2.1)
+  Obtaining dependency information for ctranslate2<5,>=4.0 from https://files.pythonhosted.org/packages/af/25/cca7f6807d37cbfd9eebed8bbf136f5214c31d7d66de267ad05b676e9deb/ctranslate2-4.8.4-cp312-cp312-win_amd64.whl.metadata
+  Using cached ctranslate2-4.8.4-cp312-cp312-win_amd64.whl.metadata (11 kB)
+Collecting tokenizers<1,>=0.13 (from faster-whisper==1.2.1)
+  Obtaining dependency information for tokenizers<1,>=0.13 from https://files.pythonhosted.org/packages/d1/6c/24f074c9a0efb98e61b20aafe6b2641922d5db24e447d5d6daffd9e17555/tokenizers-0.23.3-cp310-abi3-win_amd64.whl.metadata
+  Using cached tokenizers-0.23.3-cp310-abi3-win_amd64.whl.metadata (10 kB)
+Collecting onnxruntime<2,>=1.14 (from faster-whisper==1.2.1)
+  Obtaining dependency information for onnxruntime<2,>=1.14 from https://files.pythonhosted.org/packages/45/b2/793b4051d8dc6acb379ead9b72050f0ffa283ca49a6904add2e218b83e2e/onnxruntime-1.31.1-cp312-cp312-win_amd64.whl.metadata
+  Using cached onnxruntime-1.31.1-cp312-cp312-win_amd64.whl.metadata (6.1 kB)
+Collecting av>=11 (from faster-whisper==1.2.1)
+  Obtaining dependency information for av>=11 from https://files.pythonhosted.org/packages/32/5a/743a83666ded197df8b9957e2800bef9a39d52b23be2ca211bbd14b5fb22/av-19.0.2-cp312-abi3-win_amd64.whl.metadata
+  Using cached av-19.0.2-cp312-abi3-win_amd64.whl.metadata (5.1 kB)
+Collecting tqdm (from faster-whisper==1.2.1)
+  Obtaining dependency information for tqdm from https://files.pythonhosted.org/packages/a7/03/921a3d3c75785aca9ebfbfcabfbc3a1be12e2ab5265deb026d55a5a3f83e/tqdm-4.70.1-py3-none-any.whl.metadata
+  Using cached tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+Collecting filelock (from huggingface-hub==0.36.0)
+  Obtaining dependency information for filelock from https://files.pythonhosted.org/packages/e0/1b/5e74289a1878e666bb4b65fe5805a04cafcac2aa5f519ef1ead67ef91c56/filelock-4.2.4-py3-none-any.whl.metadata
+  Using cached filelock-4.2.4-py3-none-any.whl.metadata (2.0 kB)
+Collecting fsspec>=2023.5.0 (from huggingface-hub==0.36.0)
+  Obtaining dependency information for fsspec>=2023.5.0 from https://files.pythonhosted.org/packages/6c/c0/a98505f18594f1bce828bb159cec0fcf9860562f1a2c85913409fc8f3d9e/fsspec-2026.9.0-py3-none-any.whl.metadata
+  Using cached fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+Collecting packaging>=20.9 (from huggingface-hub==0.36.0)
+  Obtaining dependency information for packaging>=20.9 from https://files.pythonhosted.org/packages/63/34/ba1c580383c9eada3711951fef0795c80b829a078d72188184bcab9dd527/packaging-26.3-py3-none-any.whl.metadata
+  Using cached packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+Collecting pyyaml>=5.1 (from huggingface-hub==0.36.0)
+  Obtaining dependency information for pyyaml>=5.1 from https://files.pythonhosted.org/packages/86/bf/899e81e4cce32febab4fb42bb97dcdf66bc135272882d1987881a4b519e9/pyyaml-6.0.3-cp312-cp312-win_amd64.whl.metadata
+  Using cached pyyaml-6.0.3-cp312-cp312-win_amd64.whl.metadata (2.4 kB)
+Collecting requests (from huggingface-hub==0.36.0)
+  Obtaining dependency information for requests from https://files.pythonhosted.org/packages/a0/f4/c67b0b3f1b9245e8d266f0f112c500d50e5b4e83cb6f3b71b6528104182a/requests-2.34.2-py3-none-any.whl.metadata
+  Using cached requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+Collecting typing-extensions>=3.7.4.3 (from huggingface-hub==0.36.0)
+  Obtaining dependency information for typing-extensions>=3.7.4.3 from https://files.pythonhosted.org/packages/49/d3/b8441a820a491ddfc024b0b0cf0393375b75ea13866d9c66727e54c2fc80/typing_extensions-4.16.0-py3-none-any.whl.metadata
+  Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting numpy (from ctranslate2<5,>=4.0->faster-whisper==1.2.1)
+  Obtaining dependency information for numpy from https://files.pythonhosted.org/packages/12/33/fefe62073dc8acfd0f2b9ed7c003af2f50aa61555e113e6db02b8f79f145/numpy-2.5.4-cp312-cp312-win_amd64.whl.metadata
+  Using cached numpy-2.5.4-cp312-cp312-win_amd64.whl.metadata (6.6 kB)
+Collecting flatbuffers (from onnxruntime<2,>=1.14->faster-whisper==1.2.1)
+  Obtaining dependency information for flatbuffers from https://files.pythonhosted.org/packages/e8/2d/d2a548598be01649e2d46231d151a6c56d10b964d94043a335ae56ea2d92/flatbuffers-25.12.19-py2.py3-none-any.whl.metadata
+  Using cached flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+Collecting protobuf>=4.25.8 (from onnxruntime<2,>=1.14->faster-whisper==1.2.1)
+  Obtaining dependency information for protobuf>=4.25.8 from https://files.pythonhosted.org/packages/8a/55/b77bda4e5e5f5971fb51b07663694690e9afdb9402136c16a522bd621cad/protobuf-7.36.2-cp310-abi3-win_amd64.whl.metadata
+  Using cached protobuf-7.36.2-cp310-abi3-win_amd64.whl.metadata (595 bytes)
+Collecting colorama (from tqdm->faster-whisper==1.2.1)
+  Obtaining dependency information for colorama from https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.6-py2.py3-none-any.whl.metadata
+  Using cached colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+Collecting charset_normalizer<4,>=2 (from requests->huggingface-hub==0.36.0)
+  Obtaining dependency information for charset_normalizer<4,>=2 from https://files.pythonhosted.org/packages/eb/e6/e6e083884cbcfd49c64865af05027fe7011be7b2d9179524f099a1b611f3/charset_normalizer-3.5.2-cp312-cp312-win_amd64.whl.metadata
+  Using cached charset_normalizer-3.5.2-cp312-cp312-win_amd64.whl.metadata (47 kB)
+Collecting idna<4,>=2.5 (from requests->huggingface-hub==0.36.0)
+  Obtaining dependency information for idna<4,>=2.5 from https://files.pythonhosted.org/packages/58/a2/bb081bab032533a855d44de1d56f8e8426114ff1ba5d1f07a438a0a654f8/idna-3.20-py3-none-any.whl.metadata
+  Using cached idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+Collecting urllib3<3,>=1.26 (from requests->huggingface-hub==0.36.0)
+  Obtaining dependency information for urllib3<3,>=1.26 from https://files.pythonhosted.org/packages/92/9d/c4e665119135114480843e7ab388fa94d8480650450e6f8e26b70d323a4c/urllib3-2.8.0-py3-none-any.whl.metadata
+  Using cached urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+Collecting certifi>=2023.5.7 (from requests->huggingface-hub==0.36.0)
+  Obtaining dependency information for certifi>=2023.5.7 from https://files.pythonhosted.org/packages/32/d1/a3652fe2c19134d0d15922177821d863cbd7e842d53a21bbe7e8e3a1b5ac/certifi-2026.10.23-py3-none-any.whl.metadata
+  Using cached certifi-2026.10.23-py3-none-any.whl.metadata (2.5 kB)
+Using cached faster_whisper-1.2.1-py3-none-any.whl (1.1 MB)
+Using cached opencc_python_reimplemented-0.1.7-py2.py3-none-any.whl (481 kB)
+Downloading huggingface_hub-0.36.0-py3-none-any.whl (566 kB)
+   -------------------------------------- 566.1/566.1 kB 711.7 kB/s eta 0:00:00
+Using cached av-19.0.2-cp312-abi3-win_amd64.whl (28.2 MB)
+Using cached ctranslate2-4.8.4-cp312-cp312-win_amd64.whl (20.4 MB)
+Downloading fsspec-2026.9.0-py3-none-any.whl (221 kB)
+   -------------------------------------- 221.7/221.7 kB 501.2 kB/s eta 0:00:00
+Downloading onnxruntime-1.31.1-cp312-cp312-win_amd64.whl (14.9 MB)
+   ---------------------------------------- 14.9/14.9 MB 90.7 kB/s eta 0:00:00
+Using cached packaging-26.3-py3-none-any.whl (129 kB)
+Using cached pyyaml-6.0.3-cp312-cp312-win_amd64.whl (154 kB)
+Downloading tokenizers-0.23.3-cp310-abi3-win_amd64.whl (2.9 MB)
+   ---------------------------------------- 2.9/2.9 MB 101.1 kB/s eta 0:00:00
+Downloading tqdm-4.70.1-py3-none-any.whl (80 kB)
+   ---------------------------------------- 80.2/80.2 kB 101.7 kB/s eta 0:00:00
+Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Using cached filelock-4.2.4-py3-none-any.whl (162 kB)
+Using cached requests-2.34.2-py3-none-any.whl (73 kB)
+Using cached certifi-2026.10.23-py3-none-any.whl (135 kB)
+Using cached charset_normalizer-3.5.2-cp312-cp312-win_amd64.whl (207 kB)
+Using cached idna-3.20-py3-none-any.whl (69 kB)
+Using cached numpy-2.5.4-cp312-cp312-win_amd64.whl (12.6 MB)
+Downloading protobuf-7.36.2-cp310-abi3-win_amd64.whl (456 kB)
+   -------------------------------------- 456.5/456.5 kB 122.6 kB/s eta 0:00:00
+Using cached urllib3-2.8.0-py3-none-any.whl (135 kB)
+Using cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Downloading flatbuffers-25.12.19-py2.py3-none-any.whl (26 kB)
+Installing collected packages: opencc-python-reimplemented, flatbuffers, urllib3, typing-extensions, pyyaml, protobuf, packaging, numpy, idna, fsspec, filelock, colorama, charset_normalizer, certifi, av, tqdm, requests, onnxruntime, ctranslate2, huggingface-hub, tokenizers, faster-whisper
+Successfully installed av-19.0.2 certifi-2026.10.23 charset_normalizer-3.5.2 colorama-0.4.6 ctranslate2-4.8.4 faster-whisper-1.2.1 filelock-4.2.4 flatbuffers-25.12.19 fsspec-2026.9.0 huggingface-hub-0.36.0 idna-3.20 numpy-2.5.4 onnxruntime-1.31.1 opencc-python-reimplemented-0.1.7 packaging-26.3 protobuf-7.36.2 pyyaml-6.0.3 requests-2.34.2 tokenizers-0.23.3 tqdm-4.70.1 typing-extensions-4.16.0 urllib3-2.8.0
+
+[notice] A new release of pip is available: 23.2.1 -> 26.2.2
+[notice] To update, run: D:\ai auto streamer\.venv-lyrics\Scripts\python.exe -m pip install --upgrade pip

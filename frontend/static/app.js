@@ -132,6 +132,12 @@ class SpriteRenderer {
         if (this.rig) {
             const pose=this.choreography.sample(dt,params?.mouthOpen,this.isSpeaking);
             const singingPose={...pose};
+            const expression=params.expressionState||this.face.sample(dt);
+            if(params.expressionState&&!this.choreography.reducedMotion){
+                const limit=(value,min,max)=>Math.max(min,Math.min(max,Number.isFinite(value)?value:0));
+                singingPose.headRoll=limit(pose.headRoll+limit(expression.headRoll,-.025,.025),-.065,.065);
+                singingPose.headYaw=limit(pose.headYaw+limit(expression.headYaw,-2,2)*Math.PI/180,-.018,.018);
+            }
             this.singBlend=(this.singBlend||0)+((params.moduleSway?.amount||0)-(this.singBlend||0))*(1-Math.exp(-dt*5));
             if(params.moduleSway)this.singPhase=params.moduleSway.phase;
             if(this.singBlend>.001&&!this.choreography.reducedMotion){
@@ -139,7 +145,7 @@ class SpriteRenderer {
                 singingPose.headRoll=Math.max(-.065,Math.min(.065,pose.headRoll+Math.sin(this.singPhase||0)*.012*weight));
                 singingPose.headPitch=Math.max(-.02,Math.min(.055,pose.headPitch+Math.sin((this.singPhase||0)*2)*.004*weight));
             }
-            this.rig.draw(ctx,W,H,singingPose,params?.mouthOpen||pose.mouth,this.choreography.reducedMotion,this.face.sample(dt),params?.mouthRound||0);
+            this.rig.draw(ctx,W,H,singingPose,params?.mouthOpen||pose.mouth,this.choreography.reducedMotion,expression,params?.mouthRound||0);
             return;
         }
 
@@ -320,11 +326,13 @@ class Live2DRenderer {
             const set = (id, v) => { if (v !== undefined) coreModel.setParameterValueById(id, v); };
             set('ParamMouthOpenY', params.mouthOpen);
             set('ParamMouthForm', params.mouthForm);
-            if (params.eyeOpen !== undefined) {
-                set('ParamEyeLOpen', params.eyeOpen);
-                set('ParamEyeROpen', params.eyeOpen);
+            const expression=params.expressionState;
+            const eyeOpen=expression?Math.min(expression.eyeOpenL,expression.eyeOpenR):params.eyeOpen;
+            if (eyeOpen !== undefined) {
+                set('ParamEyeLOpen', Math.max(0,Math.min(1,eyeOpen)));
+                set('ParamEyeROpen', Math.max(0,Math.min(1,eyeOpen)));
             }
-            set('ParamEyeBallX', params.eyeBallX);
+            set('ParamEyeBallX', expression?expression.gaze:params.eyeBallX);
             set('ParamEyeBallY', params.eyeBallY);
             set('ParamBodyAngleX', params.bodyAngleX);
             set('ParamBodyAngleY', params.bodyAngleY);
@@ -343,7 +351,9 @@ class AIStreamerClient {
     constructor() {
         this.ws = null;
         const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        this.wsUrl = `${proto}//${window.location.host}/ws`;
+        const query = new URLSearchParams(window.location.search);
+        const role = query.has('preview') || query.get('muted') === '1' ? 'preview' : 'output';
+        this.wsUrl = `${proto}//${window.location.host}/ws?role=${role}`;
         this.reconnectInterval = 3000;
         this.maxReconnectAttempts = 5;
         this.reconnectAttempts = 0;
@@ -362,6 +372,7 @@ class AIStreamerClient {
         this.pingTimer = null;
 
         this.animator = new SmoothAnimator(0.08);
+        this.initExpressions();
         this.isSpeaking = false;
         this.lastFrame = performance.now();
 
@@ -380,6 +391,20 @@ class AIStreamerClient {
         try{await this.modules.init();}catch(error){console.warn('Stage modules unavailable:',error.message);}
         this.connectWebSocket();
         this.startAnimationLoop();
+    }
+
+    initExpressions() {
+        this.expressionController?.dispose();
+        this.expressionController=window.CharacterExpressionController?new window.CharacterExpressionController({
+            profileId:this.activeProfileId||'astra', intensity:.55,
+            reducedMotion:window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+        }):null;
+    }
+
+    syncExpressionPresentation() {
+        const id=this.modules?.active?.moduleId||'chat';
+        this.expressionController?.setModule(id,this.modules?.presentation(id)||{});
+        this.refreshModuleScene();
     }
 
     setupUI() {
@@ -412,7 +437,12 @@ class AIStreamerClient {
                 else this.unlockAudio();
             }
             if(event.data?.type==='scene_preview')this.applyScene(event.data.scene);
-            if(event.data?.type==='car_expression'&&this.carScene?.active)this.carScene.setExpression(event.data.expression);
+            if(event.data?.type==='car_expression'&&(this.carScene?.active||this.singingScene?.active)){
+                const portrait=this.singingScene?.active?this.singingScene:this.carScene;
+                portrait.setExpression(event.data.expression);
+                if(event.data.expression==='blink')this.expressionController?.blink();
+                else this.expressionController?.setExpression(event.data.expression,{source:'preview',hold:true});
+            }
         });
         document.addEventListener('pointerdown', () => this.unlockAudio());
         document.addEventListener('keydown', () => this.unlockAudio());
@@ -420,13 +450,14 @@ class AIStreamerClient {
             this.closed = true; this.stopAudio(); this.stopPingLoop();
             this.scene?.dispose();
             this.carScene?.dispose();
+            this.singingScene?.dispose();
+            this.sceneTransition?.dispose();
             this.modules?.dispose();
+            this.expressionController?.dispose();
             this.music?.dispose();this.subtitles?.dispose();
             clearTimeout(this.reconnectTimer); this.ws?.close();
         });
-        window.addEventListener('pageshow', event => {
-            if (event.persisted) { this.closed = false; this.connectWebSocket();this.music?.unlock();if(this.scene){window.addEventListener('resize',this.scene.onResize);this.scene.resize();}if(this.carScene){window.addEventListener('resize',this.carScene.onResize);this.carScene.resize();} }
-        });
+        window.addEventListener('pageshow', event => this.restorePage(event));
 
         this.elements.responseText.classList.add('empty');
         this.elements.responseText.textContent = '等待弹幕...';
@@ -449,10 +480,17 @@ class AIStreamerClient {
         });
     }
 
+    restorePage(event) {
+        // pagehide disposes canvases, decoders, modules and socket ownership.
+        // A bfcache restore must construct one fresh set, not revive half of it.
+        if(event.persisted)window.location.reload();
+    }
+
     async initRenderer() {
+        this.rendererWarmup=new Promise(resolve=>{this.resolveRendererWarmup=resolve;});
         let cfg = { renderer: 'sprite', sprite_dir: 'avatar', vrm_model_url: '' };
         try {
-            const resp = await fetch('/api/config');
+            const resp = await fetch('/api/config', {headers:{'X-Studio-API':'1'}});
             if (resp.ok) cfg = await resp.json();
         } catch (e) {
             console.warn('Failed to fetch /api/config, defaulting to sprite:', e);
@@ -461,12 +499,17 @@ class AIStreamerClient {
         let mode = cfg.renderer || 'sprite';
         this.carScene=new CarScene(document.getElementById('car-scene'),{preview:this.isPreview,
             reducedMotion:window.matchMedia?.('(prefers-reduced-motion: reduce)').matches});
+        this.singingScene=window.SingingScene?new SingingScene(document.getElementById('singing-scene'),{preview:this.isPreview,
+            reducedMotion:window.matchMedia?.('(prefers-reduced-motion: reduce)').matches}):null;
         this.scene=new StageScene(document.getElementById('scene-background'),document.getElementById('weather-canvas'),
             document.getElementById('live2d-container'),{transparent:new URLSearchParams(location.search).get('transparent')==='1',
                 reducedMotion:window.matchMedia?.('(prefers-reduced-motion: reduce)').matches,
                 companions:document.getElementById('scene-companions'),bottomBlur:document.getElementById('scene-bottom-blur')});
+        this.sceneAssets=window.SceneAssets?new window.SceneAssets():null;
+        this.sceneTransition=window.SceneTransition?new window.SceneTransition(document.getElementById('scene-transition'),{
+            reducedMotion:window.matchMedia?.('(prefers-reduced-motion: reduce)').matches}):null;
         const sceneOverride=new URLSearchParams(location.search).get('scene');
-        this.sceneOverride=sceneOverride==='car'?'car':null;
+        this.sceneOverride=['car','singing-room','palace','garden','moonlit','transparent'].includes(sceneOverride)?sceneOverride:null;
         this.applyScene(cfg.scene);
         this.characterName = cfg.character || 'AI助手';
         this.activeProfileId = cfg.profile_context?.active_id;
@@ -529,6 +572,7 @@ class AIStreamerClient {
     }
 
     rendererReady(renderer) {
+        this.resolveRendererWarmup?.();this.resolveRendererWarmup=null;
         if (this.isPreview) window.parent.postMessage({ type: 'renderer_ready', renderer, rig:!!this.renderer?.rig }, location.origin);
     }
 
@@ -600,17 +644,85 @@ class AIStreamerClient {
     }
 
     applyScene(value) {
-        const settings=StageScene.normalize(this.sceneOverride?{...value,background:this.sceneOverride}:value);
+        this.sharedScene=StageScene.normalize(value);
+        this.refreshModuleScene(true);
+        this.subtitles?.setDuration(this.sharedScene.subtitle_seconds);
+        this.music?.configure(this.sharedScene);
+    }
+
+    refreshModuleScene(force=false) {
+        if(!this.sharedScene)return;
+        const id=this.modules?.active?.moduleId||'chat',look=this.modules?.presentation(id)||{};
+        const preset=id==='chat'&&this.interactionScene?this.interactionScene
+            :look.scene_preset&&look.scene_preset!=='inherit'?look.scene_preset:this.sharedScene.background;
+        const background=this.sceneOverride||preset,key=id+'|'+background;
+        if(!force&&this.effectiveSceneKey===key)return;
+        this.effectiveSceneKey=key;
+        const settings=StageScene.normalize({...this.sharedScene,background});
+        if(!this.sceneTransition){this.commitScene(settings);return;}
+        const transparent=this.scene?.forceTransparent||background==='transparent',
+            visualKey=transparent?'transparent':JSON.stringify([background,settings.background_asset,settings.companions,settings.car_motion]);
+        this.sceneTransition.change({key:visualKey,background,transparent,
+            prepare:()=>this.prepareScene(settings),commit:()=>this.commitScene(settings)});
+    }
+
+    async prepareScene(settings) {
+        if(this.scene?.forceTransparent||settings.background==='transparent'){await this.rendererWarmup;return;}
+        const paths=[],tasks=[];
+        if(settings.background==='car'){
+            const portrait=this.carScene;if(!portrait)throw new Error('Car renderer unavailable');
+            paths.push('/static/scenes/car/astra-car-v1.png');
+            tasks.push(this.prepareScenePortrait(portrait,'car'));
+            if(settings.car_motion&&portrait.drive&&!portrait.drive.ready){
+                if(!portrait.drive.loading)portrait.drive.loading=portrait.drive.load();
+                // Failed window scenery has an intentional still-car fallback.
+                tasks.push(new Promise(resolve=>{const timer=setTimeout(resolve,2500);
+                    Promise.resolve(portrait.drive.loading).catch(()=>{}).finally(()=>{clearTimeout(timer);resolve();});}));
+            }
+        }else if(settings.background==='singing-room'){
+            const portrait=this.singingScene;if(!portrait)throw new Error('Singing renderer unavailable');
+            paths.push('/static/scenes/singing/music-room-v2.png');
+            if(settings.companions)paths.push('/static/scenes/singing/happy-seated-dolls-v1.png');
+            tasks.push(this.prepareScenePortrait(portrait,'singing-room'));
+        }else{
+            const filename=StageScene.backgrounds[settings.background];
+            if(filename)paths.push('/static/scenes/'+filename);
+            else if(settings.background==='custom'&&settings.background_asset)paths.push('/media/'+settings.background_asset+'.png');
+            if(settings.companions)paths.push('/static/scenes/deepseek-bow.png','/static/scenes/claude-bow.png');
+            tasks.push(this.rendererWarmup);
+        }
+        tasks.push(this.sceneAssets?.all(paths));await Promise.all(tasks);
+    }
+
+    async prepareScenePortrait(portrait,background) {
+        if(portrait.ready)return;
+        if(!portrait.loading)portrait.loading=portrait.load();
+        const pending=portrait.loading;let timer;
+        try{
+            await Promise.race([pending,new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('Renderer preparation timed out')),9000);})]);
+            if(!portrait.ready)throw new Error('Scene renderer not ready');
+        }catch(error){
+            if(portrait.loading===pending&&!portrait.ready){portrait.loading=null;
+                if(background==='singing-room')window.SingingScene?.imageCache?.delete('/static/scenes/singing/astra-singer-v2.png');}
+            throw error;
+        }finally{clearTimeout(timer);}
+    }
+
+    commitScene(settings) {
         this.scene?.setSettings(settings);
         this.carScene?.setActive(settings.background==='car'&&!this.scene?.forceTransparent,settings);
-        this.subtitles?.setDuration(settings.subtitle_seconds);
-        this.music?.configure(settings);
+        this.singingScene?.setActive(settings.background==='singing-room'&&!this.scene?.forceTransparent,settings);
     }
 
     handleMessage(data) {
         if(this.modules?.handle(data))return;
         switch (data.type) {
-            case 'status': if (data.settings) this.applyStudioSettings(data); break;
+            case 'audience_interaction_update':
+                this.applyAudienceInteraction(data.state);break;
+            case 'status':
+                if(data.settings)this.applyStudioSettings(data);
+                if(Object.hasOwn(data,'audience_interaction'))this.applyAudienceInteraction(data.audience_interaction);
+                break;
             case 'settings_updated':
                 this.applyStudioSettings(data);
                 break;
@@ -620,23 +732,33 @@ class AIStreamerClient {
             case 'response_chunk': this.handleResponseChunk(data); break;
             case 'response_end': this.handleResponseEnd(data); break;
             case 'response': this.handleFullResponse(data); break;
-            case 'audio_segment': if (data.audio_url) this.playAudio(data.audio_url,data.text); break;
+            case 'audio_segment': if (data.audio_url) this.playAudio(data.audio_url,data.text,data.emotion); break;
             case 'tts_error': this.handleTTSError(); break;
-            case 'response_error': this.handleResponseError(); break;
+            case 'response_error': this.handleResponseError(data); break;
             case 'moderation': this.handleModeration(); break;
             case 'idle_action': this.handleIdleAction(data); break;
         }
     }
 
+    applyAudienceInteraction(state) {
+        this.interactionScene=state?.phase==='choosing_song'&&state?.scene_preset==='singing-room'?'singing-room':null;
+        this.refreshModuleScene();
+    }
+
     applyStudioSettings(data) {
         const id = data.profile_context?.active_id;
         if (data.profile_changed || (id && this.activeProfileId && id !== this.activeProfileId)) {
+            this.interactionScene=null;
             this.stopAudio();
             this.pendingCaption = ''; this.speechFailed = false;
             this.subtitles?.waitForSpeech();
             this.carScene?.setExpression('normal');
+            this.singingScene?.setExpression('normal');
+            if(this.expressionController?.setProfile)this.expressionController.setProfile(id||'astra');
+            this.expressionController?.reset();
         }
         if (id) this.activeProfileId = id;
+        this.syncExpressionPresentation();
         this.applyScene(data.settings.scene);
         this.characterName = data.settings.identity.name;
         this.voiceEnabled = data.settings.voice.enabled;
@@ -667,7 +789,7 @@ class AIStreamerClient {
     handleThinkingEnd(data) {
         this.elements.responseText.classList.remove('thinking');
         if (this.currentAction?.name === 'think') {
-            this.setTargetAction({name: 'idle', sprite: 'neutral', sprite_motion: 'breathe'});
+            this.setTargetAction({name: 'idle', sprite: 'neutral', sprite_motion: 'breathe'}, {expression:false});
         }
     }
 
@@ -679,7 +801,7 @@ class AIStreamerClient {
         this.elements.responseText.classList.remove('thinking');
         if(!this.voiceEnabled)this.elements.responseText.textContent = '';
         this.updateEmotion(data.emotion);
-        if (data.action) this.setTargetAction(data.action);
+        if (data.action) this.setTargetAction(data.action,{expression:false});
     }
 
     handleResponseChunk(data) {
@@ -693,7 +815,7 @@ class AIStreamerClient {
             this.handleModeration();
             return;
         }
-        if (data.audio_url) this.playAudio(data.audio_url,data.full_text);
+        if (data.audio_url) this.playAudio(data.audio_url,data.full_text,data.emotion);
         if(this.speechFailed&&data.full_text)this.subtitles?.show(data.full_text);
         if (data.full_text) this.addDanmakuToFeed(this.characterName || 'AI助手', data.full_text);
         this.subtitles?.finish();
@@ -706,7 +828,8 @@ class AIStreamerClient {
         this.subtitles?.finish();
     }
 
-    handleResponseError() {
+    handleResponseError(data={}) {
+        if(data.notice_spoken){this.subtitles?.finish();return;}
         this.stopAudio();
         this.elements.responseText.classList.remove('thinking');
         this.elements.responseText.textContent = '这次没有收到回复';
@@ -728,8 +851,8 @@ class AIStreamerClient {
         if(this.voiceEnabled)this.subtitles?.waitForSpeech();
         else {this.subtitles?.begin();this.elements.responseText.textContent = data.text;}
         this.updateEmotion(data.emotion);
-        if (data.action) this.setTargetAction(data.action);
-        if (data.audio_url) this.playAudio(data.audio_url,data.text);
+        if (data.action) this.setTargetAction(data.action,{expression:false});
+        if (data.audio_url) this.playAudio(data.audio_url,data.text,data.emotion);
         this.addDanmakuToFeed(this.characterName || 'AI助手', data.text);
         if(!this.voiceEnabled)this.subtitles?.finish();
     }
@@ -743,6 +866,10 @@ class AIStreamerClient {
     updateEmotion(emotion) {
         const preset=this.modules?.presentation('chat').expression;
         if(preset&&preset!=='auto')emotion=preset==='neutral'?'normal':preset;
+        if(emotion==='neutral')emotion='normal';
+        if(!['normal','happy','sad','angry','surprised','thinking','shy','singing'].includes(emotion))emotion='normal';
+        this.syncExpressionPresentation();
+        this.expressionController?.setExpression(emotion,{source:'chat'});
         this.carScene?.setExpression(emotion);
         if(preset&&preset!=='auto')this.renderer?.face?.setExpression(preset);
         const icon = this.emotionIcons[emotion] || this.emotionIcons.normal;
@@ -750,7 +877,7 @@ class AIStreamerClient {
         this.elements.emotionText.textContent = emotion;
     }
 
-    setTargetAction(action) {
+    setTargetAction(action,{expression=true}={}) {
         if (!action) return;
         const look=this.modules?.presentation('chat');
         if(look)action={...action,name:look.pose==='auto'?action.name:look.pose,intensity:look.motion_strength};
@@ -769,9 +896,15 @@ class AIStreamerClient {
 
         this.animator.setTarget(params);
         if (this.renderer) this.renderer.setAction(action);
+        if(expression){
+            const names={shy:'shy',laugh:'happy',present:'happy',think:'thinking',nod:'happy',idle:'normal'};
+            this.expressionController?.setExpression(names[action.name]||action.emotion||'normal',
+                {source:'action',hold:!!action.loop});
+        }
         if(look?.expression&&look.expression!=='auto'){
             this.renderer?.face?.setExpression(look.expression,!!action.loop);
             this.carScene?.setExpression(look.expression==='neutral'?'normal':look.expression);
+            this.expressionController?.setExpression(look.expression,{hold:!!action.loop,source:'preset'});
         }
     }
 
@@ -802,8 +935,14 @@ class AIStreamerClient {
                 (songPlaying?moduleVoice.ctx.sampleRate:this.audioContext?.sampleRate)||48000,dt,!!playing);
             params.mouthOpen=voice.open;params.mouthRound=voice.round;
             this.modules?.frame(params,dt);
+            this.syncExpressionPresentation();
+            this.expressionController?.setSpeaking(!!playing);
+            if(this.expressionController)params.expressionState=this.expressionController.sample(dt,
+                {mouthOpen:voice.open,mouthRound:voice.round});
 
-            if (this.carScene?.active)this.carScene.render(params,dt,document.hidden);
+            if (this.singingScene?.active)this.singingScene.render(params,dt,document.hidden,
+                {...(params.performanceTimeline||{playing:false}),voicePlaying:!!playing});
+            else if (this.carScene?.active)this.carScene.render(params,dt,document.hidden);
             else if (this.renderer) this.renderer.render(params, dt);
             requestAnimationFrame(loop);
         };
@@ -824,12 +963,13 @@ class AIStreamerClient {
             this.currentAudio = null;
         }
         this.isSpeaking = false;
+        this.expressionController?.setSpeaking(false);
         this.voiceEnvelope?.reset();
         if (this.renderer) this.renderer.setSpeaking(false);
         this.animator.setTarget({ mouthOpen: 0 });
     }
 
-    async playAudio(audioUrl,caption='') {
+    async playAudio(audioUrl,caption='',emotion=null) {
         if (!audioUrl) return;
         if(this.muted) {
             // Silent thumbnails show ready speech without decoding a second voice.
@@ -838,7 +978,7 @@ class AIStreamerClient {
         }
         // Keep a bounded, recent playback queue if a browser is blocked or slow.
         if (this.audioQueue.length >= 16) this.audioQueue.shift();
-        this.audioQueue.push({url:audioUrl,caption});
+        this.audioQueue.push({url:audioUrl,caption,emotion});
         this.subtitles?.setAudioBusy(true);
         return this.drainAudio();
     }
@@ -904,11 +1044,16 @@ class AIStreamerClient {
                         audio.onerror = resolve;
                     });
                     audio.onplaying=()=>{
-                        if(generation!==this.audioGeneration)return;
+                        if(generation!==this.audioGeneration||this.currentAudio!==audio)return;
                         this.isSpeaking=true;this.renderer?.setSpeaking(true);this.music?.setSpeaking(true);
+                        this.expressionController?.setSpeaking(true);
+                        if(cue.emotion)this.expressionController?.setExpression(cue.emotion,{source:'voice'});
                         if(cue.caption){this.subtitles?.show(cue.caption);this.subtitles?.finish();}
                     };
-                    audio.onwaiting=audio.onpause=()=>{this.isSpeaking=false;this.voiceEnvelope?.reset();this.renderer?.setSpeaking(false);this.music?.setSpeaking(false);};
+                    audio.onwaiting=audio.onpause=()=>{
+                        if(generation!==this.audioGeneration||this.currentAudio!==audio)return;
+                        this.isSpeaking=false;this.expressionController?.setSpeaking(false);this.voiceEnvelope?.reset();this.renderer?.setSpeaking(false);this.music?.setSpeaking(false);
+                    };
                     await audio.play();
                     if (this.audioContext.state !== 'running') throw new DOMException('Audio needs a gesture', 'NotAllowedError');
                     await ended;
@@ -925,6 +1070,7 @@ class AIStreamerClient {
                     // Retain only the latest media element so completed playback
                     // can be inspected; the next segment replaces it.
                     this.isSpeaking = false;
+                    this.expressionController?.setSpeaking(false);
                     this.music?.setSpeaking(false);
                     this.voiceEnvelope?.reset();
                     this.currentAudio = null;

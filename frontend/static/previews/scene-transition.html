@@ -1,0 +1,37 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Astra · Scene transition preview</title>
+<link rel="stylesheet" href="/static/style.css?v=scene-transition-1">
+<style>
+html,body{margin:0;background:#121323;color:#eee9ff;font:14px system-ui;overflow:auto;width:100%;height:auto;min-height:100%}
+main{max-width:1250px;margin:auto;padding:20px}h1{font-size:20px;margin:0 0 7px}p{color:#bcb7d5;margin:6px 0 14px;line-height:1.5}
+#transition-preview-stage{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;border-radius:14px;background:#181930}
+#preview-backdrop{position:absolute;inset:0;width:100%;height:100%;object-fit:fill}
+.preview-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}.preview-controls button{font:inherit;color:inherit;background:#302d49;border:1px solid #64607d;border-radius:8px;padding:8px 12px;cursor:pointer}
+.preview-controls button[aria-pressed=true]{background:#62508b;border-color:#c8b7ff}.preview-controls label{display:flex;align-items:center;gap:7px}input{accent-color:#bda2ff}output{font-size:12px;color:#c8bfdc}a{color:#d4c1ff}
+</style></head><body><main>
+<h1>Astra · Scene transition preview</h1>
+<p>Silent rehearsal with the real scene renderers. No live settings, audio, chat connection or provider request. Switch scenes to inspect readiness, breathing and recovery.</p>
+<div class="preview-controls" aria-label="Scene rehearsal controls">
+  <button type="button" data-target="car">Car · 座驾</button><button type="button" data-target="singing-room">Singing · 歌房</button><button type="button" data-target="palace">Palace · 宫殿</button>
+  <label><input type="checkbox" id="hold-ready">Hold loading</label><button type="button" id="release-ready">Ready now</button>
+  <label><input type="checkbox" id="fail-next">Fail next change</label>
+  <label><input type="checkbox" id="preview-reduced">Reduce motion</label>
+</div>
+<div id="transition-preview-stage">
+  <img id="preview-backdrop" alt="Palace background" hidden>
+  <div id="car-scene" hidden><img alt="Astra in her car, with seated DeepSeek and Claude dolls" draggable="false"><canvas class="car-windows" hidden></canvas><canvas class="car-face" aria-label="Breathing Astra in the car"></canvas><div class="car-shade"></div><p role="status"></p></div>
+  <div id="singing-scene" hidden aria-label="Astra's singing room">
+    <img class="singing-room-art" src="/static/scenes/singing/music-room-v2.png" alt="Cozy music room">
+    <img class="singing-still" src="/static/scenes/singing/astra-singer-v2.png" alt="Astra holding a microphone">
+    <canvas class="singing-character" aria-label="Breathing singing Astra"></canvas>
+    <div class="singing-dolls"><div class="singing-doll deepseek"><img src="/static/scenes/singing/happy-seated-dolls-v1.png" alt="Happy DeepSeek doll"></div><div class="singing-doll claude"><img src="/static/scenes/singing/happy-seated-dolls-v1.png" alt="Happy Claude doll"></div></div>
+    <div class="singing-room-shade"></div><p role="status"></p>
+  </div>
+  <div id="scene-transition" hidden role="status" aria-live="polite" aria-busy="false"><div class="scene-transition-card"><div class="scene-transition-star" aria-hidden="true">✦</div><strong data-scene-title></strong><p data-scene-message></p><div class="scene-transition-actions"><button type="button" data-scene-retry hidden>再试一次</button><button type="button" data-scene-dismiss hidden>先留在这里</button></div></div></div>
+</div>
+<div class="preview-controls"><output id="preview-state">Preparing car…</output><a href="/static/previews/singing-motion.html">Face and singing controls</a><a href="/control">Controller</a></div>
+<p>To inspect the transition frame, check “Hold loading”, choose a different scene, then click “Ready now”. “Fail next change” tests the recoverable error card; retry should succeed.</p>
+</main>
+<script src="/static/character-motion.js?v=physical-3"></script><script src="/static/character-face.js?v=expressions-1"></script><script src="/static/car-drive.js?v=drive-1"></script><script src="/static/car-scene.js?v=car-breath-1"></script><script src="/static/singing-scene.js?v=singing-motion-3"></script><script src="/static/scene-transition.js?v=scene-transition-1"></script><script src="/static/previews/scene-transition-preview.js?v=scene-transition-1"></script>
+</body></html>

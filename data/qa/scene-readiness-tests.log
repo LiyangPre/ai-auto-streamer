@@ -1,0 +1,39 @@
+✔ switching profiles stops old queued speech and keeps the shared music player (21.0922ms)
+✔ reconnect snapshot corrects a missed switch while periodic status preserves playback (4.1677ms)
+✔ interrupted audio restarts queued response without undefined URLs (4.9766ms)
+✔ sentence audio stays ordered and disconnects finished sources (5.6291ms)
+✔ speaking follows actual playing and buffering events, not the synthesis request (6.2671ms)
+✔ autoplay denial preserves a valid segment for user gesture retry (4.1648ms)
+✔ muted preview creates no audio and ignores missing segments (4.0242ms)
+✔ blocked playback has a bounded recent queue (18.3884ms)
+✔ queued captions wait for their own audio playing event and remain in order (9.1669ms)
+✔ autoplay denial keeps its caption with the audio without revealing it early (3.4229ms)
+✔ a template reply remains hidden through TTS preparation and appears on playing (4.6305ms)
+✔ muted thumbnails show ready captions without creating another audio decoder (7.848ms)
+✔ transition retains current scene until prepared and only hides after a painted commit (13.3361ms)
+✔ stale scene preparation cannot commit over a newer choice (2.6225ms)
+✔ repeated pending scene deduplicates loading but uses latest settings on commit (1.3129ms)
+✔ failed scene keeps previous output and offers a retry instead of a permanent curtain (0.9976ms)
+✔ timeout is bounded, dismissible, and late load cannot change the output (30.3055ms)
+✔ transparent output never receives an opaque frame, even on error (0.8628ms)
+✔ disposing cancels pending commits and removes retry listeners (0.2776ms)
+✔ asset readiness includes decode and shares a local image request (2.3301ms)
+✔ failed asset is evicted so a retry can load it successfully (0.4287ms)
+✔ many custom scenes cannot retain an unbounded decoded-image cache (0.5146ms)
+✔ implicit song selection temporarily chooses music room; finite performance and explicit URL take precedence (2.9052ms)
+✔ bfcache restoration reconstructs the disposed renderers with one clean reload (3.2053ms)
+✔ silent scene rehearsal loads the real blink dependencies in browser script order (21.6178ms)
+✔ Songs selects its music room and returns to the saved car without modifying shared settings (22.9484ms)
+✔ an explicit inherit uses the shared car throughout the song (6.1015ms)
+✔ forced transparent output suppresses both integrated scenes during singing and afterward (7.2963ms)
+✔ unchanged module scene is stable across animation frames and keeps audio sources and music intact (19.3519ms)
+✔ the adapter forwards the actual audio position through pause and resume without wall-clock choreography (15.9371ms)
+✔ a slow scene reveal never delays, restarts, or seeks the fixed recording (15.5635ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 510.2935

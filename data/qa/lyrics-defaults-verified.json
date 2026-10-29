@@ -1,0 +1,39 @@
+{
+  "profile_id": "astra",
+  "no_playback_started": true,
+  "results": [
+    {
+      "title": "海屿你",
+      "blocked": true,
+      "cues": 0
+    },
+    {
+      "title": "大鱼",
+      "blocked": true,
+      "cues": 0
+    },
+    {
+      "title": "告白气球",
+      "blocked": true,
+      "cues": 0
+    },
+    {
+      "title": "小幸运",
+      "blocked": false,
+      "cues": 45,
+      "first_lyric_seconds": 11.94,
+      "lyrics_offset": 0,
+      "saved_to_disk": true,
+      "audio_unchanged": true
+    },
+    {
+      "title": "起风了",
+      "blocked": false,
+      "cues": 46,
+      "first_lyric_seconds": 24.61,
+      "lyrics_offset": 0,
+      "saved_to_disk": true,
+      "audio_unchanged": true
+    }
+  ]
+}

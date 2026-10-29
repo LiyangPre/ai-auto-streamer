@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Astra · Singing motion preview</title>
+  <link rel="stylesheet" href="/static/style.css?v=singing-motion-3">
+  <style>
+    html,body{margin:0;background:#121323;color:#eee9ff;font:14px system-ui;overflow:auto;width:100%;height:auto;min-height:100%}
+    main{max-width:1250px;margin:auto;padding:20px}h1{font-size:20px;margin:0 0 7px}p{color:#bcb7d5;margin:6px 0 14px}
+    #preview-stage{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;border-radius:14px;background:#181930}
+    #preview-stage.face-detail #singing-scene{transform:scale(2.5);transform-origin:49% 26%}
+    .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}button,select{font:inherit;color:inherit;background:#302d49;border:1px solid #64607d;border-radius:8px;padding:8px 12px;cursor:pointer}
+    button[aria-pressed=true]{background:#62508b;border-color:#c8b7ff}label{display:flex;align-items:center;gap:7px}input{accent-color:#bda2ff}output{font-size:12px;color:#c8bfdc}a{color:#d4c1ff}
+  </style>
+</head>
+<body><main>
+  <h1>Astra · Singing motion preview</h1>
+  <p>Silent local preview · Breathing, tilted eyelids and emotional expressions. The rhythm here is a visual rehearsal; live singing follows the recording.</p>
+  <div class="controls" aria-label="Animation preview controls">
+    <label>Emotion <select id="emotion"><option value="singing">Singing · 演唱</option><option value="neutral">Neutral · 平静</option><option value="happy">Happy · 开心</option><option value="shy">Shy · 害羞</option><option value="thinking">Thinking · 思考</option><option value="sad">Sad · 难过</option><option value="angry">Angry · 生气</option><option value="surprised">Surprised · 惊讶</option></select></label>
+    <button id="blink" type="button">Blink · 眨眼</button>
+    <label><input type="checkbox" id="hold-blink">Hold closed eyes</label>
+    <label><input type="checkbox" id="face-detail">Face detail</label>
+    <button id="rhythm" type="button" aria-pressed="true">Sway · 轻摆</button>
+    <label><input type="checkbox" id="breath" checked>Breathing · 呼吸</label>
+    <label><input type="checkbox" id="reduced">Reduce motion</label>
+    <label>Expression strength <input id="strength" type="range" min="0" max="1" step="0.05" value="0.55"></label>
+    <label><input type="checkbox" id="freeze">Freeze frame</label>
+  </div>
+  <div id="preview-stage">
+    <div id="singing-scene" aria-label="Singing scene preview">
+      <img class="singing-room-art" src="/static/scenes/singing/music-room-v2.png" alt="Cozy music room" draggable="false">
+      <img class="singing-still" src="/static/scenes/singing/astra-singer-v2.png" alt="Astra holding a microphone" draggable="false">
+      <canvas class="singing-character" aria-label="Animated Astra"></canvas>
+      <div class="singing-dolls"><div class="singing-doll deepseek"><img src="/static/scenes/singing/happy-seated-dolls-v1.png" alt="Happy DeepSeek doll"></div><div class="singing-doll claude"><img src="/static/scenes/singing/happy-seated-dolls-v1.png" alt="Happy Claude doll"></div></div>
+      <div class="singing-room-shade"></div><p role="status"></p>
+    </div>
+  </div>
+  <div class="controls"><output id="motion-status">Loading artwork…</output><a href="/?preview=1&overlay=1&muted=1&scene=singing-room">Stage preview</a><a href="/control#modules">Controller</a></div>
+</main>
+<script src="/static/vendor/expression-engine.bundle.js?v=singing-motion-3"></script>
+<script src="/static/singing-scene.js?v=singing-motion-3"></script>
+<script src="/static/previews/singing-motion.js?v=singing-motion-3"></script>
+</body></html>

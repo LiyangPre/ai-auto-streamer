@@ -64,7 +64,7 @@ class SharedMediaControls {
         for(const id of ['media-background-upload','media-music-upload','direction-save','direction-discard'])this.$(id).disabled=true;
         status.textContent='Uploading · 正在保存到本地素材库…';
         try {
-            const response=await fetch(`/api/media/${kind}`,{method:'POST',headers:{'Content-Type':'application/octet-stream','X-Filename':encodeURIComponent(file.name)},body:file,signal:AbortSignal.timeout(120000)});
+            const response=await fetch(`/api/media/${kind}`,{method:'POST',headers:{'X-Studio-API':'1','Content-Type':'application/octet-stream','X-Filename':encodeURIComponent(file.name)},body:file,signal:AbortSignal.timeout(120000)});
             const data=await response.json();
             if(!response.ok)throw new Error(typeof data.detail==='string'?data.detail:'上传失败，请重试。');
             this.assets.push(data.asset);this.syncOptions();

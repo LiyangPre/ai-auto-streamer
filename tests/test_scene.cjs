@@ -101,3 +101,23 @@ test('car scene locks contact geometry, hides standing companions, and restores 
     const transparent=fixture({transparent:true});transparent.scene.setSettings({background:'car'});
     assert.equal(transparent.scene.car,false,'transparent capture must never contain the car artwork');
 });
+
+test('music room owns character and dolls without leaking weather or changing saved framing',()=>{
+    const {scene,character,companions,layer,calls}=fixture();
+    const settings={background:'singing-room',effect:'rain',character_x:8,character_y:-3,character_scale:1.2,music_volume:.13};
+    scene.setSettings(settings);
+    assert.equal(scene.settings.background,'singing-room');assert.equal(scene.singingRoom,true);
+    assert.equal(scene.integrated,true);assert.equal(scene.car,false);
+    assert.equal(character.style.visibility,'hidden');assert.equal(character.style.transform,'none');
+    assert.equal(companions.hidden,true);assert.equal(layer.hidden,true);
+    const before=calls.lines+calls.clouds+calls.motes;
+    scene.render(.1);assert.equal(calls.lines+calls.clouds+calls.motes,before);
+    assert.equal(settings.background,'singing-room','input settings must not be mutated');
+    assert.equal(scene.settings.music_volume,.13);
+    scene.setSettings({...settings,background:'garden'});
+    assert.equal(scene.singingRoom,false);assert.equal(scene.integrated,false);
+    assert.equal(character.style.visibility,'');assert.equal(character.style.transform,'translate(8%, -3%) scale(1.2)');
+    assert.equal(companions.hidden,false);assert.equal(layer.hidden,false);
+    const transparent=fixture({transparent:true});transparent.scene.setSettings(settings);
+    assert.equal(transparent.scene.singingRoom,false);assert.equal(transparent.layer.hidden,true);
+});

@@ -1,0 +1,68 @@
+.....Model request failed [response, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+Model request failed [response, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+Executing <Task finished name='Task-57' coro=<FlashXTests.test_flashx_disables_thinking_for_stream_and_nonstream_and_does_not_drop_it() done, defined at D:\ai auto streamer\tests\test_api_connections.py:157> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 1.203 seconds
+......................Executing <Task pending name='Task-221' coro=<LLMParserTests.test_non_stream_timeout_is_structured_failure() running at D:\ai auto streamer\tests\test_core.py:230> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> cb=[_run_until_complete_cb() at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:180] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.969 seconds
+Model request failed [timeout, route=environment]: Provider request timed out; compare Direct and Auto network routes.
+.Executing <Task pending name='Task-226' coro=<LLMParserTests.test_slow_consumer_time_is_excluded_from_model_stream_deadline() running at D:\ai auto streamer\tests\test_core.py:245> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> cb=[_run_until_complete_cb() at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:180] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 1.032 seconds
+.Executing <Task finished name='Task-231' coro=<LLMParserTests.test_stream_without_tag_yields_immediately() done, defined at D:\ai auto streamer\tests\test_core.py:208> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.891 seconds
+.Executing <Task finished name='Task-236' coro=<LLMParserTests.test_tag_across_chunks_and_leading_space() done, defined at D:\ai auto streamer\tests\test_core.py:212> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 1.093 seconds
+.Executing <Task finished name='Task-241' coro=<LLMParserTests.test_unknown_bracket_is_normal_text() done, defined at D:\ai auto streamer\tests\test_core.py:216> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.984 seconds
+.............TTS edge-tts failed [timeout, route=environment]: Provider request timed out; compare Direct and Auto network routes.
+....Executing <Task finished name='Task-284' coro=<GLMRequestTests.test_flash_request_omits_provider_specific_thinking_fields() done, defined at D:\ai auto streamer\tests\test_glm.py:35> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.938 seconds
+.Executing <Task finished name='Task-289' coro=<GLMRequestTests.test_missing_key_stops_before_network_request() done, defined at D:\ai auto streamer\tests\test_glm.py:45> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.907 seconds
+.Executing <Task finished name='Task-294' coro=<GLMRequestTests.test_provider_error_does_not_echo_credentials() done, defined at D:\ai auto streamer\tests\test_glm.py:56> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.875 seconds
+.Executing <Task finished name='Task-299' coro=<GLMVoiceTests.test_corrupt_rejected_and_incomplete_audio_is_not_cached() done, defined at D:\ai auto streamer\tests\test_glm_tts.py:79> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.204 seconds
+.............................................Executing <Task finished name='Task-697' coro=<PromptIsolationTests.test_viewer_name_message_and_memory_never_enter_system_role() done, defined at D:\ai auto streamer\tests\test_pipeline_security.py:94> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.859 seconds
+.Loop cleanup failed (ValueError); restarting
+.Loop heartbeat failed (ValueError); restarting
+.Loop welcome failed (ValueError); restarting
+.................WebSocket send error: 
+....Content review failed (OSError); output blocked
+Content review failed (ValueError); output blocked
+Content review failed (ValueError); output blocked
+Content review failed (TimeoutError); output blocked
+.E...Executing <Task finished name='Task-806' coro=<SingingStudio._generate() done, defined at D:\ai auto streamer\src\singing.py:192> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.562 seconds
+Executing <Task pending name='Task-807' coro=<SingingStudio._generate() running at D:\ai auto streamer\src\singing.py:213> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.656 seconds
+.Executing <Task finished name='Task-813' coro=<SingingStudio._generate() done, defined at D:\ai auto streamer\src\singing.py:192> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.719 seconds
+................Reply skipped after LLM failure: LLM returned an empty reply
+.......Executing <Task finished name='Task-943' coro=<StoryStudio._prepare() done, defined at D:\ai auto streamer\src\story.py:139> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 6.609 seconds
+Executing <Task finished name='Task-944' coro=<StoryStudio._prepare() done, defined at D:\ai auto streamer\src\story.py:139> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.156 seconds
+.......TTS edge-tts failed [response, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+...................s.....
+======================================================================
+ERROR: test_readback_is_off_for_new_profiles (test_safety.SafetyNormalizationTests.test_readback_is_off_for_new_profiles)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\ai auto streamer\tests\test_safety.py", line 23, in test_readback_is_off_for_new_profiles
+    self.assertFalse(ReplySettings().read_chat)
+                     ^^^^^^^^^^^^^^^
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\pydantic\main.py", line 280, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 7 validation errors for ReplySettings
+style
+  Field required [type=missing, input_value={}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+max_chars
+  Field required [type=missing, input_value={}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+max_tokens
+  Field required [type=missing, input_value={}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+ask_back
+  Field required [type=missing, input_value={}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+templates
+  Field required [type=missing, input_value={}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+collection_window
+  Field required [type=missing, input_value={}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+cooldown
+  Field required [type=missing, input_value={}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+
+----------------------------------------------------------------------
+Ran 181 tests in 43.676s
+
+FAILED (errors=1, skipped=1)

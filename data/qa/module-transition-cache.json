@@ -1,0 +1,104 @@
+{
+  "profile_id": "astra",
+  "clips": [
+    {
+      "module": "singing",
+      "phase": "intro",
+      "ready": true,
+      "text": "准备好了吗？我要开始唱啦。",
+      "audio_url": "/audio/module_transition_867ed918676edaaad3c827fb484d10f5e1aa94f1429d95e1c262fa72f88acfe6.mp3",
+      "duration": 2.784
+    },
+    {
+      "module": "singing",
+      "phase": "outro",
+      "ready": true,
+      "text": "唱完啦，我唱得怎么样？",
+      "audio_url": "/audio/module_transition_406dbc801234cbae2e141aebc2afaecfaed1faa6db687d257f5d7461178d4514.mp3",
+      "duration": 2.304
+    },
+    {
+      "module": "singing",
+      "phase": "intro",
+      "ready": true,
+      "text": "那我唱首歌给你听，好不好？",
+      "audio_url": "/audio/module_transition_6ac1c3d90b7cef847767efad68e7e229802f5c106e3d29e507fcce7e2851abb0.mp3",
+      "duration": 2.928
+    },
+    {
+      "module": "singing",
+      "phase": "outro",
+      "ready": true,
+      "text": "这首歌送给你，喜欢吗？",
+      "audio_url": "/audio/module_transition_292a052e6d9d394d7658719cf30d7274e5efb2c8b6324061f7e34da6aa903074.mp3",
+      "duration": 2.616
+    },
+    {
+      "module": "singing",
+      "phase": "intro",
+      "ready": true,
+      "text": "嘿嘿，接下来把这首歌送给你。",
+      "audio_url": "/audio/module_transition_d9ddef106e4fc1f551990bb53abd11fad5da9369f4ebabef7710f5336b904f49.mp3",
+      "duration": 4.848
+    },
+    {
+      "module": "singing",
+      "phase": "outro",
+      "ready": true,
+      "text": "呼，唱完啦，想不想夸夸我？",
+      "audio_url": "/audio/module_transition_58bde9fd7b6a967958f2014af067450bf1e39f80a1a1a461713b961eee7fd928.mp3",
+      "duration": 3.888
+    },
+    {
+      "module": "story",
+      "phase": "intro",
+      "ready": true,
+      "text": "先坐舒服一点，给你讲个我们的小故事。",
+      "audio_url": "/audio/module_transition_9e20a057e3e8bee39d2a5d1715c95bbb86e481dd286176dd248cf789fd91b35f.mp3",
+      "duration": 4.536
+    },
+    {
+      "module": "story",
+      "phase": "outro",
+      "ready": true,
+      "text": "讲完啦，刚才那一段，有没有让你想到什么？",
+      "audio_url": "/audio/module_transition_0533209a2350f908826d89d7da98348709547463c1caa0e86400bc61490c96b2.mp3",
+      "duration": 3.888
+    },
+    {
+      "module": "story",
+      "phase": "intro",
+      "ready": true,
+      "text": "来，讲个小故事给你听，听完陪我聊聊。",
+      "audio_url": "/audio/module_transition_3363f2addba504c99d08fa1b59113da6500c3a72cf326a9692d643b5db2ff913.mp3",
+      "duration": 4.848
+    },
+    {
+      "module": "story",
+      "phase": "outro",
+      "ready": true,
+      "text": "故事讲完啦，你最喜欢哪一段？",
+      "audio_url": "/audio/module_transition_302de29330426ddea2d440476862755d46f3c473fcdc97de75da441f4e5f200f.mp3",
+      "duration": 3.096
+    },
+    {
+      "module": "story",
+      "phase": "intro",
+      "ready": true,
+      "text": "那就先听我讲个故事吧，你准备好了吗？",
+      "audio_url": "/audio/module_transition_5b35df43d35b53f62d0393a32bd90e88ab30fadfb3e61aece63d5ed8d9571651.mp3",
+      "duration": 4.368
+    },
+    {
+      "module": "story",
+      "phase": "outro",
+      "ready": true,
+      "text": "好啦，我们的小故事就讲到这里，你想说点什么？",
+      "audio_url": "/audio/module_transition_0162bf7a80feb81ac11df4af93a79f27254484d96e8b5c8e36d4b2bf4755125a.mp3",
+      "duration": 5.016
+    }
+  ],
+  "ready": 12,
+  "total": 12,
+  "playback_started": false
+}

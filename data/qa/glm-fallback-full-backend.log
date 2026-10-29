@@ -1,0 +1,77 @@
+...........Model request failed [response, model=glm-4.7-flashx, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+Model request failed [response, model=glm-4.7-flashx, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+Executing <Task finished name='Task-135' coro=<FlashXTests.test_flashx_disables_thinking_for_stream_and_nonstream_and_does_not_drop_it() done, defined at D:\ai auto streamer\tests\test_api_connections.py:261> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.625 seconds
+........Song progress file could not be published (PermissionError); computation continues
+.........................Executing <Task pending name='Task-309' coro=<LLMParserTests.test_non_stream_timeout_is_structured_failure() running at D:\ai auto streamer\tests\test_core.py:230> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> cb=[_run_until_complete_cb() at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:180] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.578 seconds
+Model request failed [timeout, model=qwen2.5:7b-instruct, route=environment]: Provider request timed out; compare Direct and Auto network routes.
+.Executing <Task pending name='Task-314' coro=<LLMParserTests.test_slow_consumer_time_is_excluded_from_model_stream_deadline() running at D:\ai auto streamer\tests\test_core.py:245> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> cb=[_run_until_complete_cb() at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:180] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.594 seconds
+.Executing <Task finished name='Task-319' coro=<LLMParserTests.test_stream_without_tag_yields_immediately() done, defined at D:\ai auto streamer\tests\test_core.py:208> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.578 seconds
+.Executing <Task finished name='Task-324' coro=<LLMParserTests.test_tag_across_chunks_and_leading_space() done, defined at D:\ai auto streamer\tests\test_core.py:212> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.579 seconds
+.Executing <Task finished name='Task-329' coro=<LLMParserTests.test_unknown_bracket_is_normal_text() done, defined at D:\ai auto streamer\tests\test_core.py:216> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.594 seconds
+.............TTS edge-tts failed [timeout, route=environment]: Provider request timed out; compare Direct and Auto network routes.
+....Reply skipped after LLM failure: Provider request timed out
+....................Executing <Task finished name='Task-537' coro=<GLMRequestTests.test_flash_request_omits_provider_specific_thinking_fields() done, defined at D:\ai auto streamer\tests\test_glm.py:35> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.593 seconds
+.Executing <Task finished name='Task-542' coro=<GLMRequestTests.test_missing_key_stops_before_network_request() done, defined at D:\ai auto streamer\tests\test_glm.py:45> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.641 seconds
+.Executing <Task finished name='Task-547' coro=<GLMRequestTests.test_provider_error_does_not_echo_credentials() done, defined at D:\ai auto streamer\tests\test_glm.py:56> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.625 seconds
+.Model request failed [account_limit, model=glm-4.7-flash, route=direct]: Provider account balance, plan or spending limit prevents this request.
+Model request failed [quota, model=glm-4.7-flash, route=direct]: Provider quota or rate limit reached (HTTP 429).
+Model request failed [account_limit, model=glm-4.7-flash, route=direct]: Provider account balance, plan or spending limit prevents this request.
+Model request failed [quota, model=glm-4.7-flash, route=direct]: Provider quota or rate limit reached (HTTP 429).
+.Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4-flash-250414, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4-flashx-250414, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4-air-250414, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4.5-air, route=direct]: Provider service failed (HTTP 500); retry shortly.
+..Model request failed [tls, model=glm-4.7-flash, route=direct]: TLS certificate verification failed; check the trusted certificates and system clock.
+...Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+.Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+.Model request failed [response, model=glm-4.7-flash, route=direct]: Provider returned incomplete or invalid data; retry the connection test.
+..Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4-flash-250414, route=direct]: Provider service failed (HTTP 500); retry shortly.
+..Model request failed [blocked, model=glm-4.7-flash, route=direct]: Provider content review blocked the reply.
+Model request failed [blocked, model=glm-4.7-flash, route=direct]: Provider content review blocked the reply.
+.Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+.Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [quota, model=glm-4.7-flash, route=direct]: Provider quota or rate limit reached (HTTP 429).
+Model request failed [provider_http, model=glm-4.7-flash, route=direct]: Provider returned HTTP 404; check model access and endpoint.
+.Model request failed [authentication, model=glm-4.7-flash, route=direct]: Provider access rejected (HTTP 401); check the key, account region and endpoint.
+Model request failed [provider_http, model=glm-4.7-flash, route=direct]: Provider returned HTTP 402; check model access and endpoint.
+Model request failed [authentication, model=glm-4.7-flash, route=direct]: Provider access rejected (HTTP 403); check the key, account region and endpoint.
+.Model request failed [blocked, model=glm-4.7-flash, route=direct]: Provider content review blocked the reply.
+.Model request failed [reasoning_enabled, model=glm-4.7-flash, route=direct]: Model returned reasoning despite thinking being disabled.
+.Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+.Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+.Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [quota, model=glm-4.7-flash, route=direct]: Provider quota or rate limit reached (HTTP 429).
+Model request failed [provider_http, model=glm-4.7-flash, route=direct]: Provider returned HTTP 404; check model access and endpoint.
+.Model request failed [provider_http, model=glm-4.7-flash, route=direct]: Provider returned HTTP 400; check model access and endpoint.
+.Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [timeout, model=glm-4-flash-250414, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [timeout, model=glm-4-flash-250414, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+.................................................Module transition unavailable (RuntimeError); performance continues
+.Module transition unavailable (HeaderNotFoundError); performance continues
+Module transition unavailable (ValueError); performance continues
+Module transition unavailable (ValueError); performance continues
+......Module transition unavailable (TimeoutError); performance continues
+...............................Executing <Task finished name='Task-1274' coro=<PromptIsolationTests.test_viewer_name_message_and_memory_never_enter_system_role() done, defined at D:\ai auto streamer\tests\test_pipeline_security.py:94> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.594 seconds
+.Loop cleanup failed (ValueError); restarting
+.Loop heartbeat failed (ValueError); restarting
+.Loop welcome failed (ValueError); restarting
+..................WebSocket send error: 
+.....Content review failed (OSError); output blocked
+Content review failed (ValueError); output blocked
+Content review failed (ValueError); output blocked
+Content review failed (TimeoutError); output blocked
+.......Executing <Task finished name='Task-1397' coro=<SingingStudio._generate() done, defined at D:\ai auto streamer\src\singing.py:357> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.406 seconds
+Executing <Task pending name='Task-1398' coro=<SingingStudio._generate() running at D:\ai auto streamer\src\singing.py:378> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.406 seconds
+.Executing <Task finished name='Task-1404' coro=<SingingStudio._generate() done, defined at D:\ai auto streamer\src\singing.py:357> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.406 seconds
+....................................................Song request could not be handled (ValidationError)
+................Reply skipped after LLM failure: LLM returned an empty reply
+.......Executing <Task finished name='Task-1722' coro=<StoryStudio._prepare() done, defined at D:\ai auto streamer\src\story.py:153> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 4.375 seconds
+..................TTS edge-tts failed [response, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+...................s.....
+----------------------------------------------------------------------
+Ran 349 tests in 34.848s
+
+OK (skipped=1)

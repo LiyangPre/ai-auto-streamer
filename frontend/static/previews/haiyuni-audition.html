@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Astra · 海屿你试听</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,"Microsoft YaHei",sans-serif;background:#141221;color:#f6f0ff}
+body{min-height:95vh;display:grid;place-items:center;margin:0;padding:20px;box-sizing:border-box;background:radial-gradient(ellipse at 35% 10%,#3d315e,transparent 65%)}
+main{width:min(500px,100%);padding:36px;border:1px solid #a18bc044;border-radius:24px;background:#211c32;box-shadow:0 24px 90px #0005;box-sizing:border-box}
+.eyebrow{color:#bba5dd;font-size:12px;letter-spacing:.16em}h1{font-size:36px;margin:12px 0}p{color:#d0c4df;line-height:1.8}.details{font-size:13px;color:#ad9cbe}
+button{font:inherit;font-weight:600;border:0;border-radius:14px;background:#cbb4ff;color:#231934;padding:14px 22px;cursor:pointer;margin:12px 0 20px}button:hover{background:#dfd0ff}audio{width:100%;accent-color:#cbb4ff}a{color:#d7c4ff}select{display:block;width:100%;font:inherit;padding:12px;border-radius:12px;color:#f6f0ff;background:#332a49;border:1px solid #a18bc066;margin-top:8px}
+</style>
+<main>
+  <div class="eyebrow">ASTRA · SONG PREVIEW</div>
+  <h1>海屿你</h1>
+  <p>Astra 的声音，配原曲伴奏。<br>12 秒试听 · 原曲 00:09.5–00:21.5</p>
+  <label for="variant">选择音高 · Pitch</label>
+  <select id="variant">
+    <option value="">原调 · Original</option>
+    <option value="-plus1">升 1 个半音 · +1 semitone</option>
+    <option value="-plus2">升 2 个半音 · +2 semitones</option>
+  </select>
+  <button id="play" type="button">播放试听 · Play preview</button>
+  <audio id="audio" controls preload="auto" src="/audio/astra-haiyuni-preview-7e304478.mp3"></audio>
+  <p id="status" class="details" aria-live="polite">50 步转换的已完成片段。完整歌曲仍在后台转换。</p>
+  <p class="details">升调版本的人声与伴奏同步升调，速度保持不变。仅供试听，未更改默认声音。</p>
+  <a id="download" href="/audio/astra-haiyuni-preview-7e304478.mp3" download="Astra-海屿你-12秒试听.mp3">下载当前试听 MP3</a>
+</main>
+<script>
+const audio=document.getElementById('audio'),button=document.getElementById('play'),status=document.getElementById('status');
+document.getElementById('variant').onchange=event=>{audio.pause();audio.src='/audio/astra-haiyuni-preview-7e304478'+event.target.value+'.mp3';audio.load();document.getElementById('download').href=audio.src;status.textContent='已选择 '+event.target.selectedOptions[0].textContent+'，点击播放试听。';};
+button.onclick=async()=>{try{audio.currentTime=0;await audio.play();status.textContent='正在播放 · Playing';}catch{status.textContent='请使用下方播放器开始试听。';}};
+audio.onended=()=>{status.textContent='试听结束。可以再次播放；完整歌曲仍在后台转换。';};
+</script>
+</html>

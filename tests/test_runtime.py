@@ -76,13 +76,13 @@ class RuntimeTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(audio["type"], "audio_segment")
         self.assertEqual(audio["audio_url"], "/audio/voice.mp3")
 
-    async def test_window_is_bounded_even_when_all_events_are_gifts(self):
+    async def test_chat_aggregation_window_is_bounded(self):
         config = Config()
         config.danmaku_filter.time_window = 0.02
         config.danmaku_filter.max_queue_size = 2
         pipeline = Pipeline(config)
         for index in range(20):
-            pipeline.danmaku_queue.offer(message(index, priority=3))
+            pipeline.danmaku_queue.offer(message(index))
         pipeline._handle_window = AsyncMock()
         await pipeline._process_with_filter()
         kept = pipeline._handle_window.call_args.args[0]
@@ -95,6 +95,15 @@ class RuntimeTests(unittest.IsolatedAsyncioTestCase):
             pipeline.danmaku_queue.get_nowait()
             pipeline.danmaku_queue.task_done()
         await asyncio.wait_for(pipeline.danmaku_queue.join(), timeout=0.1)
+
+    async def test_paid_events_bypass_chat_into_a_bounded_inbox(self):
+        pipeline = Pipeline(Config())
+        for index in range(1000):
+            pipeline.danmaku_queue.offer(message(index, priority=3))
+        self.assertTrue(pipeline.danmaku_queue.empty())
+        self.assertEqual(len(pipeline.paid.items), pipeline.paid.capacity)
+        self.assertEqual(pipeline.paid.overflow, 1000 - pipeline.paid.capacity)
+        self.assertEqual(pipeline._background_tasks, set())
 
     async def test_status_reports_remaining_cooldown(self):
         config = Config()
@@ -140,7 +149,7 @@ class ControllerAPITests(unittest.TestCase):
         cls.settings_patch.start()
         cls.stdin_patch = patch("src.danmaku.sys.stdin.isatty", return_value=False)
         cls.stdin_patch.start()
-        cls.client = TestClient(app)
+        cls.client = TestClient(app, base_url='http://localhost', headers={'X-Studio-API':'1','Origin':'http://localhost'})
         cls.client.__enter__()
 
     @classmethod
@@ -163,7 +172,7 @@ class ControllerAPITests(unittest.TestCase):
         self.assertEqual(self.client.post("/api/test-event", json={"type": "action_test", "action": "unknown"}).status_code, 422)
 
     def test_new_socket_gets_snapshot_then_chat_and_reply(self):
-        with self.client.websocket_connect("/ws") as ws:
+        with self.client.websocket_connect("ws://localhost/ws") as ws:
             initial = ws.receive_json()
             self.assertEqual(initial["type"], "status")
             response = self.client.post("/api/danmaku", json={"content": "你好呀", "user_name": "测试观众"})
@@ -189,6 +198,29 @@ class ControllerAPITests(unittest.TestCase):
         status = self.client.get("/api/status").json()
         self.assertTrue(status["healthy"])
         self.assertIn("queue_capacity", status)
+
+    def test_full_paid_inbox_returns_http_429_without_falling_into_chat(self):
+        import src.server as server
+        pipeline = server.pipeline
+        self.client.portal.call(pipeline.stage.acquire, 'singing')
+        try:
+            for index in range(pipeline.paid.capacity):
+                response = self.client.post('/api/danmaku', json={
+                    'content': '赠送了礼物', 'user_name': f'赠礼观众{index}',
+                    'user_id': 10000 + index, 'msg_type': 'gift',
+                    'gift_name': '测试花束', 'gift_num': 1, 'priority': 3})
+                self.assertEqual(response.status_code, 200, response.text)
+            rejected = self.client.post('/api/danmaku', json={
+                'content': '赠送了礼物', 'user_name': '额外赠礼观众', 'user_id': 20000,
+                'msg_type': 'gift', 'gift_name': '测试花束', 'gift_num': 1, 'priority': 3})
+            self.assertEqual(rejected.status_code, 429)
+            self.assertEqual(len(pipeline.paid.items), pipeline.paid.capacity)
+            self.assertEqual(pipeline.paid.overflow, 1)
+            self.assertTrue(pipeline.danmaku_queue.empty())
+            self.assertFalse(pipeline._background_tasks)
+        finally:
+            self.client.portal.call(pipeline.paid.items.clear)
+            self.client.portal.call(pipeline.stage.release, 'singing')
 
 
 if __name__ == "__main__":

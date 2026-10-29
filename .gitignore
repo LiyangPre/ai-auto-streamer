@@ -16,6 +16,8 @@ data/songs-converted/
 .venv-svc/
 .venv-download/
 .venv-separation/
+.venv-lyrics/
+data/lyrics/
 .tools/
 data/song-sources/
 data/*.log

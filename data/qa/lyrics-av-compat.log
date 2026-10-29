@@ -1,0 +1,11 @@
+Collecting av==15.1.0
+  Obtaining dependency information for av==15.1.0 from https://files.pythonhosted.org/packages/15/74/6f8e38a3b0aea5f28e72813672ff45b64615f2c69e6a4a558718c95edb9f/av-15.1.0-cp312-cp312-win_amd64.whl.metadata
+  Downloading av-15.1.0-cp312-cp312-win_amd64.whl.metadata (4.7 kB)
+Downloading av-15.1.0-cp312-cp312-win_amd64.whl (31.3 MB)
+   ---------------------------------------- 31.3/31.3 MB 127.1 kB/s eta 0:00:00
+Installing collected packages: av
+  Attempting uninstall: av
+    Found existing installation: av 19.0.2
+    Uninstalling av-19.0.2:
+      Successfully uninstalled av-19.0.2
+Successfully installed av-15.1.0

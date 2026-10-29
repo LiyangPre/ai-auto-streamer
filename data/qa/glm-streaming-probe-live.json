@@ -1,0 +1,22 @@
+[
+  {
+    "mode": "direct",
+    "ok": false,
+    "target": "text",
+    "route": "direct",
+    "stream": true,
+    "code": "text_error",
+    "message": "Model request failed [provider_service, route=direct]: Provider service failed (HTTP 500); retry shortly.",
+    "elapsed_ms": 14172
+  },
+  {
+    "mode": "auto",
+    "ok": false,
+    "target": "text",
+    "route": "windows_proxy",
+    "stream": true,
+    "code": "text_error",
+    "message": "Model request failed [timeout, route=auto]: Provider request timed out; compare Direct and Auto network routes.",
+    "elapsed_ms": 15453
+  }
+]

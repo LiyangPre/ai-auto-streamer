@@ -1,0 +1,12 @@
+test_existing_healthy_studio_is_reused_without_spawning (tests.test_launcher.LauncherLifecycleTests.test_existing_healthy_studio_is_reused_without_spawning) ... ok
+test_new_owned_server_waits_for_readiness_and_keeps_running (tests.test_launcher.LauncherLifecycleTests.test_new_owned_server_waits_for_readiness_and_keeps_running) ... ok
+test_stop_leaves_already_exited_server_alone (tests.test_launcher.LauncherLifecycleTests.test_stop_leaves_already_exited_server_alone) ... ok
+test_timeout_stops_only_the_owned_new_server (tests.test_launcher.LauncherLifecycleTests.test_timeout_stops_only_the_owned_new_server) ... ok
+test_windows_stop_targets_only_owned_server_tree (tests.test_launcher.LauncherLifecycleTests.test_windows_stop_targets_only_owned_server_tree) ... ok
+test_http_denial_and_non_studio_responses_are_not_ready (tests.test_launcher.LauncherReadinessTests.test_http_denial_and_non_studio_responses_are_not_ready) ... ok
+test_probe_bypasses_proxies_and_satisfies_real_local_api_boundary (tests.test_launcher.LauncherReadinessTests.test_probe_bypasses_proxies_and_satisfies_real_local_api_boundary) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.658s
+
+OK

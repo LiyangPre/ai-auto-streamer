@@ -9,7 +9,7 @@
     "max_chars": 40,
     "max_tokens": 96,
     "ask_back": false,
-    "read_chat": true,
+    "read_chat": false,
     "templates": true,
     "collection_window": 0.15,
     "cooldown": 0.0

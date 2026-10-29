@@ -33,19 +33,22 @@ class AudienceWelcomes:
         for message in batch:
             self.seen[message.user_id]=now;self.seen.move_to_end(message.user_id)
         while len(self.seen)>4000:self.seen.popitem(last=False)
-        self.task=asyncio.create_task(self._deliver(batch,overflow))
+        self.task=self.pipeline._spawn(self._deliver(batch,overflow))
 
     async def _deliver(self,batch,overflow):
         selected=random.sample(batch,min(len(batch),self.pipeline.config.welcome.max_names))
         names=[]
         for message in selected:
-            if self.pipeline.safety.allows_input(message.content):
+            if self.pipeline.safety.allows_input(message.content) and self.pipeline.safety.allows_input(message.user_name):
                 await self.pipeline._emit(type='danmaku',user_name=message.user_name,content=message.content,msg_type='enter')
             name=re.sub(r'[^\w\u4e00-\u9fff -]','',message.user_name)[:12].strip()
             if name and self.pipeline.safety.allows_input(name):names.append(name)
         count=len(batch)+overflow
         text=('欢迎'+ '、'.join(names)+'，' if names else '欢迎新来的朋友，')
         text+=('还有刚进来的朋友们，' if count>len(names) else '')+'随便坐呀。'
+        if not await self.pipeline.safety.approve(text):
+            await self.pipeline._emit(type='moderation',stage='welcome')
+            return
         audio_url=None;duration=2;engine=self.pipeline.tts
         if engine:
             audio_url=await engine.synthesize(text,'happy')

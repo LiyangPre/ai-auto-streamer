@@ -30,7 +30,7 @@ class CharacterAPITests(unittest.TestCase):
                         patch('src.server.settings_path', return_value=self.path),
                         patch('src.danmaku.sys.stdin.isatty', return_value=False)]
         for item in self.patches: item.start()
-        self.client = TestClient(server.app).__enter__()
+        self.client = TestClient(server.app, base_url='http://localhost', headers={'X-Studio-API':'1','Origin':'http://localhost'}).__enter__()
 
     def tearDown(self):
         self.client.__exit__(None, None, None)
@@ -78,7 +78,7 @@ class CharacterAPITests(unittest.TestCase):
         # The legacy export contains the last active profile, but a restart still
         # selects Astra from the canonical library and retains the shared stage.
         self.client.__exit__(None, None, None)
-        self.client = TestClient(server.app).__enter__()
+        self.client = TestClient(server.app, base_url='http://localhost', headers={'X-Studio-API':'1','Origin':'http://localhost'}).__enter__()
         self.assertEqual(self.context()['active_id'], 'astra')
         restarted = self.client.get('/api/studio').json()['settings']
         self.assertEqual(restarted['identity'], original['identity'])
@@ -142,7 +142,7 @@ class CharacterAPITests(unittest.TestCase):
 
     def test_initial_websocket_and_switch_broadcast_include_current_profile(self):
         new_id = self.create()
-        with self.client.websocket_connect('/ws') as ws:
+        with self.client.websocket_connect('ws://localhost/ws') as ws:
             initial=ws.receive_json()
             self.assertEqual(initial['profile_context']['active_id'],'astra')
             self.assertEqual(initial['settings']['identity']['name'],'Astra')

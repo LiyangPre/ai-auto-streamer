@@ -1,0 +1,16 @@
+✔ lyrics use the audible vocal clock and update once per line without moving the song (22.5699ms)
+✔ positive lyric offset delays captions and vocal delay never advances a negative-delay recording (2.7459ms)
+✔ late joins and seeks select the current lyric instead of replaying previous lines (0.8354ms)
+✔ live lyric edits and removal keep the recording and its playback position intact (0.7398ms)
+✔ removing lyrics during the spoken intro leaves that voice caption until music begins (0.8418ms)
+✔ backing-only karaoke follows its clock while buffering, mute and silent previews cannot advance lyrics (2.0695ms)
+✔ timed blank lines clear captions and malformed cues cannot execute markup or break frames (0.8532ms)
+✔ stopping, a new recording and story mode cannot leak a previous song lyric (1.244ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 92.0874

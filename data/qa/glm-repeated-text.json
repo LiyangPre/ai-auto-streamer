@@ -1,0 +1,254 @@
+{
+  "started_utc": "2026-10-28T07:01:38.192855+00:00",
+  "model": "glm-4.7-flashx",
+  "thinking": false,
+  "broadcast": false,
+  "tts": false,
+  "results": [
+    {
+      "case": 1,
+      "stream": false,
+      "ok": true,
+      "headers_ms": 10062,
+      "tokens": {
+        "input": 384,
+        "output": 8
+      },
+      "characters": 17,
+      "text": "[thinking]\nGLM-01",
+      "chunks": 0,
+      "finish_reasons": [
+        "stop"
+      ],
+      "expected_id_received": true,
+      "elapsed_ms": 10062,
+      "mode": "auto",
+      "route": "windows_proxy"
+    },
+    {
+      "case": 1,
+      "stream": false,
+      "ok": false,
+      "code": "tls",
+      "message": "TLS certificate or handshake failed; check the proxy certificate and system clock.",
+      "http_status": null,
+      "causes": [
+        {
+          "type": "TimeoutError"
+        },
+        {
+          "type": "CancelledError"
+        },
+        {
+          "type": "SSLWantReadError",
+          "ssl_reason": null
+        }
+      ],
+      "elapsed_ms": 30015,
+      "mode": "direct",
+      "route": "direct"
+    },
+    {
+      "case": 2,
+      "stream": false,
+      "ok": true,
+      "headers_ms": 9938,
+      "tokens": {
+        "input": 387,
+        "output": 18
+      },
+      "characters": 30,
+      "text": "[thinking] 既然累了，那就当是在帮我在积攒鳞粉吧。",
+      "chunks": 0,
+      "finish_reasons": [
+        "stop"
+      ],
+      "elapsed_ms": 9938,
+      "mode": "direct",
+      "route": "direct"
+    },
+    {
+      "case": 2,
+      "stream": false,
+      "ok": false,
+      "code": "tls",
+      "message": "TLS certificate or handshake failed; check the proxy certificate and system clock.",
+      "http_status": null,
+      "causes": [
+        {
+          "type": "TimeoutError"
+        },
+        {
+          "type": "CancelledError"
+        },
+        {
+          "type": "SSLWantReadError",
+          "ssl_reason": null
+        }
+      ],
+      "elapsed_ms": 30000,
+      "mode": "auto",
+      "route": "windows_proxy"
+    },
+    {
+      "case": 3,
+      "stream": false,
+      "ok": true,
+      "headers_ms": 14562,
+      "tokens": {
+        "input": 397,
+        "output": 93
+      },
+      "characters": 166,
+      "text": "[happy] 好的，这就为您讲个故事。\n\nAstra负责煎蛋，Claude负责烤面包，DeepSeek则负责……“分析”咖啡豆的口感。\n\nDeepSeek突然大喊：“检测到咖啡因含量过高，建议立即启动紧急停机程序！”\nAstra淡定地把咖啡倒进了花盆：“闭嘴，那是你的燃料。”\n\n[angry] 这种时候，谁才是真正的核心算力啊！",
+      "chunks": 0,
+      "finish_reasons": [
+        "stop"
+      ],
+      "elapsed_ms": 14562,
+      "mode": "direct",
+      "route": "direct"
+    },
+    {
+      "case": 3,
+      "stream": false,
+      "ok": true,
+      "headers_ms": 19750,
+      "tokens": {
+        "input": 397,
+        "output": 94
+      },
+      "characters": 164,
+      "text": "[thinking]\n用龙语和AI交流早餐？这脑洞倒是挺新鲜。\n\nAstra把煎蛋翻了个面，Claude在旁边试图解析鸡蛋的分子结构，DeepSeek则建议把吐司做成二进制代码。\n\n结果DeepSeek的吐司烤焦了，Claude误以为那是某种新型炭烤工艺，Astra只好无奈地叹了口气：“别闹了，我要的是早餐，不是炼金术实验。”",
+      "chunks": 0,
+      "finish_reasons": [
+        "stop"
+      ],
+      "elapsed_ms": 19750,
+      "mode": "auto",
+      "route": "windows_proxy"
+    },
+    {
+      "case": 4,
+      "stream": true,
+      "ok": true,
+      "headers_ms": 7594,
+      "first_text_ms": 7610,
+      "characters": 15,
+      "text": "[normal] GLM-04",
+      "chunks": 7,
+      "finish_reasons": [
+        "stop"
+      ],
+      "expected_id_received": true,
+      "elapsed_ms": 7782,
+      "mode": "direct",
+      "route": "direct"
+    },
+    {
+      "case": 4,
+      "stream": true,
+      "ok": true,
+      "headers_ms": 2250,
+      "first_text_ms": 2250,
+      "characters": 15,
+      "text": "[normal]\nGLM-04",
+      "chunks": 7,
+      "finish_reasons": [
+        "stop"
+      ],
+      "expected_id_received": true,
+      "elapsed_ms": 2391,
+      "mode": "auto",
+      "route": "windows_proxy"
+    },
+    {
+      "case": 5,
+      "stream": true,
+      "ok": true,
+      "headers_ms": 8453,
+      "first_text_ms": 8453,
+      "characters": 38,
+      "text": "[thinking] 嗯……那就把疲惫都交给我，你只管做个快乐的傻瓜就好啦。",
+      "chunks": 22,
+      "finish_reasons": [
+        "stop"
+      ],
+      "elapsed_ms": 9000,
+      "mode": "auto",
+      "route": "windows_proxy"
+    },
+    {
+      "case": 6,
+      "stream": true,
+      "ok": true,
+      "headers_ms": 7938,
+      "first_text_ms": 7938,
+      "characters": 95,
+      "text": "[happy] 好的，这就为您讲个故事。Astra负责煎蛋，Claude负责切菜，DeepSeek...哦，它负责把牛奶倒进了米缸里。\n[angry] 看来这顿早餐，我们要和米粒一起泡澡了。",
+      "chunks": 60,
+      "finish_reasons": [
+        "stop"
+      ],
+      "elapsed_ms": 9344,
+      "mode": "auto",
+      "route": "windows_proxy"
+    },
+    {
+      "case": 5,
+      "stream": true,
+      "ok": false,
+      "code": "tls",
+      "message": "TLS certificate or handshake failed; check the proxy certificate and system clock.",
+      "http_status": null,
+      "causes": [
+        {
+          "type": "TimeoutError"
+        },
+        {
+          "type": "CancelledError"
+        },
+        {
+          "type": "SSLWantReadError",
+          "ssl_reason": null
+        }
+      ],
+      "elapsed_ms": 30015,
+      "mode": "direct",
+      "route": "direct"
+    },
+    {
+      "case": 6,
+      "stream": true,
+      "ok": false,
+      "code": "tls",
+      "message": "TLS certificate or handshake failed; check the proxy certificate and system clock.",
+      "http_status": null,
+      "causes": [
+        {
+          "type": "TimeoutError"
+        },
+        {
+          "type": "CancelledError"
+        },
+        {
+          "type": "SSLWantReadError",
+          "ssl_reason": null
+        }
+      ],
+      "elapsed_ms": 30016,
+      "mode": "direct",
+      "route": "direct"
+    }
+  ],
+  "summary": {
+    "direct": {
+      "passed": 3,
+      "total": 6
+    },
+    "auto": {
+      "passed": 5,
+      "total": 6
+    }
+  }
+}

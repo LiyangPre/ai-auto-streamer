@@ -5,6 +5,8 @@ const POSES = {
 const canvas=document.querySelector('#rig-canvas'), context=canvas.getContext('2d');
 const motion=new CharacterMotion(matchMedia('(prefers-reduced-motion: reduce)').matches);
 const face=new CharacterFace(),voice=new VoiceEnvelope();
+const expressionController=window.CharacterExpressionController?new window.CharacterExpressionController({
+    profileId:'astra',reducedMotion:motion.reducedMotion,intensity:.55}):null;
 const player=document.querySelector('#voice-player');
 let audioContext,analyser,waveform,spectrum,portrait=false,voiceRequest=0;
 let rig, last=performance.now(), touring=false, tourTime=0, tourIndex=0;
@@ -13,6 +15,7 @@ function choose(name, automatic=false) {
     if(!automatic) { touring=false; document.querySelector('#tour').setAttribute('aria-pressed','false'); }
     motion.setAction({name,loop:true,intensity:+document.querySelector('#strength').value});
     face.setAction({name,loop:true});document.querySelector('#expression').value=face.name;
+    expressionController?.setExpression(face.name,{hold:true,source:'preview'});
     document.querySelector('#pose-name').textContent=POSES[name][1];
     document.querySelectorAll('[data-pose]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.pose===name)));
 }
@@ -30,8 +33,10 @@ document.querySelector('#speed').addEventListener('input',event=>{document.query
 document.querySelector('#strength').addEventListener('input',event=>{
     motion.intensity=+event.target.value; document.querySelector('#strength-value').textContent=Math.round(motion.intensity*100)+'%';
 });
-document.querySelector('#expression').addEventListener('change',event=>face.setExpression(event.target.value,true));
-document.querySelector('#blink').addEventListener('click',()=>face.blink());
+document.querySelector('#expression').addEventListener('change',event=>{
+    face.setExpression(event.target.value,true);expressionController?.setExpression(event.target.value,{hold:true,source:'preview'});
+});
+document.querySelector('#blink').addEventListener('click',()=>{face.blink();expressionController?.blink();});
 document.querySelector('#portrait').addEventListener('click',event=>{
     portrait=!portrait;event.currentTarget.setAttribute('aria-pressed',String(portrait));
 });
@@ -49,10 +54,10 @@ document.querySelector('#voice-test').addEventListener('click',async event=>{
     connectVoice();player.pause();voice.reset();button.disabled=true;
     document.querySelector('#voice-status').textContent='Preparing the current voice…';
     try {
-        const response=await fetch('/api/studio');if(!response.ok)throw new Error();
+        const response=await fetch('/api/studio', {headers:{'X-Studio-API':'1'}});if(!response.ok)throw new Error();
         const data=await response.json();
-        const preview=await fetch('/api/voice-preview',{method:'POST',headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({voice:data.settings.voice,text:'晚上好，我是露娜。很高兴见到你。我们慢慢聊，好不好？'})});
+        const preview=await fetch('/api/voice-preview',{method:'POST',headers:{'Content-Type':'application/json','X-Studio-API':'1'},
+            body:JSON.stringify({voice:data.settings.voice,text:'晚上好，今天的小故事，你想听哪一段？我们慢慢聊，好不好？'})});
         if(!preview.ok)throw new Error();
         const result=await preview.json();
         if(request!==voiceRequest)return;
@@ -67,7 +72,7 @@ document.querySelector('#voice-stop').addEventListener('click',()=>{
 });
 player.addEventListener('play',connectVoice);
 player.addEventListener('ended',()=>{voice.reset();document.querySelector('#voice-status').textContent='Finished · mouth closed.';});
-addEventListener('pagehide',()=>{voiceRequest++;player.pause();audioContext?.close();});
+addEventListener('pagehide',()=>{voiceRequest++;player.pause();expressionController?.dispose();audioContext?.close();});
 function resize(){ const box=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,1.5); canvas.width=Math.round(box.width*dpr);canvas.height=Math.round(box.height*dpr);context.setTransform(dpr,0,0,dpr,0,0); }
 addEventListener('resize',resize);
 CutoutRig.load('/static/avatar_dragon/rig.json').then(value=>{
@@ -82,7 +87,9 @@ function frame(now) {
     const playing=!player.paused&&!player.ended&&!player.muted&&player.volume>0&&player.readyState>=3&&audioContext?.state==='running';
     if(playing){analyser.getFloatTimeDomainData(waveform);analyser.getByteFrequencyData(spectrum);}
     const speech=voice.sample(waveform,spectrum,audioContext?.sampleRate||48000,realDt,!!playing);
-    const pose=motion.sample(dt,speech.open,playing),expression=face.sample(realDt),box=canvas.getBoundingClientRect();
+    expressionController?.setSpeaking(!!playing);
+    const pose=motion.sample(dt,speech.open,playing),expression=expressionController?
+        expressionController.sample(realDt,{mouthOpen:speech.open,mouthRound:speech.round}):face.sample(realDt),box=canvas.getBoundingClientRect();
     document.querySelector('#lip-level').value=speech.open;
     document.querySelector('#lip-value').textContent=Math.round(speech.open*100)+'%';
     document.querySelector('#blink-value').textContent=expression.blink>.7?'Blinking':'Eyes open';

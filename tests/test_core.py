@@ -51,7 +51,7 @@ class CollectorTests(unittest.IsolatedAsyncioTestCase):
             "data": {"uname": "戊", "uid": 5},
         })
         sc, guard, enter = [self.queue.get_nowait() for _ in range(3)]
-        self.assertEqual((sc.priority, sc.price), (2, 30.0))
+        self.assertEqual((sc.priority, sc.price), (4, 30.0))
         self.assertEqual((guard.priority, guard.price), (3, 198.0))
         self.assertEqual((enter.msg_type, enter.user_id), ("enter", 5))
 
@@ -229,6 +229,25 @@ class LLMParserTests(unittest.IsolatedAsyncioTestCase):
         with self.assertRaises(LLMError):
             await processor.chat("测试")
 
+    async def test_slow_consumer_time_is_excluded_from_model_stream_deadline(self):
+        processor = LLMProcessor(LLMConfig(request_timeout=0.03, first_chunk_timeout=0.03), CharacterConfig())
+        await processor.client.close()
+        stream = FakeAsyncStream(["[happy] 第一句。", "第二句。"])
+
+        class Completions:
+            async def create(self, **kwargs):
+                return stream
+
+        processor.client = SimpleNamespace(chat=SimpleNamespace(completions=Completions()))
+        iterator = processor.chat_stream("测试", CallParams())
+        self.assertEqual(await anext(iterator), ("第一句。", "happy"))
+        # Stand in for a slow TTS consumer; this pause is outside model I/O.
+        await asyncio.sleep(0.06)
+        self.assertEqual(await anext(iterator), ("第二句。", None))
+        with self.assertRaises(StopAsyncIteration):
+            await anext(iterator)
+        self.assertTrue(stream.closed)
+
 
 class TTSTests(unittest.IsolatedAsyncioTestCase):
     async def test_synthesis_has_deadline(self):
@@ -348,22 +367,27 @@ class PipelineTests(unittest.IsolatedAsyncioTestCase):
         pipeline.tts = FakeTTS(delay=10)
         pipeline.llm = SlowLLM()
         task = asyncio.create_task(pipeline._reply("测试", CallParams(), stream=True))
-        await pipeline.tts.started.wait()
+        await asyncio.sleep(0.02)
+        self.assertEqual(pipeline.tts.calls, [])
         task.cancel()
         with self.assertRaises(asyncio.CancelledError):
             await asyncio.wait_for(task, timeout=0.2)
 
-    async def test_high_value_gift_is_scheduled_immediately(self):
+    async def test_high_value_gift_uses_paid_inbox_and_returns_thanks(self):
         pipeline = Pipeline(self.config())
-        pipeline.llm = ScriptedLLM()
+        pipeline.llm = ScriptedLLM(chunks=[("谢谢甲送来的舰长～", "happy")])
         message = DanmakuMessage(
             content="开通了舰长", user_name="甲", user_id=1, timestamp=time.time(),
             msg_type="gift", gift_name="舰长", gift_num=1, price=198, priority=3,
         )
         await pipeline._handle_gift(message)
-        await asyncio.gather(*list(pipeline._background_tasks))
+        self.assertEqual(len(pipeline._background_tasks), 0)
+        text = await pipeline._deliver_paid(pipeline.paid.take())
+        self.assertEqual(text, "谢谢甲送来的舰长～")
+        events = [pipeline.result_queue.get_nowait() for _ in range(pipeline.result_queue.qsize())]
+        self.assertTrue(any(event['type'] == 'response_end' and not event['blocked'] for event in events))
         self.assertEqual(len(pipeline.llm.calls), 1)
-        self.assertIn("198 元", pipeline.llm.calls[0][0])
+        self.assertIn('"value_yuan": 198', pipeline.llm.calls[0][0])
         self.assertEqual(pipeline.memory._pending_gifts, {})
 
 

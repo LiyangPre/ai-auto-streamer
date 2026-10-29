@@ -1,0 +1,25 @@
+{
+  "checked_at": 1793168887.0853028,
+  "blocked_titles": [
+    "告白气球",
+    "海屿你"
+  ],
+  "stories_ready": 10,
+  "story_roster": [
+    "Astra",
+    "Claude",
+    "DeepSeek"
+  ],
+  "live_song_request_passed": true,
+  "live_story_request_and_natural_end_passed": true,
+  "physical_expression_report": "data/qa/story-emotion-runtime.json",
+  "lyrics_live_report": "data/qa/lyrics-live-test.json",
+  "test_lyrics_removed": true,
+  "active_module": "chat",
+  "backend_suite": {
+    "ran": 301,
+    "skipped": 1
+  },
+  "native_lrc_offset_tests": 12,
+  "frontend_suite_passed": 117
+}

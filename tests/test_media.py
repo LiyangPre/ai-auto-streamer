@@ -35,7 +35,7 @@ class MediaAPITests(unittest.TestCase):
                       patch('src.server.settings_path',return_value=self.path),
                       patch('src.danmaku.sys.stdin.isatty',return_value=False)]
         for p in self.patches:p.start()
-        self.client=TestClient(server.app).__enter__()
+        self.client=TestClient(server.app, base_url='http://localhost', headers={'X-Studio-API':'1','Origin':'http://localhost'}).__enter__()
 
     def tearDown(self):
         self.client.__exit__(None,None,None)
@@ -66,7 +66,7 @@ class MediaAPITests(unittest.TestCase):
         switched=self.client.post('/api/characters/activate',json={'profile_id':new['id'],'revision':new['profile_context']['revision']})
         self.assertEqual(switched.json()['settings']['scene'],settings['scene'])
         self.client.__exit__(None,None,None)
-        self.client=TestClient(server.app).__enter__()
+        self.client=TestClient(server.app, base_url='http://localhost', headers={'X-Studio-API':'1','Origin':'http://localhost'}).__enter__()
         self.assertEqual(self.client.get('/api/config').json()['scene'],settings['scene'])
         self.assertEqual(len(self.client.get('/api/media').json()['assets']),2)
         self.assertEqual(self.client.get(image['url']).headers['content-type'],'image/png')

@@ -1,0 +1,8 @@
+test_reference_temps_are_per_worker_without_changing_shared_excerpt_name (tests.test_svc_shards.SVCShardTests.test_reference_temps_are_per_worker_without_changing_shared_excerpt_name) ... ok
+test_song_lease_blocks_overlap_and_releases_on_error_or_cached_continue (tests.test_svc_shards.SVCShardTests.test_song_lease_blocks_overlap_and_releases_on_error_or_cached_continue) ... ok
+test_worker_paths_keep_main_compatibility_and_separate_named_shards (tests.test_svc_shards.SVCShardTests.test_worker_paths_keep_main_compatibility_and_separate_named_shards) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.005s
+
+OK

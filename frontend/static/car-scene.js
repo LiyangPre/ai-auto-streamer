@@ -1,6 +1,54 @@
-// A fixed, painted pose preserves every contact point: seat, wheel, wrists and
-// dashboard companions. Only local facial features animate; no full PNG swaps.
+// The car, seat, wheel, wrists and dashboard companions stay fixed. A bounded
+// local cloth/chest breath and calibrated facial patches animate the painting;
+// no full-scene translation, network animation or pose PNG swaps are involved.
 class CarScene {
+    static breathRegion={x:410,y:430,width:510,height:630};
+    static breathPeriod=4.8;
+    static breathLimit=5.5;
+    static breathWeight([x,y]) {
+        // This ellipse lies wholly inside the painted torso/hair. Its edge,
+        // neck, both wrists and lower seat remain at their original positions.
+        const radius=Math.hypot((x-660)/195,(y-725)/255);
+        const t=Math.max(0,Math.min(1,1-radius)),
+            belt=Math.max(0,Math.min(1,(Math.hypot(x-780,y-570)-48)/40));
+        return t*t*(3-2*t)*belt*belt*(3-2*belt);
+    }
+    static breathPoint(point,amount=0,weight=CarScene.breathWeight(point)) {
+        const breath=Math.max(-1,Math.min(1,Number.isFinite(amount)?amount:0))*weight;
+        return [point[0]+Math.max(-1,Math.min(1,(point[0]-660)/195))*1.4*breath,
+            point[1]-CarScene.breathLimit*breath];
+    }
+    static makeBreathMesh() {
+        const xs=[430,470,510,550,590,630,670,710,750,790,830,870,900],
+            ys=[450,490,530,570,610,650,690,730,770,810,850,890,930,970,1010,1040],vertices=[];
+        for(const y of ys)for(const x of xs)vertices.push({point:[x,y],weight:CarScene.breathWeight([x,y])});
+        const triangles=[];
+        for(let row=0;row<ys.length-1;row++)for(let col=0;col<xs.length-1;col++){
+            const a=row*xs.length+col,b=a+1,c=a+xs.length,d=c+1;
+            for(const ids of [[a,b,c],[b,d,c]])if(ids.some(i=>vertices[i].weight>0))triangles.push(ids);
+        }
+        return {vertices,triangles};
+    }
+    static drawBreathTriangle(ctx,image,source,destination) {
+        const [p,q,r]=source,[a,b,c]=destination,sx=q[0]-p[0],sy=q[1]-p[1],
+            tx=r[0]-p[0],ty=r[1]-p[1],den=sx*ty-tx*sy;
+        if(Math.abs(den)<1e-6)return;
+        const ux=b[0]-a[0],uy=b[1]-a[1],vx=c[0]-a[0],vy=c[1]-a[1],
+            m11=(ux*ty-vx*sy)/den,m12=(uy*ty-vy*sy)/den,
+            m21=(vx*sx-ux*tx)/den,m22=(vy*sx-uy*tx)/den,
+            lengths=[Math.hypot(b[0]-c[0],b[1]-c[1]),Math.hypot(a[0]-c[0],a[1]-c[1]),Math.hypot(a[0]-b[0],a[1]-b[1])],
+            perimeter=lengths.reduce((n,v)=>n+v,0),radius=Math.abs(ux*vy-vx*uy)/perimeter,
+            factor=1+1.4/Math.max(radius,.001),
+            cx=(a[0]*lengths[0]+b[0]*lengths[1]+c[0]*lengths[2])/perimeter,
+            cy=(a[1]*lengths[0]+b[1]*lengths[1]+c[1]*lengths[2])/perimeter,
+            margin=12,minX=Math.min(p[0],q[0],r[0])-margin,minY=Math.min(p[1],q[1],r[1])-margin,
+            width=Math.max(p[0],q[0],r[0])+margin-minX,height=Math.max(p[1],q[1],r[1])+margin-minY;
+        ctx.save();ctx.beginPath();
+        destination.forEach((v,i)=>{const x=cx+(v[0]-cx)*factor,y=cy+(v[1]-cy)*factor;
+            if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});
+        ctx.closePath();ctx.clip();ctx.transform(m11,m12,m21,m22,a[0]-m11*p[0]-m21*p[1],a[1]-m12*p[0]-m22*p[1]);
+        ctx.drawImage(image,minX,minY,width,height,minX,minY,width,height);ctx.restore();
+    }
     static expressions = {
         normal:    {open:1,    smile:.22, blush:.04, tilt:0,     pout:0,   asym:0,   restOpen:0},
         singing:   {open:.42,  smile:.65, blush:.30, tilt:0,     pout:0,   asym:0,   restOpen:0},
@@ -8,12 +56,12 @@ class CarScene {
         shy:       {open:.80,  smile:.48, blush:.85, tilt:0,     pout:0,   asym:0,   restOpen:0},
         sad:       {open:.74,  smile:-.6, blush:.08, tilt:-.065, pout:0,   asym:0,   restOpen:0},
         angry:     {open:.65,  smile:-.3, blush:.30, tilt:.10,   pout:.55, asym:0,   restOpen:0},
-        thinking:  {open:.88,  smile:0,   blush:.04, tilt:0,     pout:.12, asym:.12, restOpen:0},
-        surprised: {open:1.08, smile:.15, blush:.20, tilt:0,     pout:.8,  asym:0,   restOpen:.22},
-        smug:      {open:.73,  smile:.66, blush:.32, tilt:0,     pout:0,   asym:.10, restOpen:0}
+        thinking:  {open:.88,  smile:0,   blush:.04, tilt:0,     pout:.12, asym:0,   restOpen:0},
+        surprised: {open:1,    smile:.15, blush:.20, tilt:0,     pout:.35, asym:0,   restOpen:0},
+        smug:      {open:.73,  smile:.66, blush:.32, tilt:0,     pout:0,   asym:0,   restOpen:0}
     };
     static assetRoot = '/static/scenes/car/';
-    constructor(layer, {preview=false, reducedMotion=false}={}) {
+    constructor(layer, {preview=false, reducedMotion=false,breathing=true}={}) {
         this.layer=layer;this.canvas=layer.querySelector('.car-face');
         this.ctx=this.canvas.getContext('2d');this.image=layer.querySelector('img');
         this.status=layer.querySelector('[role="status"]');
@@ -21,10 +69,14 @@ class CarScene {
         this.drive=window.CarDrive?new CarDrive(layer,{preview,reducedMotion}):null;
         this.blinkClock=new CharacterFace();this.current={...CarScene.expressions.normal};
         this.expression='normal';this.expressionAge=0;this.active=false;this.ready=false;
+        this.breathClock=0;this.breath=0;this.breathingEnabled=breathing!==false;
+        this.breathMesh=CarScene.makeBreathMesh();this.disposed=false;
         this.onResize=()=>this.resize();window.addEventListener('resize',this.onResize);
     }
     setActive(active, settings={}) {
+        if(this.disposed)return;
         this.active=!!active;this.layer.hidden=!this.active;
+        if(typeof settings.breathing_enabled==='boolean')this.setBreathing(settings.breathing_enabled);
         this.drive?.setActive(this.active,settings);
         this.dim=Math.max(0,Math.min(.65,settings.dim||0));
         this.layer.style.setProperty('--car-dim',String(this.dim));
@@ -42,13 +94,16 @@ class CarScene {
         this.image.onerror=()=>{this.status.textContent='Car artwork unavailable · 请刷新重试';};
         try {
             const [art,clean]=await Promise.all([image(this.image.src),image(CarScene.assetRoot+'astra-car-clean-v1.png')]);
+            if(this.disposed)return false;
             this.art=art;this.clean=clean;
             this.plate=this.crop(clean,[365,215,340,230],.93);
             this.eyes=[[395,270,115,71],[557,248,108,73]].map(bounds=>({bounds,canvas:this.crop(art,bounds,.92)}));
-            this.ready=true;this.status.textContent='';
+            this.ready=true;this.status.textContent='';return true;
         } catch(error) {
+            if(this.disposed)return false;
             this.status.textContent='Still artwork · 面部动画加载失败，请刷新';
             console.warn(error.message);
+            return false;
         }
     }
     crop(image,[x,y,w,h],inner=.8) {
@@ -86,10 +141,34 @@ class CarScene {
         const blink=this.blinkClock.sample(dt).blink;
         return {...this.current,blink};
     }
+    setBreathing(enabled){this.breathingEnabled=enabled!==false;if(!this.breathingEnabled)this.breath=0;}
+    sampleBreathing(dt) {
+        if(!this.breathingEnabled||this.reducedMotion)return 0;
+        this.breathClock+=Math.max(0,Math.min(.1,Number.isFinite(dt)?dt:0));
+        return Math.sin(this.breathClock*Math.PI*2/CarScene.breathPeriod);
+    }
+    drawBreathing(amount) {
+        const ctx=this.ctx,{x,y,width,height}=CarScene.breathRegion;
+        ctx.clearRect(x,y,width,height);
+        if(!this.art||Math.abs(amount)<1e-7)return;
+        const points=this.breathMesh.vertices.map(v=>CarScene.breathPoint(v.point,amount,v.weight));
+        for(const triangle of this.breathMesh.triangles)CarScene.drawBreathTriangle(ctx,this.art,
+            triangle.map(i=>this.breathMesh.vertices[i].point),triangle.map(i=>points[i]));
+    }
     render(params={},dt=0,hidden=false) {
+        if(this.disposed)return;
         this.drive?.render(dt,hidden);
         if(!this.active||!this.ready||hidden)return;
-        const f=this.sample(dt),ctx=this.ctx;
+        this.breath=this.sampleBreathing(dt);this.drawBreathing(this.breath);
+        const f=this.sample(dt),ctx=this.ctx,expression=params.expressionState;
+        if(expression){
+            const bounded=(value,min,max,fallback)=>Number.isFinite(value)?Math.max(min,Math.min(max,value)):fallback;
+            // Match relative eyelid openness; the original perspective and
+            // landmark positions remain calibrated to the painted face.
+            const openness=Math.min(bounded(expression.eyeOpenL,0,1,1),bounded(expression.eyeOpenR,0,1,1));
+            Object.assign(f,{open:openness,eyeOpenL:openness,eyeOpenR:openness,blink:0,tilt:0,asym:0,restOpen:0,
+                smile:bounded(expression.smile,-.4,1,.22),blush:bounded(expression.blush,0,1,.04),pout:0});
+        }
         ctx.clearRect(360,210,350,240);
         ctx.drawImage(this.plate,365,215);
         this.eyes.forEach((eye,index)=>this.drawEye(eye,index,f));
@@ -101,7 +180,7 @@ class CarScene {
     }
     drawEye(eye,index,f) {
         const ctx=this.ctx,[x,y,w,h]=eye.bounds,cx=x+w/2,cy=y+h/2;
-        const openness=Math.max(0,Math.min(1.1,(f.open+(index?f.asym:-f.asym))*(1-f.blink)));
+        const openness=Math.max(0,Math.min(1,f.open*(1-f.blink)));
         ctx.save();ctx.translate(cx,cy);ctx.rotate((index?-1:1)*f.tilt);
         if(openness>.035){ctx.save();ctx.scale(1,openness);ctx.drawImage(eye.canvas,-w/2,-h/2);ctx.restore();}
         if(openness<.3) {
@@ -121,7 +200,8 @@ class CarScene {
         }
     }
     drawMouth(open,round,f) {
-        open=Math.max(open,f.restOpen);round=Math.max(round,f.restOpen*3);
+        open=Number.isFinite(open)?Math.max(0,Math.min(1,open)):0;
+        round=Number.isFinite(round)?Math.max(0,Math.min(1,round)):0;
         const ctx=this.ctx,half=19+f.smile*4-round*5-f.pout*5;
         ctx.save();ctx.translate(542,378);ctx.rotate(-.10);ctx.strokeStyle='#ac6977';ctx.lineWidth=1.5;ctx.lineCap='round';
         ctx.beginPath();
@@ -137,6 +217,7 @@ class CarScene {
         }
         ctx.restore();
     }
-    dispose(){window.removeEventListener('resize',this.onResize);this.drive?.dispose();}
+    dispose(){this.disposed=true;this.active=false;window.removeEventListener('resize',this.onResize);this.drive?.dispose();
+        this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);}
 }
 window.CarScene=CarScene;

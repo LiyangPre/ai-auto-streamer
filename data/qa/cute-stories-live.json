@@ -1,0 +1,80 @@
+{
+  "checked_at": 1793167180.8920114,
+  "blocked_titles": [
+    "告白气球",
+    "海屿你"
+  ],
+  "ban_checks": [
+    {
+      "song": "告白气球",
+      "route": "requests",
+      "status": 403
+    },
+    {
+      "song": "告白气球",
+      "route": "play",
+      "status": 403
+    },
+    {
+      "song": "海屿你",
+      "route": "requests",
+      "status": 403
+    },
+    {
+      "song": "海屿你",
+      "route": "play",
+      "status": 403
+    }
+  ],
+  "new_stories": [
+    {
+      "id": "breakfast",
+      "title": "大小姐早餐厅，暂不赊账"
+    },
+    {
+      "id": "cake",
+      "title": "蛋糕侦探与奶油证据"
+    },
+    {
+      "id": "cleaning",
+      "title": "大扫除标签贴到了谁身上"
+    },
+    {
+      "id": "blackout",
+      "title": "停电夜的银龙影子剧场"
+    },
+    {
+      "id": "laundry",
+      "title": "泡泡很多，威严很少"
+    },
+    {
+      "id": "noodles",
+      "title": "凌晨泡面，煎蛋归谁"
+    },
+    {
+      "id": "mint",
+      "title": "薄荷盆里长出了值班表"
+    },
+    {
+      "id": "first-stream",
+      "title": "开播排练与神秘小抄"
+    },
+    {
+      "id": "rainy-drive",
+      "title": "雨天出发前的行李检查"
+    },
+    {
+      "id": "goodnight-home",
+      "title": "晚安大会，谁先打哈欠"
+    }
+  ],
+  "old_audio_not_reused": true,
+  "preparation": {
+    "state": "preparing",
+    "profile_id": "astra",
+    "completed": 0,
+    "total": 10,
+    "started": 1793167180.355624,
+    "errors": []
+  }
+}

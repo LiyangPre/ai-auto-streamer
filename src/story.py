@@ -11,6 +11,7 @@ from .performance import PerformanceSession
 from .provider_network import http_client, failure
 from .mimo_tts import mimo_audio_chunks
 from .story_catalog import STORIES
+from .story_emotions import story_expression_cues
 from pydantic import BaseModel,ConfigDict,Field
 
 VOICE_PROMPT_VERSION = 'profile-voice-v2'
@@ -43,7 +44,7 @@ class StoryStudio(PerformanceSession):
 
     async def start(self):
         self.pipeline.ingress_handlers.append(self.on_message)
-        self.trigger_task=asyncio.create_task(self._idle_triggers())
+        self.trigger_task=asyncio.create_task(self.pipeline._supervise('story-idle',self._idle_triggers))
 
     def on_message(self,message):
         if message.msg_type!='danmaku' or not self.policy().chat_requests or self.pipeline.stage.owner=='singing':return False
@@ -70,20 +71,32 @@ class StoryStudio(PerformanceSession):
 
     async def activate(self,story_id=None,music='shared',vocal_volume=.85):
         state=self.state
+        profile_id=state.active_character
+        signature=self.voice_signature(state.runtime_config.tts)
+        if self.pipeline.stage.owner not in (None,'story') or self.pipeline._is_replying:
+            raise ValueError('请先结束当前表演或等待回复准备完成。')
+        clip=self.pick(profile_id,state.runtime_config.tts,story_id)
+        transition_audio=await self.prepare_transition_audio()
         async with state.settings_lock:
+            if state.active_character!=profile_id or self.voice_signature(state.runtime_config.tts)!=signature:
+                raise ValueError('角色或声音设置已改变，请重新选择故事。')
             if self.pipeline.stage.owner not in (None,'story') or self.pipeline._is_replying or any(not t.done() for t in self.pipeline._background_tasks):
                 raise ValueError('请先结束当前表演或等待回复准备完成。')
             if self.pipeline.tts and any(not job.done for job in self.pipeline.tts.jobs.values()):raise ValueError('语音正在准备，请稍后再试。')
-            clip=self.pick(state.active_character,state.runtime_config.tts,story_id)
             payload={'music':music,'vocal_volume':vocal_volume,'presentation':state.modules.presentation('story'),
                      'backing_url':None,'backing_volume':0,'vocal_delay':0,'bpm':60}
+            transitions=getattr(self.pipeline,'transitions',None)
+            payload.update({name:clip for name,clip in transition_audio.items()
+                            if not transitions or transitions.matches_current(clip)})
             async with self.pipeline._reply_lock:await self.play(payload,clip)
 
     async def _idle_triggers(self):
         while True:
             await asyncio.sleep(1);policy=self.policy();now=time.time()
             if (not policy.auto_idle or self.pipeline.performance_active or self.pipeline._is_replying or not self.pipeline.ws_clients
+                    or (getattr(self.pipeline, 'interactions', None) and self.pipeline.interactions.engaged)
                     or not self.pipeline.danmaku_queue.empty() or self.pipeline.welcomes.pending
+                    or self.pipeline.paid.items or self.pipeline._paid_batch
                     or now-max(self.pipeline._last_viewer_time,self.pipeline._last_performance_end_time)<policy.idle_seconds or now-self.last_auto<policy.auto_interval):continue
             self.last_auto=now
             try:await self.activate()
@@ -120,6 +133,9 @@ class StoryStudio(PerformanceSession):
                 if (clip['id']!=token or clip.get('voice_signature')!=self.voice_signature(config)
                         or not path.with_suffix('.mp3').is_file()):clip=None
             except (OSError,ValueError,KeyError):pass
+            if clip:
+                clip={**clip,'expression_cues':story_expression_cues(story['text'],clip.get('duration',0)),
+                      'emotion_timing':'text-proportional'}
             result.append({**story,'ready':clip is not None,'clip':clip})
         return result
 
@@ -165,6 +181,7 @@ class StoryStudio(PerformanceSession):
                           'voice_signature':self.voice_signature(config),'voice_prompt_version':VOICE_PROMPT_VERSION,
                           'voice_style':cfg.mimo_style,
                           'generation_ms':round((time.monotonic()-started)*1000),'created':time.time(),
+                          'expression_cues':story_expression_cues(entry['text'],duration),'emotion_timing':'text-proportional',
                           'url':f'/api/stories/audio/{profile_id}/{token}'}
                     metadata=root/(token+'.json.tmp');metadata.write_text(json.dumps(clip,ensure_ascii=False,indent=2),encoding='utf-8')
                     temporary.replace(root/(token+'.mp3'));metadata.replace(root/(token+'.json'))

@@ -1,0 +1,192 @@
+.....Model request failed [response, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+Model request failed [response, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+Executing <Task finished name='Task-57' coro=<FlashXTests.test_flashx_disables_thinking_for_stream_and_nonstream_and_does_not_drop_it() done, defined at D:\ai auto streamer\tests\test_api_connections.py:157> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.906 seconds
+.......EEEEEE............Executing <Task pending name='Task-197' coro=<LLMParserTests.test_non_stream_timeout_is_structured_failure() running at D:\ai auto streamer\tests\test_core.py:230> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> cb=[_run_until_complete_cb() at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:180] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.750 seconds
+Model request failed [timeout, route=environment]: Provider request timed out; compare Direct and Auto network routes.
+.Executing <Task finished name='Task-202' coro=<LLMParserTests.test_stream_without_tag_yields_immediately() done, defined at D:\ai auto streamer\tests\test_core.py:208> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.719 seconds
+.Executing <Task finished name='Task-207' coro=<LLMParserTests.test_tag_across_chunks_and_leading_space() done, defined at D:\ai auto streamer\tests\test_core.py:212> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.797 seconds
+.Executing <Task finished name='Task-212' coro=<LLMParserTests.test_unknown_bracket_is_normal_text() done, defined at D:\ai auto streamer\tests\test_core.py:216> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.890 seconds
+......Reply skipped after LLM failure: LLM returned an empty stream
+.......TTS edge-tts failed [timeout, route=environment]: Provider request timed out; compare Direct and Auto network routes.
+....Executing <Task finished name='Task-255' coro=<GLMRequestTests.test_flash_request_omits_provider_specific_thinking_fields() done, defined at D:\ai auto streamer\tests\test_glm.py:35> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.813 seconds
+.Executing <Task finished name='Task-260' coro=<GLMRequestTests.test_missing_key_stops_before_network_request() done, defined at D:\ai auto streamer\tests\test_glm.py:45> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.765 seconds
+.Executing <Task finished name='Task-265' coro=<GLMRequestTests.test_provider_error_does_not_echo_credentials() done, defined at D:\ai auto streamer\tests\test_glm.py:56> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.765 seconds
+.Executing <Task finished name='Task-270' coro=<GLMVoiceTests.test_corrupt_rejected_and_incomplete_audio_is_not_cached() done, defined at D:\ai auto streamer\tests\test_glm_tts.py:79> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.187 seconds
+................EE.E............E....WebSocket send error: 
+..E..Executing <Task finished name='Task-572' coro=<SingingStudio._generate() done, defined at D:\ai auto streamer\src\singing.py:192> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.484 seconds
+Executing <Task pending name='Task-573' coro=<SingingStudio._generate() running at D:\ai auto streamer\src\singing.py:213> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.547 seconds
+.Executing <Task finished name='Task-579' coro=<SingingStudio._generate() done, defined at D:\ai auto streamer\src\singing.py:192> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.625 seconds
+................Reply skipped after LLM failure: LLM returned an empty reply
+.......Executing <Task finished name='Task-709' coro=<StoryStudio._prepare() done, defined at D:\ai auto streamer\src\story.py:138> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 5.671 seconds
+Executing <Task finished name='Task-710' coro=<StoryStudio._prepare() done, defined at D:\ai auto streamer\src\story.py:138> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.281 seconds
+.......TTS edge-tts failed [response, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+......E........E...s.....
+======================================================================
+ERROR: test_local_http_gift_superchat_guard_and_enter_reach_reply (test_bilibili.BilibiliPipelineTests.test_local_http_gift_superchat_guard_and_enter_reach_reply) (fields={'msg_type': 'gift', 'gift_name': '���Ի���', 'gift_num': 2, 'price': 2, 'priority': 1})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\ai auto streamer\tests\test_bilibili.py", line 138, in test_local_http_gift_superchat_guard_and_enter_reach_reply
+    with self.subTest(fields=fields),self.client.websocket_connect('/ws') as ws:
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 116, in __enter__
+    self._raise_on_close(message)
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 154, in _raise_on_close
+    raise WebSocketDenialResponse(status_code=status_code, headers=headers, content=b"".join(body))
+starlette.testclient.WebSocketDenialResponse
+
+======================================================================
+ERROR: test_local_http_gift_superchat_guard_and_enter_reach_reply (test_bilibili.BilibiliPipelineTests.test_local_http_gift_superchat_guard_and_enter_reach_reply) (fields={'msg_type': 'gift', 'gift_name': '��Ŀ����', 'gift_num': 1, 'price': 30, 'priority': 2})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\ai auto streamer\tests\test_bilibili.py", line 138, in test_local_http_gift_superchat_guard_and_enter_reach_reply
+    with self.subTest(fields=fields),self.client.websocket_connect('/ws') as ws:
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 116, in __enter__
+    self._raise_on_close(message)
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 154, in _raise_on_close
+    raise WebSocketDenialResponse(status_code=status_code, headers=headers, content=b"".join(body))
+starlette.testclient.WebSocketDenialResponse
+
+======================================================================
+ERROR: test_local_http_gift_superchat_guard_and_enter_reach_reply (test_bilibili.BilibiliPipelineTests.test_local_http_gift_superchat_guard_and_enter_reach_reply) (fields={'msg_type': 'gift', 'gift_name': '����', 'gift_num': 1, 'price': 198, 'priority': 3})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\ai auto streamer\tests\test_bilibili.py", line 138, in test_local_http_gift_superchat_guard_and_enter_reach_reply
+    with self.subTest(fields=fields),self.client.websocket_connect('/ws') as ws:
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 116, in __enter__
+    self._raise_on_close(message)
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 154, in _raise_on_close
+    raise WebSocketDenialResponse(status_code=status_code, headers=headers, content=b"".join(body))
+starlette.testclient.WebSocketDenialResponse
+
+======================================================================
+ERROR: test_local_http_gift_superchat_guard_and_enter_reach_reply (test_bilibili.BilibiliPipelineTests.test_local_http_gift_superchat_guard_and_enter_reach_reply) (fields={'msg_type': 'enter'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\ai auto streamer\tests\test_bilibili.py", line 138, in test_local_http_gift_superchat_guard_and_enter_reach_reply
+    with self.subTest(fields=fields),self.client.websocket_connect('/ws') as ws:
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 116, in __enter__
+    self._raise_on_close(message)
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 154, in _raise_on_close
+    raise WebSocketDenialResponse(status_code=status_code, headers=headers, content=b"".join(body))
+starlette.testclient.WebSocketDenialResponse
+
+======================================================================
+ERROR: test_sdk_chat_packet_reaches_websocket_and_reply (test_bilibili.BilibiliPipelineTests.test_sdk_chat_packet_reaches_websocket_and_reply)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\ai auto streamer\tests\test_bilibili.py", line 122, in test_sdk_chat_packet_reaches_websocket_and_reply
+    with self.client.websocket_connect('/ws') as ws:
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 116, in __enter__
+    self._raise_on_close(message)
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 154, in _raise_on_close
+    raise WebSocketDenialResponse(status_code=status_code, headers=headers, content=b"".join(body))
+starlette.testclient.WebSocketDenialResponse
+
+======================================================================
+ERROR: test_initial_websocket_and_switch_broadcast_include_current_profile (test_characters.CharacterAPITests.test_initial_websocket_and_switch_broadcast_include_current_profile)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\ai auto streamer\tests\test_characters.py", line 145, in test_initial_websocket_and_switch_broadcast_include_current_profile
+    with self.client.websocket_connect('/ws') as ws:
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 116, in __enter__
+    self._raise_on_close(message)
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 154, in _raise_on_close
+    raise WebSocketDenialResponse(status_code=status_code, headers=headers, content=b"".join(body))
+starlette.testclient.WebSocketDenialResponse
+
+======================================================================
+ERROR: test_audio_signaling_and_source_replacement (test_music_capture.MusicCaptureTests.test_audio_signaling_and_source_replacement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\ai auto streamer\tests\test_music_capture.py", line 26, in test_audio_signaling_and_source_replacement
+    with self.connect('output') as output:
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 116, in __enter__
+    self._raise_on_close(message)
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 143, in _raise_on_close
+    raise WebSocketDisconnect(code=message.get("code", 1000), reason=message.get("reason", ""))
+starlette.websockets.WebSocketDisconnect
+
+======================================================================
+ERROR: test_cross_origin_unknown_role_and_video_are_rejected (test_music_capture.MusicCaptureTests.test_cross_origin_unknown_role_and_video_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\ai auto streamer\tests\test_music_capture.py", line 56, in test_cross_origin_unknown_role_and_video_are_rejected
+    with self.connect('source') as source:
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 116, in __enter__
+    self._raise_on_close(message)
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 143, in _raise_on_close
+    raise WebSocketDisconnect(code=message.get("code", 1000), reason=message.get("reason", ""))
+starlette.websockets.WebSocketDisconnect
+
+======================================================================
+ERROR: test_output_join_leave_and_single_publisher (test_music_capture.MusicCaptureTests.test_output_join_leave_and_single_publisher)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\ai auto streamer\tests\test_music_capture.py", line 42, in test_output_join_leave_and_single_publisher
+    with self.connect('source') as source:
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 116, in __enter__
+    self._raise_on_close(message)
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 143, in _raise_on_close
+    raise WebSocketDisconnect(code=message.get("code", 1000), reason=message.get("reason", ""))
+starlette.websockets.WebSocketDisconnect
+
+======================================================================
+ERROR: test_new_socket_gets_snapshot_then_chat_and_reply (test_runtime.ControllerAPITests.test_new_socket_gets_snapshot_then_chat_and_reply)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\ai auto streamer\tests\test_runtime.py", line 166, in test_new_socket_gets_snapshot_then_chat_and_reply
+    with self.client.websocket_connect("/ws") as ws:
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 116, in __enter__
+    self._raise_on_close(message)
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 154, in _raise_on_close
+    raise WebSocketDenialResponse(status_code=status_code, headers=headers, content=b"".join(body))
+starlette.testclient.WebSocketDenialResponse
+
+======================================================================
+ERROR: test_window_is_bounded_even_when_all_events_are_gifts (test_runtime.RuntimeTests.test_window_is_bounded_even_when_all_events_are_gifts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\unittest\async_case.py", line 90, in _callTestMethod
+    if self._callMaybeAsync(method) is not None:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\unittest\async_case.py", line 112, in _callMaybeAsync
+    return self._asyncioRunner.run(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py", line 664, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "D:\ai auto streamer\tests\test_runtime.py", line 88, in test_window_is_bounded_even_when_all_events_are_gifts
+    kept = pipeline._handle_window.call_args.args[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'args'
+
+======================================================================
+ERROR: test_director_line_bypasses_model_and_uses_action_mapping (test_studio.StudioAPITests.test_director_line_bypasses_model_and_uses_action_mapping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\ai auto streamer\tests\test_studio.py", line 268, in test_director_line_bypasses_model_and_uses_action_mapping
+    with self.client.websocket_connect('/ws') as websocket:
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 116, in __enter__
+    self._raise_on_close(message)
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 154, in _raise_on_close
+    raise WebSocketDenialResponse(status_code=status_code, headers=headers, content=b"".join(body))
+starlette.testclient.WebSocketDenialResponse
+
+======================================================================
+ERROR: test_scene_settings_apply_broadcast_and_survive_restart (test_studio.StudioAPITests.test_scene_settings_apply_broadcast_and_survive_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\ai auto streamer\tests\test_studio.py", line 159, in test_scene_settings_apply_broadcast_and_survive_restart
+    with self.client.websocket_connect('/ws') as socket:
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 116, in __enter__
+    self._raise_on_close(message)
+  File "C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\site-packages\starlette\testclient.py", line 154, in _raise_on_close
+    raise WebSocketDenialResponse(status_code=status_code, headers=headers, content=b"".join(body))
+starlette.testclient.WebSocketDenialResponse
+
+----------------------------------------------------------------------
+Ran 148 tests in 29.346s
+
+FAILED (errors=13, skipped=1)

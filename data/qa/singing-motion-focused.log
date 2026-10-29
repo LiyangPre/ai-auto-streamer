@@ -1,0 +1,36 @@
+✔ tilted blink preserves eye tangent width and closes along each local normal (4.9288ms)
+✔ semantic shared snapshots produce recognizable different calibrated emotions at saved strength (36.6004ms)
+✔ shared SDK blink drives one complete paired cycle instead of being lost in semantic mapping (215.684ms)
+✔ controller preserves disabled and zero-intensity module expression settings in the singer (322.9653ms)
+✔ semantic expression changes blend from the existing face without a discontinuous frame (9.9464ms)
+✔ mouth opening follows actual audio, not the surprised or singing emotion (2.6529ms)
+✔ manual blink still closes both eyes when an older external adapter has no blink metadata (1.8862ms)
+✔ angry and sad upper lids occlude opposite corners without changing eye width (1.2113ms)
+✔ singing mesh is bounded to 384 triangles and retains shared vertex topology (26.7074ms)
+✔ seat remains fixed while neck, torso and elbow inherit the same seated parent (43.8005ms)
+✔ microphone and gripping hand form one rigid group around the forearm elbow (5.2659ms)
+✔ eyes and mouth share the head joint transform without independent image scaling (3.4947ms)
+✔ maximal joint bends preserve triangle orientation and bounded local deformation (70.7658ms)
+✔ face overlays follow the actual triangle mesh across tilted eye regions (18.7383ms)
+✔ choreography is deterministic on audio position and respects motion controls (6.2534ms)
+✔ paired eyelids and real playing state are the only mouth gate (2.3152ms)
+✔ artwork is loaded once and all pixel reads happen during preparation (124.1781ms)
+✔ output sizing remains sharp and never uses transformed scene dimensions (27.9253ms)
+✔ pause freezes existing joints, closes lips, and hidden rendering makes no progress (60.7028ms)
+✔ reduced motion keeps seated geometry static but preserves actual singing lips (18.6557ms)
+✔ intro voice can open the jaw without starting the recording choreography (34.6197ms)
+✔ fallback blinking closes both eyes smoothly and unknown actions cannot alter joints (22.0866ms)
+✔ idle breathing continues while song is paused without changing its phase or joints (103.7167ms)
+✔ breathing lifts the connected upper body visibly while its hidden seat remains anchored (37.1449ms)
+✔ breathing can be disabled in scene options while blinking and actual jaw remain active (30.4113ms)
+✔ disposal removes owned resize listener and prevents late load activation (14.8205ms)
+✔ ending eases the seated pose to rest but pausing retains the exact musical pose (245.5162ms)
+✔ adjacent texture patches overlap their shared edge so idle breathing cannot reveal a mesh grid (3.3011ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1629.4437

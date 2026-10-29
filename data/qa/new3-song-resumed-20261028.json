@@ -1,0 +1,56 @@
+{
+  "checked_at": "2026-10-28T20:57:30.2299621+08:00",
+  "batch_id": "20261028-new3",
+  "state": "preparing",
+  "stage": "converting",
+  "coordinator_pid": 4256,
+  "workers": 3,
+  "steps": 50,
+  "ready": 0,
+  "total": 3,
+  "tracks": [
+    {
+      "worker": "w1",
+      "pid": 7660,
+      "title": "海屿你",
+      "stage": "resumed",
+      "completed_chunks": 2,
+      "processed_audio_seconds": 43.53741496598639,
+      "resumed_audio_seconds": 43.53741496598639,
+      "duration_seconds": 281.79201814058956,
+      "reference_sha256": "dfa57c37f8e304681f6cc3fa9e7d0370a598b00842a8461bbb035cd0fbb16c8a",
+      "steps": 50,
+      "threads": 4
+    },
+    {
+      "worker": "w2",
+      "pid": 22392,
+      "title": "泡沫",
+      "stage": "resumed",
+      "completed_chunks": 1,
+      "processed_audio_seconds": 21.768707482993197,
+      "resumed_audio_seconds": 21.768707482993197,
+      "duration_seconds": 255.89333333333335,
+      "reference_sha256": "dfa57c37f8e304681f6cc3fa9e7d0370a598b00842a8461bbb035cd0fbb16c8a",
+      "steps": 50,
+      "threads": 4
+    },
+    {
+      "worker": "w3",
+      "pid": 26216,
+      "title": "I Really Want to Stay at Your House",
+      "stage": "resumed",
+      "completed_chunks": 2,
+      "processed_audio_seconds": 43.53741496598639,
+      "resumed_audio_seconds": 43.53741496598639,
+      "duration_seconds": 245.8026530612245,
+      "reference_sha256": "dfa57c37f8e304681f6cc3fa9e7d0370a598b00842a8461bbb035cd0fbb16c8a",
+      "steps": 50,
+      "threads": 4
+    }
+  ],
+  "no_new_tts": true,
+  "playback_started": false,
+  "launch_log": "data/songs-converted/batches/20261028-new3/resume-2033.log",
+  "output_directory": "data/songs-converted"
+}

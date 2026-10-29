@@ -1,0 +1,33 @@
+{
+  "base_preview": "5c02992790b72fba5df816ddcf08005bcda0dc17dfc888df217620fe8c9439cc",
+  "operation": "post-conversion pitch shift; no SVC or TTS rerun",
+  "variants": [
+    {
+      "semitones": 1,
+      "pitch_ratio": 1.0594630943592953,
+      "tempo": 1,
+      "vocal_and_backing_shifted": true,
+      "formant": "shifted",
+      "path": "D:\\ai auto streamer\\data\\song-previews\\astra-haiyuni-preview-plus1.mp3",
+      "audio_url": "/audio/astra-haiyuni-preview-7e304478-plus1.mp3",
+      "render_seconds": 0.425,
+      "decoded_seconds": 12.0,
+      "mp3_seconds": 12.042448979591837,
+      "sha256": "6e5654b7c71da78165e56d2c1e5530c0c0a733230c6b3e24bd27b04a5b15f97e"
+    },
+    {
+      "semitones": 2,
+      "pitch_ratio": 1.122462048309373,
+      "tempo": 1,
+      "vocal_and_backing_shifted": true,
+      "formant": "shifted",
+      "path": "D:\\ai auto streamer\\data\\song-previews\\astra-haiyuni-preview-plus2.mp3",
+      "audio_url": "/audio/astra-haiyuni-preview-7e304478-plus2.mp3",
+      "render_seconds": 0.345,
+      "decoded_seconds": 12.0,
+      "mp3_seconds": 12.042448979591837,
+      "sha256": "2d40b04240ec8c7f4694ef91bf3196971cdfe0ea3eb5a3f4178688997ba1462d"
+    }
+  ],
+  "defaults_changed": false
+}

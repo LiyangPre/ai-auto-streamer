@@ -1,0 +1,102 @@
+Model request failed [response, model=glm-4.7-flashx, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+Model request failed [response, model=glm-4.7-flashx, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+Executing <Task finished name='Task-146' coro=<FlashXTests.test_flashx_disables_thinking_for_stream_and_nonstream_and_does_not_drop_it() done, defined at D:\ai auto streamer\tests\test_api_connections.py:261> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 2.281 seconds
+Song progress file could not be published (PermissionError); computation continues
+Interactive reply rejected (ValidationError)
+Interactive reply rejected (ValueError)
+Interactive reply rejected (ValueError)
+Executing <Task pending name='Task-420' coro=<LLMParserTests.test_non_stream_timeout_is_structured_failure() running at D:\ai auto streamer\tests\test_core.py:230> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> cb=[_run_until_complete_cb() at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:180] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 1.656 seconds
+Model request failed [timeout, model=qwen2.5:7b-instruct, route=environment]: Provider request timed out; compare Direct and Auto network routes.
+Executing <Task pending name='Task-425' coro=<LLMParserTests.test_slow_consumer_time_is_excluded_from_model_stream_deadline() running at D:\ai auto streamer\tests\test_core.py:245> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> cb=[_run_until_complete_cb() at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:180] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 1.610 seconds
+Executing <Task finished name='Task-430' coro=<LLMParserTests.test_stream_without_tag_yields_immediately() done, defined at D:\ai auto streamer\tests\test_core.py:208> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 1.781 seconds
+Executing <Task finished name='Task-435' coro=<LLMParserTests.test_tag_across_chunks_and_leading_space() done, defined at D:\ai auto streamer\tests\test_core.py:212> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 1.907 seconds
+Executing <Task finished name='Task-440' coro=<LLMParserTests.test_unknown_bracket_is_normal_text() done, defined at D:\ai auto streamer\tests\test_core.py:216> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 1.672 seconds
+TTS edge-tts failed [timeout, route=environment]: Provider request timed out; compare Direct and Auto network routes.
+Reply skipped after LLM failure: Provider request timed out
+Executing <Task finished name='Task-581' coro=<ModuleTransitions._prepare() done, defined at D:\ai auto streamer\src\module_transitions.py:186> result={'audio_url': '/audio/modul...00700a6ce.mp3', 'duration': 1.056, 'emotion': 'happy', 'profile_id': 'astra', ...} created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.172 seconds
+Executing <Task finished name='Task-583' coro=<ModuleTransitions._prepare() done, defined at D:\ai auto streamer\src\module_transitions.py:186> result={'audio_url': '/audio/modul...b1ceaff82.mp3', 'duration': 1.056, 'emotion': 'happy', 'profile_id': 'astra', ...} created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.141 seconds
+Executing <Task finished name='Task-653' coro=<GLMRequestTests.test_flash_request_omits_provider_specific_thinking_fields() done, defined at D:\ai auto streamer\tests\test_glm.py:35> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 1.625 seconds
+Executing <Task finished name='Task-658' coro=<GLMRequestTests.test_missing_key_stops_before_network_request() done, defined at D:\ai auto streamer\tests\test_glm.py:45> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 1.703 seconds
+Executing <Task finished name='Task-663' coro=<GLMRequestTests.test_provider_error_does_not_echo_credentials() done, defined at D:\ai auto streamer\tests\test_glm.py:56> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 1.812 seconds
+Model request failed [account_limit, model=glm-4.7-flash, route=direct]: Provider account balance, plan or spending limit prevents this request.
+Model request failed [quota, model=glm-4.7-flash, route=direct]: Provider quota or rate limit reached (HTTP 429).
+Model request failed [account_limit, model=glm-4.7-flash, route=direct]: Provider account balance, plan or spending limit prevents this request.
+Model request failed [quota, model=glm-4.7-flash, route=direct]: Provider quota or rate limit reached (HTTP 429).
+Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4-flash-250414, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4-flashx-250414, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4-air-250414, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4.5-air, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [tls, model=glm-4.7-flash, route=direct]: TLS certificate verification failed; check the trusted certificates and system clock.
+Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [response, model=glm-4.7-flash, route=direct]: Provider returned incomplete or invalid data; retry the connection test.
+Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4-flash-250414, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [blocked, model=glm-4.7-flash, route=direct]: Provider content review blocked the reply.
+Model request failed [blocked, model=glm-4.7-flash, route=direct]: Provider content review blocked the reply.
+Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [quota, model=glm-4.7-flash, route=direct]: Provider quota or rate limit reached (HTTP 429).
+Model request failed [provider_http, model=glm-4.7-flash, route=direct]: Provider returned HTTP 404; check model access and endpoint.
+Model request failed [authentication, model=glm-4.7-flash, route=direct]: Provider access rejected (HTTP 401); check the key, account region and endpoint.
+Model request failed [provider_http, model=glm-4.7-flash, route=direct]: Provider returned HTTP 402; check model access and endpoint.
+Model request failed [authentication, model=glm-4.7-flash, route=direct]: Provider access rejected (HTTP 403); check the key, account region and endpoint.
+Model request failed [blocked, model=glm-4.7-flash, route=direct]: Provider content review blocked the reply.
+Model request failed [reasoning_enabled, model=glm-4.7-flash, route=direct]: Model returned reasoning despite thinking being disabled.
+Model stream cleanup skipped (TimeoutError)
+Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [quota, model=glm-4.7-flash, route=direct]: Provider quota or rate limit reached (HTTP 429).
+Model request failed [provider_http, model=glm-4.7-flash, route=direct]: Provider returned HTTP 404; check model access and endpoint.
+Model request failed [provider_http, model=glm-4.7-flash, route=direct]: Provider returned HTTP 400; check model access and endpoint.
+Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [timeout, model=glm-4-flash-250414, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [timeout, model=glm-4-flash-250414, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Executing <Task finished name='Task-809' coro=<GLMVoiceTests.test_corrupt_rejected_and_incomplete_audio_is_not_cached() done, defined at D:\ai auto streamer\tests\test_glm_tts.py:79> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.391 seconds
+Executing <Task finished name='Task-1246' coro=<MiMoVoiceTests.test_bad_or_truncated_audio_is_not_cached_and_errors_hide_secrets() done, defined at D:\ai auto streamer\tests\test_mimo_tts.py:82> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.406 seconds
+Executing <Task finished name='Task-1340' coro=<ModuleTransitions._prepare() done, defined at D:\ai auto streamer\src\module_transitions.py:186> result={'audio_url': '/audio/modul...e58e894d2.mp3', 'duration': 1.056, 'emotion': 'happy', 'profile_id': 'astra', ...} created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.172 seconds
+Executing <Task finished name='Task-1354' coro=<ModuleTransitions._prepare() done, defined at D:\ai auto streamer\src\module_transitions.py:186> result={'audio_url': '/audio/modul...8875c2e33.mp3', 'duration': 1.056, 'emotion': 'happy', 'profile_id': 'astra', ...} created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.141 seconds
+Executing <Task finished name='Task-1355' coro=<ModuleTransitions._prepare() done, defined at D:\ai auto streamer\src\module_transitions.py:186> result={'audio_url': '/audio/modul...8875c2e33.mp3', 'duration': 1.056, 'emotion': 'happy', 'profile_id': 'astra', ...} created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.250 seconds
+Module transition unavailable (RuntimeError); performance continues
+Module transition unavailable (HeaderNotFoundError); performance continues
+Module transition unavailable (ValueError); performance continues
+Module transition unavailable (ValueError); performance continues
+Executing <Task finished name='Task-1383' coro=<ModuleTransitions._prepare() done, defined at D:\ai auto streamer\src\module_transitions.py:186> result={'audio_url': '/audio/modul...6ebbc91a0.mp3', 'duration': 1.056, 'emotion': 'happy', 'profile_id': 'astra', ...} created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.156 seconds
+Executing <Task finished name='Task-1382' coro=<ModuleTransitions._prepare() done, defined at D:\ai auto streamer\src\module_transitions.py:186> result={'audio_url': '/audio/modul...1453c92f1.mp3', 'duration': 1.056, 'emotion': 'happy', 'profile_id': 'astra', ...} created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.125 seconds
+Executing <Task finished name='Task-1389' coro=<ModuleTransitions._prepare() done, defined at D:\ai auto streamer\src\module_transitions.py:186> result={'audio_url': '/audio/modul...fbdd6b7f1.mp3', 'duration': 1.056, 'emotion': 'happy', 'profile_id': 'astra', ...} created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.140 seconds
+Executing <Task finished name='Task-1390' coro=<ModuleTransitions._prepare() done, defined at D:\ai auto streamer\src\module_transitions.py:186> result={'audio_url': '/audio/modul...b9931f62e.mp3', 'duration': 1.056, 'emotion': 'happy', 'profile_id': 'astra', ...} created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.141 seconds
+Executing <Task finished name='Task-1391' coro=<ModuleTransitions._prepare() done, defined at D:\ai auto streamer\src\module_transitions.py:186> result={'audio_url': '/audio/modul...57d959706.mp3', 'duration': 1.056, 'emotion': 'happy', 'profile_id': 'astra', ...} created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.125 seconds
+Executing <Task finished name='Task-1392' coro=<ModuleTransitions._prepare() done, defined at D:\ai auto streamer\src\module_transitions.py:186> result={'audio_url': '/audio/modul...f704787ac.mp3', 'duration': 1.056, 'emotion': 'happy', 'profile_id': 'astra', ...} created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.125 seconds
+Executing <Task finished name='Task-1393' coro=<ModuleTransitions._prepare() done, defined at D:\ai auto streamer\src\module_transitions.py:186> result={'audio_url': '/audio/modul...7a2158666.mp3', 'duration': 1.056, 'emotion': 'happy', 'profile_id': 'astra', ...} created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.109 seconds
+Executing <Task finished name='Task-1394' coro=<ModuleTransitions._prepare() done, defined at D:\ai auto streamer\src\module_transitions.py:186> result={'audio_url': '/audio/modul...442ff9fa6.mp3', 'duration': 1.056, 'emotion': 'happy', 'profile_id': 'astra', ...} created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.140 seconds
+Executing <Task finished name='Task-1400' coro=<ModuleTransitions._prepare() done, defined at D:\ai auto streamer\src\module_transitions.py:186> result={'audio_url': '/audio/modul...da5cc0a96.mp3', 'duration': 1.056, 'emotion': 'happy', 'profile_id': 'astra', ...} created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.156 seconds
+Executing <Task finished name='Task-1401' coro=<ModuleTransitions._prepare() done, defined at D:\ai auto streamer\src\module_transitions.py:186> result={'audio_url': '/audio/modul...8875c2e33.mp3', 'duration': 1.056, 'emotion': 'happy', 'profile_id': 'other', ...} created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.156 seconds
+Executing <Task finished name='Task-1407' coro=<ModuleTransitions._prepare() done, defined at D:\ai auto streamer\src\module_transitions.py:186> result={'audio_url': '/audio/modul...1453c92f1.mp3', 'duration': 1.056, 'emotion': 'happy', 'profile_id': 'astra', ...} created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.156 seconds
+Module transition unavailable (TimeoutError); performance continues
+Executing <Task finished name='Task-1424' coro=<ModuleTransitions._prepare() done, defined at D:\ai auto streamer\src\module_transitions.py:186> result={'audio_url': '/audio/modul...8875c2e33.mp3', 'duration': 1.056, 'emotion': 'happy', 'profile_id': 'astra', ...} created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.140 seconds
+Executing <Task finished name='Task-1604' coro=<PromptIsolationTests.test_viewer_name_message_and_memory_never_enter_system_role() done, defined at D:\ai auto streamer\tests\test_pipeline_security.py:94> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 1.906 seconds
+Loop cleanup failed (ValueError); restarting
+Loop heartbeat failed (ValueError); restarting
+Loop welcome failed (ValueError); restarting
+WebSocket send error: 
+Content review failed (OSError); output blocked
+Content review failed (ValueError); output blocked
+Content review failed (ValueError); output blocked
+Content review failed (TimeoutError); output blocked
+Executing <Task finished name='Task-1732' coro=<SingingStudio._generate() done, defined at D:\ai auto streamer\src\singing.py:358> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 1.172 seconds
+Executing <Task pending name='Task-1733' coro=<SingingStudio._generate() running at D:\ai auto streamer\src\singing.py:379> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 1.109 seconds
+Executing <Task finished name='Task-1739' coro=<SingingStudio._generate() done, defined at D:\ai auto streamer\src\singing.py:358> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 1.172 seconds
+Executing <Task finished name='Task-1760' coro=<SongBanPlaybackTests.test_manual_play_is_blocked_before_transition_synthesis_and_preserves_audio() done, defined at D:\ai auto streamer\tests\test_song_bans.py:124> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.219 seconds
+Song request could not be handled (ValidationError)
+Reply skipped after LLM failure: LLM returned an empty reply
+Executing <Task finished name='Task-2086' coro=<StoryStudio._prepare() done, defined at D:\ai auto streamer\src\story.py:154> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 13.563 seconds
+Executing <Task finished name='Task-2087' coro=<StoryStudio._prepare() done, defined at D:\ai auto streamer\src\story.py:154> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.671 seconds
+Executing <Task finished name='Task-2085' coro=<StoryServiceTests.test_prepares_ten_whole_tagged_stories_once_and_randomizes_without_repeating() done, defined at D:\ai auto streamer\tests\test_story.py:26> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.125 seconds
+TTS edge-tts failed [response, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+----------------------------------------------------------------------
+Ran 476 tests in 163.360s
+
+OK (skipped=1)

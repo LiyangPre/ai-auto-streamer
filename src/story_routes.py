@@ -1,10 +1,10 @@
 import asyncio
 import re
 from typing import Literal
-from fastapi import APIRouter,Request,HTTPException
+from fastapi import APIRouter,Request,HTTPException, Depends
 from fastapi.responses import FileResponse
 from pydantic import BaseModel,ConfigDict,Field
-from .api_routes import local_request
+from .local_security import local_request, local_resource
 from .story import StoryPolicy
 from .characters import save_library
 
@@ -25,7 +25,7 @@ class PolicyUpdate(BaseModel):
     policy:StoryPolicy
 
 
-@router.get('')
+@router.get('', dependencies=[Depends(local_request)])
 async def get_stories(request:Request):
     local_request(request);state=request.app.state
     studio=state.modules.service('story')
@@ -33,7 +33,7 @@ async def get_stories(request:Request):
             'revision':state.characters.revision,'welcome':state.runtime_config.welcome.model_dump()}
 
 
-@router.post('/settings')
+@router.post('/settings', dependencies=[Depends(local_request)])
 async def settings(data:PolicyUpdate,request:Request):
     local_request(request);state=request.app.state
     async with state.settings_lock:
@@ -46,7 +46,7 @@ async def settings(data:PolicyUpdate,request:Request):
     return await get_stories(request)
 
 
-@router.post('/prepare',status_code=202)
+@router.post('/prepare',status_code=202, dependencies=[Depends(local_request)])
 async def prepare(request:Request):
     local_request(request);state=request.app.state
     async with state.settings_lock:
@@ -54,14 +54,14 @@ async def prepare(request:Request):
         except ValueError as error:raise HTTPException(409,str(error)) from None
 
 
-@router.post('/cancel')
+@router.post('/cancel', dependencies=[Depends(local_request)])
 async def cancel(request:Request):
     local_request(request);studio=request.app.state.modules.service('story')
     if studio.busy:studio.task.cancel();await asyncio.gather(studio.task,return_exceptions=True)
     return await get_stories(request)
 
 
-@router.post('/play')
+@router.post('/play', dependencies=[Depends(local_request)])
 async def play(data:StoryPlay,request:Request):
     local_request(request);state=request.app.state
     try:await state.modules.service('story').activate(data.story_id,data.music,data.vocal_volume)
@@ -69,14 +69,14 @@ async def play(data:StoryPlay,request:Request):
     return await get_stories(request)
 
 
-@router.post('/stop')
+@router.post('/stop', dependencies=[Depends(local_request)])
 async def stop(request:Request):
     local_request(request)
     async with request.app.state.settings_lock:await request.app.state.modules.service('story').stop()
     return await get_stories(request)
 
 
-@router.get('/audio/{profile_id}/{token}')
+@router.get('/audio/{profile_id}/{token}', dependencies=[Depends(local_resource)])
 async def audio(profile_id:str,token:str,request:Request):
     if not re.fullmatch(r'[a-z][a-z0-9_-]{0,47}',profile_id) or not re.fullmatch(r'[a-f0-9]{32}',token):raise HTTPException(404)
     path=request.app.state.modules.service('story').root/profile_id/(token+'.mp3')

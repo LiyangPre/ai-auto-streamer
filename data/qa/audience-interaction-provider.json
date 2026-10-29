@@ -1,0 +1,51 @@
+{
+  "provider": "glm",
+  "samples": [
+    "好想听你唱歌呀，随便来一首？",
+    "讲讲你跟Claude和DeepSeek家里好玩的事呗",
+    "别放《小幸运》，现在不想听歌",
+    "今天的衣服真好看"
+  ],
+  "ok": true,
+  "model": "glm-4.7-flashx",
+  "reply": {
+    "reply": "既然想听，那就来首《起风了》吧。",
+    "emotion": "happy",
+    "intents": [
+      {
+        "intent": "singing",
+        "confidence": 0.95,
+        "title": null,
+        "positive": true,
+        "current_request": true,
+        "index": 0
+      },
+      {
+        "intent": "story",
+        "confidence": 0.85,
+        "title": null,
+        "positive": true,
+        "current_request": true,
+        "index": 1
+      },
+      {
+        "intent": "none",
+        "confidence": 0.9,
+        "title": null,
+        "positive": false,
+        "current_request": false,
+        "index": 2
+      },
+      {
+        "intent": "none",
+        "confidence": 0.9,
+        "title": null,
+        "positive": true,
+        "current_request": false,
+        "index": 3
+      }
+    ]
+  },
+  "meaning_check": true,
+  "elapsed_seconds": 14.06
+}

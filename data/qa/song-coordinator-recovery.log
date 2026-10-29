@@ -1,0 +1,19 @@
+test_old_heartbeat_is_stale_only_if_the_coordinator_lease_is_free (tests.test_song_coordinator_recovery.CoordinatorLeaseTests.test_old_heartbeat_is_stale_only_if_the_coordinator_lease_is_free) ... ok
+test_recent_heartbeat_does_not_probe_or_claim_a_dead_coordinator (tests.test_song_coordinator_recovery.CoordinatorLeaseTests.test_recent_heartbeat_does_not_probe_or_claim_a_dead_coordinator) ... ok
+test_repeated_status_write_failures_do_not_terminate_running_workers (tests.test_song_coordinator_recovery.CoordinatorTelemetryTests.test_repeated_status_write_failures_do_not_terminate_running_workers) ... ok
+test_telemetry_publication_is_best_effort_and_keeps_previous_state (tests.test_song_coordinator_recovery.CoordinatorTelemetryTests.test_telemetry_publication_is_best_effort_and_keeps_previous_state) ... ok
+test_stale_original_batch_is_reported_without_restarting_or_editing_it (tests.test_song_coordinator_recovery.QueueStaleCoordinatorTests.test_stale_original_batch_is_reported_without_restarting_or_editing_it) ... ok
+test_activation_releases_old_lease_before_launch_and_preserves_originals (tests.test_song_follow_on_queue.FollowOnQueueTests.test_activation_releases_old_lease_before_launch_and_preserves_originals) ... ok
+test_changed_original_identifiers_block_without_writing_manifests (tests.test_song_follow_on_queue.FollowOnQueueTests.test_changed_original_identifiers_block_without_writing_manifests) ... ok
+test_completion_requires_import_and_exact_quality (tests.test_song_follow_on_queue.FollowOnQueueTests.test_completion_requires_import_and_exact_quality) ... ok
+test_follow_on_completion_does_not_launch_or_autoplay (tests.test_song_follow_on_queue.FollowOnQueueTests.test_follow_on_completion_does_not_launch_or_autoplay) ... ok
+test_incomplete_or_unimported_original_batch_cannot_activate (tests.test_song_follow_on_queue.FollowOnQueueTests.test_incomplete_or_unimported_original_batch_cannot_activate) ... ok
+test_interrupted_manifest_transaction_recovers_once (tests.test_song_follow_on_queue.FollowOnQueueTests.test_interrupted_manifest_transaction_recovers_once) ... ok
+test_original_error_or_stop_never_restarts_it (tests.test_song_follow_on_queue.FollowOnQueueTests.test_original_error_or_stop_never_restarts_it) ... ok
+test_voice_batch_and_source_changes_block_activation (tests.test_song_follow_on_queue.FollowOnQueueTests.test_voice_batch_and_source_changes_block_activation) ... ok
+test_waiting_does_not_edit_running_manifests_or_launch_workers (tests.test_song_follow_on_queue.FollowOnQueueTests.test_waiting_does_not_edit_running_manifests_or_launch_workers) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.408s
+
+OK

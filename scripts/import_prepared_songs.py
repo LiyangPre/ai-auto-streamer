@@ -3,6 +3,8 @@
 No provider calls or playback occur. The prepared manifest contains a voice candidate,
 approved reference SHA-256 and ready mixed/vocal MP3 pairs. Each take is published
 only after both audio files are copied, then the completed library is backed up.
+Optional named replacement first verifies a complete pre-replacement backup and
+retains retired files outside the active catalog; it needs two free backup slots.
 """
 import argparse
 from contextlib import contextmanager
@@ -18,13 +20,16 @@ import time
 from types import SimpleNamespace
 from urllib.parse import urlsplit
 import uuid
+import zipfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from mutagen.mp3 import MP3
 from mutagen import MutagenError
 from src.config import Config, PROJECT_ROOT
 from src.singing import MAX_LIBRARY_BYTES, MAX_SONGS_PER_CHARACTER, SingingStudio, songs_directory
+from src.song_requests import normalized_title
 from src.studio import settings_path
+from scripts.atomic_json import write_json_atomic
 
 
 MAX_AUDIO_BYTES = 20 * 1024 * 1024
@@ -174,8 +179,130 @@ def publish_track(studio, track, profile_id, reference):
     return item
 
 
+def replacement_titles(values, tracks):
+    """Replacement is explicit, profile-scoped and unambiguous in this batch."""
+    if values is None:
+        return set()
+    if not isinstance(values, (list, tuple)) or len(values) > MAX_SONGS_PER_CHARACTER:
+        raise ValueError('Replacement titles must be a list of at most 64 titles.')
+    selected = set()
+    for value in values:
+        if not isinstance(value, str) or not 1 <= len(value) <= 80 or not normalized_title(value):
+            raise ValueError('Replacement titles must contain 1–80 characters.')
+        selected.add(normalized_title(value))
+    incoming = {}
+    for track in tracks:
+        key = normalized_title(track['title'])
+        if key in selected:
+            if key in incoming:
+                raise ValueError('A replacement title must identify exactly one prepared take.')
+            incoming[key] = track
+    if selected != set(incoming):
+        raise ValueError('Every replacement title must occur in the validated prepared batch.')
+    return selected
+
+
+def song_files(root, song):
+    token = song.get('id', '')
+    if not isinstance(token, str) or not re.fullmatch(r'[a-f0-9]{32}', token):
+        raise ValueError('Cannot replace a song with an invalid library identity.')
+    suffixes = ['.json', '.mp3']
+    if song.get('guide_url'):
+        suffixes.append('-guide.mp3')
+    return [root / (token + suffix) for suffix in suffixes]
+
+
+def library_backup(studio, profile_id, *, verify_catalog=None):
+    backup = studio.backup(profile_id)
+    root = studio.root.with_name(studio.root.name + '-backups') / profile_id
+    path = root / (backup['id'] + '.zip')
+    backup['path'] = str(path)
+    if verify_catalog is not None:
+        # Do not retire an old take until its complete pre-replacement backup
+        # can be read and contains the exact current bytes of every profile song.
+        try:
+            with zipfile.ZipFile(path) as archive:
+                if archive.testzip() is not None:
+                    raise ValueError('Pre-replacement backup did not pass its integrity check.')
+                manifest = json.loads(archive.read('manifest.json'))
+                for song in verify_catalog:
+                    for source in song_files(studio.root, song):
+                        name = 'songs/' + source.name
+                        expected = sha256(source)
+                        if (manifest.get('sha256', {}).get(name) != expected
+                                or hashlib.sha256(archive.read(name)).hexdigest() != expected):
+                            raise ValueError('Pre-replacement backup differs from the current library.')
+        except (zipfile.BadZipFile, KeyError, TypeError):
+            raise ValueError('Pre-replacement backup cannot be verified.') from None
+    return backup
+
+
+def publish_replacement(studio, tracks, profile_id, reference, retired, *, stopped_check=None):
+    """Keep old takes recoverable and roll back this batch on publication errors.
+
+    There is no multi-file filesystem transaction. The import lease and caller's
+    stopped/settings guard exclude supported concurrent writers. On success the
+    old files remain in a unique quarantine outside the active song catalog as
+    well as in a verified whole-profile backup. On interruption an additional
+    archive receipt records the exact owned files for recovery.
+    """
+    before = library_backup(studio, profile_id,
+                            verify_catalog=[song for song in studio.catalog() if song['profile_id'] == profile_id])
+    archive = studio.root.with_name(studio.root.name + '-replaced') / profile_id / uuid.uuid4().hex
+    archive.mkdir(parents=True, exist_ok=False)
+    sources = [(source, archive / source.name) for song in retired for source in song_files(studio.root, song)]
+    receipt = {'version': 1, 'profile_id': profile_id, 'state': 'prepared', 'created': time.time(),
+               'pre_replacement_backup': before,
+               'old_songs': retired, 'new_songs': [],
+               'files': [{'source': str(source), 'archive': str(target), 'sha256': sha256(source)}
+                         for source, target in sources]}
+    receipt_path = archive / 'replacement.json'
+    write_json_atomic(receipt_path, receipt)
+    imported, moved = [], []
+    try:
+        if stopped_check:
+            stopped_check()
+        for track in tracks:
+            item = publish_track(studio, track, profile_id, reference)
+            imported.append(item)
+            receipt['new_songs'] = imported
+            write_json_atomic(receipt_path, receipt)
+        if stopped_check:
+            stopped_check()
+        # Every new take is already validated and completely published before
+        # any old metadata is hidden. A fresh version deliberately gets no LRC
+        # from the old recording; exact import-key reuses never reach this path.
+        for source, target in sources:
+            source.replace(target)
+            moved.append((source, target))
+        backup = library_backup(studio, profile_id)
+        receipt.update(state='complete', completed=time.time(), post_replacement_backup=backup)
+        write_json_atomic(receipt_path, receipt)
+    except BaseException:
+        rollback_errors = []
+        for source, target in reversed(moved):
+            try:
+                target.replace(source)
+            except OSError as error:
+                rollback_errors.append(type(error).__name__)
+        for song in imported:
+            for path in song_files(studio.root, song):
+                try:
+                    path.unlink(missing_ok=True)
+                except OSError as error:
+                    rollback_errors.append(type(error).__name__)
+        receipt.update(state='rollback-incomplete' if rollback_errors else 'rolled-back',
+                       rollback_errors=rollback_errors, updated=time.time())
+        write_json_atomic(receipt_path, receipt, best_effort=True)
+        if rollback_errors:
+            raise RuntimeError('Replacement rollback needs recovery from its pre-replacement backup and receipt.') from None
+        raise
+    return imported, backup, before, str(archive)
+
+
 def import_prepared(manifest_path, library_root, reference_metadata=None, profile_id='astra', *, stopped_check=None,
-                    expected_total=None, expected_bvids=None, expected_reference_hash=None, expected_steps=None):
+                    expected_total=None, expected_bvids=None, expected_reference_hash=None, expected_steps=None,
+                    replace_titles=None):
     if not re.fullmatch(r'[a-z][a-z0-9_-]{0,47}', profile_id):
         raise ValueError('Invalid profile ID.')
     manifest_path = Path(manifest_path)
@@ -201,6 +328,7 @@ def import_prepared(manifest_path, library_root, reference_metadata=None, profil
     tracks = [validate_track(track, manifest['reference_sha256']) for track in manifest['tracks'] if track.get('ready') is True]
     if len({item['import_key'] for item in tracks}) != len(tracks):
         raise ValueError('The prepared manifest contains duplicate track versions.')
+    selected_titles = replacement_titles(replace_titles, tracks)
     root = Path(library_root).resolve()
     with import_lock(root):
         if stopped_check:
@@ -208,6 +336,16 @@ def import_prepared(manifest_path, library_root, reference_metadata=None, profil
         studio = SingingStudio(root, SimpleNamespace())
         catalog = studio.catalog()
         existing = {song.get('conversion_provenance', {}).get('import_key'): song for song in catalog if song['profile_id'] == profile_id}
+        incoming_by_title = {normalized_title(track['title']): track for track in tracks
+                             if normalized_title(track['title']) in selected_titles}
+        retired = [song for song in catalog if song['profile_id'] == profile_id
+                   and normalized_title(song['title']) in selected_titles
+                   and song.get('conversion_provenance', {}).get('import_key') !=
+                   incoming_by_title[normalized_title(song['title'])]['import_key']]
+        for song in retired:
+            for path in song_files(root, song):
+                if not path.is_file():
+                    raise ValueError('An old take is incomplete; restore it before replacing the recording.')
         pending, skipped = [], []
         for track in tracks:
             song = existing.get(track['import_key'])
@@ -220,23 +358,35 @@ def import_prepared(manifest_path, library_root, reference_metadata=None, profil
             else:
                 pending.append(track)
         extra_bytes = sum(item['mix']['bytes'] + item['guide']['bytes'] for item in pending)
-        if (sum(song['profile_id'] == profile_id for song in catalog) + len(pending) > MAX_SONGS_PER_CHARACTER
-                or len(catalog) + len(pending) > 256):
+        if (sum(song['profile_id'] == profile_id for song in catalog) + len(pending) - len(retired) > MAX_SONGS_PER_CHARACTER
+                or len(catalog) + len(pending) - len(retired) > 256):
             raise ValueError('Prepared batch would exceed the song library track limit.')
-        if sum(song.get('bytes', 0) + song.get('guide_bytes', 0) for song in catalog) + extra_bytes > MAX_LIBRARY_BYTES:
+        old_bytes = sum(song.get('bytes', 0) + song.get('guide_bytes', 0) for song in retired)
+        if sum(song.get('bytes', 0) + song.get('guide_bytes', 0) for song in catalog) + extra_bytes - old_bytes > MAX_LIBRARY_BYTES:
             raise ValueError('Prepared batch would exceed the 1 GB song library limit.')
         backup_root = root.with_name(root.name + '-backups') / profile_id
-        if pending and len(list(backup_root.glob('*.zip'))) >= 8:
-            raise ValueError('Move an old song backup first; eight archives already exist.')
+        backup_count = len(list(backup_root.glob('*.zip')))
+        backups_needed = 2 if retired else int(bool(pending))
+        if backup_count + backups_needed > 8:
+            raise ValueError('Move old song backups first; replacement needs two free backup slots.' if retired
+                             else 'Move an old song backup first; eight archives already exist.')
         if stopped_check:
             stopped_check()
-        imported = [publish_track(studio, track, profile_id, reference) for track in pending]
-        backup = studio.backup(profile_id) if imported else None
-        if backup:
-            backup['path'] = str(backup_root / (backup['id'] + '.zip'))
+        pre_replacement_backup = replacement_archive = None
+        if retired:
+            imported, backup, pre_replacement_backup, replacement_archive = publish_replacement(
+                studio, pending, profile_id, reference, retired, stopped_check=stopped_check)
+        else:
+            imported = [publish_track(studio, track, profile_id, reference) for track in pending]
+            backup = library_backup(studio, profile_id) if imported else None
         result = {'profile_id': profile_id, 'voice_candidate': reference['candidate_id'], 'reference_sha256': manifest['reference_sha256'],
                   'imported': [{'bvid': song['conversion_provenance']['bvid'], 'song_id': song['id'], 'title': song['title']} for song in imported],
                   'skipped': skipped, 'backup': backup, 'playback_started': False}
+        if selected_titles:
+            result.update(replaced=[{'song_id': song['id'], 'title': song['title'],
+                                     'bvid': song.get('conversion_provenance', {}).get('bvid')}
+                                    for song in retired],
+                          pre_replacement_backup=pre_replacement_backup, replacement_archive=replacement_archive)
         return result
 
 
@@ -246,11 +396,14 @@ def main():
     parser.add_argument('--config', default='config.yaml')
     parser.add_argument('--reference-metadata', type=Path,
                         help='Defaults to the manifest reference_metadata, then the legacy Astra reference metadata.')
+    parser.add_argument('--replace-title', action='append', default=[],
+                        help='Replace older takes of this exact normalized title after verified backup; repeat per title.')
     args = parser.parse_args()
     config = Config.load(args.config)
     try:
         result = import_prepared(args.manifest, songs_directory(settings_path(args.config)), args.reference_metadata,
-                                 stopped_check=lambda: ensure_studio_stopped(config.server.host, config.server.port))
+                                 stopped_check=lambda: ensure_studio_stopped(config.server.host, config.server.port),
+                                 replace_titles=args.replace_title)
     except (OSError, ValueError, KeyError) as error:
         parser.exit(1, f'Import failed: {error}\n')
     destination = args.manifest.with_name('import-result.json')

@@ -19,6 +19,11 @@ import sys
 import time
 from types import SimpleNamespace
 
+try:
+    from .atomic_json import write_json_atomic
+except ImportError:  # Direct script execution.
+    from atomic_json import write_json_atomic
+
 ROOT = Path(__file__).resolve().parents[1]
 ENGINE_ROOT = ROOT / '.tools/seed-vc'
 OUTPUT_ROOT = ROOT / 'data/songs-converted'
@@ -68,11 +73,8 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def publish(path: Path, value: dict) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    partial = path.with_name(path.name + '.partial')
-    partial.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-    os.replace(partial, path)
+def publish(path, value, *, best_effort=False):
+    return write_json_atomic(path, value, best_effort=best_effort)
 
 
 def log(event: str, **fields) -> None:
@@ -234,7 +236,7 @@ def main() -> None:
                 measured.append((time.monotonic() - current['compute_started']) / newly_processed)
         state['estimated_seconds_remaining'] = (max(0, total_audio_seconds - state['processed_audio_seconds'])
             * (sum(measured) / len(measured))) if measured else None
-        publish(state_path, state)
+        publish(state_path, state, best_effort=True)
 
     def assert_reference_current():
         current = load_jobs(args.jobs)
@@ -428,7 +430,7 @@ def main() -> None:
                                     'status': 'interrupted' if isinstance(error, KeyboardInterrupt) else 'failed',
                                     'updated_at': stamp(), 'id': track['id'], 'worker_id': args.worker_id,
                                     'reference_sha256': reference_hash, 'settings': settings,
-                                    'error_type': type(error).__name__, 'error': str(error)[:500]})
+                                    'error_type': type(error).__name__, 'error': str(error)[:500]}, best_effort=True)
                             raise
                 if pending:
                     waiting_status = 'waiting_for_track_lock' if all(track['id'] in locked_tracks for track in pending) else 'waiting_for_stems'

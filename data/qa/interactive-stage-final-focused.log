@@ -1,0 +1,14 @@
+Interactive reply rejected (ValidationError)
+Interactive reply rejected (ValueError)
+Interactive reply rejected (ValueError)
+Model request failed [response, model=glm-4.7-flash, route=direct]: Model returned an invalid interaction response.
+Model request failed [response, model=glm-4-flash-250414, route=direct]: Model returned an invalid interaction response.
+Model request failed [response, model=glm-4-flashx-250414, route=direct]: Model returned an invalid interaction response.
+Model request failed [response, model=glm-4.7-flash, route=direct]: Model returned an invalid interaction response.
+Model request failed [response, model=glm-4.7-flash, route=direct]: Model returned an invalid interaction response.
+Model request failed [reasoning_enabled, model=glm-4.7-flash, route=direct]: Model returned reasoning despite thinking being disabled.
+Model request failed [blocked, model=glm-4.7-flash, route=direct]: Provider content review blocked the reply.
+----------------------------------------------------------------------
+Ran 43 tests in 3.242s
+
+OK

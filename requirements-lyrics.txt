@@ -1,0 +1,7 @@
+# Offline preparation only; keep these out of the live Studio environment.
+faster-whisper==1.2.1
+av==15.1.0
+ctranslate2==4.8.4
+huggingface-hub==0.36.0
+opencc-python-reimplemented==0.1.7
+pypinyin==0.55.0

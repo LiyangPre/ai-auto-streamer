@@ -1,0 +1,43 @@
+{
+  "profile_id": "astra",
+  "tracks": [
+    {
+      "title": "I Really Want to Stay at Your House",
+      "song_id": "88be1937ce0a4d1ab731dbfdfe886039",
+      "blocked": false,
+      "duration": 245.838,
+      "saved_lyric_cues": 63,
+      "lyrics_offset": 0.0,
+      "conversion": "complete",
+      "directory": "data\\songs-converted\\BV1FN411n7FT",
+      "adjustment_seconds": 0.51,
+      "median_alignment_error_seconds": 0.25,
+      "human_timing_reviewed": false
+    },
+    {
+      "title": "泡沫",
+      "song_id": "139520cc7e254c009ee3370d177cf714",
+      "blocked": false,
+      "duration": 255.922,
+      "saved_lyric_cues": 35,
+      "lyrics_offset": 0.0,
+      "conversion": "complete",
+      "directory": "data\\songs-converted\\BV1y8411i7Dd",
+      "adjustment_seconds": 0.71,
+      "median_alignment_error_seconds": 0.1,
+      "human_timing_reviewed": false
+    },
+    {
+      "title": "海屿你",
+      "song_id": "8ca0d73502664d0aadbf6c2cfc3ad8cf",
+      "blocked": true,
+      "duration": 281.835,
+      "saved_lyric_cues": 0,
+      "lyrics_offset": 0,
+      "conversion": "complete",
+      "directory": "data\\songs-converted\\BV14GovBnESm",
+      "lyrics_status": "user LRC saved for later; ban retained"
+    }
+  ],
+  "playback_started": false
+}

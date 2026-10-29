@@ -7,7 +7,7 @@
       "title": "起风了",
       "version": "用券版",
       "status": "source_ready",
-      "conversion_status": "queued",
+      "conversion_status": "ready",
       "source_recording": {
         "bvid": "BV1D64y1Z7Ko",
         "source_url": "https://www.bilibili.com/video/BV1D64y1Z7Ko/",
@@ -16,12 +16,17 @@
         "original_audio": "D:\\ai auto streamer\\data\\song-sources\\BV1D64y1Z7Ko.m4a",
         "mp3": "D:\\ai auto streamer\\data\\song-sources\\起风了-买辣椒也用券-BV1D64y1Z7Ko.mp3",
         "bytes": 7420813
+      },
+      "prepared_audio": {
+        "mix_mp3": "D:\\ai auto streamer\\data\\songs-converted\\BV1D64y1Z7Ko\\astra-song.mp3",
+        "vocals_mp3": "D:\\ai auto streamer\\data\\songs-converted\\BV1D64y1Z7Ko\\converted-vocals.mp3",
+        "duration_seconds": 309.185306
       }
     },
     {
       "title": "小幸运",
       "status": "source_ready",
-      "conversion_status": "queued",
+      "conversion_status": "ready",
       "source_recording": {
         "bvid": "BV1y82uB2ET4",
         "source_url": "https://www.bilibili.com/video/BV1y82uB2ET4/",
@@ -30,12 +35,17 @@
         "original_audio": "D:\\ai auto streamer\\data\\song-sources\\BV1y82uB2ET4.m4a",
         "mp3": "D:\\ai auto streamer\\data\\song-sources\\小幸运-BV1y82uB2ET4.mp3",
         "bytes": 6333327
+      },
+      "prepared_audio": {
+        "mix_mp3": "D:\\ai auto streamer\\data\\songs-converted\\BV1y82uB2ET4\\astra-song.mp3",
+        "vocals_mp3": "D:\\ai auto streamer\\data\\songs-converted\\BV1y82uB2ET4\\converted-vocals.mp3",
+        "duration_seconds": 263.862857
       }
     },
     {
       "title": "告白气球",
       "status": "source_ready",
-      "conversion_status": "queued",
+      "conversion_status": "ready",
       "source_recording": {
         "bvid": "BV1A3411J7HX",
         "source_url": "https://www.bilibili.com/video/BV1A3411J7HX/",
@@ -44,6 +54,11 @@
         "original_audio": "D:\\ai auto streamer\\data\\song-sources\\BV1A3411J7HX.m4a",
         "mp3": "D:\\ai auto streamer\\data\\song-sources\\告白气球-BV1A3411J7HX.mp3",
         "bytes": 5224525
+      },
+      "prepared_audio": {
+        "mix_mp3": "D:\\ai auto streamer\\data\\songs-converted\\BV1A3411J7HX\\astra-song.mp3",
+        "vocals_mp3": "D:\\ai auto streamer\\data\\songs-converted\\BV1A3411J7HX\\converted-vocals.mp3",
+        "duration_seconds": 217.652245
       }
     },
     {
@@ -106,7 +121,7 @@
     {
       "title": "大鱼",
       "status": "source_ready",
-      "conversion_status": "queued",
+      "conversion_status": "ready",
       "source_recording": {
         "bvid": "BV1f59QBGEhx",
         "source_url": "https://www.bilibili.com/video/BV1f59QBGEhx/",
@@ -115,6 +130,11 @@
         "original_audio": "D:\\ai auto streamer\\data\\song-sources\\BV1f59QBGEhx.m4a",
         "mp3": "D:\\ai auto streamer\\data\\song-sources\\大鱼-BV1f59QBGEhx.mp3",
         "bytes": 7531403
+      },
+      "prepared_audio": {
+        "mix_mp3": "D:\\ai auto streamer\\data\\songs-converted\\BV1f59QBGEhx\\astra-song.mp3",
+        "vocals_mp3": "D:\\ai auto streamer\\data\\songs-converted\\BV1f59QBGEhx\\converted-vocals.mp3",
+        "duration_seconds": 313.782857
       }
     },
     {
@@ -130,9 +150,88 @@
         "mp3": "D:\\ai auto streamer\\data\\song-sources\\牵丝戏-BV1ZL411i7YQ.mp3",
         "bytes": 5786701
       }
+    },
+    {
+      "title": "海屿你",
+      "status": "source_ready",
+      "conversion_status": "ready",
+      "source_recording": {
+        "bvid": "BV14nrkBPEBE",
+        "source_url": "https://www.bilibili.com/video/BV14nrkBPEBE/",
+        "uploader": "VV音乐局",
+        "duration": 295.933,
+        "original_audio": "D:\\ai auto streamer\\data\\song-sources\\BV14nrkBPEBE.m4a",
+        "mp3": "D:\\ai auto streamer\\data\\song-sources\\海屿你-BV14nrkBPEBE.mp3",
+        "bytes": 7093647
+      },
+      "prepared_audio": {
+        "mix_mp3": "D:\\ai auto streamer\\data\\songs-converted\\BV14nrkBPEBE\\astra-song.mp3",
+        "vocals_mp3": "D:\\ai auto streamer\\data\\songs-converted\\BV14nrkBPEBE\\converted-vocals.mp3",
+        "duration_seconds": 295.549388
+      }
+    },
+    {
+      "title": "I Really Want to Stay at Your House",
+      "status": "source_ready",
+      "conversion_status": "ready",
+      "source_recording": {
+        "bvid": "BV1FN411n7FT",
+        "source_url": "https://www.bilibili.com/video/BV1FN411n7FT/",
+        "uploader": "JLRS-jayfm",
+        "duration": 245.887,
+        "original_audio": "D:\\ai auto streamer\\data\\song-sources\\BV1FN411n7FT.m4a",
+        "mp3": "D:\\ai auto streamer\\data\\song-sources\\I Really Want to Stay at Your House-BV1FN411n7FT.mp3",
+        "bytes": 5900749
+      },
+      "batch_id": "20261028-new3",
+      "prepared_audio": {
+        "mix_mp3": "D:\\ai auto streamer\\data\\songs-converted\\BV1FN411n7FT\\astra-song.mp3",
+        "vocals_mp3": "D:\\ai auto streamer\\data\\songs-converted\\BV1FN411n7FT\\converted-vocals.mp3",
+        "duration_seconds": 245.838367
+      }
+    },
+    {
+      "title": "海屿你",
+      "status": "source_ready",
+      "conversion_status": "ready",
+      "source_recording": {
+        "bvid": "BV14GovBnESm",
+        "source_url": "https://www.bilibili.com/video/BV14GovBnESm/",
+        "uploader": "小芙ProMax",
+        "duration": 281.787,
+        "original_audio": "D:\\ai auto streamer\\data\\song-sources\\BV14GovBnESm.m4a",
+        "mp3": "D:\\ai auto streamer\\data\\song-sources\\海屿你-BV14GovBnESm.mp3",
+        "bytes": 6764751
+      },
+      "batch_id": "20261028-new3",
+      "prepared_audio": {
+        "mix_mp3": "D:\\ai auto streamer\\data\\songs-converted\\BV14GovBnESm\\astra-song.mp3",
+        "vocals_mp3": "D:\\ai auto streamer\\data\\songs-converted\\BV14GovBnESm\\converted-vocals.mp3",
+        "duration_seconds": 281.835102
+      }
+    },
+    {
+      "title": "泡沫",
+      "status": "source_ready",
+      "conversion_status": "ready",
+      "source_recording": {
+        "bvid": "BV1y8411i7Dd",
+        "source_url": "https://www.bilibili.com/video/BV1y8411i7Dd/",
+        "uploader": "JLRS-LeoFM",
+        "duration": 255.956,
+        "original_audio": "D:\\ai auto streamer\\data\\song-sources\\BV1y8411i7Dd.m4a",
+        "mp3": "D:\\ai auto streamer\\data\\song-sources\\泡沫-BV1y8411i7Dd.mp3",
+        "bytes": 6143245
+      },
+      "batch_id": "20261028-new3",
+      "prepared_audio": {
+        "mix_mp3": "D:\\ai auto streamer\\data\\songs-converted\\BV1y8411i7Dd\\astra-song.mp3",
+        "vocals_mp3": "D:\\ai auto streamer\\data\\songs-converted\\BV1y8411i7Dd\\converted-vocals.mp3",
+        "duration_seconds": 255.921633
+      }
     }
   ],
-  "conversion_status": "preparing",
+  "conversion_status": "complete",
   "voice_reference": {
     "path": "D:\\ai auto streamer\\data\\voice-references\\astra-current-voice.wav",
     "approved": true,
@@ -154,12 +253,11 @@
     "voice_description_unmodified": true
   },
   "current_batch_bvids": [
-    "BV1D64y1Z7Ko",
-    "BV1y82uB2ET4",
-    "BV1A3411J7HX",
-    "BV1f59QBGEhx"
+    "BV1FN411n7FT",
+    "BV14GovBnESm",
+    "BV1y8411i7Dd"
   ],
-  "current_batch_total": 4,
+  "current_batch_total": 3,
   "diffusion_steps": 50,
   "max_workers": 12
 }

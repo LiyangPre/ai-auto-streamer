@@ -1,0 +1,8 @@
+Executing <Task finished name='Task-72' coro=<SingingStudio._generate() done, defined at D:\ai auto streamer\src\singing.py:387> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.454 seconds
+Executing <Task pending name='Task-73' coro=<SingingStudio._generate() running at D:\ai auto streamer\src\singing.py:408> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.484 seconds
+Executing <Task finished name='Task-79' coro=<SingingStudio._generate() done, defined at D:\ai auto streamer\src\singing.py:387> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.500 seconds
+Executing <Task finished name='Task-307' coro=<StoryStudio._prepare() done, defined at D:\ai auto streamer\src\story.py:154> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 4.391 seconds
+----------------------------------------------------------------------
+Ran 42 tests in 7.244s
+
+OK

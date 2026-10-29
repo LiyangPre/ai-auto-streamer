@@ -1,0 +1,25 @@
+test_accepted_song_clears_selection_without_false_expiry (tests.test_audience_interaction.AudienceInteractionTests.test_accepted_song_clears_selection_without_false_expiry) ... ok
+test_banned_and_unknown_song_keep_selection_open_without_playback (tests.test_audience_interaction.AudienceInteractionTests.test_banned_and_unknown_song_keep_selection_open_without_playback) ... ok
+test_busy_or_offline_stage_does_not_consume_votes (tests.test_audience_interaction.AudienceInteractionTests.test_busy_or_offline_stage_does_not_consume_votes) ... ok
+test_chat_speaks_only_reply_and_hides_intent_metadata (tests.test_audience_interaction.AudienceInteractionTests.test_chat_speaks_only_reply_and_hides_intent_metadata) ... ok
+test_empty_ready_library_does_not_solicit_a_song (tests.test_audience_interaction.AudienceInteractionTests.test_empty_ready_library_does_not_solicit_a_song) ... ok
+test_failed_scene_narration_still_commits_current_scene (tests.test_audience_interaction.AudienceInteractionTests.test_failed_scene_narration_still_commits_current_scene) ... ok
+test_generic_six_votes_ask_for_song_before_any_song_is_queued (tests.test_audience_interaction.AudienceInteractionTests.test_generic_six_votes_ask_for_song_before_any_song_is_queued) ... ok
+test_instruction_and_negative_requests_never_vote (tests.test_audience_interaction.AudienceInteractionTests.test_instruction_and_negative_requests_never_vote) ... ok
+test_malformed_envelope_or_duplicate_indices_never_reach_tts_or_vote (tests.test_audience_interaction.AudienceInteractionTests.test_malformed_envelope_or_duplicate_indices_never_reach_tts_or_vote) ... Interactive reply rejected (ValidationError)
+Interactive reply rejected (ValueError)
+Interactive reply rejected (ValueError)
+ok
+test_model_cannot_invent_title_or_override_another_character_library (tests.test_audience_interaction.AudienceInteractionTests.test_model_cannot_invent_title_or_override_another_character_library) ... ok
+test_moderation_rejection_precedes_vote_audio_and_subtitles (tests.test_audience_interaction.AudienceInteractionTests.test_moderation_rejection_precedes_vote_audio_and_subtitles) ... ok
+test_narration_rejects_hidden_actions_and_false_purpose (tests.test_audience_interaction.AudienceInteractionTests.test_narration_rejects_hidden_actions_and_false_purpose) ... ok
+test_quoted_or_hypothetical_request_cannot_gain_votes (tests.test_audience_interaction.AudienceInteractionTests.test_quoted_or_hypothetical_request_cannot_gain_votes) ... ok
+test_quoted_or_negated_song_mentions_cannot_become_song_selection (tests.test_audience_interaction.AudienceInteractionTests.test_quoted_or_negated_song_mentions_cannot_become_song_selection) ... ok
+test_story_pool_activates_only_prepared_current_voice_story (tests.test_audience_interaction.AudienceInteractionTests.test_story_pool_activates_only_prepared_current_voice_story) ... ok
+test_switch_during_llm_discards_audio_and_intents (tests.test_audience_interaction.AudienceInteractionTests.test_switch_during_llm_discards_audio_and_intents) ... ok
+test_unprepared_story_has_honest_feedback_and_no_activation (tests.test_audience_interaction.AudienceInteractionTests.test_unprepared_story_has_honest_feedback_and_no_activation) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 2.668s
+
+OK

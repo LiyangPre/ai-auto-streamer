@@ -4,8 +4,9 @@ import os
 from typing import Dict, Optional, Literal
 
 import yaml
-from pydantic import BaseModel, Field, ConfigDict, PrivateAttr
+from pydantic import BaseModel, Field, ConfigDict, PrivateAttr, field_validator, model_validator
 from dotenv import load_dotenv
+from .glm_models import validate_model_ids, validate_glm_no_thinking
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
@@ -19,6 +20,7 @@ class PlatformConfig(BaseModel):
     type: str = "text"
     room_id: int = 0
     room_url: str = ""
+    sessdata_env: str = 'BILIBILI_SESSDATA'
 
 
 class LLMConfig(BaseModel):
@@ -33,6 +35,25 @@ class LLMConfig(BaseModel):
     request_timeout: float = 45.0
     first_chunk_timeout: float = 15.0
     network_mode: Literal['auto', 'direct', 'environment'] = 'environment'
+    fallback_models: list[str] = Field(default_factory=list, max_length=7)
+    fallback_attempt_timeout: float = Field(default=3.0, ge=0.05, le=30, allow_inf_nan=False)
+    fallback_total_timeout: float = Field(default=20.0, ge=0.05, le=60, allow_inf_nan=False)
+    fallback_cooldown: float = Field(default=90.0, ge=1, le=3600, allow_inf_nan=False)
+    delay_notice_enabled: bool = True
+    delay_notice_after: float = Field(default=3.0, ge=0.05, le=30, allow_inf_nan=False)
+    delay_notice_cooldown: float = Field(default=45.0, ge=1, le=3600, allow_inf_nan=False)
+    _models = field_validator('fallback_models')(validate_model_ids)
+
+    @model_validator(mode='after')
+    def glm_fast_models(self):
+        if self.provider == 'glm':
+            models=[self.model, *self.fallback_models] if self.fallback_models or self.model.lower().startswith('glm-') else []
+            for model in models:
+                validate_glm_no_thinking(model)
+            if self.model.lower().startswith('glm-'):
+                self.model = self.model.lower()
+            self.enable_thinking = False
+        return self
     # 直播弹幕无复杂推理场景，默认关闭思考以降低首字延迟。
     # 非推理模型会忽略这两个参数（通过 extra_body 透传，服务端不识别即无效）。
     enable_thinking: bool = False
@@ -135,6 +156,11 @@ class ReplyIntervalConfig(BaseModel):
 class SafetyConfig(BaseModel):
     enabled: bool = True
     blocked_keywords: list = ["自杀", "恐怖主义", "制造炸弹", "儿童色情"]
+    provider: Literal['local', 'external'] = 'local'
+    require_remote_for_bilibili: bool = False
+    timeout: float = Field(default=3, gt=0, le=15)
+    blocked_categories: list[Literal['abuse', 'sexual', 'advertising', 'danger', 'sensitive_topics']] = [
+        'abuse', 'sexual', 'advertising', 'danger', 'sensitive_topics']
 
 
 class IdleConfig(BaseModel):
@@ -185,7 +211,7 @@ class DisplayConfig(BaseModel):
 class SceneConfig(BaseModel):
     """Portable scene framing, shared by controller previews and full output."""
     model_config = ConfigDict(extra="forbid")
-    background: Literal["moonlit", "palace", "garden", "car", "transparent", "custom"] = "moonlit"
+    background: Literal["moonlit", "palace", "garden", "car", "singing-room", "transparent", "custom"] = "moonlit"
     background_asset: str | None = Field(default=None, pattern=r'^[a-f0-9]{32}$')
     music_asset: str | None = Field(default=None, pattern=r'^[a-f0-9]{32}$')
     effect: Literal["rain", "clouds", "sparkles", "none"] = "clouds"
@@ -211,7 +237,7 @@ class CharacterConfig(BaseModel):
     reply_style: str = "自然、温暖的日常聊天，不刻意卖萌，不堆叠语气词，不复述观众的问题。"
     max_reply_chars: int = Field(default=48, ge=16, le=120)
     ask_back: bool = False
-    read_chat: bool = True
+    read_chat: bool = False
 
 
 class MemoryConfig(BaseModel):

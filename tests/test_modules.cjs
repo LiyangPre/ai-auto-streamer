@@ -15,7 +15,7 @@ test('new stage modules receive events, snapshots and frame hooks without changi
 test('singing adapter uses its own presentation and restores conversation after stopping',async()=>{
     const box=runtime(),registry=box.window.StudioModules,actions=[],faces=[],car=[];let instance;
     registry.script=async()=>{};
-    box.SingingPlayer=class{constructor(options){this.options=options;instance=this;this.position=1;}load(p){this.performance=p;if(p)this.options.onStart(p);}stop(){this.performance=null;this.options.onStop();}dispose(){} };
+    box.SingingPlayer=class{constructor(options){this.options=options;instance=this;this.position=1;this.timelinePlaying=true;}load(p){this.performance=p;if(p)this.options.onStart(p);}stop(){this.performance=null;this.options.onStop();}dispose(){} };
     vm.runInContext(fs.readFileSync('frontend/static/modules/performance-output.js','utf8'),box);
     vm.runInContext(fs.readFileSync('frontend/static/modules/singing-output.js','utf8'),box);
     const client={isPreview:false,muted:false,stopAudio(){},modules:{presentation:()=>({motion_strength:.4})},
@@ -31,4 +31,26 @@ test('module loader rejects remote scripts and traversal',async()=>{
     const registry=runtime().window.StudioModules;
     await assert.rejects(registry.script('https://example.com/plugin.js'));
     await assert.rejects(registry.script('/static/../unsafe.js'));
+});
+
+test('module scene selector edits a draft and submits only the module look',async()=>{
+    const elements=new Map();
+    const element=id=>{if(!elements.has(id))elements.set(id,{value:'',checked:false,replaceChildren(...items){this.options=items;}});return elements.get(id);};
+    const look={pose:'idle',expression:'singing',motion_strength:.35,expression_enabled:true,expression_strength:.55,scene_preset:'singing-room'};
+    const manifest={active_profile:'astra',revision:7,modules:[{id:'singing',title:'Songs',poses:['idle','nod'],expressions:['singing','happy'],presentation:look}]};
+    const box=runtime();let posted;
+    box.document={getElementById:element};box.Option=function(label,value){this.label=label;this.value=value;};
+    box.fetch=async(url,options)=>{posted={url,...options};return {ok:true,json:async()=>manifest};};
+    vm.runInContext('this.Shelf=ModuleShelf',box);
+    const shelf=Object.create(box.Shelf.prototype);shelf.dialog={showModal(){this.open=true;}};
+    box.window.StudioModules.manifest=async()=>manifest;
+    await shelf.edit('singing');
+    assert.equal(element('module-scene-preset').value,'singing-room');assert.equal(shelf.dialog.open,true);
+    element('module-scene-preset').value='inherit';assert.equal(look.scene_preset,'singing-room');assert.equal(posted,undefined);
+    await shelf.save();
+    const payload=JSON.parse(posted.body);
+    assert.equal(posted.url,'/api/modules/singing/presentation');assert.equal(posted.headers['X-Studio-API'],'1');
+    assert.equal(payload.profile_id,'astra');assert.equal(payload.revision,7);assert.equal(payload.presentation.scene_preset,'inherit');
+    assert.equal(payload.scene,undefined);assert.equal(payload.voice,undefined);
+    assert.equal(look.scene_preset,'singing-room','unsaved manifest remains untouched');
 });

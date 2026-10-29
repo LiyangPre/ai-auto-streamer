@@ -1,0 +1,494 @@
+test_api_rejects_forced_thinking_primary_and_backup (test_api_connections.ConnectionAPITests.test_api_rejects_forced_thinking_primary_and_backup) ... ok
+test_character_switch_preserves_shared_keys_and_provider_keys_stay_separate (test_api_connections.ConnectionAPITests.test_character_switch_preserves_shared_keys_and_provider_keys_stay_separate) ... ok
+test_cross_origin_requests_validation_and_conflicts_do_not_leak_or_modify_keys (test_api_connections.ConnectionAPITests.test_cross_origin_requests_validation_and_conflicts_do_not_leak_or_modify_keys) ... ok
+test_draft_tests_do_not_save_or_broadcast_and_errors_are_sanitized (test_api_connections.ConnectionAPITests.test_draft_tests_do_not_save_or_broadcast_and_errors_are_sanitized) ... ok
+test_failed_disk_save_preserves_running_settings (test_api_connections.ConnectionAPITests.test_failed_disk_save_preserves_running_settings) ... ok
+test_fallback_policy_persists_and_public_catalog_does_not_guess_sizes (test_api_connections.ConnectionAPITests.test_fallback_policy_persists_and_public_catalog_does_not_guess_sizes) ... ok
+test_keys_save_privately_apply_immediately_and_never_echo (test_api_connections.ConnectionAPITests.test_keys_save_privately_apply_immediately_and_never_echo) ... ok
+test_probe_does_not_call_an_incomplete_text_stream_a_success (test_api_connections.ConnectionAPITests.test_probe_does_not_call_an_incomplete_text_stream_a_success) ... ok
+test_stream_probe_reports_actual_backup_and_attempts (test_api_connections.ConnectionAPITests.test_stream_probe_reports_actual_backup_and_attempts) ... ok
+test_text_probe_preserves_explicit_nonstream_configuration (test_api_connections.ConnectionAPITests.test_text_probe_preserves_explicit_nonstream_configuration) ... ok
+test_text_probe_uses_live_stream_mode_and_reports_first_text_without_echo (test_api_connections.ConnectionAPITests.test_text_probe_uses_live_stream_mode_and_reports_first_text_without_echo) ... ok
+test_flashx_disables_thinking_for_stream_and_nonstream_and_does_not_drop_it (test_api_connections.FlashXTests.test_flashx_disables_thinking_for_stream_and_nonstream_and_does_not_drop_it) ... Model request failed [response, model=glm-4.7-flashx, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+Model request failed [response, model=glm-4.7-flashx, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+Executing <Task finished name='Task-135' coro=<FlashXTests.test_flashx_disables_thinking_for_stream_and_nonstream_and_does_not_drop_it() done, defined at D:\ai auto streamer\tests\test_api_connections.py:261> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.703 seconds
+ok
+test_provider_rejections_are_distinguished_without_echoing_body (test_api_connections.FlashXTests.test_provider_rejections_are_distinguished_without_echoing_body) ... ok
+test_auto_routes_explicitly_and_never_prints_proxy_credentials (test_api_connections.NetworkTests.test_auto_routes_explicitly_and_never_prints_proxy_credentials) ... ok
+test_certificate_rejection_and_fatal_handshake_remain_tls_errors (test_api_connections.NetworkTests.test_certificate_rejection_and_fatal_handshake_remain_tls_errors) ... ok
+test_sdk_wrapped_timeout_takes_precedence_over_transient_ssl_wait (test_api_connections.NetworkTests.test_sdk_wrapped_timeout_takes_precedence_over_transient_ssl_wait) ... ok
+test_tls_io_wait_during_cancellation_is_a_timeout_not_a_bad_certificate (test_api_connections.NetworkTests.test_tls_io_wait_during_cancellation_is_a_timeout_not_a_bad_certificate) ... ok
+test_a_partial_write_is_discarded_before_retrying_with_a_fresh_sibling (test_atomic_song_state.AtomicSongStateTests.test_a_partial_write_is_discarded_before_retrying_with_a_fresh_sibling) ... ok
+test_all_song_publish_wrappers_use_strict_metadata_by_default (test_atomic_song_state.AtomicSongStateTests.test_all_song_publish_wrappers_use_strict_metadata_by_default) ... ok
+test_cleanup_removes_only_the_current_writers_file (test_atomic_song_state.AtomicSongStateTests.test_cleanup_removes_only_the_current_writers_file) ... Song progress file could not be published (PermissionError); computation continues
+ok
+test_concurrent_writers_never_share_temps_or_publish_partial_json (test_atomic_song_state.AtomicSongStateTests.test_concurrent_writers_never_share_temps_or_publish_partial_json) ... ok
+test_exhausted_metadata_retries_raise_without_removing_previous_state (test_atomic_song_state.AtomicSongStateTests.test_exhausted_metadata_retries_raise_without_removing_previous_state) ... ok
+test_nontransient_and_serialization_failures_do_not_retry_or_damage_target (test_atomic_song_state.AtomicSongStateTests.test_nontransient_and_serialization_failures_do_not_retry_or_damage_target) ... ok
+test_progress_failure_is_best_effort_and_does_not_stop_following_compute (test_atomic_song_state.AtomicSongStateTests.test_progress_failure_is_best_effort_and_does_not_stop_following_compute) ... ok
+test_transient_windows_failures_retry_a_complete_unique_file (test_atomic_song_state.AtomicSongStateTests.test_transient_windows_failures_retry_a_complete_unique_file) ... ok
+test_enter_v1_v2_does_not_mislabel_follow_share_or_like (test_bilibili.BilibiliPacketTests.test_enter_v1_v2_does_not_mislabel_follow_share_or_like) ... ok
+test_membership_quantity_is_included_in_total_value (test_bilibili.BilibiliPacketTests.test_membership_quantity_is_included_in_total_value) ... ok
+test_new_protobuf_gift_packet_delivers_every_item (test_bilibili.BilibiliPacketTests.test_new_protobuf_gift_packet_delivers_every_item) ... ok
+test_real_sdk_dispatches_chat_and_gold_silver_gifts_synchronously (test_bilibili.BilibiliPacketTests.test_real_sdk_dispatches_chat_and_gold_silver_gifts_synchronously) ... ok
+test_local_http_gift_superchat_guard_and_enter_reach_reply (test_bilibili.BilibiliPipelineTests.test_local_http_gift_superchat_guard_and_enter_reach_reply) ... ok
+test_sdk_chat_packet_reaches_websocket_and_reply (test_bilibili.BilibiliPipelineTests.test_sdk_chat_packet_reaches_websocket_and_reply) ... ok
+test_initial_websocket_and_switch_broadcast_include_current_profile (test_characters.CharacterAPITests.test_initial_websocket_and_switch_broadcast_include_current_profile) ... ok
+test_legacy_editor_preserves_active_profile_warmup_lines (test_characters.CharacterAPITests.test_legacy_editor_preserves_active_profile_warmup_lines) ... ok
+test_pending_reply_rejects_switch_and_file_failure_leaves_runtime_untouched (test_characters.CharacterAPITests.test_pending_reply_rejects_switch_and_file_failure_leaves_runtime_untouched) ... ok
+test_profiles_keep_independent_identity_voice_actions_and_one_shared_stage (test_characters.CharacterAPITests.test_profiles_keep_independent_identity_voice_actions_and_one_shared_stage) ... ok
+test_stale_editor_and_invalid_names_cannot_overwrite_another_profile (test_characters.CharacterAPITests.test_stale_editor_and_invalid_names_cannot_overwrite_another_profile) ... ok
+test_switch_waits_for_reply_and_cancels_previous_voice_without_losing_viewers (test_characters.CharacterAPITests.test_switch_waits_for_reply_and_cancels_previous_voice_without_losing_viewers) ... ok
+test_warmup_validation_duplicate_names_and_missing_ids (test_characters.CharacterAPITests.test_warmup_validation_duplicate_names_and_missing_ids) ... ok
+test_old_flat_settings_migrate_once_without_losing_customizations (test_characters.CharacterMigrationTests.test_old_flat_settings_migrate_once_without_losing_customizations) ... ok
+test_profile_paths_are_isolated_for_alternative_configs (test_characters.CharacterMigrationTests.test_profile_paths_are_isolated_for_alternative_configs) ... ok
+test_blivedm_danmaku_and_gift_fields (test_core.CollectorTests.test_blivedm_danmaku_and_gift_fields) ... ok
+test_health_follows_websocket_authentication (test_core.CollectorTests.test_health_follows_websocket_authentication) ... ok
+test_paid_events_and_raw_enter (test_core.CollectorTests.test_paid_events_and_raw_enter) ... ok
+test_stable_user_id_is_not_python_hash (test_core.CollectorTests.test_stable_user_id_is_not_python_hash) ... ok
+test_non_stream_timeout_is_structured_failure (test_core.LLMParserTests.test_non_stream_timeout_is_structured_failure) ... Executing <Task pending name='Task-309' coro=<LLMParserTests.test_non_stream_timeout_is_structured_failure() running at D:\ai auto streamer\tests\test_core.py:230> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> cb=[_run_until_complete_cb() at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:180] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.610 seconds
+Model request failed [timeout, model=qwen2.5:7b-instruct, route=environment]: Provider request timed out; compare Direct and Auto network routes.
+ok
+test_slow_consumer_time_is_excluded_from_model_stream_deadline (test_core.LLMParserTests.test_slow_consumer_time_is_excluded_from_model_stream_deadline) ... Executing <Task pending name='Task-314' coro=<LLMParserTests.test_slow_consumer_time_is_excluded_from_model_stream_deadline() running at D:\ai auto streamer\tests\test_core.py:245> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> cb=[_run_until_complete_cb() at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:180] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.609 seconds
+ok
+test_stream_without_tag_yields_immediately (test_core.LLMParserTests.test_stream_without_tag_yields_immediately) ... Executing <Task finished name='Task-319' coro=<LLMParserTests.test_stream_without_tag_yields_immediately() done, defined at D:\ai auto streamer\tests\test_core.py:208> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.625 seconds
+ok
+test_tag_across_chunks_and_leading_space (test_core.LLMParserTests.test_tag_across_chunks_and_leading_space) ... Executing <Task finished name='Task-324' coro=<LLMParserTests.test_tag_across_chunks_and_leading_space() done, defined at D:\ai auto streamer\tests\test_core.py:212> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.766 seconds
+ok
+test_unknown_bracket_is_normal_text (test_core.LLMParserTests.test_unknown_bracket_is_normal_text) ... Executing <Task finished name='Task-329' coro=<LLMParserTests.test_unknown_bracket_is_normal_text() done, defined at D:\ai auto streamer\tests\test_core.py:216> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.875 seconds
+ok
+test_cooldown_dictionaries_expire (test_core.MemoryTests.test_cooldown_dictionaries_expire) ... ok
+test_gift_combo_cooldown_and_max_wait (test_core.MemoryTests.test_gift_combo_cooldown_and_max_wait) ... ok
+test_out_of_order_ttl_and_idle_identity (test_core.MemoryTests.test_out_of_order_ttl_and_idle_identity) ... ok
+test_blocked_stream_cancels_pending_audio (test_core.PipelineTests.test_blocked_stream_cancels_pending_audio) ... ok
+test_cancelling_stream_does_not_drain_tts (test_core.PipelineTests.test_cancelling_stream_does_not_drain_tts) ... ok
+test_high_value_gift_uses_paid_inbox_and_returns_thanks (test_core.PipelineTests.test_high_value_gift_uses_paid_inbox_and_returns_thanks) ... ok
+test_output_safety_does_not_speak_or_remember (test_core.PipelineTests.test_output_safety_does_not_speak_or_remember) ... ok
+test_reply_slot_timeout_never_overlaps (test_core.PipelineTests.test_reply_slot_timeout_never_overlaps) ... ok
+test_stream_emits_ordered_sentence_audio (test_core.PipelineTests.test_stream_emits_ordered_sentence_audio) ... ok
+test_boundaries_and_compound_sentence (test_core.RouterTests.test_boundaries_and_compound_sentence) ... ok
+test_disabled_route_has_one_meaning (test_core.RouterTests.test_disabled_route_has_one_meaning) ... ok
+test_prompt_injection_and_blocked_content (test_core.SafetyTests.test_prompt_injection_and_blocked_content) ... ok
+test_synthesis_has_deadline (test_core.TTSTests.test_synthesis_has_deadline) ... TTS edge-tts failed [timeout, route=environment]: Provider request timed out; compare Direct and Auto network routes.
+ok
+test_cancelling_a_reply_cancels_notice_and_its_voice_preparation (test_delay_notice.DelayNoticeTests.test_cancelling_a_reply_cancels_notice_and_its_voice_preparation) ... ok
+test_cooldown_prevents_repeated_wait_speech_across_replies (test_delay_notice.DelayNoticeTests.test_cooldown_prevents_repeated_wait_speech_across_replies) ... ok
+test_disabled_no_output_no_voice_and_cooldown_skip_preparation (test_delay_notice.DelayNoticeTests.test_disabled_no_output_no_voice_and_cooldown_skip_preparation) ... ok
+test_error_preserves_wait_audio_and_does_not_claim_an_answer (test_delay_notice.DelayNoticeTests.test_error_preserves_wait_audio_and_does_not_claim_an_answer) ... Reply skipped after LLM failure: Provider request timed out
+ok
+test_fast_reply_cancels_preparation_and_never_emits_a_late_notice (test_delay_notice.DelayNoticeTests.test_fast_reply_cancels_preparation_and_never_emits_a_late_notice) ... ok
+test_immediate_reply_does_not_add_a_notice (test_delay_notice.DelayNoticeTests.test_immediate_reply_does_not_add_a_notice) ... ok
+test_local_review_blocks_even_a_prepared_wait_clip (test_delay_notice.DelayNoticeTests.test_local_review_blocks_even_a_prepared_wait_clip) ... ok
+test_no_wait_speech_during_a_story_or_song_including_a_stage_change (test_delay_notice.DelayNoticeTests.test_no_wait_speech_during_a_story_or_song_including_a_stage_change) ... ok
+test_old_profile_or_voice_clip_is_discarded_before_broadcast (test_delay_notice.DelayNoticeTests.test_old_profile_or_voice_clip_is_discarded_before_broadcast) ... ok
+test_one_approved_notice_precedes_the_real_reply_audio (test_delay_notice.DelayNoticeTests.test_one_approved_notice_precedes_the_real_reply_audio) ... ok
+test_output_disconnected_during_preparation_discards_wait_speech (test_delay_notice.DelayNoticeTests.test_output_disconnected_during_preparation_discards_wait_speech) ... ok
+test_stage_voice_and_output_are_rechecked_after_an_async_review (test_delay_notice.DelayNoticeTests.test_stage_voice_and_output_are_rechecked_after_an_async_review) ... ok
+test_wait_line_uses_and_caches_the_selected_character_voice (test_delay_notice.PreparedWaitVoiceTests.test_wait_line_uses_and_caches_the_selected_character_voice) ... ok
+test_old_module_entries_get_safe_defaults_without_rewriting_source (test_expression_profiles.ExpressionMigrationTests.test_old_module_entries_get_safe_defaults_without_rewriting_source) ... ok
+test_strength_rejects_invalid_types_nonfinite_and_out_of_range_values (test_expression_profiles.ExpressionMigrationTests.test_strength_rejects_invalid_types_nonfinite_and_out_of_range_values) ... ok
+test_all_unsaved_modules_publish_expression_defaults (test_expression_profiles.ExpressionProfileAPITests.test_all_unsaved_modules_publish_expression_defaults) ... ok
+test_controls_are_per_character_per_module_and_persist_without_changing_shared_stage_or_voice (test_expression_profiles.ExpressionProfileAPITests.test_controls_are_per_character_per_module_and_persist_without_changing_shared_stage_or_voice) ... ok
+test_invalid_or_stale_updates_do_not_modify_any_profile (test_expression_profiles.ExpressionProfileAPITests.test_invalid_or_stale_updates_do_not_modify_any_profile) ... ok
+test_legacy_partial_save_preserves_existing_expression_preferences (test_expression_profiles.ExpressionProfileAPITests.test_legacy_partial_save_preserves_existing_expression_preferences) ... ok
+test_raw_nonfinite_json_returns_safe_422_without_echoing_input (test_expression_profiles.ExpressionProfileAPITests.test_raw_nonfinite_json_returns_safe_422_without_echoing_input) ... ok
+test_dotenv_loads_from_project_root_without_overriding_shell (test_glm.GLMConfigTests.test_dotenv_loads_from_project_root_without_overriding_shell) ... ok
+test_explicit_env_name_is_used (test_glm.GLMConfigTests.test_explicit_env_name_is_used) ... ok
+test_glm_never_uses_unrelated_openai_key (test_glm.GLMConfigTests.test_glm_never_uses_unrelated_openai_key) ... ok
+test_flash_request_omits_provider_specific_thinking_fields (test_glm.GLMRequestTests.test_flash_request_omits_provider_specific_thinking_fields) ... Executing <Task finished name='Task-537' coro=<GLMRequestTests.test_flash_request_omits_provider_specific_thinking_fields() done, defined at D:\ai auto streamer\tests\test_glm.py:35> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.657 seconds
+ok
+test_missing_key_stops_before_network_request (test_glm.GLMRequestTests.test_missing_key_stops_before_network_request) ... Executing <Task finished name='Task-542' coro=<GLMRequestTests.test_missing_key_stops_before_network_request() done, defined at D:\ai auto streamer\tests\test_glm.py:45> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.609 seconds
+ok
+test_provider_error_does_not_echo_credentials (test_glm.GLMRequestTests.test_provider_error_does_not_echo_credentials) ... Executing <Task finished name='Task-547' coro=<GLMRequestTests.test_provider_error_does_not_echo_credentials() done, defined at D:\ai auto streamer\tests\test_glm.py:56> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.625 seconds
+ok
+test_account_balance_429_stops_but_model_congestion_429_falls_back (test_glm_fallback.GLMFallbackTests.test_account_balance_429_stops_but_model_congestion_429_falls_back) ... Model request failed [account_limit, model=glm-4.7-flash, route=direct]: Provider account balance, plan or spending limit prevents this request.
+Model request failed [quota, model=glm-4.7-flash, route=direct]: Provider quota or rate limit reached (HTTP 429).
+Model request failed [account_limit, model=glm-4.7-flash, route=direct]: Provider account balance, plan or spending limit prevents this request.
+Model request failed [quota, model=glm-4.7-flash, route=direct]: Provider quota or rate limit reached (HTTP 429).
+ok
+test_all_reasoning_capable_fallback_requests_keep_thinking_disabled (test_glm_fallback.GLMFallbackTests.test_all_reasoning_capable_fallback_requests_keep_thinking_disabled) ... Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4-flash-250414, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4-flashx-250414, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4-air-250414, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4.5-air, route=direct]: Provider service failed (HTTP 500); retry shortly.
+ok
+test_cancelled_stream_close_still_propagates_cancellation_without_fallback (test_glm_fallback.GLMFallbackTests.test_cancelled_stream_close_still_propagates_cancellation_without_fallback) ... ok
+test_cancelling_a_wait_does_not_start_a_backup_and_closes_stream (test_glm_fallback.GLMFallbackTests.test_cancelling_a_wait_does_not_start_a_backup_and_closes_stream) ... ok
+test_certificate_failure_does_not_fall_back_or_disable_verification (test_glm_fallback.GLMFallbackTests.test_certificate_failure_does_not_fall_back_or_disable_verification) ... Model request failed [tls, model=glm-4.7-flash, route=direct]: TLS certificate verification failed; check the trusted certificates and system clock.
+ok
+test_consumer_closing_after_one_fragment_closes_underlying_response (test_glm_fallback.GLMFallbackTests.test_consumer_closing_after_one_fragment_closes_underlying_response) ... ok
+test_consumer_delay_does_not_count_as_model_io_deadline (test_glm_fallback.GLMFallbackTests.test_consumer_delay_does_not_count_as_model_io_deadline) ... ok
+test_cooldown_skips_failed_model_then_retries_it_after_expiry (test_glm_fallback.GLMFallbackTests.test_cooldown_skips_failed_model_then_retries_it_after_expiry) ... Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+ok
+test_empty_heartbeat_then_read_timeout_closes_first_stream (test_glm_fallback.GLMFallbackTests.test_empty_heartbeat_then_read_timeout_closes_first_stream) ... Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+ok
+test_empty_nonstream_response_switches_to_next_model (test_glm_fallback.GLMFallbackTests.test_empty_nonstream_response_switches_to_next_model) ... Model request failed [response, model=glm-4.7-flash, route=direct]: Provider returned incomplete or invalid data; retry the connection test.
+ok
+test_empty_or_emotion_only_streams_do_not_count_as_replies (test_glm_fallback.GLMFallbackTests.test_empty_or_emotion_only_streams_do_not_count_as_replies) ... ok
+test_failed_models_all_cooling_down_return_without_another_network_request (test_glm_fallback.GLMFallbackTests.test_failed_models_all_cooling_down_return_without_another_network_request) ... Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [provider_service, model=glm-4-flash-250414, route=direct]: Provider service failed (HTTP 500); retry shortly.
+ok
+test_failures_logs_and_public_attempts_do_not_contain_upstream_secrets (test_glm_fallback.GLMFallbackTests.test_failures_logs_and_public_attempts_do_not_contain_upstream_secrets) ... ok
+test_http_content_review_business_error_remains_blocked_after_llm_wrapping (test_glm_fallback.GLMFallbackTests.test_http_content_review_business_error_remains_blocked_after_llm_wrapping) ... Model request failed [blocked, model=glm-4.7-flash, route=direct]: Provider content review blocked the reply.
+Model request failed [blocked, model=glm-4.7-flash, route=direct]: Provider content review blocked the reply.
+ok
+test_nonstream_deadline_cancels_hung_request_before_fallback (test_glm_fallback.GLMFallbackTests.test_nonstream_deadline_cancels_hung_request_before_fallback) ... Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+ok
+test_nonstream_switches_in_order_on_500_429_and_missing_model (test_glm_fallback.GLMFallbackTests.test_nonstream_switches_in_order_on_500_429_and_missing_model) ... Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [quota, model=glm-4.7-flash, route=direct]: Provider quota or rate limit reached (HTTP 429).
+Model request failed [provider_http, model=glm-4.7-flash, route=direct]: Provider returned HTTP 404; check model access and endpoint.
+ok
+test_provider_authentication_rejection_does_not_spam_other_models (test_glm_fallback.GLMFallbackTests.test_provider_authentication_rejection_does_not_spam_other_models) ... Model request failed [authentication, model=glm-4.7-flash, route=direct]: Provider access rejected (HTTP 401); check the key, account region and endpoint.
+Model request failed [provider_http, model=glm-4.7-flash, route=direct]: Provider returned HTTP 402; check model access and endpoint.
+Model request failed [authentication, model=glm-4.7-flash, route=direct]: Provider access rejected (HTTP 403); check the key, account region and endpoint.
+ok
+test_provider_content_filter_is_not_bypassed_with_another_model (test_glm_fallback.GLMFallbackTests.test_provider_content_filter_is_not_bypassed_with_another_model) ... Model request failed [blocked, model=glm-4.7-flash, route=direct]: Provider content review blocked the reply.
+ok
+test_provider_ignoring_disabled_thinking_is_not_allowed_to_emit_reasoning (test_glm_fallback.GLMFallbackTests.test_provider_ignoring_disabled_thinking_is_not_allowed_to_emit_reasoning) ... Model request failed [reasoning_enabled, model=glm-4.7-flash, route=direct]: Model returned reasoning despite thinking being disabled.
+ok
+test_stalled_stream_close_is_cancelled_within_the_remaining_budget (test_glm_fallback.GLMFallbackTests.test_stalled_stream_close_is_cancelled_within_the_remaining_budget) ... Model stream cleanup skipped (TimeoutError)
+ok
+test_stream_close_error_cannot_leak_secrets_or_prevent_provider_fallback (test_glm_fallback.GLMFallbackTests.test_stream_close_error_cannot_leak_secrets_or_prevent_provider_fallback) ... ok
+test_stream_never_splices_another_model_after_text_was_yielded (test_glm_fallback.GLMFallbackTests.test_stream_never_splices_another_model_after_text_was_yielded) ... Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+ok
+test_stream_request_creation_timeout_can_fall_back (test_glm_fallback.GLMFallbackTests.test_stream_request_creation_timeout_can_fall_back) ... Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+ok
+test_stream_switches_before_first_text_on_provider_errors (test_glm_fallback.GLMFallbackTests.test_stream_switches_before_first_text_on_provider_errors) ... Model request failed [provider_service, model=glm-4.7-flash, route=direct]: Provider service failed (HTTP 500); retry shortly.
+Model request failed [quota, model=glm-4.7-flash, route=direct]: Provider quota or rate limit reached (HTTP 429).
+Model request failed [provider_http, model=glm-4.7-flash, route=direct]: Provider returned HTTP 404; check model access and endpoint.
+ok
+test_thinking_parameter_rejection_never_retries_same_model_without_it (test_glm_fallback.GLMFallbackTests.test_thinking_parameter_rejection_never_retries_same_model_without_it) ... Model request failed [provider_http, model=glm-4.7-flash, route=direct]: Provider returned HTTP 400; check model access and endpoint.
+ok
+test_total_budget_bounds_all_attempts_for_both_request_modes (test_glm_fallback.GLMFallbackTests.test_total_budget_bounds_all_attempts_for_both_request_modes) ... Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [timeout, model=glm-4-flash-250414, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [timeout, model=glm-4.7-flash, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+Model request failed [timeout, model=glm-4-flash-250414, route=direct]: Provider request timed out; compare Direct and Auto network routes.
+ok
+test_deprecated_flash_alias_is_not_mistaken_for_an_independent_backup (test_glm_fallback.GLMNoThinkingConfigurationTests.test_deprecated_flash_alias_is_not_mistaken_for_an_independent_backup) ... ok
+test_forced_thinking_models_are_rejected_as_primary_or_fallback (test_glm_fallback.GLMNoThinkingConfigurationTests.test_forced_thinking_models_are_rejected_as_primary_or_fallback) ... ok
+test_corrupt_rejected_and_incomplete_audio_is_not_cached (test_glm_tts.GLMVoiceTests.test_corrupt_rejected_and_incomplete_audio_is_not_cached) ... ok
+test_missing_glm_key_does_not_use_another_provider_key (test_glm_tts.GLMVoiceTests.test_missing_glm_key_does_not_use_another_provider_key) ... ok
+test_stream_encodes_before_completion_and_snapshots_voice (test_glm_tts.GLMVoiceTests.test_stream_encodes_before_completion_and_snapshots_voice) ... ok
+test_existing_healthy_studio_is_reused_without_spawning (test_launcher.LauncherLifecycleTests.test_existing_healthy_studio_is_reused_without_spawning) ... ok
+test_new_owned_server_waits_for_readiness_and_keeps_running (test_launcher.LauncherLifecycleTests.test_new_owned_server_waits_for_readiness_and_keeps_running) ... ok
+test_stop_leaves_already_exited_server_alone (test_launcher.LauncherLifecycleTests.test_stop_leaves_already_exited_server_alone) ... ok
+test_timeout_stops_only_the_owned_new_server (test_launcher.LauncherLifecycleTests.test_timeout_stops_only_the_owned_new_server) ... ok
+test_windows_stop_targets_only_owned_server_tree (test_launcher.LauncherLifecycleTests.test_windows_stop_targets_only_owned_server_tree) ... ok
+test_http_denial_and_non_studio_responses_are_not_ready (test_launcher.LauncherReadinessTests.test_http_denial_and_non_studio_responses_are_not_ready) ... ok
+test_probe_bypasses_proxies_and_satisfies_real_local_api_boundary (test_launcher.LauncherReadinessTests.test_probe_bypasses_proxies_and_satisfies_real_local_api_boundary) ... ok
+test_foreign_origin_same_site_and_cross_site_fetch_are_rejected (test_local_security.LocalBoundaryTests.test_foreign_origin_same_site_and_cross_site_fetch_are_rejected) ... ok
+test_loopback_host_variants_and_ipv6_work (test_local_security.LocalBoundaryTests.test_loopback_host_variants_and_ipv6_work) ... ok
+test_media_elements_need_no_custom_header_but_cross_origin_is_denied (test_local_security.LocalBoundaryTests.test_media_elements_need_no_custom_header_but_cross_origin_is_denied) ... ok
+test_non_loopback_peer_is_rejected_even_with_controller_headers (test_local_security.LocalBoundaryTests.test_non_loopback_peer_is_rejected_even_with_controller_headers) ... ok
+test_private_gets_require_controller_header (test_local_security.LocalBoundaryTests.test_private_gets_require_controller_header) ... ok
+test_same_origin_websocket_gets_snapshot (test_local_security.LocalBoundaryTests.test_same_origin_websocket_gets_snapshot) ... ok
+test_untrusted_host_is_rejected_before_local_controller (test_local_security.LocalBoundaryTests.test_untrusted_host_is_rejected_before_local_controller) ... ok
+test_websocket_rebinding_host_cannot_read_snapshot (test_local_security.LocalBoundaryTests.test_websocket_rebinding_host_cannot_read_snapshot) ... ok
+test_websocket_rejects_missing_foreign_and_wrong_port_origins (test_local_security.LocalBoundaryTests.test_websocket_rejects_missing_foreign_and_wrong_port_origins) ... ok
+test_write_guards_run_before_model_or_paid_voice_work (test_local_security.LocalBoundaryTests.test_write_guards_run_before_model_or_paid_voice_work) ... ok
+test_authentication_and_parameter_errors_are_not_retried_or_exposed (test_lrclib.LRCLibTests.test_authentication_and_parameter_errors_are_not_retried_or_exposed) ... ok
+test_invalid_envelopes_are_rejected_and_nonrecord_search_items_are_ignored (test_lrclib.LRCLibTests.test_invalid_envelopes_are_rejected_and_nonrecord_search_items_are_ignored) ... ok
+test_invalid_inputs_stop_before_any_network_access (test_lrclib.LRCLibTests.test_invalid_inputs_stop_before_any_network_access) ... ok
+test_long_or_nonfinite_retry_after_stops_without_hammering_or_long_blocking_sleep (test_lrclib.LRCLibTests.test_long_or_nonfinite_retry_after_stops_without_hammering_or_long_blocking_sleep) ... ok
+test_missing_or_invalid_retry_after_uses_a_short_pause_and_has_a_retry_cap (test_lrclib.LRCLibTests.test_missing_or_invalid_retry_after_uses_a_short_pause_and_has_a_retry_cap) ... ok
+test_network_errors_are_sanitized_and_not_retried_implicitly (test_lrclib.LRCLibTests.test_network_errors_are_sanitized_and_not_retried_implicitly) ... ok
+test_not_found_has_empty_search_or_missing_record_semantics_without_retry (test_lrclib.LRCLibTests.test_not_found_has_empty_search_or_missing_record_semantics_without_retry) ... ok
+test_request_identifier_is_fixed_public_and_does_not_include_environment_secrets (test_lrclib.LRCLibTests.test_request_identifier_is_fixed_public_and_does_not_include_environment_secrets) ... ok
+test_response_type_json_and_size_errors_are_bounded_and_sanitized (test_lrclib.LRCLibTests.test_response_type_json_and_size_errors_are_bounded_and_sanitized) ... ok
+test_retry_after_http_date_is_respected (test_lrclib.LRCLibTests.test_retry_after_http_date_is_respected) ... ok
+test_search_and_get_only_send_encoded_song_metadata_in_read_only_requests (test_lrclib.LRCLibTests.test_search_and_get_only_send_encoded_song_metadata_in_read_only_requests) ... ok
+test_separate_successful_requests_are_throttled_and_response_is_closed_first (test_lrclib.LRCLibTests.test_separate_successful_requests_are_throttled_and_response_is_closed_first) ... ok
+test_transient_http_errors_honor_retry_after_before_sequential_retry (test_lrclib.LRCLibTests.test_transient_http_errors_honor_retry_after_before_sequential_retry) ... ok
+test_english_leading_spaces_and_chinese_word_spaces_are_preserved_appropriately (test_lyric_alignment.LyricAlignmentTests.test_english_leading_spaces_and_chinese_word_spaces_are_preserved_appropriately) ... ok
+test_final_clear_is_bounded_by_a_fractional_recording_duration (test_lyric_alignment.LyricAlignmentTests.test_final_clear_is_bounded_by_a_fractional_recording_duration) ... ok
+test_indivisible_token_is_not_given_fabricated_character_timestamps (test_lyric_alignment.LyricAlignmentTests.test_indivisible_token_is_not_given_fabricated_character_timestamps) ... ok
+test_invalid_times_and_malformed_data_are_rejected (test_lyric_alignment.LyricAlignmentTests.test_invalid_times_and_malformed_data_are_rejected) ... ok
+test_line_onsets_are_quantized_once_not_twice (test_lyric_alignment.LyricAlignmentTests.test_line_onsets_are_quantized_once_not_twice) ... ok
+test_long_30_second_segment_is_split_using_actual_word_times (test_lyric_alignment.LyricAlignmentTests.test_long_30_second_segment_is_split_using_actual_word_times) ... ok
+test_low_confidence_and_no_speech_flags_are_not_hidden (test_lyric_alignment.LyricAlignmentTests.test_low_confidence_and_no_speech_flags_are_not_hidden) ... ok
+test_no_clear_can_erase_a_next_line_at_the_same_timestamp (test_lyric_alignment.LyricAlignmentTests.test_no_clear_can_erase_a_next_line_at_the_same_timestamp) ... ok
+test_original_recording_times_and_real_gaps_survive_lrc_roundtrip (test_lyric_alignment.LyricAlignmentTests.test_original_recording_times_and_real_gaps_survive_lrc_roundtrip) ... ok
+test_partial_unknown_confidence_requires_review (test_lyric_alignment.LyricAlignmentTests.test_partial_unknown_confidence_requires_review) ... ok
+test_repeated_chorus_at_different_times_is_preserved (test_lyric_alignment.LyricAlignmentTests.test_repeated_chorus_at_different_times_is_preserved) ... ok
+test_same_tick_onsets_merge_without_inventing_a_later_time (test_lyric_alignment.LyricAlignmentTests.test_same_tick_onsets_merge_without_inventing_a_later_time) ... ok
+test_segment_without_word_times_is_coarse_and_flagged (test_lyric_alignment.LyricAlignmentTests.test_segment_without_word_times_is_coarse_and_flagged) ... ok
+test_serializer_carries_fractional_seconds_and_blocks_lrc_injection (test_lyric_alignment.LyricAlignmentTests.test_serializer_carries_fractional_seconds_and_blocks_lrc_injection) ... ok
+test_short_lines_use_real_word_boundaries_and_punctuation (test_lyric_alignment.LyricAlignmentTests.test_short_lines_use_real_word_boundaries_and_punctuation) ... ok
+test_submillisecond_onsets_do_not_become_nonchronological_after_rounding (test_lyric_alignment.LyricAlignmentTests.test_submillisecond_onsets_do_not_become_nonchronological_after_rounding) ... ok
+test_five_existing_takes_reload_their_own_lyrics_by_default_without_audio_changes (test_lyric_defaults.LyricDefaultAPITests.test_five_existing_takes_reload_their_own_lyrics_by_default_without_audio_changes) ... ok
+test_lyric_attachment_does_not_unban_a_song_or_modify_character_policy (test_lyric_defaults.LyricDefaultAPITests.test_lyric_attachment_does_not_unban_a_song_or_modify_character_policy) ... ok
+test_saved_defaults_keep_instrumental_clear_points_and_user_timing_adjustment (test_lyric_defaults.LyricDefaultAPITests.test_saved_defaults_keep_instrumental_clear_points_and_user_timing_adjustment) ... ok
+test_song_backup_contains_default_lyrics_and_original_take_provenance (test_lyric_defaults.LyricDefaultAPITests.test_song_backup_contains_default_lyrics_and_original_take_provenance) ... ok
+test_idempotent_prepared_reimport_keeps_edited_default_lyrics_and_same_song_id (test_lyric_defaults.PreparedReimportLyricDefaultTests.test_idempotent_prepared_reimport_keeps_edited_default_lyrics_and_same_song_id) ... ok
+test_adjacent_asr_split_lines_use_original_phrase_onset (test_lyric_match.ReferenceMatchTests.test_adjacent_asr_split_lines_use_original_phrase_onset) ... ok
+test_adjacent_reference_split_lines_can_use_a_merged_asr_phrase (test_lyric_match.ReferenceMatchTests.test_adjacent_reference_split_lines_can_use_a_merged_asr_phrase) ... ok
+test_an_edited_instrumental_bridge_is_not_hidden_by_a_global_offset (test_lyric_match.ReferenceMatchTests.test_an_edited_instrumental_bridge_is_not_hidden_by_a_global_offset) ... ok
+test_anchor_cluster_in_one_verse_does_not_validate_the_whole_song (test_lyric_match.ReferenceMatchTests.test_anchor_cluster_in_one_verse_does_not_validate_the_whole_song) ... ok
+test_fixed_offset_preserves_literal_text_and_blank_cues (test_lyric_match.ReferenceMatchTests.test_fixed_offset_preserves_literal_text_and_blank_cues) ... ok
+test_fuzzy_word_errors_do_not_replace_reference_text (test_lyric_match.ReferenceMatchTests.test_fuzzy_word_errors_do_not_replace_reference_text) ... ok
+test_identical_short_refrain_is_not_six_independent_anchors (test_lyric_match.ReferenceMatchTests.test_identical_short_refrain_is_not_six_independent_anchors) ... ok
+test_invalid_comparison_normalizer_cannot_change_output_type (test_lyric_match.ReferenceMatchTests.test_invalid_comparison_normalizer_cannot_change_output_type) ... ok
+test_invalid_timestamps_types_confidence_and_order_are_rejected (test_lyric_match.ReferenceMatchTests.test_invalid_timestamps_types_confidence_and_order_are_rejected) ... ok
+test_isolated_timing_outlier_does_not_shift_other_lines (test_lyric_match.ReferenceMatchTests.test_isolated_timing_outlier_does_not_shift_other_lines) ... ok
+test_large_tempo_difference_is_rejected (test_lyric_match.ReferenceMatchTests.test_large_tempo_difference_is_rejected) ... ok
+test_near_unity_scale_is_fitted_only_when_it_explains_drift (test_lyric_match.ReferenceMatchTests.test_near_unity_scale_is_fitted_only_when_it_explains_drift) ... ok
+test_negative_offset_bounds_non_sung_headers_without_wrapping_time (test_lyric_match.ReferenceMatchTests.test_negative_offset_bounds_non_sung_headers_without_wrapping_time) ... ok
+test_nfkc_case_and_punctuation_are_comparison_only (test_lyric_match.ReferenceMatchTests.test_nfkc_case_and_punctuation_are_comparison_only) ... ok
+test_outlier_at_the_end_cannot_validate_a_cluster_of_early_anchors (test_lyric_match.ReferenceMatchTests.test_outlier_at_the_end_cannot_validate_a_cluster_of_early_anchors) ... ok
+test_phonetic_comparison_still_rejects_reordered_and_short_versions (test_lyric_match.ReferenceMatchTests.test_phonetic_comparison_still_rejects_reordered_and_short_versions) ... ok
+test_phonetic_normalization_never_replaces_reference_characters (test_lyric_match.ReferenceMatchTests.test_phonetic_normalization_never_replaces_reference_characters) ... ok
+test_reordered_verses_are_rejected (test_lyric_match.ReferenceMatchTests.test_reordered_verses_are_rejected) ... ok
+test_repeated_choruses_keep_their_correct_monotonic_occurrences (test_lyric_match.ReferenceMatchTests.test_repeated_choruses_keep_their_correct_monotonic_occurrences) ... ok
+test_shortened_song_and_matching_title_only_are_not_enough (test_lyric_match.ReferenceMatchTests.test_shortened_song_and_matching_title_only_are_not_enough) ... ok
+test_sung_line_outside_recording_causes_rejection (test_lyric_match.ReferenceMatchTests.test_sung_line_outside_recording_causes_rejection) ... ok
+test_three_asr_fragments_can_match_one_reference_phrase (test_lyric_match.ReferenceMatchTests.test_three_asr_fragments_can_match_one_reference_phrase) ... ok
+test_bom_metadata_offsets_repeats_bilingual_and_blank_clears (test_lyrics.LRCParserTests.test_bom_metadata_offsets_repeats_bilingual_and_blank_clears) ... ok
+test_bracketed_lyric_text_and_html_are_kept_literal (test_lyrics.LRCParserTests.test_bracketed_lyric_text_and_html_are_kept_literal) ... ok
+test_decimal_precision_hours_and_negative_offset_are_separate (test_lyrics.LRCParserTests.test_decimal_precision_hours_and_negative_offset_are_separate) ... ok
+test_invalid_timestamps_and_offsets_do_not_silently_publish (test_lyrics.LRCParserTests.test_invalid_timestamps_and_offsets_do_not_silently_publish) ... ok
+test_native_lrc_offset_is_normalized_to_the_positive_later_ui_convention (test_lyrics.LRCParserTests.test_native_lrc_offset_is_normalized_to_the_positive_later_ui_convention) ... ok
+test_payload_character_line_and_expansion_limits (test_lyrics.LRCParserTests.test_payload_character_line_and_expansion_limits) ... ok
+test_all_lyric_writes_require_local_header_and_origin (test_lyrics.LyricAPITests.test_all_lyric_writes_require_local_header_and_origin) ... ok
+test_invalid_and_oversized_uploads_do_not_replace_existing_lyrics (test_lyrics.LyricAPITests.test_invalid_and_oversized_uploads_do_not_replace_existing_lyrics) ... ok
+test_local_upload_offset_and_removal_update_live_metadata_without_restarting_audio (test_lyrics.LyricAPITests.test_local_upload_offset_and_removal_update_live_metadata_without_restarting_audio) ... ok
+test_attach_offset_and_remove_preserve_audio_and_existing_untimed_lyrics (test_lyrics.LyricStorageTests.test_attach_offset_and_remove_preserve_audio_and_existing_untimed_lyrics) ... ok
+test_character_ownership_moderation_and_bad_offset_preserve_metadata (test_lyrics.LyricStorageTests.test_character_ownership_moderation_and_bad_offset_preserve_metadata) ... ok
+test_storage_replace_failure_leaves_the_old_song_metadata_intact (test_lyrics.LyricStorageTests.test_storage_replace_failure_leaves_the_old_song_metadata_intact) ... ok
+test_bad_formats_empty_truncated_and_oversized_images_leave_no_files (test_media.MediaAPITests.test_bad_formats_empty_truncated_and_oversized_images_leave_no_files) ... ok
+test_byte_limits_check_both_declared_size_and_streamed_data (test_media.MediaAPITests.test_byte_limits_check_both_declared_size_and_streamed_data) ... ok
+test_failed_disk_write_leaves_no_half_uploaded_asset (test_media.MediaAPITests.test_failed_disk_write_leaves_no_half_uploaded_asset) ... ok
+test_png_and_mp3_upload_preview_apply_restart_and_shared_character_switch (test_media.MediaAPITests.test_png_and_mp3_upload_preview_apply_restart_and_shared_character_switch) ... ok
+test_storage_uses_unique_ids_and_selection_rejects_foreign_paths_or_wrong_types (test_media.MediaAPITests.test_storage_uses_unique_ids_and_selection_rejects_foreign_paths_or_wrong_types) ... ok
+test_audio_arrives_before_completion_and_direction_is_not_spoken (test_mimo_tts.MiMoVoiceTests.test_audio_arrives_before_completion_and_direction_is_not_spoken) ... ok
+test_bad_or_truncated_audio_is_not_cached_and_errors_hide_secrets (test_mimo_tts.MiMoVoiceTests.test_bad_or_truncated_audio_is_not_cached_and_errors_hide_secrets) ... ok
+test_blank_direction_uses_plain_text_and_keys_are_isolated (test_mimo_tts.MiMoVoiceTests.test_blank_direction_uses_plain_text_and_keys_are_isolated) ... ok
+test_voice_design_uses_description_without_preset_and_changes_cache_identity (test_mimo_tts.MiMoVoiceTests.test_voice_design_uses_description_without_preset_and_changes_cache_identity) ... ok
+test_inherit_is_an_explicit_opt_out_and_other_modules_are_independent (test_module_scenes.ModuleSceneAPITests.test_inherit_is_an_explicit_opt_out_and_other_modules_are_independent) ... ok
+test_invalid_scene_does_not_modify_saved_profile (test_module_scenes.ModuleSceneAPITests.test_invalid_scene_does_not_modify_saved_profile) ... ok
+test_only_singing_defaults_to_a_dedicated_scene (test_module_scenes.ModuleSceneAPITests.test_only_singing_defaults_to_a_dedicated_scene) ... ok
+test_scene_override_persists_without_changing_shared_stage_or_voice (test_module_scenes.ModuleSceneAPITests.test_scene_override_persists_without_changing_shared_stage_or_voice) ... ok
+test_explicit_shared_stage_survives_reload (test_module_scenes.ModuleSceneMigrationTests.test_explicit_shared_stage_survives_reload) ... ok
+test_legacy_song_look_gets_music_room_without_rewriting_file (test_module_scenes.ModuleSceneMigrationTests.test_legacy_song_look_gets_music_room_without_rewriting_file) ... ok
+test_only_installed_scene_names_are_accepted (test_module_scenes.ModuleSceneMigrationTests.test_only_installed_scene_names_are_accepted) ... ok
+test_cache_pruning_preserves_recent_and_nonowned_files (test_module_transitions.ModuleTransitionTests.test_cache_pruning_preserves_recent_and_nonowned_files) ... ok
+test_cached_audio_survives_helper_restart_and_key_rotation (test_module_transitions.ModuleTransitionTests.test_cached_audio_survives_helper_restart_and_key_rotation) ... ok
+test_close_cancels_owned_preparation_without_closing_shared_engine (test_module_transitions.ModuleTransitionTests.test_close_cancels_owned_preparation_without_closing_shared_engine) ... ok
+test_corrupt_cached_take_is_replaced_with_valid_audio (test_module_transitions.ModuleTransitionTests.test_corrupt_cached_take_is_replaced_with_valid_audio) ... ok
+test_disabled_voice_missing_engine_and_unknown_module_skip_synthesis (test_module_transitions.ModuleTransitionTests.test_disabled_voice_missing_engine_and_unknown_module_skip_synthesis) ... ok
+test_failures_return_none_with_sanitized_notice (test_module_transitions.ModuleTransitionTests.test_failures_return_none_with_sanitized_notice) ... Module transition unavailable (RuntimeError); performance continues
+ok
+test_invalid_long_or_oversized_audio_never_enters_cache (test_module_transitions.ModuleTransitionTests.test_invalid_long_or_oversized_audio_never_enters_cache) ... Module transition unavailable (HeaderNotFoundError); performance continues
+Module transition unavailable (ValueError); performance continues
+Module transition unavailable (ValueError); performance continues
+ok
+test_pair_preparation_is_concurrent_and_each_clip_is_bounded (test_module_transitions.ModuleTransitionTests.test_pair_preparation_is_concurrent_and_each_clip_is_bounded) ... ok
+test_pitch_provider_style_and_pronunciation_controls_invalidate_cache (test_module_transitions.ModuleTransitionTests.test_pitch_provider_style_and_pronunciation_controls_invalidate_cache) ... ok
+test_profile_change_guard_and_per_profile_shuffle_bags (test_module_transitions.ModuleTransitionTests.test_profile_change_guard_and_per_profile_shuffle_bags) ... ok
+test_saved_profile_voice_edit_invalidates_prepared_clip_before_engine_replacement (test_module_transitions.ModuleTransitionTests.test_saved_profile_voice_edit_invalidates_prepared_clip_before_engine_replacement) ... ok
+test_shuffle_cycles_all_three_lines_without_immediate_repeat (test_module_transitions.ModuleTransitionTests.test_shuffle_cycles_all_three_lines_without_immediate_repeat) ... ok
+test_timeout_cancels_only_its_synthesis_and_returns_without_blocking (test_module_transitions.ModuleTransitionTests.test_timeout_cancels_only_its_synthesis_and_returns_without_blocking) ... Module transition unavailable (TimeoutError); performance continues
+ok
+test_uses_saved_voice_and_produces_valid_persistent_secret_free_clip (test_module_transitions.ModuleTransitionTests.test_uses_saved_voice_and_produces_valid_persistent_secret_free_clip) ... ok
+test_module_looks_are_per_character_survive_normal_save_and_do_not_change_stage (test_modules.ModuleAPITests.test_module_looks_are_per_character_survive_normal_save_and_do_not_change_stage) ... ok
+test_song_library_and_backup_are_scoped_and_restore_without_credentials (test_modules.ModuleAPITests.test_song_library_and_backup_are_scoped_and_restore_without_credentials) ... ok
+test_registration_lifecycle_and_failed_start_cleanup (test_modules.ModuleLifecycleTests.test_registration_lifecycle_and_failed_start_cleanup) ... ok
+test_stage_ownership_cannot_be_released_by_another_module (test_modules.ModuleLifecycleTests.test_stage_ownership_cannot_be_released_by_another_module) ... ok
+test_audio_signaling_and_source_replacement (test_music_capture.MusicCaptureTests.test_audio_signaling_and_source_replacement) ... ok
+test_cross_origin_unknown_role_and_video_are_rejected (test_music_capture.MusicCaptureTests.test_cross_origin_unknown_role_and_video_are_rejected) ... ok
+test_music_source_is_backward_compatible_and_strict (test_music_capture.MusicCaptureTests.test_music_source_is_backward_compatible_and_strict) ... ok
+test_output_join_leave_and_single_publisher (test_music_capture.MusicCaptureTests.test_output_join_leave_and_single_publisher) ... ok
+test_redacted_uids_do_not_dedupe_distinct_names_or_mix_personal_memory (test_paid_reliability.AnonymousIdentityTests.test_redacted_uids_do_not_dedupe_distinct_names_or_mix_personal_memory) ... ok
+test_zero_id_direct_memory_call_is_not_personalized (test_paid_reliability.AnonymousIdentityTests.test_zero_id_direct_memory_call_is_not_personalized) ... ok
+test_combo_owns_records_and_gift_name_count_is_bounded (test_paid_reliability.PaidInboxTests.test_combo_owns_records_and_gift_name_count_is_bounded) ... ok
+test_combo_window_and_maximum_wait (test_paid_reliability.PaidInboxTests.test_combo_window_and_maximum_wait) ... ok
+test_overload_is_bounded_and_visible_sc_retains_priority (test_paid_reliability.PaidInboxTests.test_overload_is_bounded_and_visible_sc_retains_priority) ... ok
+test_sc_precedes_guard_and_keeps_each_question (test_paid_reliability.PaidInboxTests.test_sc_precedes_guard_and_keeps_each_question) ... ok
+test_performance_keeps_paid_events_without_spawning_waiters (test_paid_reliability.PaidPipelineTests.test_performance_keeps_paid_events_without_spawning_waiters) ... ok
+test_sdk_sc_question_and_authenticated_cookie_scope (test_paid_reliability.PaidPipelineTests.test_sdk_sc_question_and_authenticated_cookie_scope) ... ok
+test_duplicate_and_stale_resume_cannot_resume_or_stop_a_new_story (test_performance_races.PerformanceRaceTests.test_duplicate_and_stale_resume_cannot_resume_or_stop_a_new_story) ... ok
+test_stop_during_timer_cancellation_cannot_leave_a_welcome_waiting_forever (test_performance_races.PerformanceRaceTests.test_stop_during_timer_cancellation_cannot_leave_a_welcome_waiting_forever) ... ok
+test_stop_while_resume_event_is_sending_cancels_the_resumed_timer (test_performance_races.PerformanceRaceTests.test_stop_while_resume_event_is_sending_cancels_the_resumed_timer) ... ok
+test_long_intro_delays_song_start_once_with_padding_but_preserves_song_length (test_performance_transitions.PerformanceTransitionTests.test_long_intro_delays_song_start_once_with_padding_but_preserves_song_length) ... ok
+test_natural_completion_emits_outro_once_even_for_duplicate_callbacks (test_performance_transitions.PerformanceTransitionTests.test_natural_completion_emits_outro_once_even_for_duplicate_callbacks) ... ok
+test_no_intro_or_short_intro_keeps_existing_three_second_preload_lead (test_performance_transitions.PerformanceTransitionTests.test_no_intro_or_short_intro_keeps_existing_three_second_preload_lead) ... ok
+test_operator_stop_and_shutdown_never_claim_an_unfinished_song_is_complete (test_performance_transitions.PerformanceTransitionTests.test_operator_stop_and_shutdown_never_claim_an_unfinished_song_is_complete) ... ok
+test_replacement_and_stale_completion_never_play_old_outro (test_performance_transitions.PerformanceTransitionTests.test_replacement_and_stale_completion_never_play_old_outro) ... ok
+test_welcome_pause_resume_does_not_emit_outro_until_story_really_finishes (test_performance_transitions.PerformanceTransitionTests.test_welcome_pause_resume_does_not_emit_outro_until_story_really_finishes) ... ok
+test_cancelled_pre_review_stream_closes_the_model_generator (test_pipeline_security.BroadcastBarrierTests.test_cancelled_pre_review_stream_closes_the_model_generator) ... ok
+test_complete_response_is_reviewed_before_any_subtitle_or_tts (test_pipeline_security.BroadcastBarrierTests.test_complete_response_is_reviewed_before_any_subtitle_or_tts) ... ok
+test_early_valid_sentence_and_split_blocked_word_never_escape (test_pipeline_security.BroadcastBarrierTests.test_early_valid_sentence_and_split_blocked_word_never_escape) ... ok
+test_batch_instruction_does_not_interpolate_viewer_names (test_pipeline_security.PromptIsolationTests.test_batch_instruction_does_not_interpolate_viewer_names) ... ok
+test_viewer_name_message_and_memory_never_enter_system_role (test_pipeline_security.PromptIsolationTests.test_viewer_name_message_and_memory_never_enter_system_role) ... Executing <Task finished name='Task-1385' coro=<PromptIsolationTests.test_viewer_name_message_and_memory_never_enter_system_role() done, defined at D:\ai auto streamer\tests\test_pipeline_security.py:94> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py:100> took 0.703 seconds
+ok
+test_cleanup_recovers_from_one_exception (test_pipeline_security.SupervisorTests.test_cleanup_recovers_from_one_exception) ... Loop cleanup failed (ValueError); restarting
+ok
+test_heartbeat_recovers_from_one_exception (test_pipeline_security.SupervisorTests.test_heartbeat_recovers_from_one_exception) ... Loop heartbeat failed (ValueError); restarting
+ok
+test_welcome_loop_recovers_from_one_exception (test_pipeline_security.SupervisorTests.test_welcome_loop_recovers_from_one_exception) ... Loop welcome failed (ValueError); restarting
+ok
+test_corrupt_mp3_or_incomplete_expected_batch_is_rejected_before_publication (test_prepared_song_import.PreparedSongImportTests.test_corrupt_mp3_or_incomplete_expected_batch_is_rejected_before_publication) ... ok
+test_current_profile_reference_is_read_from_manifest_and_must_match_profile (test_prepared_song_import.PreparedSongImportTests.test_current_profile_reference_is_read_from_manifest_and_must_match_profile) ... ok
+test_damaged_existing_guide_is_not_silently_skipped (test_prepared_song_import.PreparedSongImportTests.test_damaged_existing_guide_is_not_silently_skipped) ... ok
+test_failed_copy_publishes_no_partial_track_and_lock_is_released (test_prepared_song_import.PreparedSongImportTests.test_failed_copy_publishes_no_partial_track_and_lock_is_released) ... ok
+test_import_is_idempotent_and_backup_contains_mix_guide_and_provenance (test_prepared_song_import.PreparedSongImportTests.test_import_is_idempotent_and_backup_contains_mix_guide_and_provenance) ... ok
+test_offline_guard_refuses_running_or_unverifiable_controller (test_prepared_song_import.PreparedSongImportTests.test_offline_guard_refuses_running_or_unverifiable_controller) ... ok
+test_rejects_duration_or_reference_mismatch_before_publishing_any_track (test_prepared_song_import.PreparedSongImportTests.test_rejects_duration_or_reference_mismatch_before_publishing_any_track) ... ok
+test_config_is_public_and_assets_are_served (test_runtime.ControllerAPITests.test_config_is_public_and_assets_are_served) ... ok
+test_full_paid_inbox_returns_http_429_without_falling_into_chat (test_runtime.ControllerAPITests.test_full_paid_inbox_returns_http_429_without_falling_into_chat) ... ok
+test_invalid_payloads_are_422_not_server_errors (test_runtime.ControllerAPITests.test_invalid_payloads_are_422_not_server_errors) ... ok
+test_new_socket_gets_snapshot_then_chat_and_reply (test_runtime.ControllerAPITests.test_new_socket_gets_snapshot_then_chat_and_reply) ... ok
+test_flood_is_bounded_and_keeps_latest_chat (test_runtime.IngressTests.test_flood_is_bounded_and_keeps_latest_chat) ... ok
+test_paid_events_survive_chat_overload (test_runtime.IngressTests.test_paid_events_survive_chat_overload) ... ok
+test_chat_aggregation_window_is_bounded (test_runtime.RuntimeTests.test_chat_aggregation_window_is_bounded) ... ok
+test_direct_text_arrives_before_slow_speech (test_runtime.RuntimeTests.test_direct_text_arrives_before_slow_speech) ... ok
+test_idle_animation_does_not_restart_reply_cooldown (test_runtime.RuntimeTests.test_idle_animation_does_not_restart_reply_cooldown) ... ok
+test_paid_events_bypass_chat_into_a_bounded_inbox (test_runtime.RuntimeTests.test_paid_events_bypass_chat_into_a_bounded_inbox) ... ok
+test_slow_client_does_not_delay_healthy_client (test_runtime.RuntimeTests.test_slow_client_does_not_delay_healthy_client) ... WebSocket send error: 
+ok
+test_status_reports_remaining_cooldown (test_runtime.RuntimeTests.test_status_reports_remaining_cooldown) ... ok
+test_local_rule_failure_is_closed_and_does_not_log_text (test_safety.ReviewBarrierTests.test_local_rule_failure_is_closed_and_does_not_log_text) ... ok
+test_rejected_review_never_reaches_subtitle_audio_or_memory (test_safety.ReviewBarrierTests.test_rejected_review_never_reaches_subtitle_audio_or_memory) ... ok
+test_required_missing_review_is_closed_before_model_or_tts_cost (test_safety.ReviewBarrierTests.test_required_missing_review_is_closed_before_model_or_tts_cost) ... ok
+test_timeout_exception_and_malformed_verdict_block (test_safety.ReviewBarrierTests.test_timeout_exception_and_malformed_verdict_block) ... Content review failed (OSError); output blocked
+Content review failed (ValueError); output blocked
+Content review failed (ValueError); output blocked
+Content review failed (TimeoutError); output blocked
+ok
+test_local_categories_cover_common_evasions (test_safety.SafetyNormalizationTests.test_local_categories_cover_common_evasions) ... ok
+test_normal_conversation_and_benign_contexts_remain_allowed (test_safety.SafetyNormalizationTests.test_normal_conversation_and_benign_contexts_remain_allowed) ... ok
+test_readback_is_off_for_new_profiles (test_safety.SafetyNormalizationTests.test_readback_is_off_for_new_profiles) ... ok
+test_separators_invisible_and_fullwidth_forms_do_not_bypass_local_filter (test_safety.SafetyNormalizationTests.test_separators_invisible_and_fullwidth_forms_do_not_bypass_local_filter) ... ok
+test_stage_controls_are_local_validated_and_resume_chat_on_stop (test_singing.SingingAPITests.test_stage_controls_are_local_validated_and_resume_chat_on_stop) ... ok
+test_uploaded_recording_and_optional_guide_need_no_tts_and_finish_to_chat (test_singing.SingingAPITests.test_uploaded_recording_and_optional_guide_need_no_tts_and_finish_to_chat) ... ok
+test_failure_or_cancel_never_publishes_partial_song_or_provider_secrets (test_singing.SingingTests.test_failure_or_cancel_never_publishes_partial_song_or_provider_secrets) ... Executing <Task finished name='Task-1508' coro=<SingingStudio._generate() done, defined at D:\ai auto streamer\src\singing.py:357> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.406 seconds
+Executing <Task pending name='Task-1509' coro=<SingingStudio._generate() running at D:\ai auto streamer\src\singing.py:378> wait_for=<Future pending cb=[Task.task_wakeup()] created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py:427> created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.422 seconds
+ok
+test_one_tagged_request_complete_file_and_shared_clock_playback_state (test_singing.SingingTests.test_one_tagged_request_complete_file_and_shared_clock_playback_state) ... Executing <Task finished name='Task-1515' coro=<SingingStudio._generate() done, defined at D:\ai auto streamer\src\singing.py:357> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.406 seconds
+ok
+test_completed_audio_and_cached_repeats_drain_in_sequence (test_song_audio_guard.SpeechDrainTests.test_completed_audio_and_cached_repeats_drain_in_sequence) ... ok
+test_invalid_paths_are_ignored_and_bad_audio_cannot_kill_the_queue (test_song_audio_guard.SpeechDrainTests.test_invalid_paths_are_ignored_and_bad_audio_cannot_kill_the_queue) ... ok
+test_progressive_job_waits_until_its_file_and_playback_finish (test_song_audio_guard.SpeechDrainTests.test_progressive_job_waits_until_its_file_and_playback_finish) ... ok
+test_manual_play_is_blocked_before_transition_synthesis_and_preserves_audio (test_song_bans.SongBanPlaybackTests.test_manual_play_is_blocked_before_transition_synthesis_and_preserves_audio) ... ok
+test_manual_play_rechecks_a_ban_changed_during_preparation (test_song_bans.SongBanPlaybackTests.test_manual_play_rechecks_a_ban_changed_during_preparation) ... ok
+test_queue_rechecks_a_ban_changed_during_preparation (test_song_bans.SongBanPlaybackTests.test_queue_rechecks_a_ban_changed_during_preparation) ... ok
+test_queued_ban_is_pruned_before_any_transition_request (test_song_bans.SongBanPlaybackTests.test_queued_ban_is_pruned_before_any_transition_request) ... ok
+test_chat_and_controller_requests_reject_paused_titles (test_song_bans.SongBanQueueTests.test_chat_and_controller_requests_reject_paused_titles) ... ok
+test_future_import_remains_banned_and_unban_is_reversible (test_song_bans.SongBanQueueTests.test_future_import_remains_banned_and_unban_is_reversible) ... ok
+test_policy_rejects_empty_unbounded_and_invalid_titles_and_deduplicates (test_song_bans.SongBanQueueTests.test_policy_rejects_empty_unbounded_and_invalid_titles_and_deduplicates) ... ok
+test_pop_skips_newly_paused_songs_even_without_explicit_prune (test_song_bans.SongBanQueueTests.test_pop_skips_newly_paused_songs_even_without_explicit_prune) ... ok
+test_pruning_preserves_allowed_fifo_and_other_character_requests (test_song_bans.SongBanQueueTests.test_pruning_preserves_allowed_fifo_and_other_character_requests) ... ok
+test_old_heartbeat_is_stale_only_if_the_coordinator_lease_is_free (test_song_coordinator_recovery.CoordinatorLeaseTests.test_old_heartbeat_is_stale_only_if_the_coordinator_lease_is_free) ... ok
+test_recent_heartbeat_does_not_probe_or_claim_a_dead_coordinator (test_song_coordinator_recovery.CoordinatorLeaseTests.test_recent_heartbeat_does_not_probe_or_claim_a_dead_coordinator) ... ok
+test_repeated_status_write_failures_do_not_terminate_running_workers (test_song_coordinator_recovery.CoordinatorTelemetryTests.test_repeated_status_write_failures_do_not_terminate_running_workers) ... ok
+test_telemetry_publication_is_best_effort_and_keeps_previous_state (test_song_coordinator_recovery.CoordinatorTelemetryTests.test_telemetry_publication_is_best_effort_and_keeps_previous_state) ... ok
+test_stale_original_batch_is_reported_without_restarting_or_editing_it (test_song_coordinator_recovery.QueueStaleCoordinatorTests.test_stale_original_batch_is_reported_without_restarting_or_editing_it) ... ok
+test_instrumental_gaps_close_the_guide_without_changing_voice_timing (test_song_export.SongExportTests.test_instrumental_gaps_close_the_guide_without_changing_voice_timing) ... ok
+test_missing_audio_is_rejected_instead_of_padding_a_missing_verse (test_song_export.SongExportTests.test_missing_audio_is_rejected_instead_of_padding_a_missing_verse) ... ok
+test_mix_and_guide_export_aligned_and_reuse_the_same_hashed_files (test_song_export.SongExportTests.test_mix_and_guide_export_aligned_and_reuse_the_same_hashed_files) ... ok
+test_activation_releases_old_lease_before_launch_and_preserves_originals (test_song_follow_on_queue.FollowOnQueueTests.test_activation_releases_old_lease_before_launch_and_preserves_originals) ... ok
+test_changed_original_identifiers_block_without_writing_manifests (test_song_follow_on_queue.FollowOnQueueTests.test_changed_original_identifiers_block_without_writing_manifests) ... ok
+test_completion_requires_import_and_exact_quality (test_song_follow_on_queue.FollowOnQueueTests.test_completion_requires_import_and_exact_quality) ... ok
+test_follow_on_completion_does_not_launch_or_autoplay (test_song_follow_on_queue.FollowOnQueueTests.test_follow_on_completion_does_not_launch_or_autoplay) ... ok
+test_incomplete_or_unimported_original_batch_cannot_activate (test_song_follow_on_queue.FollowOnQueueTests.test_incomplete_or_unimported_original_batch_cannot_activate) ... ok
+test_interrupted_manifest_transaction_recovers_once (test_song_follow_on_queue.FollowOnQueueTests.test_interrupted_manifest_transaction_recovers_once) ... ok
+test_original_error_or_stop_never_restarts_it (test_song_follow_on_queue.FollowOnQueueTests.test_original_error_or_stop_never_restarts_it) ... ok
+test_voice_batch_and_source_changes_block_activation (test_song_follow_on_queue.FollowOnQueueTests.test_voice_batch_and_source_changes_block_activation) ... ok
+test_waiting_does_not_edit_running_manifests_or_launch_workers (test_song_follow_on_queue.FollowOnQueueTests.test_waiting_does_not_edit_running_manifests_or_launch_workers) ... ok
+test_complete_batch_imports_once_with_guides_backup_and_no_profile_switch_or_playback (test_song_preparation_api.SongPreparationAPITests.test_complete_batch_imports_once_with_guides_backup_and_no_profile_switch_or_playback) ... ok
+test_final_current_voice_guard_blocks_provider_style_model_and_reference_changes (test_song_preparation_api.SongPreparationAPITests.test_final_current_voice_guard_blocks_provider_style_model_and_reference_changes) ... ok
+test_four_track_batch_imports_and_rejects_partial_stale_or_lower_quality_files (test_song_preparation_api.SongPreparationAPITests.test_four_track_batch_imports_and_rejects_partial_stale_or_lower_quality_files) ... ok
+test_prepared_import_is_local_fixed_path_and_refuses_partial_batch (test_song_preparation_api.SongPreparationAPITests.test_prepared_import_is_local_fixed_path_and_refuses_partial_batch) ... ok
+test_status_is_bounded_scalar_only_and_hides_private_paths (test_song_preparation_api.SongPreparationAPITests.test_status_is_bounded_scalar_only_and_hides_private_paths) ... ok
+test_all_request_controls_reject_cross_origin_and_missing_header (test_song_request_integration.SongRequestAPITests.test_all_request_controls_reject_cross_origin_and_missing_header) ... ok
+test_banning_current_song_stops_to_chat_and_prunes_only_paused_waiting_songs (test_song_request_integration.SongRequestAPITests.test_banning_current_song_stops_to_chat_and_prunes_only_paused_waiting_songs) ... ok
+test_local_queue_cannot_order_missing_or_other_characters_audio (test_song_request_integration.SongRequestAPITests.test_local_queue_cannot_order_missing_or_other_characters_audio) ... ok
+test_only_stage_output_websocket_counts_for_automatic_playback (test_song_request_integration.SongRequestAPITests.test_only_stage_output_websocket_counts_for_automatic_playback) ... ok
+test_operator_can_build_remove_and_clear_playlist_without_user_cooldown (test_song_request_integration.SongRequestAPITests.test_operator_can_build_remove_and_clear_playlist_without_user_cooldown) ... ok
+test_policy_validation_rejects_unbounded_and_nonfinite_values_atomically (test_song_request_integration.SongRequestAPITests.test_policy_validation_rejects_unbounded_and_nonfinite_values_atomically) ... ok
+test_request_policy_is_revision_checked_persisted_and_character_owned (test_song_request_integration.SongRequestAPITests.test_request_policy_is_revision_checked_persisted_and_character_owned) ... ok
+test_requests_during_song_do_not_interrupt_and_completion_returns_to_chat (test_song_request_integration.SongRequestAPITests.test_requests_during_song_do_not_interrupt_and_completion_returns_to_chat) ... ok
+test_saved_song_bans_reject_requests_and_manual_play_before_transition_preparation (test_song_request_integration.SongRequestAPITests.test_saved_song_bans_reject_requests_and_manual_play_before_transition_preparation) ... ok
+test_viewer_request_reaches_queue_without_generation_or_stage_change (test_song_request_integration.SongRequestAPITests.test_viewer_request_reaches_queue_without_generation_or_stage_change) ... ok
+test_auto_play_waits_for_output_story_reply_and_actual_voice_completion (test_song_request_integration.SongRequestPlaybackTests.test_auto_play_waits_for_output_story_reply_and_actual_voice_completion) ... ok
+test_character_change_does_not_play_another_characters_queue (test_song_request_integration.SongRequestPlaybackTests.test_character_change_does_not_play_another_characters_queue) ... ok
+test_natural_completion_returns_chat_then_observes_intermission (test_song_request_integration.SongRequestPlaybackTests.test_natural_completion_returns_chat_then_observes_intermission) ... ok
+test_cooldowns_are_per_user_profile_and_song_not_shared_across_anonymous_viewers (test_song_requests.SongRequestTests.test_cooldowns_are_per_user_profile_and_song_not_shared_across_anonymous_viewers) ... ok
+test_duplicate_pending_inflight_and_playing_songs_are_rejected (test_song_requests.SongRequestTests.test_duplicate_pending_inflight_and_playing_songs_are_rejected) ... ok
+test_explicit_commands_normalize_titles_and_publish_safe_public_entries (test_song_requests.SongRequestTests.test_explicit_commands_normalize_titles_and_publish_safe_public_entries) ... ok
+test_global_bound_and_profile_switch_never_play_another_characters_request (test_song_requests.SongRequestTests.test_global_bound_and_profile_switch_never_play_another_characters_request) ... ok
+test_ingress_policy_failure_is_contained_and_history_memory_is_bounded (test_song_requests.SongRequestTests.test_ingress_policy_failure_is_contained_and_history_memory_is_bounded) ... Song request could not be handled (ValidationError)
+ok
+test_manual_play_records_recent_song_and_satisfies_only_its_matching_request (test_song_requests.SongRequestTests.test_manual_play_records_recent_song_and_satisfies_only_its_matching_request) ... ok
+test_operator_can_build_playlist_quickly_but_capacity_and_duplicates_apply (test_song_requests.SongRequestTests.test_operator_can_build_playlist_quickly_but_capacity_and_duplicates_apply) ... ok
+test_policy_is_finite_bounded_and_rejects_unknown_fields (test_song_requests.SongRequestTests.test_policy_is_finite_bounded_and_rejects_unknown_fields) ... ok
+test_remove_clear_and_last_result_are_scoped_to_active_character (test_song_requests.SongRequestTests.test_remove_clear_and_last_result_are_scoped_to_active_character) ... ok
+test_removed_audio_is_skipped_and_failure_requeue_keeps_fifo_order (test_song_requests.SongRequestTests.test_removed_audio_is_skipped_and_failure_requeue_keeps_fifo_order) ... ok
+test_unchecked_viewer_text_names_and_catalog_titles_are_blocked (test_song_requests.SongRequestTests.test_unchecked_viewer_text_names_and_catalog_titles_are_blocked) ... ok
+test_unknown_foreign_ambiguous_and_missing_titles_never_create_requests (test_song_requests.SongRequestTests.test_unknown_foreign_ambiguous_and_missing_titles_never_create_requests) ... ok
+test_unrelated_messages_and_disabled_chat_continue_through_pipeline (test_song_requests.SongRequestTests.test_unrelated_messages_and_disabled_chat_continue_through_pipeline) ... ok
+test_a_genuinely_truncated_audio_file_is_still_rejected (test_song_separation.SongAudioDurationTests.test_a_genuinely_truncated_audio_file_is_still_rejected) ... ok
+test_legacy_manifest_uses_job_audio_duration_instead_of_video_runtime (test_song_separation.SongAudioDurationTests.test_legacy_manifest_uses_job_audio_duration_instead_of_video_runtime) ... ok
+test_video_only_metadata_is_not_an_audio_length_constraint (test_song_separation.SongAudioDurationTests.test_video_only_metadata_is_not_an_audio_length_constraint) ... ok
+test_video_tail_does_not_reject_the_shorter_valid_audio (test_song_separation.SongAudioDurationTests.test_video_tail_does_not_reject_the_shorter_valid_audio) ... ok
+test_batch_reads_only_latest_selected_core_and_templates_also_work (test_speech_delivery.ChatReadbackTests.test_batch_reads_only_latest_selected_core_and_templates_also_work) ... ok
+test_core_preserves_negation_and_removes_addresses_and_links (test_speech_delivery.ChatReadbackTests.test_core_preserves_negation_and_removes_addresses_and_links) ... ok
+test_full_audio_mode_and_readback_switch (test_speech_delivery.ChatReadbackTests.test_full_audio_mode_and_readback_switch) ... ok
+test_no_readback_when_output_is_blocked_or_empty (test_speech_delivery.ChatReadbackTests.test_no_readback_when_output_is_blocked_or_empty) ... Reply skipped after LLM failure: LLM returned an empty reply
+ok
+test_readback_only_changes_audio_and_uses_one_model_call (test_speech_delivery.ChatReadbackTests.test_readback_only_changes_audio_and_uses_one_model_call) ... ok
+test_stream_combines_prefix_with_first_answer_sentence_once (test_speech_delivery.ChatReadbackTests.test_stream_combines_prefix_with_first_answer_sentence_once) ... ok
+test_progressive_audio_is_shared_not_duplicated_and_settings_are_snapshotted (test_speech_delivery.MiniMaxDeliveryTests.test_progressive_audio_is_shared_not_duplicated_and_settings_are_snapshotted) ... ok
+test_provider_and_voice_are_in_cache_identity_and_inflection_is_small (test_speech_delivery.MiniMaxDeliveryTests.test_provider_and_voice_are_in_cache_identity_and_inflection_is_small) ... ok
+test_rejected_or_truncated_stream_is_not_cached_and_errors_hide_provider_content (test_speech_delivery.MiniMaxDeliveryTests.test_rejected_or_truncated_stream_is_not_cached_and_errors_hide_provider_content) ... ok
+test_viewer_trigger_stop_and_profile_policy_are_local_and_reuse_prepared_audio (test_story.StoryAPITests.test_viewer_trigger_stop_and_profile_policy_are_local_and_reuse_prepared_audio) ... ok
+test_prepares_ten_whole_tagged_stories_once_and_randomizes_without_repeating (test_story.StoryServiceTests.test_prepares_ten_whole_tagged_stories_once_and_randomizes_without_repeating) ... Executing <Task finished name='Task-1833' coro=<StoryStudio._prepare() done, defined at D:\ai auto streamer\src\story.py:153> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 4.187 seconds
+Executing <Task finished name='Task-1834' coro=<StoryStudio._prepare() done, defined at D:\ai auto streamer\src\story.py:153> result=None created at C:\Users\zhangtao\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py:410> took 0.125 seconds
+ok
+test_singing_arrivals_are_suppressed_and_never_deferred_to_story (test_story.StoryServiceTests.test_singing_arrivals_are_suppressed_and_never_deferred_to_story) ... ok
+test_story_uses_exact_full_profile_voice_and_rejects_old_voice_cache (test_story.StoryServiceTests.test_story_uses_exact_full_profile_voice_and_rejects_old_voice_cache) ... ok
+test_welcome_is_prepared_before_pause_then_resumes_unfinished_story_and_finishes_to_chat (test_story.StoryServiceTests.test_welcome_is_prepared_before_pause_then_resumes_unfinished_story_and_finishes_to_chat) ... ok
+test_car_story_keeps_the_car_parked_during_food_and_book_handling (test_story_catalog.CozyStoryCatalogTests.test_car_story_keeps_the_car_parked_during_food_and_book_handling) ... ok
+test_changing_a_script_invalidates_its_prepared_audio_token (test_story_catalog.CozyStoryCatalogTests.test_changing_a_script_invalidates_its_prepared_audio_token) ... ok
+test_every_story_keeps_the_three_roommates_and_no_other_model_characters (test_story_catalog.CozyStoryCatalogTests.test_every_story_keeps_the_three_roommates_and_no_other_model_characters) ... ok
+test_scripts_are_short_tagged_narration_and_pass_the_local_output_gate (test_story_catalog.CozyStoryCatalogTests.test_scripts_are_short_tagged_narration_and_pass_the_local_output_gate) ... ok
+test_ten_stable_ids_and_distinct_original_scripts (test_story_catalog.CozyStoryCatalogTests.test_ten_stable_ids_and_distinct_original_scripts) ... ok
+test_all_ten_stories_have_finite_monotone_cute_emotions_on_the_audio_clock (test_story_emotions.StoryEmotionTests.test_all_ten_stories_have_finite_monotone_cute_emotions_on_the_audio_clock) ... ok
+test_collapses_adjacent_moods_and_limits_long_scripts (test_story_emotions.StoryEmotionTests.test_collapses_adjacent_moods_and_limits_long_scripts) ... ok
+test_large_finite_duration_does_not_overflow_while_scaling_a_prefix (test_story_emotions.StoryEmotionTests.test_large_finite_duration_does_not_overflow_while_scaling_a_prefix) ... ok
+test_rejects_invalid_durations_and_handles_empty_or_tag_only_text (test_story_emotions.StoryEmotionTests.test_rejects_invalid_durations_and_handles_empty_or_tag_only_text) ... ok
+test_unknown_tags_and_punctuation_do_not_shift_or_create_acting_beats (test_story_emotions.StoryEmotionTests.test_unknown_tags_and_punctuation_do_not_shift_or_create_acting_beats) ... ok
+test_uses_spoken_characters_not_acting_tags_for_time_positions (test_story_emotions.StoryEmotionTests.test_uses_spoken_characters_not_acting_tags_for_time_positions) ... ok
+test_first_audio_is_available_before_synthesis_finishes_and_shared (test_studio.ProgressiveVoiceTests.test_first_audio_is_available_before_synthesis_finishes_and_shared) ... ok
+test_natural_voice_has_no_emotion_pitch_jumps (test_studio.ProgressiveVoiceTests.test_natural_voice_has_no_emotion_pitch_jumps) ... ok
+test_short_comma_does_not_fragment_speech (test_studio.ProgressiveVoiceTests.test_short_comma_does_not_fragment_speech) ... ok
+test_stream_failure_signals_error_and_removes_partial_file (test_studio.ProgressiveVoiceTests.test_stream_failure_signals_error_and_removes_partial_file) ... TTS edge-tts failed [response, route=environment]: Provider returned incomplete or invalid data; retry the connection test.
+ok
+test_busy_reply_preserves_unsaved_edits (test_studio.StudioAPITests.test_busy_reply_preserves_unsaved_edits) ... ok
+test_car_scene_saves_without_changing_voice_or_other_defaults (test_studio.StudioAPITests.test_car_scene_saves_without_changing_voice_or_other_defaults) ... ok
+test_cloud_voice_can_be_saved_muted_and_secret_never_leaves_server (test_studio.StudioAPITests.test_cloud_voice_can_be_saved_muted_and_secret_never_leaves_server) ... ok
+test_cloud_voice_requires_key_without_changing_saved_settings (test_studio.StudioAPITests.test_cloud_voice_requires_key_without_changing_saved_settings) ... ok
+test_demo_catalog_rejects_unsupported_poses_and_migrates_saved_mapping (test_studio.StudioAPITests.test_demo_catalog_rejects_unsupported_poses_and_migrates_saved_mapping) ... ok
+test_director_line_bypasses_model_and_uses_action_mapping (test_studio.StudioAPITests.test_director_line_bypasses_model_and_uses_action_mapping) ... ok
+test_glm_voice_uses_shared_key_and_preserves_provider_when_muted (test_studio.StudioAPITests.test_glm_voice_uses_shared_key_and_preserves_provider_when_muted) ... ok
+test_identity_reply_voice_and_motion_apply_and_persist (test_studio.StudioAPITests.test_identity_reply_voice_and_motion_apply_and_persist) ... ok
+test_invalid_saved_settings_do_not_prevent_startup (test_studio.StudioAPITests.test_invalid_saved_settings_do_not_prevent_startup) ... ok
+test_invalid_values_cannot_write_credentials_or_arbitrary_actions (test_studio.StudioAPITests.test_invalid_values_cannot_write_credentials_or_arbitrary_actions) ... ok
+test_mimo_direction_and_voice_persist_without_exposing_key (test_studio.StudioAPITests.test_mimo_direction_and_voice_persist_without_exposing_key) ... ok
+test_pre_scene_saved_settings_load_with_scene_defaults (test_studio.StudioAPITests.test_pre_scene_saved_settings_load_with_scene_defaults) ... ok
+test_quiet_room_warmup_controls_persist_and_validate (test_studio.StudioAPITests.test_quiet_room_warmup_controls_persist_and_validate) ... ok
+test_scene_rejects_external_assets_invalid_modes_and_out_of_bounds_framing (test_studio.StudioAPITests.test_scene_rejects_external_assets_invalid_modes_and_out_of_bounds_framing) ... ok
+test_scene_settings_apply_broadcast_and_survive_restart (test_studio.StudioAPITests.test_scene_settings_apply_broadcast_and_survive_restart) ... ok
+test_settings_are_loaded_again_on_restart (test_studio.StudioAPITests.test_settings_are_loaded_again_on_restart) ... ok
+test_voice_audition_uses_draft_without_saving (test_studio.StudioAPITests.test_voice_audition_uses_draft_without_saving) ... ok
+test_reference_temps_are_per_worker_without_changing_shared_excerpt_name (test_svc_shards.SVCShardTests.test_reference_temps_are_per_worker_without_changing_shared_excerpt_name) ... ok
+test_song_lease_blocks_overlap_and_releases_on_error_or_cached_continue (test_svc_shards.SVCShardTests.test_song_lease_blocks_overlap_and_releases_on_error_or_cached_continue) ... skipped 'Optional isolated conversion environment supplies filelock'
+test_worker_paths_keep_main_compatibility_and_separate_named_shards (test_svc_shards.SVCShardTests.test_worker_paths_keep_main_compatibility_and_separate_named_shards) ... ok
+test_chat_arriving_during_synthesis_discards_stale_ready_audio (test_warmup.WarmupTests.test_chat_arriving_during_synthesis_discards_stale_ready_audio) ... ok
+test_new_chat_cancels_preparing_warmup_and_releases_reply_slot (test_warmup.WarmupTests.test_new_chat_cancels_preparing_warmup_and_releases_reply_slot) ... ok
+test_no_warmup_during_activity_without_outputs_or_with_pending_messages (test_warmup.WarmupTests.test_no_warmup_during_activity_without_outputs_or_with_pending_messages) ... ok
+test_warmup_speaks_without_llm_and_rotates_lines (test_warmup.WarmupTests.test_warmup_speaks_without_llm_and_rotates_lines) ... ok
+
+----------------------------------------------------------------------
+Ran 415 tests in 40.420s
+
+OK (skipped=1)

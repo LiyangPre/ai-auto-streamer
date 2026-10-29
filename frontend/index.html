@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Auto Streamer</title>
-    <link rel="stylesheet" href="/static/style.css?v=drive-1">
+    <link rel="stylesheet" href="/static/style.css?v=scene-transition-1">
 </head>
 <body>
     <div id="app">
@@ -28,7 +28,23 @@
         </div>
 
         <div id="car-scene" hidden><img alt="Astra at the wheel, with DeepSeek and Claude seated below the windshield" draggable="false"><canvas class="car-windows" aria-hidden="true" hidden></canvas><canvas class="car-face" aria-label="Astra animated expressions"></canvas><div class="car-shade" aria-hidden="true"></div><p role="status"></p></div>
+        <div id="singing-scene" hidden aria-label="Astra singing with a handheld microphone in her music room">
+            <img class="singing-room-art" src="/static/scenes/singing/music-room-v2.png" alt="" draggable="false">
+            <img class="singing-still" src="/static/scenes/singing/astra-singer-v2.png" alt="Astra holding a microphone" draggable="false">
+            <canvas class="singing-character" aria-label="Astra's natural singing animation"></canvas>
+            <div class="singing-dolls" aria-label="DeepSeek and Claude dolls">
+                <div class="singing-doll deepseek"><img src="/static/scenes/singing/happy-seated-dolls-v1.png" alt="DeepSeek doll, happily seated and facing the camera" draggable="false"></div>
+                <div class="singing-doll claude"><img src="/static/scenes/singing/happy-seated-dolls-v1.png" alt="Claude doll, happily seated and facing the camera" draggable="false"></div>
+            </div>
+            <div class="singing-room-shade" aria-hidden="true"></div><p role="status"></p>
+        </div>
         <div id="scene-bottom-blur" aria-hidden="true" hidden></div>
+        <div id="scene-transition" hidden role="status" aria-live="polite" aria-busy="false">
+            <div class="scene-transition-card"><div class="scene-transition-star" aria-hidden="true">✦</div>
+                <strong data-scene-title>稍等，我换个地方陪你</strong><p data-scene-message></p>
+                <div class="scene-transition-actions"><button type="button" data-scene-retry hidden>再试一次</button><button type="button" data-scene-dismiss hidden>先留在这里</button></div>
+            </div>
+        </div>
         <div id="ui-overlay">
             <div id="emotion-indicator">
                 <span id="emotion-icon">😊</span>
@@ -52,15 +68,18 @@
     <button id="fullscreen-btn" type="button" aria-label="Enter fullscreen">⛶ <span>Fullscreen</span></button>
     <span id="fullscreen-status" role="status"></span>
 
-    <script src="/static/stage-scene.js?v=capture-1"></script>
+    <script src="/static/stage-scene.js?v=singing-room-2"></script>
+    <script src="/static/scene-transition.js?v=scene-transition-1"></script>
     <script src="/static/music-capture.js?v=capture-1"></script>
-    <script src="/static/stage-presentation.js?v=sing-1"></script>
+    <script src="/static/stage-presentation.js?v=lyrics-1"></script>
     <script src="/static/character-motion.js"></script>
-    <script src="/static/character-face.js?v=sing-1"></script>
+    <script src="/static/character-face.js?v=expressions-1"></script>
+    <script src="/static/vendor/expression-engine.bundle.js?v=singing-motion-3"></script>
     <script src="/static/car-drive.js?v=drive-1"></script>
-    <script src="/static/car-scene.js?v=stories-2"></script>
+    <script src="/static/car-scene.js?v=car-breath-1"></script>
+    <script src="/static/singing-scene.js?v=singing-motion-3"></script>
     <script src="/static/cutout-rig.js"></script>
-    <script src="/static/module-host.js?v=stories-voice-3"></script>
-    <script src="/static/app.js?v=stories-2"></script>
+    <script src="/static/module-host.js?v=singing-room-2"></script>
+    <script src="/static/app.js?v=scene-transition-1"></script>
 </body>
 </html>

@@ -1,0 +1,22 @@
+{
+  "scene": "singing-room",
+  "assets": [
+    "astra-singer-v2.png",
+    "music-room-v2.png",
+    "happy-seated-dolls-v1.png"
+  ],
+  "breathing": true,
+  "natural_blink": true,
+  "shared_emotional_expression": true,
+  "microphone_rigid_with_grip": true,
+  "non_mic_hand_hidden_below_table": true,
+  "default_for": "singing",
+  "chat_scene": "inherit",
+  "frontend_tests": 156,
+  "backend_regression_tests": 415,
+  "backend_optional_skips": 1,
+  "song_replacement_focused_tests": 50,
+  "provider_requests_for_scene": 0,
+  "preview": "http://127.0.0.1:8000/?preview=1&overlay=1&muted=1&scene=singing-room",
+  "no_song_playback_started": true
+}

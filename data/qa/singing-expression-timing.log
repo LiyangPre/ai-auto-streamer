@@ -1,0 +1,32 @@
+✔ existing GLM emotion tags drive local expressions without another request or playback (329.5388ms)
+✔ module stop and welcome resume restore the module look, then chat, without stale held emotions (375.5652ms)
+✔ mute, pauses and silence close the mouth even in surprised or singing expressions (42.9974ms)
+✔ an expression change during a reaction blends from its current pose (204.7205ms)
+✔ switching profiles discards held emotion and speech while retaining reusable scene settings (124.9061ms)
+✔ queued speech selects its own emotion on playback and ignores late callbacks from an old cue (29.7027ms)
+✔ all painted-car expressions use paired eye openness and a closed silent mouth (5.5045ms)
+✔ new stage modules receive events, snapshots and frame hooks without changing the client (7.0176ms)
+✔ singing adapter uses its own presentation and restores conversation after stopping (7.1008ms)
+✔ module loader rejects remote scripts and traversal (4.3792ms)
+✔ vocals and instrumental use one clock, with accompaniment excluded from lip sync (5.32ms)
+✔ late output joins at elapsed position, while thumbnails stay silent (14.389ms)
+✔ blocked autoplay can resume once, duplicate start cannot create doubled voices (3.6678ms)
+✔ stop while fetching prevents delayed audio from starting (7.3511ms)
+✔ welcome pause freezes the exact audio position and resumes without restarting the story (6.1084ms)
+✔ optional vocal guide drives silent lip analysis while the full recording plays once (5.3697ms)
+✔ paused reconnect survives the original end time and resumes the saved position (2.703ms)
+✔ silent previews restore the story visual after a welcome, without creating audio (2.3548ms)
+✔ returning from page disposal recreates guide nodes in the new audio context (1.7714ms)
+✔ song preparation progress is read-only and renders literal titles with bounded counts (4.9966ms)
+✔ a five-minute recording keeps its audio clock and held expression, then returns to chat on the real end (1522.4651ms)
+✔ slow decoding and blocked autoplay stay still, then join the fixed recording at elapsed time (29.383ms)
+✔ pause and mute close the mouth and stop beat motion while resume preserves the exact audio position (30.1777ms)
+✔ a stopped paused performance cannot leak its saved seek offset into the next recording (17.7738ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1919.7418

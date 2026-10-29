@@ -1,0 +1,454 @@
+{
+  "audited_at": "2026-10-28T03:05:19.505648+00:00",
+  "kind": "read_only_song_recovery_audit",
+  "no_model_inference": true,
+  "no_batch_or_process_mutation": true,
+  "voice": {
+    "approved": true,
+    "reference_sha256": "dfa57c37f8e304681f6cc3fa9e7d0370a598b00842a8461bbb035cd0fbb16c8a",
+    "matches_jobs": true,
+    "saved_profile_matches": true,
+    "reference_excerpt_audio_sha256": "e32f697f8f9d0b68f1d6c1f49f4093d65c4165f68f312672cb1d4d9d2902d0f9"
+  },
+  "completed_songs": [
+    {
+      "id": "BV1D64y1Z7Ko",
+      "title": "起风了",
+      "checks": {
+        "ready": true,
+        "reference": true,
+        "steps_50": true,
+        "preserve_pitch_timing": true,
+        "reference_excerpt": true,
+        "original_hash": true,
+        "vocal_hash": true,
+        "backing_hash": true,
+        "converted_hash": true,
+        "full_length": true,
+        "finite_audio": true,
+        "mix_hash": true,
+        "guide_hash": true,
+        "aligned_full_mix": true
+      },
+      "all_checks_pass": true,
+      "diffusion_steps": 50,
+      "converted": {
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1D64y1Z7Ko\\converted-vocals.wav",
+        "bytes": 54532612,
+        "sha256": "d26f450fa6bf17ab66f52e02d72bb0dc9dd3f8c5ba9744aa85f0ff297dd18911",
+        "frames": 13633133,
+        "sample_rate": 44100,
+        "channels": 1,
+        "bits": 32,
+        "format_id": 3,
+        "duration_seconds": 309.1413378684807,
+        "finite": true,
+        "peak": 1.0
+      },
+      "source_sha256": "21eb1a0ae5f4ed791256ae5ba1f62a893f993448819b4edac999884e3cd88bc3",
+      "vocals_sha256": "61be249c450ebf96466e3ea0bd3715457f9483fd3965d3e9c09a28a7b819f60c",
+      "accompaniment_sha256": "0769d230cb43405d72ddb9fd8cec494f7f7d2b9026f27a71467c3ddc67eb8af6",
+      "mix": {
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1D64y1Z7Ko\\astra-song.mp3",
+        "sha256": "41228099eebbcdc29bdb031cdb735af198125bf57308a3d4367ca1b714569f07",
+        "duration_seconds": 309.185306122449,
+        "bytes": 7421117
+      },
+      "guide": {
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1D64y1Z7Ko\\converted-vocals.mp3",
+        "sha256": "af4540921dccb2d877333a42d78e338e1ca2d26ac9e7b2eacdb2f90b51004b5c",
+        "duration_seconds": 309.185306122449,
+        "bytes": 3710581
+      }
+    },
+    {
+      "id": "BV1y82uB2ET4",
+      "title": "小幸运",
+      "checks": {
+        "ready": true,
+        "reference": true,
+        "steps_50": true,
+        "preserve_pitch_timing": true,
+        "reference_excerpt": true,
+        "original_hash": true,
+        "vocal_hash": true,
+        "backing_hash": true,
+        "converted_hash": true,
+        "full_length": true,
+        "finite_audio": true,
+        "mix_hash": true,
+        "guide_hash": true,
+        "aligned_full_mix": true
+      },
+      "all_checks_pass": true,
+      "diffusion_steps": 50,
+      "converted": {
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1y82uB2ET4\\converted-vocals.wav",
+        "bytes": 46539572,
+        "sha256": "8c03086f2defc04d0424bb9176ca683f41f9f0d209f12fd6376fc1a245e0383d",
+        "frames": 11634873,
+        "sample_rate": 44100,
+        "channels": 1,
+        "bits": 32,
+        "format_id": 3,
+        "duration_seconds": 263.8293197278912,
+        "finite": true,
+        "peak": 0.999276876449585
+      },
+      "source_sha256": "c2c2ce6c1cd3ae617cdce33d183cf4e5c5060777b0e63ce2f3512c3fdca7fd7d",
+      "vocals_sha256": "f37dae455c6dd137a3b2d33397011d95407487e9057e0b5796ca910035d91735",
+      "accompaniment_sha256": "f29c455cccf38aebd95061000893e95ef18c2aeeaacfa552a7366e26991360a5",
+      "mix": {
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1y82uB2ET4\\astra-song.mp3",
+        "sha256": "f1a8629a98b672882b17042bf2d22e0173d6aaa3c27a3d79e24d64f3854f6683",
+        "duration_seconds": 263.86285714285714,
+        "bytes": 6333378
+      },
+      "guide": {
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1y82uB2ET4\\converted-vocals.mp3",
+        "sha256": "d7a8d2797ff576561aab244da2be02ba9f87bcff457bfdf81a040271687f696c",
+        "duration_seconds": 263.86285714285714,
+        "bytes": 3166711
+      }
+    },
+    {
+      "id": "BV1A3411J7HX",
+      "title": "告白气球",
+      "checks": {
+        "ready": true,
+        "reference": true,
+        "steps_50": true,
+        "preserve_pitch_timing": true,
+        "reference_excerpt": true,
+        "original_hash": true,
+        "vocal_hash": true,
+        "backing_hash": true,
+        "converted_hash": true,
+        "full_length": true,
+        "finite_audio": true,
+        "mix_hash": true,
+        "guide_hash": true,
+        "aligned_full_mix": true
+      },
+      "all_checks_pass": true,
+      "diffusion_steps": 50,
+      "converted": {
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1A3411J7HX\\converted-vocals.wav",
+        "bytes": 38388484,
+        "sha256": "bd0b4fb12d71282e689c92d2e8de00b5a354ea990b6727ba56fb07b63ed08677",
+        "frames": 9597101,
+        "sample_rate": 44100,
+        "channels": 1,
+        "bits": 32,
+        "format_id": 3,
+        "duration_seconds": 217.62133786848074,
+        "finite": true,
+        "peak": 0.9782346487045288
+      },
+      "source_sha256": "0a4cef82a6012c2de741b3ba757ace3c6f0e08ab4ba80a90492beb8476616b38",
+      "vocals_sha256": "4f5af4ba03d11d38d1d2ec84d2302cf5b767ad3ebb00c1b14bfc12417823ee12",
+      "accompaniment_sha256": "6f4cc450f5e00488ab246aa3bd167bc2ddeb7656d2850a346eed6105736b030e",
+      "mix": {
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1A3411J7HX\\astra-song.mp3",
+        "sha256": "9be72fccc978bd22d3c902c55bd2893b2525ba85be561c60854893b5d3b5e913",
+        "duration_seconds": 217.65224489795918,
+        "bytes": 5224323
+      },
+      "guide": {
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1A3411J7HX\\converted-vocals.mp3",
+        "sha256": "1c84d5c500811f5da926a2529a67b0d4a6410bec6d26bb2f1f90ae6a837eb27a",
+        "duration_seconds": 217.65224489795918,
+        "bytes": 2612184
+      }
+    }
+  ],
+  "ready_full_songs": 3,
+  "partial_song": {
+    "id": "BV1f59QBGEhx",
+    "title": "大鱼",
+    "complete_file_exists": false,
+    "source_duration_seconds": 313.74931972789113,
+    "source_samples": 13836345,
+    "source_sha256": "2d3c5fbd60c6e008ef5478b876925cb9837190f258504f8b33eabf798dd3b393",
+    "vocals_sha256": "8073a9314e163e1246ad1cfab68e2d962ec02d2f4860bbae8f606dbbc18366f0",
+    "accompaniment_sha256": "407a14194549afea3b0ef6163181d63562ffaea98d49a60cf056b246fce23fbd",
+    "checks": {
+      "source_hash": true,
+      "vocal_hash": true,
+      "backing_hash": true,
+      "reference": true,
+      "excerpt": true,
+      "steps_50": true,
+      "state_matches_checkpoint": true
+    },
+    "chunk_cache": "D:\\ai auto streamer\\data\\songs-converted\\BV1f59QBGEhx\\.seed-vc-work\\chunks-14147ead2a1dc1977634",
+    "fingerprint": "14147ead2a1dc19776349b793637cd32a7b96e20a4c8afcdb4b5c82b5fc1c504",
+    "total_frames": 27024,
+    "resumable_chunks": 9,
+    "processed_frames": 16875,
+    "processed_audio_seconds": 195.91836734693877,
+    "remaining_audio_seconds": 117.83095238095237,
+    "completed_chunk_samples": 8640000,
+    "partial_files": [],
+    "chunks": [
+      {
+        "index": 0,
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1f59QBGEhx\\.seed-vc-work\\chunks-14147ead2a1dc1977634\\chunk_00000.npz",
+        "bytes": 3880099,
+        "sha256": "449f06144b808305f6809201505d81699ffb0a425a4208ce40416633d76555b0",
+        "source_start": 0,
+        "next_frame": 1875,
+        "piece_samples": 960000,
+        "tail_samples": 8192,
+        "rng_bytes": 5056,
+        "rng_sha256": "f2bd748fa18bc9b5c19fff199df985a89c65e18d4b8dde860559bc98eb9587f5",
+        "checks": {
+          "sequence_filename": true,
+          "fingerprint": true,
+          "total_frames": true,
+          "contiguous_start": true,
+          "forward_progress": true,
+          "piece": true,
+          "tail": true,
+          "rng": true,
+          "not_final": true
+        },
+        "all_checks_pass": true
+      },
+      {
+        "index": 1,
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1f59QBGEhx\\.seed-vc-work\\chunks-14147ead2a1dc1977634\\chunk_00001.npz",
+        "bytes": 3880099,
+        "sha256": "3d1c2fe223f6baee9c4414f64182c77ab965f6ff62f62c746df71da5d3b5c9d8",
+        "source_start": 1875,
+        "next_frame": 3750,
+        "piece_samples": 960000,
+        "tail_samples": 8192,
+        "rng_bytes": 5056,
+        "rng_sha256": "6827f29448a9f60bb6a409f24b5e737450119520ab3c0224b6675cc45e677d5a",
+        "checks": {
+          "sequence_filename": true,
+          "fingerprint": true,
+          "total_frames": true,
+          "contiguous_start": true,
+          "forward_progress": true,
+          "piece": true,
+          "tail": true,
+          "rng": true,
+          "not_final": true
+        },
+        "all_checks_pass": true
+      },
+      {
+        "index": 2,
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1f59QBGEhx\\.seed-vc-work\\chunks-14147ead2a1dc1977634\\chunk_00002.npz",
+        "bytes": 3880099,
+        "sha256": "1b2b5da7715563cb0fa98785ccf4ad6c5b973414cbd9195f49cd4ab4f2f76d56",
+        "source_start": 3750,
+        "next_frame": 5625,
+        "piece_samples": 960000,
+        "tail_samples": 8192,
+        "rng_bytes": 5056,
+        "rng_sha256": "d52d3ed5124cebd97e7a9f7512e51248d9f03a1466e12125c5ce08174b257749",
+        "checks": {
+          "sequence_filename": true,
+          "fingerprint": true,
+          "total_frames": true,
+          "contiguous_start": true,
+          "forward_progress": true,
+          "piece": true,
+          "tail": true,
+          "rng": true,
+          "not_final": true
+        },
+        "all_checks_pass": true
+      },
+      {
+        "index": 3,
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1f59QBGEhx\\.seed-vc-work\\chunks-14147ead2a1dc1977634\\chunk_00003.npz",
+        "bytes": 3880099,
+        "sha256": "f12cd5df92348584f64b90e3327ccad90ed9a6bf15629a30483f7c595f3b042c",
+        "source_start": 5625,
+        "next_frame": 7500,
+        "piece_samples": 960000,
+        "tail_samples": 8192,
+        "rng_bytes": 5056,
+        "rng_sha256": "7bb0b9d199648adf9e6c8bde5a6ccbef83e54b6bcb4fbf5e0c07292531d4821d",
+        "checks": {
+          "sequence_filename": true,
+          "fingerprint": true,
+          "total_frames": true,
+          "contiguous_start": true,
+          "forward_progress": true,
+          "piece": true,
+          "tail": true,
+          "rng": true,
+          "not_final": true
+        },
+        "all_checks_pass": true
+      },
+      {
+        "index": 4,
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1f59QBGEhx\\.seed-vc-work\\chunks-14147ead2a1dc1977634\\chunk_00004.npz",
+        "bytes": 3880099,
+        "sha256": "1dc66c2c3ddff0134e9673ebfc549509e419358d4846e1d5b2c6f3340c9031e5",
+        "source_start": 7500,
+        "next_frame": 9375,
+        "piece_samples": 960000,
+        "tail_samples": 8192,
+        "rng_bytes": 5056,
+        "rng_sha256": "ddb4cefc3c7599162a1d1ef0919c078c2e67e743ac2eee70bf41e893e2f309b1",
+        "checks": {
+          "sequence_filename": true,
+          "fingerprint": true,
+          "total_frames": true,
+          "contiguous_start": true,
+          "forward_progress": true,
+          "piece": true,
+          "tail": true,
+          "rng": true,
+          "not_final": true
+        },
+        "all_checks_pass": true
+      },
+      {
+        "index": 5,
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1f59QBGEhx\\.seed-vc-work\\chunks-14147ead2a1dc1977634\\chunk_00005.npz",
+        "bytes": 3880099,
+        "sha256": "56d14c3fd907bb98667f91e04476a9ce0d8bacb29cbf90e8415d32e30fa30bd0",
+        "source_start": 9375,
+        "next_frame": 11250,
+        "piece_samples": 960000,
+        "tail_samples": 8192,
+        "rng_bytes": 5056,
+        "rng_sha256": "363b53ff18d35dae10a287cbdcae9223845f73b2acf33f15b6c924d9b7ef0021",
+        "checks": {
+          "sequence_filename": true,
+          "fingerprint": true,
+          "total_frames": true,
+          "contiguous_start": true,
+          "forward_progress": true,
+          "piece": true,
+          "tail": true,
+          "rng": true,
+          "not_final": true
+        },
+        "all_checks_pass": true
+      },
+      {
+        "index": 6,
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1f59QBGEhx\\.seed-vc-work\\chunks-14147ead2a1dc1977634\\chunk_00006.npz",
+        "bytes": 3880099,
+        "sha256": "4c0cd72f71a88274a2a1ff012de1f7a19c2139abe12d7a2caebef6ab0268e336",
+        "source_start": 11250,
+        "next_frame": 13125,
+        "piece_samples": 960000,
+        "tail_samples": 8192,
+        "rng_bytes": 5056,
+        "rng_sha256": "eb2abad395e344f760b5b4f1d4c8a2f08483eba15307192093c93fa16d4ea0bc",
+        "checks": {
+          "sequence_filename": true,
+          "fingerprint": true,
+          "total_frames": true,
+          "contiguous_start": true,
+          "forward_progress": true,
+          "piece": true,
+          "tail": true,
+          "rng": true,
+          "not_final": true
+        },
+        "all_checks_pass": true
+      },
+      {
+        "index": 7,
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1f59QBGEhx\\.seed-vc-work\\chunks-14147ead2a1dc1977634\\chunk_00007.npz",
+        "bytes": 3880099,
+        "sha256": "91d8f5e0b4bd065b9e6866f13b6f88233f42566abc6107f620bc9565281cefbb",
+        "source_start": 13125,
+        "next_frame": 15000,
+        "piece_samples": 960000,
+        "tail_samples": 8192,
+        "rng_bytes": 5056,
+        "rng_sha256": "f1bbec04a4b026e29e621253d4343d97e593b31f53a90b0aa2f8757ca1691634",
+        "checks": {
+          "sequence_filename": true,
+          "fingerprint": true,
+          "total_frames": true,
+          "contiguous_start": true,
+          "forward_progress": true,
+          "piece": true,
+          "tail": true,
+          "rng": true,
+          "not_final": true
+        },
+        "all_checks_pass": true
+      },
+      {
+        "index": 8,
+        "path": "D:\\ai auto streamer\\data\\songs-converted\\BV1f59QBGEhx\\.seed-vc-work\\chunks-14147ead2a1dc1977634\\chunk_00008.npz",
+        "bytes": 3880099,
+        "sha256": "baea6d63666b5e8679058da72de7eda2cd03e2dce70f76014c6f4d5bac581459",
+        "source_start": 15000,
+        "next_frame": 16875,
+        "piece_samples": 960000,
+        "tail_samples": 8192,
+        "rng_bytes": 5056,
+        "rng_sha256": "27c93ba4db8a6785f1a79af7e6fb4acd467fc49211de2e85bf32f10ac30d9f75",
+        "checks": {
+          "sequence_filename": true,
+          "fingerprint": true,
+          "total_frames": true,
+          "contiguous_start": true,
+          "forward_progress": true,
+          "piece": true,
+          "tail": true,
+          "rng": true,
+          "not_final": true
+        },
+        "all_checks_pass": true
+      }
+    ],
+    "rng_runtime_restore_verified": true,
+    "all_checks_pass": true,
+    "rng_runtime_version": "2.4.1+cpu",
+    "rng_restoration": [
+      {
+        "index": 0,
+        "restored_exactly": true
+      },
+      {
+        "index": 1,
+        "restored_exactly": true
+      },
+      {
+        "index": 2,
+        "restored_exactly": true
+      },
+      {
+        "index": 3,
+        "restored_exactly": true
+      },
+      {
+        "index": 4,
+        "restored_exactly": true
+      },
+      {
+        "index": 5,
+        "restored_exactly": true
+      },
+      {
+        "index": 6,
+        "restored_exactly": true
+      },
+      {
+        "index": 7,
+        "restored_exactly": true
+      },
+      {
+        "index": 8,
+        "restored_exactly": true
+      }
+    ]
+  },
+  "all_checks_pass": true
+}

@@ -1,0 +1,16 @@
+{
+  "profile_id": "astra",
+  "clips": [
+    {
+      "module": "chat",
+      "phase": "wait",
+      "ready": true,
+      "text": "不好意思，我的思考模型正在检修中，稍等一下下～",
+      "audio_url": "/audio/module_transition_9e1087f8e79cbffd98abe5c18628a85b83415617d1d063b2b41526c245f3a14c.mp3",
+      "duration": 5.808
+    }
+  ],
+  "ready": 1,
+  "total": 1,
+  "playback_started": false
+}

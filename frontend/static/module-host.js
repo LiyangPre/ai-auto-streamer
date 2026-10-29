@@ -6,7 +6,7 @@ const StudioModules = {
     script(path){
         if(!/^\/static\/[a-z0-9/_-]+\.js$/.test(path))return Promise.reject(Error('Invalid module script'));
         if(!this.scripts.has(path))this.scripts.set(path,new Promise((resolve,reject)=>{
-            const element=document.createElement('script');element.src=path+'?v=stories-voice-3';element.onload=resolve;
+            const element=document.createElement('script');element.src=path+'?v=singing-room-1';element.onload=resolve;
             element.onerror=()=>reject(Error('Module could not load'));document.head.appendChild(element);
         }));return this.scripts.get(path);
     },
@@ -49,6 +49,8 @@ class ModuleShelf {
         this.root=document.getElementById('module-grid');this.dialog=document.getElementById('module-presentation-dialog');
         document.getElementById('module-presentation-close').onclick=()=>this.dialog.close();
         document.getElementById('module-presentation-form').onsubmit=event=>{event.preventDefault();this.save();};
+        document.getElementById('module-expression-enabled').onchange=()=>this.expressionControls();
+        document.getElementById('module-expression-strength').oninput=()=>this.expressionControls();
         this.refresh();
         window.addEventListener('studio-modules-changed',()=>this.refresh());
     }
@@ -83,14 +85,27 @@ class ModuleShelf {
             for(const [field,choices] of [['pose',spec.poses],['expression',spec.expressions]]){
                 const select=document.getElementById('module-'+field);select.replaceChildren(...choices.map(value=>new Option(labels[value]||value,value)));select.value=spec.presentation[field];}
             document.getElementById('module-strength').value=spec.presentation.motion_strength;
+            document.getElementById('module-expression-enabled').checked=spec.presentation.expression_enabled!==false;
+            document.getElementById('module-expression-strength').value=spec.presentation.expression_strength??.55;
+            document.getElementById('module-scene-preset').value=spec.presentation.scene_preset||'inherit';
+            this.expressionControls();
             document.getElementById('module-presentation-status').textContent='仅保存当前角色在这个模块中的表演方式。';this.dialog.showModal();
         }catch(error){document.getElementById('module-character').textContent=error.message;}
+    }
+    expressionControls(){
+        const enabled=document.getElementById('module-expression-enabled').checked;
+        document.getElementById('module-expression').disabled=!enabled;
+        const strength=document.getElementById('module-expression-strength');strength.disabled=!enabled;
+        document.getElementById('module-expression-strength-value').value=Math.round(Number(strength.value)*100)+'%';
     }
     async save(){
         const status=document.getElementById('module-presentation-status');
         try{const response=await fetch('/api/modules/'+this.editing.id+'/presentation',{method:'POST',headers:{'Content-Type':'application/json','X-Studio-API':'1'},
             body:JSON.stringify({profile_id:this.data.active_profile,revision:this.data.revision,presentation:{pose:document.getElementById('module-pose').value,
-                expression:document.getElementById('module-expression').value,motion_strength:Number(document.getElementById('module-strength').value)}})});
+                expression:document.getElementById('module-expression').value,motion_strength:Number(document.getElementById('module-strength').value),
+                expression_enabled:document.getElementById('module-expression-enabled').checked,
+                expression_strength:Number(document.getElementById('module-expression-strength').value),
+                scene_preset:document.getElementById('module-scene-preset').value}})});
             const result=await response.json();if(!response.ok)throw Error(typeof result.detail==='string'?result.detail:'设置无效');
             this.data=result;status.textContent='Saved · 已保存到当前角色';
         }catch(error){status.textContent=error.message;}

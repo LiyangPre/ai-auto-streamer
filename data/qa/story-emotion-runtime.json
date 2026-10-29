@@ -1,0 +1,20 @@
+{
+  "title": "泡泡很多，威严很少",
+  "audio_seconds": 60.528,
+  "frames": 3632,
+  "engine": "soullink",
+  "moods": [
+    "shy",
+    "thinking",
+    "happy"
+  ],
+  "eye_difference_max": 0,
+  "head_yaw_degrees_max": 0.0024978720516397605,
+  "head_roll_radians_max": 0.00040708425936200604,
+  "mouth_open_max": 0.8613030543679951,
+  "mouth_after_stop": 0,
+  "blink_frames": 60,
+  "voice_rms_mouth_correlation": 0.8891121183090821,
+  "network_requests": 0,
+  "compute_ms": 764.8431
+}
